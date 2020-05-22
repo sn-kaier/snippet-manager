@@ -1,12 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {
-  Comment_Reaction_Insert_Input,
-  Document_Reaction_Insert_Input,
-  UAddCommentReactionGQL,
-  UAddDocumentReactionGQL
-} from '../../../__generated/user-gql-services';
-import { FeedService } from '../feed/feed.service';
 
 export interface PickerConfig {
   positionX: number;

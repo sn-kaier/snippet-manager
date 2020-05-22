@@ -13,6 +13,7 @@ export class AuthorSectionComponent implements OnInit {
 
   @Input() publishedDate: string;
   @Input() author: UFeedDocAuthorFragment | AFeedDocAuthorFragment;
+  @Input() showFollow = true;
 
   constructor(readonly authService: AuthService) {
   }

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CommonSeederService } from './common-seeder.service';
 import { AuthorReaction, ReactionSeedGeneratorService } from './reaction-seed-generator.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { Comment_Reaction_Insert_Input } from '../../__generated/types';
+import { CommentReactionInsertInput } from '../../__generated/types';
 
 @Injectable()
 export class CommentReactionSeedGeneratorService {
@@ -15,29 +15,29 @@ export class CommentReactionSeedGeneratorService {
   }
 
   public generateMany(attempts: number, commentId: string) {
-    return this.emojiService.getMany(attempts).map<Comment_Reaction_Insert_Input>(entry => this.generateOne(entry, commentId));
+    return this.emojiService.getMany(attempts).map<CommentReactionInsertInput>(entry => this.generateOne(entry, commentId));
   }
 
   public async generateAndSaveMany(attempts: number, commentId: string) {
     const reactions = this.generateMany(attempts, commentId);
     try {
-      return this.gqlRequestService.adminRequest<{affected_rows: number}, {reactions: Comment_Reaction_Insert_Input[]}>(
+      return this.gqlRequestService.adminRequest<{ affected_rows: number }, { reactions: CommentReactionInsertInput[] }>(
         gql`mutation SaveCommentReactions($reactions: [comment_reaction_insert_input!]!) {
-          addCommentReaction(objects: $reactions) {
-              affected_rows
-          }
-      }`, { reactions });
+            addCommentReaction(objects: $reactions) {
+                affected_rows
+            }
+        }`, { reactions });
     } catch (e) {
       this.logger.error('failed to save many comment reaction', e.stack, e.message);
       throw e;
     }
   }
 
-  private generateOne(ar: AuthorReaction, commentId: string): Comment_Reaction_Insert_Input {
+  private generateOne(ar: AuthorReaction, commentId: string): CommentReactionInsertInput {
     return {
       authorId: ar.authorId,
-      reaction_id: ar.reaction.htmlCode,
-      commentId,
+      reactionId: ar.reaction.htmlCode,
+      commentId
     };
   }
 }

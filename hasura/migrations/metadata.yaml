@@ -48,6 +48,13 @@ tables:
     using:
       foreign_key_constraint_on: document_id
   array_relationships:
+  - name: reactions
+    using:
+      foreign_key_constraint_on:
+        column: comment_id
+        table:
+          schema: public
+          name: comment_reaction
   - name: reactionsGroup
     using:
       manual_configuration:
@@ -126,6 +133,7 @@ tables:
       update: updateCommentReaction
     custom_column_names:
       author_id: authorId
+      reaction_id: reactionId
       comment_id: commentId
       created_at: createdAt
   object_relationships:
@@ -446,6 +454,7 @@ tables:
     custom_column_names:
       author_id: authorId
       document_id: documentId
+      reaction_id: reactionId
       created_at: createdAt
   object_relationships:
   - name: document
@@ -521,7 +530,7 @@ tables:
     custom_root_fields: {}
     custom_column_names:
       document_id: documentId
-      reaction_id: reactionId
+      reaction_id: reactionid
   select_permissions:
   - role: anonymous
     permission:

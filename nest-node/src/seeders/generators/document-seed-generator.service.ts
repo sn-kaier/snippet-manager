@@ -3,12 +3,11 @@ import { CommonSeederService, Keys, pick, randomIndex, rndBoolean, rndInt, rndPo
 import { CommentSeedGeneratorService } from './comment-seed-generator.service';
 import { AuthorSeedGeneratorService } from './author-seed-generator.service';
 import { DocumentReactionSeedGeneratorService } from './document-reaction-seed-generator.service';
-import { Document } from '../../database/__generated_entities/document';
 import { DbDocumentService } from '../../database/services/db-document/db-document.service';
 import { DbDocumentLabelService } from '../../database/services/db-document-label/db-document-label.service';
 import { DocumentLabel } from '../../database/__generated_entities/document-label';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { Document_Insert_Input, Mutation_Root } from '../../__generated/types';
+import { DocumentInsertInput, MutationRoot } from '../../__generated/types';
 
 export type KDocument = Keys<Keys<Keys<DocumentLabel, 'author'>, 'document'>, 'label'>;
 
@@ -28,7 +27,7 @@ export class DocumentSeedGeneratorService {
   ) {
   }
 
-  private generateOne(authorId: string): Document_Insert_Input {
+  private generateOne(authorId: string): DocumentInsertInput {
     const allowComments = rndBoolean();
 
     return {
@@ -43,7 +42,7 @@ export class DocumentSeedGeneratorService {
   public async saveOneWithChildren(authorId: string, labelIds: string[]) {
     const doc = this.generateOne(authorId);
 
-    await this.gqlRequestService.adminRequest<Mutation_Root, { document: Document_Insert_Input }>(
+    await this.gqlRequestService.adminRequest<MutationRoot, { document: DocumentInsertInput }>(
       gql`
           mutation AddDocument($document: document_insert_input!) {
               addDocument(objects: [$document]) {
@@ -59,13 +58,13 @@ export class DocumentSeedGeneratorService {
     }
 
     // add random labels
-    const docLabels = pick(labelIds, randomIndex(labelIds.length)).map<Document_Insert_Input>((labelId: string) => ({
+    const docLabels = pick(labelIds, randomIndex(labelIds.length)).map<DocumentInsertInput>((labelId: string) => ({
       authorId,
       documentId: doc.id,
       labelId,
     }));
     try {
-      await this.gqlRequestService.adminRequest<Mutation_Root, { docLabels: Document_Insert_Input[] }>(
+      await this.gqlRequestService.adminRequest<MutationRoot, { docLabels: DocumentInsertInput[] }>(
         gql`mutation addDocLabels($docLabels: [document_label_insert_input!]!) {
             addDocumentLabel(objects: $docLabels) {
                 affected_rows

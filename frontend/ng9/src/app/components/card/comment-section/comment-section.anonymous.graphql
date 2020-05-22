@@ -1,0 +1,27 @@
+fragment ACommentSectionCommentAuthor on user {
+  name
+  imageUrl
+}
+
+fragment ACommentSectionCommentReactionGroup on comment_reactions_group {
+  count
+  reactionid
+}
+
+fragment ACommentSectionComment on comment {
+  author {
+    ...ACommentSectionCommentAuthor
+  }
+  comment
+  createdAt
+  reactionBalance
+  reactionsGroup {
+    ...ACommentSectionCommentReactionGroup
+  }
+}
+
+query ACommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!) {
+  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
+    ...ACommentSectionComment
+  }
+}

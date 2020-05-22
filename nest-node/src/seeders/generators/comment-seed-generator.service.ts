@@ -3,7 +3,7 @@ import { CommonSeederService, rndInt } from './common-seeder.service';
 import { CommentReactionSeedGeneratorService } from './comment-reaction-seed-generator.service';
 import { AuthorSeedGeneratorService } from './author-seed-generator.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { Comment_Insert_Input } from '../../__generated/types';
+import { CommentInsertInput } from '../../__generated/types';
 
 @Injectable()
 export class CommentSeedGeneratorService {
@@ -19,7 +19,7 @@ export class CommentSeedGeneratorService {
   ) {
   }
 
-  generateOne(documentId: string): Comment_Insert_Input {
+  generateOne(documentId: string): CommentInsertInput {
     const authorId = this.authorService.getRandomId();
     const commentId = this.common.uuid();
     return {
@@ -33,7 +33,7 @@ export class CommentSeedGeneratorService {
   private async generateAndSaveOne(documentId: string) {
     const comment = this.generateOne(documentId);
     try {
-      await this.gqlRequestService.adminRequest<{ affected_rows: number }, { comment: Comment_Insert_Input }>(
+      await this.gqlRequestService.adminRequest<{ affected_rows: number }, { comment: CommentInsertInput }>(
         gql`mutation AddComment($comment: comment_insert_input!) {
             addComment(objects: [$comment]) {
                 affected_rows

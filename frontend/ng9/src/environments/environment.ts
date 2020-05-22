@@ -2,10 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { googlApiKey } from './config.local';
+
 export const environment = {
   production: false,
   firebase: {
-    apiKey: '<apiKey>',
+    apiKey: googlApiKey,
     authDomain: 'snippeter-eddf3.firebaseapp.com',
     databaseURL: 'https://snippeter-eddf3.firebaseio.com',
     projectId: 'snippeter',

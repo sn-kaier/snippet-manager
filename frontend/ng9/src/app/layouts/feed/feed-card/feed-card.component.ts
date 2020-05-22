@@ -11,6 +11,8 @@ import { AFeedDocFragment } from '../../../__generated/anonymous-gql-services';
 })
 export class FeedCardComponent {
 
+  showComments = false;
+
   @Input() doc: UFeedDocFragment | AFeedDocFragment;
   constructor() { }
 

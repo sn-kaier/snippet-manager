@@ -28,15 +28,16 @@
   <ng-container *ngIf="doc.allowComments">
     <div class="row">
       <div class="col-xs-12">
-        <app-reaction-section [doc]="doc"></app-reaction-section>
+        <app-reaction-section [documentId]="doc.id" [reactions]="doc.reactions" [reactionsGroup]="doc.reactionsGroup"></app-reaction-section>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xs-12">
-        show {{doc.countComments}} comments
+        <a (click)="showComments = !showComments">show {{doc.countComments}} comments</a>
       </div>
     </div>
 
+    <app-comment-section *ngIf="showComments" [documentId]="doc.id"></app-comment-section>
   </ng-container>
 </app-card>

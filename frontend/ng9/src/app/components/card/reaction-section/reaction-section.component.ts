@@ -1,8 +1,16 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
-import { UFeedDocFragment, UFeedDocReactionGroupFragment } from '../../../__generated/user-gql-services';
-import { AFeedDocFragment } from '../../../__generated/anonymous-gql-services';
 import { PickEmojiService } from '../../../layouts/feed/pick-emoji/pick-emoji.service';
 import { FeedService } from '../../../layouts/feed/feed/feed.service';
+
+export interface RGroup {
+  count: number;
+  reactionid: string;
+}
+
+export interface CommonReaction {
+  id: string;
+  reactionId: string;
+}
 
 @Component({
   selector: 'app-reaction-section',
@@ -14,17 +22,23 @@ export class ReactionSectionComponent implements OnInit {
   readonly thumbsUpId = '1F44D';
   readonly thumbsDownId = '1F44E';
 
-  @Input() set doc(doc: UFeedDocFragment | AFeedDocFragment) {
-    this.pDoc = doc;
-    this.filteredReactionsGroup = doc.reactionsGroup.filter(f => f.reactionId !== this.thumbsUpId && f.reactionId !== this.thumbsDownId);
+  @Input() set reactionsGroup(reactionsGroup: RGroup[]) {
+    this.filteredReactionsGroup = reactionsGroup.filter(f => f.reactionid !== this.thumbsUpId && f.reactionid !== this.thumbsDownId);
+    this.rGroup = reactionsGroup;
   }
 
-  get doc() {
-    return this.pDoc;
-  }
+  rGroup: RGroup[];
 
-  private pDoc: UFeedDocFragment | AFeedDocFragment;
-  filteredReactionsGroup: UFeedDocReactionGroupFragment[];
+  @Input()
+  reactions: CommonReaction[];
+
+  @Input()
+  documentId: string;
+
+  @Input()
+  commentId: string;
+
+  filteredReactionsGroup: RGroup[];
 
   constructor(private readonly pickEmojiService: PickEmojiService,
               private readonly el: ElementRef,
@@ -35,36 +49,40 @@ export class ReactionSectionComponent implements OnInit {
   }
 
   get countThumbsUp() {
-    return this.doc?.reactionsGroup?.find(g => g.reactionId === this.thumbsUpId)?.count ?? 0;
+    return this.rGroup?.find(g => g.reactionid === this.thumbsUpId)?.count ?? 0;
   }
 
   get isThumbsUpSelected() {
-    return !!(this.doc as UFeedDocFragment)?.reactions?.find(g => g.reaction_id === this.thumbsUpId);
+    return !!this.reactions?.find(g => g.reactionId === this.thumbsUpId);
   }
 
   get countThumbsDown() {
-    return this.doc?.reactionsGroup?.find(g => g.reactionId === this.thumbsDownId)?.count ?? 0;
+    return this.rGroup?.find(g => g.reactionid === this.thumbsDownId)?.count ?? 0;
   }
 
   get isThumbsDownSelected() {
-    return !!(this.doc as UFeedDocFragment)?.reactions?.find(g => g.reaction_id === this.thumbsDownId);
+    return !!this.reactions?.find(g => g.reactionId === this.thumbsDownId);
   }
 
   isSelected(reactionId: string): boolean {
-    const uDoc = this.doc as UFeedDocFragment;
-    if (!uDoc?.reactions?.length) {
+    if (!this.reactions?.length) {
       return false;
     }
-    return !!uDoc.reactions.find(r => r.reaction_id === reactionId);
+    return !!this.reactions.find(r => r.reactionId === reactionId);
   }
 
   openEmojiPicker() {
     const thisRef = this.el.nativeElement;
     const clientRect = thisRef.getBoundingClientRect();
+
     setTimeout(async () => {
       try {
         const pickedUnified = await this.pickEmojiService.showEmoji(clientRect.x, clientRect.y);
-        this.feedService.toggleDocumentReaction({ reaction_id: pickedUnified, documentId: this.doc.id });
+        if (this.documentId) {
+          this.feedService.toggleDocumentReaction({ reactionId: pickedUnified, documentId: this.documentId });
+        } else if (this.commentId) {
+          // TODO: toggle comment reaction
+        }
       } catch (e) {
         // closed instead of selected an emoji
       }
@@ -72,6 +90,10 @@ export class ReactionSectionComponent implements OnInit {
   }
 
   clickReaction(reactionId: string) {
-    this.feedService.toggleDocumentReaction({ reaction_id: reactionId, documentId: this.doc.id });
+    if (this.documentId) {
+      this.feedService.toggleDocumentReaction({ reactionId, documentId: this.documentId });
+    } else {
+      // TODO: toggle comment reaction
+    }
   }
 }

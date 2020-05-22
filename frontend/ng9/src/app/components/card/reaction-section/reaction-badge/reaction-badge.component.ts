@@ -21,7 +21,6 @@ export class ReactionBadgeComponent implements OnInit {
     return this.reactionHtml;
   }
 
-  @Input() docId: string;
   @Input() isSelected: boolean;
   @Output() clickReaction = new EventEmitter<string>();
 
@@ -37,7 +36,6 @@ export class ReactionBadgeComponent implements OnInit {
 
   async onClick(): Promise<void> {
     this.clickReaction.emit(this.reactionHtml);
-
   }
 
 }

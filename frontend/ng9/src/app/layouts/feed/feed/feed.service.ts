@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
 import {
-  Comment_Reaction_Insert_Input,
-  Document_Reaction_Insert_Input,
+  CommentReactionInsertInput,
+  DocumentReactionInsertInput,
   UAddDocumentReactionGQL,
   UFeedDocsGQL,
   URemoveDocumentReactionGQL
@@ -76,18 +76,18 @@ export class FeedService {
     }
   }
 
-  toggleDocumentReaction(doc: Document_Reaction_Insert_Input) {
+  toggleDocumentReaction(doc: DocumentReactionInsertInput) {
 
     this.userQueryRef.updateQuery(prev => {
       const docToUpdateIndex = prev.allDocuments.findIndex(docs => docs.id === doc.documentId);
       const docToUpdate = prev.allDocuments[docToUpdateIndex];
 
-      const reactionsGroupIndex = docToUpdate.reactionsGroup.findIndex(g => g.reactionId === doc.reaction_id);
+      const reactionsGroupIndex = docToUpdate.reactionsGroup.findIndex(g => g.reactionid === doc.reactionId);
       const alreadyExists = reactionsGroupIndex !== -1;
       let isSelected = false;
 
       if (alreadyExists) {
-        const reactionsIndex = docToUpdate.reactions.findIndex(r => r.reaction_id === doc.reaction_id);
+        const reactionsIndex = docToUpdate.reactions.findIndex(r => r.reactionId === doc.reactionId);
         isSelected = reactionsIndex !== -1;
         const rGroup = docToUpdate.reactionsGroup[reactionsGroupIndex];
 
@@ -107,22 +107,22 @@ export class FeedService {
           }
         } else {
           // add to reactionsGroup and to selected
-          docToUpdate.reactions.push({ id: '', reaction_id: doc.reaction_id, __typename: 'document_reaction' });
+          docToUpdate.reactions.push({ id: '', reactionId: doc.reactionId, __typename: 'document_reaction' });
           rGroup.count++;
           docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup];
         }
       } else {
         // add new
-        docToUpdate.reactions = [...docToUpdate.reactions, { id: '', reaction_id: doc.reaction_id, __typename: 'document_reaction' }];
+        docToUpdate.reactions = [...docToUpdate.reactions, { id: '', reactionId: doc.reactionId, __typename: 'document_reaction' }];
         docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup, {
           count: 1,
-          reactionId: doc.reaction_id,
+          reactionid: doc.reactionId,
           __typename: 'document_reaction_group_persisted'
         }];
       }
 
       if (isSelected) {
-        this.uRemoveDocumentReactionGQL.mutate({documentId: doc.documentId, reactionId: doc.reaction_id}).toPromise()
+        this.uRemoveDocumentReactionGQL.mutate({documentId: doc.documentId, reactionId: doc.reactionId}).toPromise()
           .then(res => console.log('removed document reaction', res))
           .catch(err => console.error('failed to remove document reaction', err));
       } else {
@@ -141,7 +141,7 @@ export class FeedService {
     });
   }
 
-  addCommentReaction(documentId: string, commentReaction: Comment_Reaction_Insert_Input) {
+  addCommentReaction(documentId: string, commentReaction: CommentReactionInsertInput) {
 
   }
 

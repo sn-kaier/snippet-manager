@@ -1,0 +1,9 @@
+<app-author-section [author]="comment.author" [showFollow]="false" [publishedDate]="comment.createdAt"></app-author-section>
+
+<div class="mts">
+  {{ comment.comment }}
+</div>
+
+{{ comment.createdAt }}
+
+<app-reaction-section [reactionsGroup]="comment.reactionsGroup" [reactions]="comment.myReactions"></app-reaction-section>

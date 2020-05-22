@@ -20,7 +20,7 @@ describe('GqlRequestService', () => {
 
   const requestComments = async () => {
     const now = Date.now();
-    const comments = await service.adminRequest<any>(gql`
+    const comments = await service.adminRequest<any, any>(gql`
       query comments($limit: Int, $offset: Int) {
         allComments(limit: $limit, offset: $offset) {
           id

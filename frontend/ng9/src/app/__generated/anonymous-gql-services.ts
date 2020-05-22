@@ -18,7 +18,7 @@ export type Scalars = {
 
 
 /** expression to compare columns of type bigint. All fields are combined with logical 'AND'. */
-export type Bigint_Comparison_Exp = {
+export type BigintComparisonExp = {
   _eq?: Maybe<Scalars['bigint']>;
   _gt?: Maybe<Scalars['bigint']>;
   _gte?: Maybe<Scalars['bigint']>;
@@ -31,7 +31,7 @@ export type Bigint_Comparison_Exp = {
 };
 
 /** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
+export type BooleanComparisonExp = {
   _eq?: Maybe<Scalars['Boolean']>;
   _gt?: Maybe<Scalars['Boolean']>;
   _gte?: Maybe<Scalars['Boolean']>;
@@ -51,27 +51,27 @@ export type Color = {
 };
 
 /** Boolean expression to filter rows from the table "color". All fields are combined with a logical 'AND'. */
-export type Color_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Color_Bool_Exp>>>;
-  _not?: Maybe<Color_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Color_Bool_Exp>>>;
-  color?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
+export type ColorBoolExp = {
+  _and?: Maybe<Array<Maybe<ColorBoolExp>>>;
+  _not?: Maybe<ColorBoolExp>;
+  _or?: Maybe<Array<Maybe<ColorBoolExp>>>;
+  color?: Maybe<StringComparisonExp>;
+  name?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "color" */
-export type Color_Order_By = {
-  color?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
+export type ColorOrderBy = {
+  color?: Maybe<OrderBy>;
+  name?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "color" */
-export type Color_Pk_Columns_Input = {
+export type ColorPkColumnsInput = {
   name: Scalars['String'];
 };
 
 /** select columns of table "color" */
-export enum Color_Select_Column {
+export enum ColorSelectColumn {
   /** column name */
   Color = 'color',
   /** column name */
@@ -92,57 +92,70 @@ export type Comment = {
   id: Scalars['uuid'];
   reactionBalance: Scalars['Int'];
   /** An array relationship */
-  reactionsGroup: Array<Comment_Reactions_Group>;
+  reactions: Array<CommentReaction>;
+  /** An array relationship */
+  reactionsGroup: Array<CommentReactionsGroup>;
   updatedAt: Scalars['timestamptz'];
 };
 
 
 /** columns and relationships of "comment" */
-export type CommentReactionsGroupArgs = {
-  distinct_on?: Maybe<Array<Comment_Reactions_Group_Select_Column>>;
+export type CommentReactionsArgs = {
+  distinct_on?: Maybe<Array<CommentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Reactions_Group_Order_By>>;
-  where?: Maybe<Comment_Reactions_Group_Bool_Exp>;
+  order_by?: Maybe<Array<CommentReactionOrderBy>>;
+  where?: Maybe<CommentReactionBoolExp>;
+};
+
+
+/** columns and relationships of "comment" */
+export type CommentReactionsGroupArgs = {
+  distinct_on?: Maybe<Array<CommentReactionsGroupSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CommentReactionsGroupOrderBy>>;
+  where?: Maybe<CommentReactionsGroupBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'. */
-export type Comment_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Comment_Bool_Exp>>>;
-  _not?: Maybe<Comment_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Comment_Bool_Exp>>>;
-  author?: Maybe<User_Bool_Exp>;
-  authorId?: Maybe<String_Comparison_Exp>;
-  comment?: Maybe<String_Comparison_Exp>;
-  createdAt?: Maybe<Timestamptz_Comparison_Exp>;
-  document?: Maybe<Document_Bool_Exp>;
-  documentId?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  reactionBalance?: Maybe<Int_Comparison_Exp>;
-  reactionsGroup?: Maybe<Comment_Reactions_Group_Bool_Exp>;
-  updatedAt?: Maybe<Timestamptz_Comparison_Exp>;
+export type CommentBoolExp = {
+  _and?: Maybe<Array<Maybe<CommentBoolExp>>>;
+  _not?: Maybe<CommentBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comment?: Maybe<StringComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  documentId?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  reactionBalance?: Maybe<IntComparisonExp>;
+  reactions?: Maybe<CommentReactionBoolExp>;
+  reactionsGroup?: Maybe<CommentReactionsGroupBoolExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
 
 /** ordering options when selecting data from "comment" */
-export type Comment_Order_By = {
-  author?: Maybe<User_Order_By>;
-  authorId?: Maybe<Order_By>;
-  comment?: Maybe<Order_By>;
-  createdAt?: Maybe<Order_By>;
-  document?: Maybe<Document_Order_By>;
-  documentId?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  reactionBalance?: Maybe<Order_By>;
-  updatedAt?: Maybe<Order_By>;
+export type CommentOrderBy = {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  comment?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  documentId?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  reactionBalance?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "comment" */
-export type Comment_Pk_Columns_Input = {
+export type CommentPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** columns and relationships of "comment_reaction" */
-export type Comment_Reaction = {
+export type CommentReaction = {
    __typename?: 'comment_reaction';
   /** An object relationship */
   author: User;
@@ -157,37 +170,37 @@ export type Comment_Reaction = {
 };
 
 /** Boolean expression to filter rows from the table "comment_reaction". All fields are combined with a logical 'AND'. */
-export type Comment_Reaction_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Comment_Reaction_Bool_Exp>>>;
-  _not?: Maybe<Comment_Reaction_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Comment_Reaction_Bool_Exp>>>;
-  author?: Maybe<User_Bool_Exp>;
-  authorId?: Maybe<String_Comparison_Exp>;
-  comment?: Maybe<Comment_Bool_Exp>;
-  commentId?: Maybe<Uuid_Comparison_Exp>;
-  createdAt?: Maybe<Timestamptz_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  reaction?: Maybe<Reaction_Bool_Exp>;
+export type CommentReactionBoolExp = {
+  _and?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
+  _not?: Maybe<CommentReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comment?: Maybe<CommentBoolExp>;
+  commentId?: Maybe<UuidComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  reaction?: Maybe<ReactionBoolExp>;
 };
 
 /** ordering options when selecting data from "comment_reaction" */
-export type Comment_Reaction_Order_By = {
-  author?: Maybe<User_Order_By>;
-  authorId?: Maybe<Order_By>;
-  comment?: Maybe<Comment_Order_By>;
-  commentId?: Maybe<Order_By>;
-  createdAt?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  reaction?: Maybe<Reaction_Order_By>;
+export type CommentReactionOrderBy = {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  comment?: Maybe<CommentOrderBy>;
+  commentId?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  reaction?: Maybe<ReactionOrderBy>;
 };
 
 /** primary key columns input for table: "comment_reaction" */
-export type Comment_Reaction_Pk_Columns_Input = {
+export type CommentReactionPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "comment_reaction" */
-export enum Comment_Reaction_Select_Column {
+export enum CommentReactionSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
@@ -199,29 +212,29 @@ export enum Comment_Reaction_Select_Column {
 }
 
 /** columns and relationships of "comment_reactions_group" */
-export type Comment_Reactions_Group = {
+export type CommentReactionsGroup = {
    __typename?: 'comment_reactions_group';
   count?: Maybe<Scalars['bigint']>;
   reactionid?: Maybe<Scalars['String']>;
 };
 
 /** Boolean expression to filter rows from the table "comment_reactions_group". All fields are combined with a logical 'AND'. */
-export type Comment_Reactions_Group_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Comment_Reactions_Group_Bool_Exp>>>;
-  _not?: Maybe<Comment_Reactions_Group_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Comment_Reactions_Group_Bool_Exp>>>;
-  count?: Maybe<Bigint_Comparison_Exp>;
-  reactionid?: Maybe<String_Comparison_Exp>;
+export type CommentReactionsGroupBoolExp = {
+  _and?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
+  _not?: Maybe<CommentReactionsGroupBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
+  count?: Maybe<BigintComparisonExp>;
+  reactionid?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "comment_reactions_group" */
-export type Comment_Reactions_Group_Order_By = {
-  count?: Maybe<Order_By>;
-  reactionid?: Maybe<Order_By>;
+export type CommentReactionsGroupOrderBy = {
+  count?: Maybe<OrderBy>;
+  reactionid?: Maybe<OrderBy>;
 };
 
 /** select columns of table "comment_reactions_group" */
-export enum Comment_Reactions_Group_Select_Column {
+export enum CommentReactionsGroupSelectColumn {
   /** column name */
   Count = 'count',
   /** column name */
@@ -229,7 +242,7 @@ export enum Comment_Reactions_Group_Select_Column {
 }
 
 /** select columns of table "comment" */
-export enum Comment_Select_Column {
+export enum CommentSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
@@ -256,19 +269,19 @@ export type Document = {
   /** An array relationship */
   comments: Array<Comment>;
   /** An object relationship */
-  content?: Maybe<Document_Content>;
+  content?: Maybe<DocumentContent>;
   countComments: Scalars['Int'];
   createdAt: Scalars['timestamptz'];
   description: Scalars['String'];
   id: Scalars['uuid'];
   isPublic: Scalars['Boolean'];
   /** An array relationship */
-  labels: Array<Document_Label>;
+  labels: Array<DocumentLabel>;
   reactionBalance: Scalars['Int'];
   /** An array relationship */
-  reactions: Array<Document_Reaction>;
+  reactions: Array<DocumentReaction>;
   /** An array relationship */
-  reactionsGroup: Array<Document_Reaction_Group_Persisted>;
+  reactionsGroup: Array<DocumentReactionGroupPersisted>;
   title: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
 };
@@ -276,68 +289,68 @@ export type Document = {
 
 /** columns and relationships of "document" */
 export type DocumentCommentsArgs = {
-  distinct_on?: Maybe<Array<Comment_Select_Column>>;
+  distinct_on?: Maybe<Array<CommentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Order_By>>;
-  where?: Maybe<Comment_Bool_Exp>;
+  order_by?: Maybe<Array<CommentOrderBy>>;
+  where?: Maybe<CommentBoolExp>;
 };
 
 
 /** columns and relationships of "document" */
 export type DocumentLabelsArgs = {
-  distinct_on?: Maybe<Array<Document_Label_Select_Column>>;
+  distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Label_Order_By>>;
-  where?: Maybe<Document_Label_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentLabelOrderBy>>;
+  where?: Maybe<DocumentLabelBoolExp>;
 };
 
 
 /** columns and relationships of "document" */
 export type DocumentReactionsArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Select_Column>>;
+  distinct_on?: Maybe<Array<DocumentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Order_By>>;
-  where?: Maybe<Document_Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionOrderBy>>;
+  where?: Maybe<DocumentReactionBoolExp>;
 };
 
 
 /** columns and relationships of "document" */
 export type DocumentReactionsGroupArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Group_Persisted_Select_Column>>;
+  distinct_on?: Maybe<Array<DocumentReactionGroupPersistedSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Group_Persisted_Order_By>>;
-  where?: Maybe<Document_Reaction_Group_Persisted_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionGroupPersistedOrderBy>>;
+  where?: Maybe<DocumentReactionGroupPersistedBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "document". All fields are combined with a logical 'AND'. */
-export type Document_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Bool_Exp>>>;
-  _not?: Maybe<Document_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Bool_Exp>>>;
-  allowComments?: Maybe<Boolean_Comparison_Exp>;
-  author?: Maybe<User_Bool_Exp>;
-  authorId?: Maybe<String_Comparison_Exp>;
-  comments?: Maybe<Comment_Bool_Exp>;
-  content?: Maybe<Document_Content_Bool_Exp>;
-  countComments?: Maybe<Int_Comparison_Exp>;
-  createdAt?: Maybe<Timestamptz_Comparison_Exp>;
-  description?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  isPublic?: Maybe<Boolean_Comparison_Exp>;
-  labels?: Maybe<Document_Label_Bool_Exp>;
-  reactionBalance?: Maybe<Int_Comparison_Exp>;
-  reactions?: Maybe<Document_Reaction_Bool_Exp>;
-  reactionsGroup?: Maybe<Document_Reaction_Group_Persisted_Bool_Exp>;
-  title?: Maybe<String_Comparison_Exp>;
-  updatedAt?: Maybe<Timestamptz_Comparison_Exp>;
+export type DocumentBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentBoolExp>>>;
+  _not?: Maybe<DocumentBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentBoolExp>>>;
+  allowComments?: Maybe<BooleanComparisonExp>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comments?: Maybe<CommentBoolExp>;
+  content?: Maybe<DocumentContentBoolExp>;
+  countComments?: Maybe<IntComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  description?: Maybe<StringComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  isPublic?: Maybe<BooleanComparisonExp>;
+  labels?: Maybe<DocumentLabelBoolExp>;
+  reactionBalance?: Maybe<IntComparisonExp>;
+  reactions?: Maybe<DocumentReactionBoolExp>;
+  reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  title?: Maybe<StringComparisonExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
 
 /** columns and relationships of "document_content" */
-export type Document_Content = {
+export type DocumentContent = {
    __typename?: 'document_content';
   content: Scalars['String'];
   /** An object relationship */
@@ -346,29 +359,29 @@ export type Document_Content = {
 };
 
 /** Boolean expression to filter rows from the table "document_content". All fields are combined with a logical 'AND'. */
-export type Document_Content_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Content_Bool_Exp>>>;
-  _not?: Maybe<Document_Content_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Content_Bool_Exp>>>;
-  content?: Maybe<String_Comparison_Exp>;
-  document?: Maybe<Document_Bool_Exp>;
-  updatedAt?: Maybe<Timestamptz_Comparison_Exp>;
+export type DocumentContentBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
+  _not?: Maybe<DocumentContentBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
+  content?: Maybe<StringComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
 
 /** ordering options when selecting data from "document_content" */
-export type Document_Content_Order_By = {
-  content?: Maybe<Order_By>;
-  document?: Maybe<Document_Order_By>;
-  updatedAt?: Maybe<Order_By>;
+export type DocumentContentOrderBy = {
+  content?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  updatedAt?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "document_content" */
-export type Document_Content_Pk_Columns_Input = {
+export type DocumentContentPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "document_content" */
-export enum Document_Content_Select_Column {
+export enum DocumentContentSelectColumn {
   /** column name */
   Content = 'content',
   /** column name */
@@ -376,7 +389,7 @@ export enum Document_Content_Select_Column {
 }
 
 /** columns and relationships of "document_label" */
-export type Document_Label = {
+export type DocumentLabel = {
    __typename?: 'document_label';
   /** An object relationship */
   author: User;
@@ -388,58 +401,58 @@ export type Document_Label = {
 };
 
 /** Boolean expression to filter rows from the table "document_label". All fields are combined with a logical 'AND'. */
-export type Document_Label_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Label_Bool_Exp>>>;
-  _not?: Maybe<Document_Label_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Label_Bool_Exp>>>;
-  author?: Maybe<User_Bool_Exp>;
-  document?: Maybe<Document_Bool_Exp>;
-  label?: Maybe<Label_Bool_Exp>;
-  labelId?: Maybe<Uuid_Comparison_Exp>;
+export type DocumentLabelBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
+  _not?: Maybe<DocumentLabelBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  document?: Maybe<DocumentBoolExp>;
+  label?: Maybe<LabelBoolExp>;
+  labelId?: Maybe<UuidComparisonExp>;
 };
 
 /** ordering options when selecting data from "document_label" */
-export type Document_Label_Order_By = {
-  author?: Maybe<User_Order_By>;
-  document?: Maybe<Document_Order_By>;
-  label?: Maybe<Label_Order_By>;
-  labelId?: Maybe<Order_By>;
+export type DocumentLabelOrderBy = {
+  author?: Maybe<UserOrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  label?: Maybe<LabelOrderBy>;
+  labelId?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "document_label" */
-export type Document_Label_Pk_Columns_Input = {
+export type DocumentLabelPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "document_label" */
-export enum Document_Label_Select_Column {
+export enum DocumentLabelSelectColumn {
   /** column name */
   LabelId = 'labelId'
 }
 
 /** ordering options when selecting data from "document" */
-export type Document_Order_By = {
-  allowComments?: Maybe<Order_By>;
-  author?: Maybe<User_Order_By>;
-  authorId?: Maybe<Order_By>;
-  content?: Maybe<Document_Content_Order_By>;
-  countComments?: Maybe<Order_By>;
-  createdAt?: Maybe<Order_By>;
-  description?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  isPublic?: Maybe<Order_By>;
-  reactionBalance?: Maybe<Order_By>;
-  title?: Maybe<Order_By>;
-  updatedAt?: Maybe<Order_By>;
+export type DocumentOrderBy = {
+  allowComments?: Maybe<OrderBy>;
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  content?: Maybe<DocumentContentOrderBy>;
+  countComments?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  description?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  isPublic?: Maybe<OrderBy>;
+  reactionBalance?: Maybe<OrderBy>;
+  title?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "document" */
-export type Document_Pk_Columns_Input = {
+export type DocumentPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** columns and relationships of "document_reaction" */
-export type Document_Reaction = {
+export type DocumentReaction = {
    __typename?: 'document_reaction';
   authorId: Scalars['String'];
   createdAt: Scalars['timestamptz'];
@@ -448,42 +461,42 @@ export type Document_Reaction = {
   documentId: Scalars['uuid'];
   /** An object relationship */
   reaction: Reaction;
-  reaction_id: Scalars['String'];
+  reactionId: Scalars['String'];
 };
 
 /** Boolean expression to filter rows from the table "document_reaction". All fields are combined with a logical 'AND'. */
-export type Document_Reaction_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Reaction_Bool_Exp>>>;
-  _not?: Maybe<Document_Reaction_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Reaction_Bool_Exp>>>;
-  authorId?: Maybe<String_Comparison_Exp>;
-  createdAt?: Maybe<Timestamptz_Comparison_Exp>;
-  document?: Maybe<Document_Bool_Exp>;
-  documentId?: Maybe<Uuid_Comparison_Exp>;
-  reaction?: Maybe<Reaction_Bool_Exp>;
-  reaction_id?: Maybe<String_Comparison_Exp>;
+export type DocumentReactionBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
+  _not?: Maybe<DocumentReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
+  authorId?: Maybe<StringComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  documentId?: Maybe<UuidComparisonExp>;
+  reaction?: Maybe<ReactionBoolExp>;
+  reactionId?: Maybe<StringComparisonExp>;
 };
 
 /** columns and relationships of "document_reaction_group" */
-export type Document_Reaction_Group = {
+export type DocumentReactionGroup = {
    __typename?: 'document_reaction_group';
   count?: Maybe<Scalars['bigint']>;
   reaction_id?: Maybe<Scalars['String']>;
 };
 
 /** Boolean expression to filter rows from the table "document_reaction_group". All fields are combined with a logical 'AND'. */
-export type Document_Reaction_Group_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Reaction_Group_Bool_Exp>>>;
-  _not?: Maybe<Document_Reaction_Group_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Reaction_Group_Bool_Exp>>>;
-  count?: Maybe<Bigint_Comparison_Exp>;
-  reaction_id?: Maybe<String_Comparison_Exp>;
+export type DocumentReactionGroupBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
+  _not?: Maybe<DocumentReactionGroupBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
+  count?: Maybe<BigintComparisonExp>;
+  reaction_id?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "document_reaction_group" */
-export type Document_Reaction_Group_Order_By = {
-  count?: Maybe<Order_By>;
-  reaction_id?: Maybe<Order_By>;
+export type DocumentReactionGroupOrderBy = {
+  count?: Maybe<OrderBy>;
+  reaction_id?: Maybe<OrderBy>;
 };
 
 /** 
@@ -492,45 +505,45 @@ export type Document_Reaction_Group_Order_By = {
  * 
  * columns and relationships of \"document_reaction_group_persisted\"
  */
-export type Document_Reaction_Group_Persisted = {
+export type DocumentReactionGroupPersisted = {
    __typename?: 'document_reaction_group_persisted';
   count: Scalars['Int'];
-  reactionId: Scalars['String'];
+  reactionid: Scalars['String'];
 };
 
 /** 
  * Boolean expression to filter rows from the table
  * "document_reaction_group_persisted". All fields are combined with a logical 'AND'.
  */
-export type Document_Reaction_Group_Persisted_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Document_Reaction_Group_Persisted_Bool_Exp>>>;
-  _not?: Maybe<Document_Reaction_Group_Persisted_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Document_Reaction_Group_Persisted_Bool_Exp>>>;
-  count?: Maybe<Int_Comparison_Exp>;
-  reactionId?: Maybe<String_Comparison_Exp>;
+export type DocumentReactionGroupPersistedBoolExp = {
+  _and?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
+  _not?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
+  count?: Maybe<IntComparisonExp>;
+  reactionid?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "document_reaction_group_persisted" */
-export type Document_Reaction_Group_Persisted_Order_By = {
-  count?: Maybe<Order_By>;
-  reactionId?: Maybe<Order_By>;
+export type DocumentReactionGroupPersistedOrderBy = {
+  count?: Maybe<OrderBy>;
+  reactionid?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "document_reaction_group_persisted" */
-export type Document_Reaction_Group_Persisted_Pk_Columns_Input = {
+export type DocumentReactionGroupPersistedPkColumnsInput = {
   id: Scalars['bigint'];
 };
 
 /** select columns of table "document_reaction_group_persisted" */
-export enum Document_Reaction_Group_Persisted_Select_Column {
+export enum DocumentReactionGroupPersistedSelectColumn {
   /** column name */
   Count = 'count',
   /** column name */
-  ReactionId = 'reactionId'
+  Reactionid = 'reactionid'
 }
 
 /** select columns of table "document_reaction_group" */
-export enum Document_Reaction_Group_Select_Column {
+export enum DocumentReactionGroupSelectColumn {
   /** column name */
   Count = 'count',
   /** column name */
@@ -538,22 +551,22 @@ export enum Document_Reaction_Group_Select_Column {
 }
 
 /** ordering options when selecting data from "document_reaction" */
-export type Document_Reaction_Order_By = {
-  authorId?: Maybe<Order_By>;
-  createdAt?: Maybe<Order_By>;
-  document?: Maybe<Document_Order_By>;
-  documentId?: Maybe<Order_By>;
-  reaction?: Maybe<Reaction_Order_By>;
-  reaction_id?: Maybe<Order_By>;
+export type DocumentReactionOrderBy = {
+  authorId?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  documentId?: Maybe<OrderBy>;
+  reaction?: Maybe<ReactionOrderBy>;
+  reactionId?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "document_reaction" */
-export type Document_Reaction_Pk_Columns_Input = {
+export type DocumentReactionPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "document_reaction" */
-export enum Document_Reaction_Select_Column {
+export enum DocumentReactionSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
@@ -561,11 +574,11 @@ export enum Document_Reaction_Select_Column {
   /** column name */
   DocumentId = 'documentId',
   /** column name */
-  ReactionId = 'reaction_id'
+  ReactionId = 'reactionId'
 }
 
 /** select columns of table "document" */
-export enum Document_Select_Column {
+export enum DocumentSelectColumn {
   /** column name */
   AllowComments = 'allowComments',
   /** column name */
@@ -589,7 +602,7 @@ export enum Document_Select_Column {
 }
 
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
-export type Int_Comparison_Exp = {
+export type IntComparisonExp = {
   _eq?: Maybe<Scalars['Int']>;
   _gt?: Maybe<Scalars['Int']>;
   _gte?: Maybe<Scalars['Int']>;
@@ -610,47 +623,47 @@ export type Label = {
   color: Color;
   color_name: Scalars['String'];
   /** An array relationship */
-  document_labels: Array<Document_Label>;
+  document_labels: Array<DocumentLabel>;
   label: Scalars['String'];
 };
 
 
 /** columns and relationships of "label" */
-export type LabelDocument_LabelsArgs = {
-  distinct_on?: Maybe<Array<Document_Label_Select_Column>>;
+export type LabelDocumentLabelsArgs = {
+  distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Label_Order_By>>;
-  where?: Maybe<Document_Label_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentLabelOrderBy>>;
+  where?: Maybe<DocumentLabelBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "label". All fields are combined with a logical 'AND'. */
-export type Label_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Label_Bool_Exp>>>;
-  _not?: Maybe<Label_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Label_Bool_Exp>>>;
-  author?: Maybe<User_Bool_Exp>;
-  color?: Maybe<Color_Bool_Exp>;
-  color_name?: Maybe<String_Comparison_Exp>;
-  document_labels?: Maybe<Document_Label_Bool_Exp>;
-  label?: Maybe<String_Comparison_Exp>;
+export type LabelBoolExp = {
+  _and?: Maybe<Array<Maybe<LabelBoolExp>>>;
+  _not?: Maybe<LabelBoolExp>;
+  _or?: Maybe<Array<Maybe<LabelBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  color?: Maybe<ColorBoolExp>;
+  color_name?: Maybe<StringComparisonExp>;
+  document_labels?: Maybe<DocumentLabelBoolExp>;
+  label?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "label" */
-export type Label_Order_By = {
-  author?: Maybe<User_Order_By>;
-  color?: Maybe<Color_Order_By>;
-  color_name?: Maybe<Order_By>;
-  label?: Maybe<Order_By>;
+export type LabelOrderBy = {
+  author?: Maybe<UserOrderBy>;
+  color?: Maybe<ColorOrderBy>;
+  color_name?: Maybe<OrderBy>;
+  label?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "label" */
-export type Label_Pk_Columns_Input = {
+export type LabelPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "label" */
-export enum Label_Select_Column {
+export enum LabelSelectColumn {
   /** column name */
   ColorName = 'color_name',
   /** column name */
@@ -658,7 +671,7 @@ export enum Label_Select_Column {
 }
 
 /** column ordering options */
-export enum Order_By {
+export enum OrderBy {
   /** in the ascending order, nulls last */
   Asc = 'asc',
   /** in the ascending order, nulls first */
@@ -674,20 +687,20 @@ export enum Order_By {
 }
 
 /** query root */
-export type Query_Root = {
+export type QueryRoot = {
    __typename?: 'query_root';
   /** fetch data from the table: "color" */
   allColors: Array<Color>;
   /** fetch data from the table: "comment_reaction" */
-  allCommentReactions: Array<Comment_Reaction>;
+  allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
   /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<Document_Content>;
+  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
-  allDocumentLabels: Array<Document_Label>;
+  allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
-  allDocumentReactions: Array<Document_Reaction>;
+  allDocumentReactions: Array<DocumentReaction>;
   /** fetch data from the table: "document" */
   allDocuments: Array<Document>;
   /** fetch data from the table: "label" */
@@ -701,23 +714,23 @@ export type Query_Root = {
   /** fetch data from the table: "comment" using primary key columns */
   comment?: Maybe<Comment>;
   /** fetch data from the table: "comment_reaction" using primary key columns */
-  commentReaction?: Maybe<Comment_Reaction>;
+  commentReaction?: Maybe<CommentReaction>;
   /** fetch data from the table: "comment_reactions_group" */
-  comment_reactions_group: Array<Comment_Reactions_Group>;
+  comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
   /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<Document_Content>;
+  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
-  documentLabel?: Maybe<Document_Label>;
+  documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
-  documentReactino?: Maybe<Document_Reaction>;
+  documentReactino?: Maybe<DocumentReaction>;
   /** fetch data from the table: "document_reaction_group" */
-  document_reaction_group: Array<Document_Reaction_Group>;
+  document_reaction_group: Array<DocumentReactionGroup>;
   /** fetch data from the table: "document_reaction_group_persisted" */
-  document_reaction_group_persisted: Array<Document_Reaction_Group_Persisted>;
+  document_reaction_group_persisted: Array<DocumentReactionGroupPersisted>;
   /** fetch data from the table: "document_reaction_group_persisted" using primary key columns */
-  document_reaction_group_persisted_by_pk?: Maybe<Document_Reaction_Group_Persisted>;
+  document_reaction_group_persisted_by_pk?: Maybe<DocumentReactionGroupPersisted>;
   /** fetch data from the table: "label" using primary key columns */
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
@@ -728,197 +741,197 @@ export type Query_Root = {
 
 
 /** query root */
-export type Query_RootAllColorsArgs = {
-  distinct_on?: Maybe<Array<Color_Select_Column>>;
+export type QueryRootAllColorsArgs = {
+  distinct_on?: Maybe<Array<ColorSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Color_Order_By>>;
-  where?: Maybe<Color_Bool_Exp>;
+  order_by?: Maybe<Array<ColorOrderBy>>;
+  where?: Maybe<ColorBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllCommentReactionsArgs = {
-  distinct_on?: Maybe<Array<Comment_Reaction_Select_Column>>;
+export type QueryRootAllCommentReactionsArgs = {
+  distinct_on?: Maybe<Array<CommentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Reaction_Order_By>>;
-  where?: Maybe<Comment_Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<CommentReactionOrderBy>>;
+  where?: Maybe<CommentReactionBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllCommentsArgs = {
-  distinct_on?: Maybe<Array<Comment_Select_Column>>;
+export type QueryRootAllCommentsArgs = {
+  distinct_on?: Maybe<Array<CommentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Order_By>>;
-  where?: Maybe<Comment_Bool_Exp>;
+  order_by?: Maybe<Array<CommentOrderBy>>;
+  where?: Maybe<CommentBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<Document_Content_Select_Column>>;
+export type QueryRootAllDocumentContentsArgs = {
+  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Content_Order_By>>;
-  where?: Maybe<Document_Content_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentContentOrderBy>>;
+  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllDocumentLabelsArgs = {
-  distinct_on?: Maybe<Array<Document_Label_Select_Column>>;
+export type QueryRootAllDocumentLabelsArgs = {
+  distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Label_Order_By>>;
-  where?: Maybe<Document_Label_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentLabelOrderBy>>;
+  where?: Maybe<DocumentLabelBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllDocumentReactionsArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Select_Column>>;
+export type QueryRootAllDocumentReactionsArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Order_By>>;
-  where?: Maybe<Document_Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionOrderBy>>;
+  where?: Maybe<DocumentReactionBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllDocumentsArgs = {
-  distinct_on?: Maybe<Array<Document_Select_Column>>;
+export type QueryRootAllDocumentsArgs = {
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Order_By>>;
-  where?: Maybe<Document_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllLabelsArgs = {
-  distinct_on?: Maybe<Array<Label_Select_Column>>;
+export type QueryRootAllLabelsArgs = {
+  distinct_on?: Maybe<Array<LabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Label_Order_By>>;
-  where?: Maybe<Label_Bool_Exp>;
+  order_by?: Maybe<Array<LabelOrderBy>>;
+  where?: Maybe<LabelBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllReactionsArgs = {
-  distinct_on?: Maybe<Array<Reaction_Select_Column>>;
+export type QueryRootAllReactionsArgs = {
+  distinct_on?: Maybe<Array<ReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Reaction_Order_By>>;
-  where?: Maybe<Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<ReactionOrderBy>>;
+  where?: Maybe<ReactionBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootAllUsersArgs = {
-  distinct_on?: Maybe<Array<User_Select_Column>>;
+export type QueryRootAllUsersArgs = {
+  distinct_on?: Maybe<Array<UserSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Order_By>>;
-  where?: Maybe<User_Bool_Exp>;
+  order_by?: Maybe<Array<UserOrderBy>>;
+  where?: Maybe<UserBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootColorArgs = {
+export type QueryRootColorArgs = {
   name: Scalars['String'];
 };
 
 
 /** query root */
-export type Query_RootCommentArgs = {
+export type QueryRootCommentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootCommentReactionArgs = {
+export type QueryRootCommentReactionArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootComment_Reactions_GroupArgs = {
-  distinct_on?: Maybe<Array<Comment_Reactions_Group_Select_Column>>;
+export type QueryRootCommentReactionsGroupArgs = {
+  distinct_on?: Maybe<Array<CommentReactionsGroupSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Reactions_Group_Order_By>>;
-  where?: Maybe<Comment_Reactions_Group_Bool_Exp>;
+  order_by?: Maybe<Array<CommentReactionsGroupOrderBy>>;
+  where?: Maybe<CommentReactionsGroupBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootDocumentArgs = {
+export type QueryRootDocumentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootDocumentContentArgs = {
+export type QueryRootDocumentContentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootDocumentLabelArgs = {
+export type QueryRootDocumentLabelArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootDocumentReactinoArgs = {
+export type QueryRootDocumentReactinoArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootDocument_Reaction_GroupArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Group_Select_Column>>;
+export type QueryRootDocumentReactionGroupArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionGroupSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Group_Order_By>>;
-  where?: Maybe<Document_Reaction_Group_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionGroupOrderBy>>;
+  where?: Maybe<DocumentReactionGroupBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootDocument_Reaction_Group_PersistedArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Group_Persisted_Select_Column>>;
+export type QueryRootDocumentReactionGroupPersistedArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionGroupPersistedSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Group_Persisted_Order_By>>;
-  where?: Maybe<Document_Reaction_Group_Persisted_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionGroupPersistedOrderBy>>;
+  where?: Maybe<DocumentReactionGroupPersistedBoolExp>;
 };
 
 
 /** query root */
-export type Query_RootDocument_Reaction_Group_Persisted_By_PkArgs = {
+export type QueryRootDocumentReactionGroupPersistedByPkArgs = {
   id: Scalars['bigint'];
 };
 
 
 /** query root */
-export type Query_RootLabelArgs = {
+export type QueryRootLabelArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** query root */
-export type Query_RootReactionArgs = {
+export type QueryRootReactionArgs = {
   htmlCode: Scalars['String'];
 };
 
 
 /** query root */
-export type Query_RootUserArgs = {
+export type QueryRootUserArgs = {
   id: Scalars['uuid'];
 };
 
@@ -930,27 +943,27 @@ export type Reaction = {
 };
 
 /** Boolean expression to filter rows from the table "reaction". All fields are combined with a logical 'AND'. */
-export type Reaction_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Reaction_Bool_Exp>>>;
-  _not?: Maybe<Reaction_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Reaction_Bool_Exp>>>;
-  htmlCode?: Maybe<String_Comparison_Exp>;
-  title?: Maybe<String_Comparison_Exp>;
+export type ReactionBoolExp = {
+  _and?: Maybe<Array<Maybe<ReactionBoolExp>>>;
+  _not?: Maybe<ReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<ReactionBoolExp>>>;
+  htmlCode?: Maybe<StringComparisonExp>;
+  title?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "reaction" */
-export type Reaction_Order_By = {
-  htmlCode?: Maybe<Order_By>;
-  title?: Maybe<Order_By>;
+export type ReactionOrderBy = {
+  htmlCode?: Maybe<OrderBy>;
+  title?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "reaction" */
-export type Reaction_Pk_Columns_Input = {
+export type ReactionPkColumnsInput = {
   htmlCode: Scalars['String'];
 };
 
 /** select columns of table "reaction" */
-export enum Reaction_Select_Column {
+export enum ReactionSelectColumn {
   /** column name */
   HtmlCode = 'htmlCode',
   /** column name */
@@ -958,7 +971,7 @@ export enum Reaction_Select_Column {
 }
 
 /** expression to compare columns of type String. All fields are combined with logical 'AND'. */
-export type String_Comparison_Exp = {
+export type StringComparisonExp = {
   _eq?: Maybe<Scalars['String']>;
   _gt?: Maybe<Scalars['String']>;
   _gte?: Maybe<Scalars['String']>;
@@ -977,20 +990,20 @@ export type String_Comparison_Exp = {
 };
 
 /** subscription root */
-export type Subscription_Root = {
+export type SubscriptionRoot = {
    __typename?: 'subscription_root';
   /** fetch data from the table: "color" */
   allColors: Array<Color>;
   /** fetch data from the table: "comment_reaction" */
-  allCommentReactions: Array<Comment_Reaction>;
+  allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
   /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<Document_Content>;
+  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
-  allDocumentLabels: Array<Document_Label>;
+  allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
-  allDocumentReactions: Array<Document_Reaction>;
+  allDocumentReactions: Array<DocumentReaction>;
   /** fetch data from the table: "document" */
   allDocuments: Array<Document>;
   /** fetch data from the table: "label" */
@@ -1004,23 +1017,23 @@ export type Subscription_Root = {
   /** fetch data from the table: "comment" using primary key columns */
   comment?: Maybe<Comment>;
   /** fetch data from the table: "comment_reaction" using primary key columns */
-  commentReaction?: Maybe<Comment_Reaction>;
+  commentReaction?: Maybe<CommentReaction>;
   /** fetch data from the table: "comment_reactions_group" */
-  comment_reactions_group: Array<Comment_Reactions_Group>;
+  comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
   /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<Document_Content>;
+  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
-  documentLabel?: Maybe<Document_Label>;
+  documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
-  documentReactino?: Maybe<Document_Reaction>;
+  documentReactino?: Maybe<DocumentReaction>;
   /** fetch data from the table: "document_reaction_group" */
-  document_reaction_group: Array<Document_Reaction_Group>;
+  document_reaction_group: Array<DocumentReactionGroup>;
   /** fetch data from the table: "document_reaction_group_persisted" */
-  document_reaction_group_persisted: Array<Document_Reaction_Group_Persisted>;
+  document_reaction_group_persisted: Array<DocumentReactionGroupPersisted>;
   /** fetch data from the table: "document_reaction_group_persisted" using primary key columns */
-  document_reaction_group_persisted_by_pk?: Maybe<Document_Reaction_Group_Persisted>;
+  document_reaction_group_persisted_by_pk?: Maybe<DocumentReactionGroupPersisted>;
   /** fetch data from the table: "label" using primary key columns */
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
@@ -1031,203 +1044,203 @@ export type Subscription_Root = {
 
 
 /** subscription root */
-export type Subscription_RootAllColorsArgs = {
-  distinct_on?: Maybe<Array<Color_Select_Column>>;
+export type SubscriptionRootAllColorsArgs = {
+  distinct_on?: Maybe<Array<ColorSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Color_Order_By>>;
-  where?: Maybe<Color_Bool_Exp>;
+  order_by?: Maybe<Array<ColorOrderBy>>;
+  where?: Maybe<ColorBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllCommentReactionsArgs = {
-  distinct_on?: Maybe<Array<Comment_Reaction_Select_Column>>;
+export type SubscriptionRootAllCommentReactionsArgs = {
+  distinct_on?: Maybe<Array<CommentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Reaction_Order_By>>;
-  where?: Maybe<Comment_Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<CommentReactionOrderBy>>;
+  where?: Maybe<CommentReactionBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllCommentsArgs = {
-  distinct_on?: Maybe<Array<Comment_Select_Column>>;
+export type SubscriptionRootAllCommentsArgs = {
+  distinct_on?: Maybe<Array<CommentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Order_By>>;
-  where?: Maybe<Comment_Bool_Exp>;
+  order_by?: Maybe<Array<CommentOrderBy>>;
+  where?: Maybe<CommentBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<Document_Content_Select_Column>>;
+export type SubscriptionRootAllDocumentContentsArgs = {
+  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Content_Order_By>>;
-  where?: Maybe<Document_Content_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentContentOrderBy>>;
+  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllDocumentLabelsArgs = {
-  distinct_on?: Maybe<Array<Document_Label_Select_Column>>;
+export type SubscriptionRootAllDocumentLabelsArgs = {
+  distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Label_Order_By>>;
-  where?: Maybe<Document_Label_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentLabelOrderBy>>;
+  where?: Maybe<DocumentLabelBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllDocumentReactionsArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Select_Column>>;
+export type SubscriptionRootAllDocumentReactionsArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Order_By>>;
-  where?: Maybe<Document_Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionOrderBy>>;
+  where?: Maybe<DocumentReactionBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllDocumentsArgs = {
-  distinct_on?: Maybe<Array<Document_Select_Column>>;
+export type SubscriptionRootAllDocumentsArgs = {
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Order_By>>;
-  where?: Maybe<Document_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllLabelsArgs = {
-  distinct_on?: Maybe<Array<Label_Select_Column>>;
+export type SubscriptionRootAllLabelsArgs = {
+  distinct_on?: Maybe<Array<LabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Label_Order_By>>;
-  where?: Maybe<Label_Bool_Exp>;
+  order_by?: Maybe<Array<LabelOrderBy>>;
+  where?: Maybe<LabelBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllReactionsArgs = {
-  distinct_on?: Maybe<Array<Reaction_Select_Column>>;
+export type SubscriptionRootAllReactionsArgs = {
+  distinct_on?: Maybe<Array<ReactionSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Reaction_Order_By>>;
-  where?: Maybe<Reaction_Bool_Exp>;
+  order_by?: Maybe<Array<ReactionOrderBy>>;
+  where?: Maybe<ReactionBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootAllUsersArgs = {
-  distinct_on?: Maybe<Array<User_Select_Column>>;
+export type SubscriptionRootAllUsersArgs = {
+  distinct_on?: Maybe<Array<UserSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Order_By>>;
-  where?: Maybe<User_Bool_Exp>;
+  order_by?: Maybe<Array<UserOrderBy>>;
+  where?: Maybe<UserBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootColorArgs = {
+export type SubscriptionRootColorArgs = {
   name: Scalars['String'];
 };
 
 
 /** subscription root */
-export type Subscription_RootCommentArgs = {
+export type SubscriptionRootCommentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootCommentReactionArgs = {
+export type SubscriptionRootCommentReactionArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootComment_Reactions_GroupArgs = {
-  distinct_on?: Maybe<Array<Comment_Reactions_Group_Select_Column>>;
+export type SubscriptionRootCommentReactionsGroupArgs = {
+  distinct_on?: Maybe<Array<CommentReactionsGroupSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Comment_Reactions_Group_Order_By>>;
-  where?: Maybe<Comment_Reactions_Group_Bool_Exp>;
+  order_by?: Maybe<Array<CommentReactionsGroupOrderBy>>;
+  where?: Maybe<CommentReactionsGroupBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootDocumentArgs = {
+export type SubscriptionRootDocumentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootDocumentContentArgs = {
+export type SubscriptionRootDocumentContentArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootDocumentLabelArgs = {
+export type SubscriptionRootDocumentLabelArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootDocumentReactinoArgs = {
+export type SubscriptionRootDocumentReactinoArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootDocument_Reaction_GroupArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Group_Select_Column>>;
+export type SubscriptionRootDocumentReactionGroupArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionGroupSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Group_Order_By>>;
-  where?: Maybe<Document_Reaction_Group_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionGroupOrderBy>>;
+  where?: Maybe<DocumentReactionGroupBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootDocument_Reaction_Group_PersistedArgs = {
-  distinct_on?: Maybe<Array<Document_Reaction_Group_Persisted_Select_Column>>;
+export type SubscriptionRootDocumentReactionGroupPersistedArgs = {
+  distinct_on?: Maybe<Array<DocumentReactionGroupPersistedSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Reaction_Group_Persisted_Order_By>>;
-  where?: Maybe<Document_Reaction_Group_Persisted_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentReactionGroupPersistedOrderBy>>;
+  where?: Maybe<DocumentReactionGroupPersistedBoolExp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootDocument_Reaction_Group_Persisted_By_PkArgs = {
+export type SubscriptionRootDocumentReactionGroupPersistedByPkArgs = {
   id: Scalars['bigint'];
 };
 
 
 /** subscription root */
-export type Subscription_RootLabelArgs = {
+export type SubscriptionRootLabelArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** subscription root */
-export type Subscription_RootReactionArgs = {
+export type SubscriptionRootReactionArgs = {
   htmlCode: Scalars['String'];
 };
 
 
 /** subscription root */
-export type Subscription_RootUserArgs = {
+export type SubscriptionRootUserArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
-export type Timestamptz_Comparison_Exp = {
+export type TimestamptzComparisonExp = {
   _eq?: Maybe<Scalars['timestamptz']>;
   _gt?: Maybe<Scalars['timestamptz']>;
   _gte?: Maybe<Scalars['timestamptz']>;
@@ -1250,7 +1263,7 @@ export type User = {
   balanceDocumentReaction: Scalars['bigint'];
   countWrittenComments: Scalars['Int'];
   /** An array relationship */
-  document_labels: Array<Document_Label>;
+  document_labels: Array<DocumentLabel>;
   /** An array relationship */
   documents: Array<Document>;
   imageUrl?: Maybe<Scalars['String']>;
@@ -1266,12 +1279,12 @@ export type User = {
  * 
  * columns and relationships of \"user\"
  */
-export type UserDocument_LabelsArgs = {
-  distinct_on?: Maybe<Array<Document_Label_Select_Column>>;
+export type UserDocumentLabelsArgs = {
+  distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Label_Order_By>>;
-  where?: Maybe<Document_Label_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentLabelOrderBy>>;
+  where?: Maybe<DocumentLabelBoolExp>;
 };
 
 
@@ -1282,11 +1295,11 @@ export type UserDocument_LabelsArgs = {
  * columns and relationships of \"user\"
  */
 export type UserDocumentsArgs = {
-  distinct_on?: Maybe<Array<Document_Select_Column>>;
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Document_Order_By>>;
-  where?: Maybe<Document_Bool_Exp>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
 };
 
 
@@ -1297,42 +1310,42 @@ export type UserDocumentsArgs = {
  * columns and relationships of \"user\"
  */
 export type UserLabelsArgs = {
-  distinct_on?: Maybe<Array<Label_Select_Column>>;
+  distinct_on?: Maybe<Array<LabelSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Label_Order_By>>;
-  where?: Maybe<Label_Bool_Exp>;
+  order_by?: Maybe<Array<LabelOrderBy>>;
+  where?: Maybe<LabelBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
-export type User_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<User_Bool_Exp>>>;
-  _not?: Maybe<User_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<User_Bool_Exp>>>;
-  balanceDocumentReaction?: Maybe<Bigint_Comparison_Exp>;
-  countWrittenComments?: Maybe<Int_Comparison_Exp>;
-  document_labels?: Maybe<Document_Label_Bool_Exp>;
-  documents?: Maybe<Document_Bool_Exp>;
-  imageUrl?: Maybe<String_Comparison_Exp>;
-  labels?: Maybe<Label_Bool_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
+export type UserBoolExp = {
+  _and?: Maybe<Array<Maybe<UserBoolExp>>>;
+  _not?: Maybe<UserBoolExp>;
+  _or?: Maybe<Array<Maybe<UserBoolExp>>>;
+  balanceDocumentReaction?: Maybe<BigintComparisonExp>;
+  countWrittenComments?: Maybe<IntComparisonExp>;
+  document_labels?: Maybe<DocumentLabelBoolExp>;
+  documents?: Maybe<DocumentBoolExp>;
+  imageUrl?: Maybe<StringComparisonExp>;
+  labels?: Maybe<LabelBoolExp>;
+  name?: Maybe<StringComparisonExp>;
 };
 
 /** ordering options when selecting data from "user" */
-export type User_Order_By = {
-  balanceDocumentReaction?: Maybe<Order_By>;
-  countWrittenComments?: Maybe<Order_By>;
-  imageUrl?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
+export type UserOrderBy = {
+  balanceDocumentReaction?: Maybe<OrderBy>;
+  countWrittenComments?: Maybe<OrderBy>;
+  imageUrl?: Maybe<OrderBy>;
+  name?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: "user" */
-export type User_Pk_Columns_Input = {
+export type UserPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "user" */
-export enum User_Select_Column {
+export enum UserSelectColumn {
   /** column name */
   BalanceDocumentReaction = 'balanceDocumentReaction',
   /** column name */
@@ -1345,7 +1358,7 @@ export enum User_Select_Column {
 
 
 /** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
+export type UuidComparisonExp = {
   _eq?: Maybe<Scalars['uuid']>;
   _gt?: Maybe<Scalars['uuid']>;
   _gte?: Maybe<Scalars['uuid']>;
@@ -1357,6 +1370,30 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type ACommentSectionCommentAuthorFragment = { __typename?: 'user', name: string, imageUrl: Maybe<string> };
+
+export type ACommentSectionCommentReactionGroupFragment = { __typename?: 'comment_reactions_group', count: Maybe<any>, reactionid: Maybe<string> };
+
+export type ACommentSectionCommentFragment = { __typename?: 'comment', comment: string, createdAt: any, reactionBalance: number, author: (
+    { __typename?: 'user' }
+    & ACommentSectionCommentAuthorFragment
+  ), reactionsGroup: Array<(
+    { __typename?: 'comment_reactions_group' }
+    & ACommentSectionCommentReactionGroupFragment
+  )> };
+
+export type ACommentSectionCommentsQueryVariables = {
+  documentId: Scalars['uuid'];
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+};
+
+
+export type ACommentSectionCommentsQuery = { __typename?: 'query_root', allComments: Array<(
+    { __typename?: 'comment' }
+    & ACommentSectionCommentFragment
+  )> };
+
 export type AFeedDocAuthorFragment = { __typename?: 'user', imageUrl: Maybe<string>, name: string };
 
 export type AFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
@@ -1364,7 +1401,7 @@ export type AFeedDocLabelFragment = { __typename?: 'document_label', label: { __
 export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
     { __typename?: 'user' }
     & AFeedDocAuthorFragment
-  ), reactionsGroup: Array<{ __typename?: 'document_reaction_group_persisted', count: number, reactionId: string }>, labels: Array<(
+  ), reactionsGroup: Array<{ __typename?: 'document_reaction_group_persisted', count: number, reactionid: string }>, labels: Array<(
     { __typename?: 'document_label' }
     & AFeedDocLabelFragment
   )> };
@@ -1380,6 +1417,32 @@ export type AFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
     & AFeedDocFragment
   )> };
 
+export const ACommentSectionCommentAuthorFragmentDoc = gql`
+    fragment ACommentSectionCommentAuthor on user {
+  name
+  imageUrl
+}
+    `;
+export const ACommentSectionCommentReactionGroupFragmentDoc = gql`
+    fragment ACommentSectionCommentReactionGroup on comment_reactions_group {
+  count
+  reactionid
+}
+    `;
+export const ACommentSectionCommentFragmentDoc = gql`
+    fragment ACommentSectionComment on comment {
+  author {
+    ...ACommentSectionCommentAuthor
+  }
+  comment
+  createdAt
+  reactionBalance
+  reactionsGroup {
+    ...ACommentSectionCommentReactionGroup
+  }
+}
+    ${ACommentSectionCommentAuthorFragmentDoc}
+${ACommentSectionCommentReactionGroupFragmentDoc}`;
 export const AFeedDocAuthorFragmentDoc = gql`
     fragment AFeedDocAuthor on user {
   imageUrl
@@ -1404,7 +1467,7 @@ export const AFeedDocFragmentDoc = gql`
   updatedAt
   reactionsGroup(limit: 10, order_by: {count: desc}) {
     count
-    reactionId
+    reactionid
   }
   countComments
   allowComments
@@ -1418,6 +1481,21 @@ export const AFeedDocFragmentDoc = gql`
 }
     ${AFeedDocAuthorFragmentDoc}
 ${AFeedDocLabelFragmentDoc}`;
+export const ACommentSectionCommentsDocument = gql`
+    query ACommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!) {
+  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
+    ...ACommentSectionComment
+  }
+}
+    ${ACommentSectionCommentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ACommentSectionCommentsGQL extends Apollo.Query<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables> {
+    document = ACommentSectionCommentsDocument;
+    
+  }
 export const AFeedDocsDocument = gql`
     query AFeedDocs($limit: Int!, $offset: Int!) {
   allDocuments(limit: $limit, offset: $offset) {

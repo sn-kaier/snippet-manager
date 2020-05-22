@@ -18,11 +18,11 @@ fragment UFeedDocLabel on document_label {
 
 fragment UFeedDocReactionGroup on document_reaction_group_persisted {
   count
-  reactionId
+  reactionid
 }
 
 fragment UFeedDocReaction on document_reaction {
-  reaction_id
+  reactionId
   id
 }
 
@@ -57,7 +57,7 @@ query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!) {
 mutation UAddDocumentReaction($documentReaction: document_reaction_insert_input!) {
   addDocumentReaction(objects: [$documentReaction]) {
     returning {
-      reaction_id
+      reactionId
       documentId
     }
   }
@@ -66,17 +66,17 @@ mutation UAddDocumentReaction($documentReaction: document_reaction_insert_input!
 mutation UAddCommentReaction($commentReaction: comment_reaction_insert_input!) {
   addCommentReaction(objects: [$commentReaction]) {
     returning {
-      reaction_id
+      reactionId
       commentId
     }
   }
 }
 
 mutation URemoveDocumentReaction($reactionId: String!, $documentId: uuid!) {
-  removeDocumentReaction(where: {documentId: {_eq: $documentId}, reaction_id: {_eq: $reactionId}}) {affected_rows}
+  removeDocumentReaction(where: {documentId: {_eq: $documentId}, reactionId: {_eq: $reactionId}}) {affected_rows}
 }
 
 
 mutation URemoveCommentReaction($reactionId: String!, $commentId: uuid!) {
-  removeCommentReaction(where: {commentId: {_eq: $commentId}, reaction_id: {_eq: $reactionId}}) {affected_rows}
+  removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {affected_rows}
 }

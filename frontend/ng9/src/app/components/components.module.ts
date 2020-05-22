@@ -12,15 +12,17 @@ import { ReactionSectionComponent } from './card/reaction-section/reaction-secti
 import { ReactionBadgeComponent } from './card/reaction-section/reaction-badge/reaction-badge.component';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { AddReactionButtonComponent } from './card/reaction-section/add-reaction-button/add-reaction-button.component';
+import { CommentComponent } from './card/comment-section/comment/comment.component';
 
 @NgModule({
-  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent],
+  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent],
   exports: [
     NavBarComponent,
     CardComponent,
     AuthorSectionComponent,
     LabelComponent,
-    ReactionSectionComponent
+    ReactionSectionComponent,
+    CommentSectionComponent
   ],
   imports: [
     CommonModule,

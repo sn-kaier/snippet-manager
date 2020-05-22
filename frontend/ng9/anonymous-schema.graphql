@@ -24,6 +24,19 @@ type comment {
   id: uuid!
   reactionBalance: Int!
   "An array relationship"
+  reactions(
+    "distinct select on columns"
+    distinct_on: [comment_reaction_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [comment_reaction_order_by!],
+    "filter the rows returned"
+    where: comment_reaction_bool_exp
+  ): [comment_reaction!]!
+  "An array relationship"
   reactionsGroup(
     "distinct select on columns"
     distinct_on: [comment_reactions_group_select_column!],
@@ -157,7 +170,7 @@ type document_reaction {
   documentId: uuid!
   "An object relationship"
   reaction: reaction!
-  reaction_id: String!
+  reactionId: String!
 }
 
 "columns and relationships of \"document_reaction_group\""
@@ -175,7 +188,7 @@ columns and relationships of \"document_reaction_group_persisted\"
 """
 type document_reaction_group_persisted {
   count: Int!
-  reactionId: String!
+  reactionid: String!
 }
 
 "columns and relationships of \"label\""
@@ -715,7 +728,7 @@ enum document_reaction_group_persisted_select_column {
   "column name"
   count
   "column name"
-  reactionId
+  reactionid
 }
 
 "select columns of table \"document_reaction_group\""
@@ -735,7 +748,7 @@ enum document_reaction_select_column {
   "column name"
   documentId
   "column name"
-  reaction_id
+  reactionId
 }
 
 "select columns of table \"document\""
@@ -897,6 +910,7 @@ input comment_bool_exp {
   documentId: uuid_comparison_exp
   id: uuid_comparison_exp
   reactionBalance: Int_comparison_exp
+  reactions: comment_reaction_bool_exp
   reactionsGroup: comment_reactions_group_bool_exp
   updatedAt: timestamptz_comparison_exp
 }
@@ -1064,7 +1078,7 @@ input document_reaction_bool_exp {
   document: document_bool_exp
   documentId: uuid_comparison_exp
   reaction: reaction_bool_exp
-  reaction_id: String_comparison_exp
+  reactionId: String_comparison_exp
 }
 
 "Boolean expression to filter rows from the table \"document_reaction_group\". All fields are combined with a logical 'AND'."
@@ -1088,13 +1102,13 @@ input document_reaction_group_persisted_bool_exp {
   _not: document_reaction_group_persisted_bool_exp
   _or: [document_reaction_group_persisted_bool_exp]
   count: Int_comparison_exp
-  reactionId: String_comparison_exp
+  reactionid: String_comparison_exp
 }
 
 "ordering options when selecting data from \"document_reaction_group_persisted\""
 input document_reaction_group_persisted_order_by {
   count: order_by
-  reactionId: order_by
+  reactionid: order_by
 }
 
 "primary key columns input for table: \"document_reaction_group_persisted\""
@@ -1109,7 +1123,7 @@ input document_reaction_order_by {
   document: document_order_by
   documentId: order_by
   reaction: reaction_order_by
-  reaction_id: order_by
+  reactionId: order_by
 }
 
 "primary key columns input for table: \"document_reaction\""

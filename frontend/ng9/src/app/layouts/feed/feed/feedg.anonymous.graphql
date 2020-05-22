@@ -19,7 +19,7 @@ fragment AFeedDoc on document {
   updatedAt
   reactionsGroup(limit: 10, order_by: {count: desc}) {
     count
-    reactionId
+    reactionid
   }
   countComments
   allowComments

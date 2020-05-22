@@ -1,17 +1,16 @@
 <div class="row">
-  <app-reaction-badge [reactionId]="thumbsUpId" [count]="countThumbsUp" [isSelected]="isThumbsUpSelected" [docId]="doc.id"
+  <app-reaction-badge [reactionId]="thumbsUpId" [count]="countThumbsUp" [isSelected]="isThumbsUpSelected"
                       (clickReaction)="clickReaction($event)"
   ></app-reaction-badge>
 
-  <app-reaction-badge class="mrs" [reactionId]="thumbsDownId" [count]="countThumbsDown" [isSelected]="isThumbsDownSelected" [docId]="doc.id"
+  <app-reaction-badge class="mrs" [reactionId]="thumbsDownId" [count]="countThumbsDown" [isSelected]="isThumbsDownSelected"
                       (clickReaction)="clickReaction($event)"
   ></app-reaction-badge>
 
   <app-reaction-badge *ngFor="let reaction of filteredReactionsGroup"
                       [count]="reaction.count"
-                      [reactionId]="reaction.reactionId"
-                      [docId]="doc.id"
-                      [isSelected]="isSelected(reaction.reactionId)"
+                      [reactionId]="reaction.reactionid"
+                      [isSelected]="isSelected(reaction.reactionid)"
                       (clickReaction)="clickReaction($event)"
   ></app-reaction-badge>
 

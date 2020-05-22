@@ -8,4 +8,7 @@ generates:
   ./src/__generated/types.d.ts:
     plugins:
       - typescript
+    config:
+      namingConvention:
+        transformUnderscore: true
 

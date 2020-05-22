@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { randomIndex } from './common-seeder.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { Color_Insert_Input } from '../../__generated/types';
+import { ColorInsertInput } from '../../__generated/types';
 
 @Injectable()
 export class ColorSeedGeneratorService {
@@ -14,7 +14,7 @@ export class ColorSeedGeneratorService {
 
   public async saveToDB() {
     try {
-      await this.gqlRequestService.adminRequest<{ affectedRows: number }, { colors: Color_Insert_Input[] }>(
+      await this.gqlRequestService.adminRequest<{ affectedRows: number }, { colors: ColorInsertInput[] }>(
         gql`
             mutation saveColors($colors: [color_insert_input!]!) {
                 addColor(objects: $colors, on_conflict: {update_columns: [name], constraint: color_pkey}) {
@@ -33,7 +33,7 @@ export class ColorSeedGeneratorService {
     return this.colors[index];
   }
 
-  public readonly colors: Color_Insert_Input[] = [
+  public readonly colors: ColorInsertInput[] = [
     {
       name: 'Black',
       color: 'black',

@@ -7,6 +7,8 @@ generates:
       - typescript-apollo-angular
     config:
       preResolveTypes: true
+      namingConvention:
+        transformUnderscore: true
       declarationKind:
         type: 'interface'
         input: 'interface'
@@ -19,6 +21,8 @@ generates:
       - typescript-operations
       - typescript-apollo-angular
     config:
+      namingConvention:
+        transformUnderscore: true
       preResolveTypes: true
     documents:
       - ./src/**/*.anonymous.graphql

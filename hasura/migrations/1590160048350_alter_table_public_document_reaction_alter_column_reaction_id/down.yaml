@@ -1,0 +1,16 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      document_id: documentId
+    custom_root_fields:
+      delete: removeDocumentReaction
+      insert: addDocumentReaction
+      select: allDocumentReactions
+      select_by_pk: documentReactino
+      update: updateDocumentReaction
+    table:
+      name: document_reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2

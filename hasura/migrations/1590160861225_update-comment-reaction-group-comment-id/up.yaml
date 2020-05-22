@@ -1,0 +1,8 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "CREATE OR REPLACE VIEW \"public\".\"comment_reactions_group\" AS \n SELECT
+      comment_reaction.reaction_id AS reactionid,\n    comment_reaction.comment_id
+      AS commentId,\n    count(comment_reaction.id) AS count\n   FROM comment_reaction\n
+      \ GROUP BY comment_reaction.comment_id, comment_reaction.reaction_id;"
+  type: run_sql

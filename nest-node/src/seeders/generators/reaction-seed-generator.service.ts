@@ -1,16 +1,9 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { emojisDefault } from './emojis';
-import { DbReactionService } from '../../database/services/db-reaction/db-reaction.service';
 import { Reaction } from '../../database/__generated_entities/reaction';
 import { AuthorSeedGeneratorService } from './author-seed-generator.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import {
-  Mutation_Root,
-  Query_Root,
-  Reaction_Insert_Input,
-} from '../../__generated/types';
-import { emojis } from './emoji-data/emojis';
-import { readFile, readFileSync, writeFileSync } from 'fs';
+import { MutationRoot, QueryRoot, ReactionInsertInput } from '../../__generated/types';
+import { readFileSync } from 'fs';
 import { CompressedEmojiData } from './emoji-data/data.interfaces';
 
 export interface AuthorReaction {
@@ -20,7 +13,7 @@ export interface AuthorReaction {
 
 @Injectable()
 export class ReactionSeedGeneratorService {
-  private readonly reactions: Reaction_Insert_Input[];
+  private readonly reactions: ReactionInsertInput[];
 
   private logger = new Logger(ReactionSeedGeneratorService.name);
 
@@ -80,7 +73,7 @@ export class ReactionSeedGeneratorService {
 
   public async saveToDB() {
     const countRes = await this.gqlRequestService.adminRequest<
-      Query_Root,
+      QueryRoot,
       void
     >(
       gql`
@@ -100,7 +93,7 @@ export class ReactionSeedGeneratorService {
 
     for (const reaction of this.reactions) {
       await this.gqlRequestService
-        .adminRequest<Mutation_Root, { reactions: [Reaction_Insert_Input] }>(
+        .adminRequest<MutationRoot, { reactions: [ReactionInsertInput] }>(
           gql`
             mutation SaveReaction($reactions: [reaction_insert_input!]!) {
               addReaction(objects: $reactions) {

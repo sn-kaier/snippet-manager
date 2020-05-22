@@ -3,7 +3,7 @@ import { CommonSeederService, randomIndex, rndInt } from './common-seeder.servic
 import { DocumentSeedGeneratorService } from './document-seed-generator.service';
 import { LabelSeedGeneratorService } from './label-seed-generator.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { Mutation_Root, Query_Root, User_Insert_Input } from '../../__generated/types';
+import { MutationRoot, QueryRoot, UserInsertInput } from '../../__generated/types';
 
 @Injectable()
 export class AuthorSeedGeneratorService {
@@ -19,7 +19,7 @@ export class AuthorSeedGeneratorService {
 
   private authorIds: string[] = [];
 
-  generateOne(): Partial<User_Insert_Input> {
+  generateOne(): Partial<UserInsertInput> {
     return {
       authId: this.common.uuid(),
       name: this.common.name(3),
@@ -40,7 +40,7 @@ export class AuthorSeedGeneratorService {
     const user = this.generateOne();
     try {
 
-      const res = await this.gqlRequestService.adminRequest<Mutation_Root, { user: User_Insert_Input }>(
+      const res = await this.gqlRequestService.adminRequest<MutationRoot, { user: UserInsertInput }>(
         gql`mutation AddUser($user: user_insert_input!) {
             addUser(objects: [$user]) {
                 returning {
@@ -60,7 +60,7 @@ export class AuthorSeedGeneratorService {
     }
   }
 
-  async addContentToUser(user: User_Insert_Input) {
+  async addContentToUser(user: UserInsertInput) {
     // add Labels
     const labels = await this.labelSeedGeneratorService.generateAndSaveMany(user.authId, rndInt(10, 50)());
     const labelIds = labels.map(l => l.id);
@@ -72,7 +72,7 @@ export class AuthorSeedGeneratorService {
   }
 
   async fetchExistingIds() {
-    const existing = await this.gqlRequestService.adminRequest<Query_Root, void>(
+    const existing = await this.gqlRequestService.adminRequest<QueryRoot, void>(
       gql`query UserIds {
           allUsers {
               authId

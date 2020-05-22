@@ -1,1 +1,16 @@
-<p>comment-section works!</p>
+<div class="hr"></div>
+<div class="mlm">
+  <div class="comment-container" *ngIf="(authService.authState | async).state === 'in'; else out">
+    <div class="row">
+      <div class="col-xs-12 mtm" *ngFor="let comment of uComments$ | async">
+        <app-comment  [comment]="comment" [isLoggedIn]="true"></app-comment>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #out>
+    not logged in
+  </ng-template>
+
+</div>

@@ -25,6 +25,19 @@ type comment {
   id: uuid!
   reactionBalance: Int!
   "An array relationship"
+  reactions(
+    "distinct select on columns"
+    distinct_on: [comment_reaction_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [comment_reaction_order_by!],
+    "filter the rows returned"
+    where: comment_reaction_bool_exp
+  ): [comment_reaction!]!
+  "An array relationship"
   reactionsGroup(
     "distinct select on columns"
     distinct_on: [comment_reactions_group_select_column!],
@@ -60,7 +73,7 @@ type comment_reaction {
   id: uuid!
   "An object relationship"
   reaction: reaction!
-  reaction_id: String!
+  reactionId: String!
 }
 
 "response of any mutation on the table \"comment_reaction\""
@@ -204,7 +217,7 @@ type document_reaction {
   id: uuid!
   "An object relationship"
   reaction: reaction!
-  reaction_id: String!
+  reactionId: String!
 }
 
 "columns and relationships of \"document_reaction_group\""
@@ -222,7 +235,7 @@ columns and relationships of \"document_reaction_group_persisted\"
 """
 type document_reaction_group_persisted {
   count: Int!
-  reactionId: String!
+  reactionid: String!
 }
 
 "response of any mutation on the table \"document_reaction\""
@@ -1023,7 +1036,7 @@ enum comment_reaction_select_column {
   "column name"
   id
   "column name"
-  reaction_id
+  reactionId
 }
 
 "select columns of table \"comment_reactions_group\""
@@ -1105,7 +1118,7 @@ enum document_reaction_group_persisted_select_column {
   "column name"
   count
   "column name"
-  reactionId
+  reactionid
 }
 
 "select columns of table \"document_reaction_group\""
@@ -1127,7 +1140,7 @@ enum document_reaction_select_column {
   "column name"
   id
   "column name"
-  reaction_id
+  reactionId
 }
 
 "select columns of table \"document\""
@@ -1349,6 +1362,7 @@ input comment_bool_exp {
   documentId: uuid_comparison_exp
   id: uuid_comparison_exp
   reactionBalance: Int_comparison_exp
+  reactions: comment_reaction_bool_exp
   reactionsGroup: comment_reactions_group_bool_exp
   updatedAt: timestamptz_comparison_exp
 }
@@ -1358,6 +1372,7 @@ input comment_insert_input {
   comment: String
   document: document_obj_rel_insert_input
   documentId: uuid
+  reactions: comment_reaction_arr_rel_insert_input
 }
 
 "input type for inserting object relation for remote table \"comment\""
@@ -1408,14 +1423,14 @@ input comment_reaction_bool_exp {
   createdAt: timestamptz_comparison_exp
   id: uuid_comparison_exp
   reaction: reaction_bool_exp
-  reaction_id: String_comparison_exp
+  reactionId: String_comparison_exp
 }
 
 "input type for inserting data into table \"comment_reaction\""
 input comment_reaction_insert_input {
   comment: comment_obj_rel_insert_input
   commentId: uuid
-  reaction_id: String
+  reactionId: String
 }
 
 "input type for inserting object relation for remote table \"comment_reaction\""
@@ -1432,7 +1447,7 @@ input comment_reaction_order_by {
   createdAt: order_by
   id: order_by
   reaction: reaction_order_by
-  reaction_id: order_by
+  reactionId: order_by
 }
 
 "primary key columns input for table: \"comment_reaction\""
@@ -1654,7 +1669,7 @@ input document_reaction_bool_exp {
   documentId: uuid_comparison_exp
   id: uuid_comparison_exp
   reaction: reaction_bool_exp
-  reaction_id: String_comparison_exp
+  reactionId: String_comparison_exp
 }
 
 "Boolean expression to filter rows from the table \"document_reaction_group\". All fields are combined with a logical 'AND'."
@@ -1678,13 +1693,13 @@ input document_reaction_group_persisted_bool_exp {
   _not: document_reaction_group_persisted_bool_exp
   _or: [document_reaction_group_persisted_bool_exp]
   count: Int_comparison_exp
-  reactionId: String_comparison_exp
+  reactionid: String_comparison_exp
 }
 
 "ordering options when selecting data from \"document_reaction_group_persisted\""
 input document_reaction_group_persisted_order_by {
   count: order_by
-  reactionId: order_by
+  reactionid: order_by
 }
 
 "primary key columns input for table: \"document_reaction_group_persisted\""
@@ -1696,7 +1711,7 @@ input document_reaction_group_persisted_pk_columns_input {
 input document_reaction_insert_input {
   document: document_obj_rel_insert_input
   documentId: uuid
-  reaction_id: String
+  reactionId: String
 }
 
 "input type for inserting object relation for remote table \"document_reaction\""
@@ -1712,7 +1727,7 @@ input document_reaction_order_by {
   documentId: order_by
   id: order_by
   reaction: reaction_order_by
-  reaction_id: order_by
+  reactionId: order_by
 }
 
 "primary key columns input for table: \"document_reaction\""

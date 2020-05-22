@@ -1,9 +1,9 @@
 <app-avatar class="section-avatar" [imageUrl]="author.imageUrl"></app-avatar>
 <div class="author-name mls">
   <span class="name c-coal">{{author.name}}</span>
-  <span class="time c-manatee">{{publishedDate | date}}</span>
+  <span class="time c-manatee mls">{{publishedDate | date: 'short'}}</span>
 </div>
 <button class="btn-small c-primary mls" *ngIf="isOwnDocument; else follow">You</button>
 <ng-template #follow>
-  <button class="btn-small mls">Follow</button>
+  <button *ngIf="showFollow" class="btn-small mls">Follow</button>
 </ng-template>
