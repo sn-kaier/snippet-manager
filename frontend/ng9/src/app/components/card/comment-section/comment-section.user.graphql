@@ -12,6 +12,7 @@ fragment UCommentSectionCommentReaction on comment_reaction {
 }
 
 fragment UCommentSectionComment on comment {
+  id
   author {
     ...UCommentSectionCommentAuthor
   }
@@ -29,5 +30,18 @@ fragment UCommentSectionComment on comment {
 query UCommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!, $authorId: String!) {
   allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
     ...UCommentSectionComment
+  }
+}
+
+
+mutation UCommentSectionAddCommentReaction($commentId: uuid!, $reactionId: String!) {
+  addCommentReaction(objects: [{commentId: $commentId, reactionId: $reactionId}]) {
+    affected_rows
+  }
+}
+
+mutation UCommentSectionRemoveCommentReaction($commentId: uuid!, $reactionId: String!) {
+  removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {
+    affected_rows
   }
 }

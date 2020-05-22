@@ -2231,7 +2231,7 @@ export type UCommentSectionCommentReactionGroupFragment = { __typename?: 'commen
 
 export type UCommentSectionCommentReactionFragment = { __typename?: 'comment_reaction', reactionId: string };
 
-export type UCommentSectionCommentFragment = { __typename?: 'comment', comment: string, createdAt: any, reactionBalance: number, author: (
+export type UCommentSectionCommentFragment = { __typename?: 'comment', id: any, comment: string, createdAt: any, reactionBalance: number, author: (
     { __typename?: 'user' }
     & UCommentSectionCommentAuthorFragment
   ), reactionsGroup: Array<(
@@ -2255,13 +2255,29 @@ export type UCommentSectionCommentsQuery = { __typename?: 'query_root', allComme
     & UCommentSectionCommentFragment
   )> };
 
+export type UCommentSectionAddCommentReactionMutationVariables = {
+  commentId: Scalars['uuid'];
+  reactionId: Scalars['String'];
+};
+
+
+export type UCommentSectionAddCommentReactionMutation = { __typename?: 'mutation_root', addCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+
+export type UCommentSectionRemoveCommentReactionMutationVariables = {
+  commentId: Scalars['uuid'];
+  reactionId: Scalars['String'];
+};
+
+
+export type UCommentSectionRemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+
 export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
 export type UFeedDocReactionGroupFragment = { __typename?: 'document_reaction_group_persisted', count: number, reactionid: string };
 
-export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string, id: any };
+export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
 export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
     { __typename?: 'user' }
@@ -2338,6 +2354,7 @@ export const UCommentSectionCommentReactionFragmentDoc = gql`
     `;
 export const UCommentSectionCommentFragmentDoc = gql`
     fragment UCommentSectionComment on comment {
+  id
   author {
     ...UCommentSectionCommentAuthor
   }
@@ -2383,7 +2400,6 @@ export const UFeedDocLabelFragmentDoc = gql`
 export const UFeedDocReactionFragmentDoc = gql`
     fragment UFeedDocReaction on document_reaction {
   reactionId
-  id
 }
     `;
 export const UFeedDocFragmentDoc = gql`
@@ -2425,6 +2441,36 @@ export const UCommentSectionCommentsDocument = gql`
   })
   export class UCommentSectionCommentsGQL extends Apollo.Query<UCommentSectionCommentsQuery, UCommentSectionCommentsQueryVariables> {
     document = UCommentSectionCommentsDocument;
+    
+  }
+export const UCommentSectionAddCommentReactionDocument = gql`
+    mutation UCommentSectionAddCommentReaction($commentId: uuid!, $reactionId: String!) {
+  addCommentReaction(objects: [{commentId: $commentId, reactionId: $reactionId}]) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UCommentSectionAddCommentReactionGQL extends Apollo.Mutation<UCommentSectionAddCommentReactionMutation, UCommentSectionAddCommentReactionMutationVariables> {
+    document = UCommentSectionAddCommentReactionDocument;
+    
+  }
+export const UCommentSectionRemoveCommentReactionDocument = gql`
+    mutation UCommentSectionRemoveCommentReaction($commentId: uuid!, $reactionId: String!) {
+  removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UCommentSectionRemoveCommentReactionGQL extends Apollo.Mutation<UCommentSectionRemoveCommentReactionMutation, UCommentSectionRemoveCommentReactionMutationVariables> {
+    document = UCommentSectionRemoveCommentReactionDocument;
     
   }
 export const UFeedDocsDocument = gql`

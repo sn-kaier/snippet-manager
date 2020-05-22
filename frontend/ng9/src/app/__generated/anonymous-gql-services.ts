@@ -499,10 +499,10 @@ export type DocumentReactionGroupOrderBy = {
   reaction_id?: Maybe<OrderBy>;
 };
 
-/** 
+/**
  * persisted version of the document_reaction_group
- * 
- * 
+ *
+ *
  * columns and relationships of \"document_reaction_group_persisted\"
  */
 export type DocumentReactionGroupPersisted = {
@@ -511,7 +511,7 @@ export type DocumentReactionGroupPersisted = {
   reactionid: Scalars['String'];
 };
 
-/** 
+/**
  * Boolean expression to filter rows from the table
  * "document_reaction_group_persisted". All fields are combined with a logical 'AND'.
  */
@@ -1252,10 +1252,10 @@ export type TimestamptzComparisonExp = {
   _nin?: Maybe<Array<Scalars['timestamptz']>>;
 };
 
-/** 
+/**
  * add author table
- * 
- * 
+ *
+ *
  * columns and relationships of \"user\"
  */
 export type User = {
@@ -1273,10 +1273,10 @@ export type User = {
 };
 
 
-/** 
+/**
  * add author table
- * 
- * 
+ *
+ *
  * columns and relationships of \"user\"
  */
 export type UserDocumentLabelsArgs = {
@@ -1288,10 +1288,10 @@ export type UserDocumentLabelsArgs = {
 };
 
 
-/** 
+/**
  * add author table
- * 
- * 
+ *
+ *
  * columns and relationships of \"user\"
  */
 export type UserDocumentsArgs = {
@@ -1303,10 +1303,10 @@ export type UserDocumentsArgs = {
 };
 
 
-/** 
+/**
  * add author table
- * 
- * 
+ *
+ *
  * columns and relationships of \"user\"
  */
 export type UserLabelsArgs = {
@@ -1374,7 +1374,7 @@ export type ACommentSectionCommentAuthorFragment = { __typename?: 'user', name: 
 
 export type ACommentSectionCommentReactionGroupFragment = { __typename?: 'comment_reactions_group', count: Maybe<any>, reactionid: Maybe<string> };
 
-export type ACommentSectionCommentFragment = { __typename?: 'comment', comment: string, createdAt: any, reactionBalance: number, author: (
+export type ACommentSectionCommentFragment = { __typename?: 'comment', id: any, comment: string, createdAt: any, reactionBalance: number, author: (
     { __typename?: 'user' }
     & ACommentSectionCommentAuthorFragment
   ), reactionsGroup: Array<(
@@ -1431,6 +1431,7 @@ export const ACommentSectionCommentReactionGroupFragmentDoc = gql`
     `;
 export const ACommentSectionCommentFragmentDoc = gql`
     fragment ACommentSectionComment on comment {
+  id
   author {
     ...ACommentSectionCommentAuthor
   }
@@ -1494,7 +1495,7 @@ export const ACommentSectionCommentsDocument = gql`
   })
   export class ACommentSectionCommentsGQL extends Apollo.Query<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables> {
     document = ACommentSectionCommentsDocument;
-    
+
   }
 export const AFeedDocsDocument = gql`
     query AFeedDocs($limit: Int!, $offset: Int!) {
@@ -1509,5 +1510,5 @@ export const AFeedDocsDocument = gql`
   })
   export class AFeedDocsGQL extends Apollo.Query<AFeedDocsQuery, AFeedDocsQueryVariables> {
     document = AFeedDocsDocument;
-    
+
   }

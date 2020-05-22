@@ -23,7 +23,6 @@ fragment UFeedDocReactionGroup on document_reaction_group_persisted {
 
 fragment UFeedDocReaction on document_reaction {
   reactionId
-  id
 }
 
 fragment UFeedDoc on document {

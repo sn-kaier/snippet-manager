@@ -107,13 +107,13 @@ export class FeedService {
           }
         } else {
           // add to reactionsGroup and to selected
-          docToUpdate.reactions.push({ id: '', reactionId: doc.reactionId, __typename: 'document_reaction' });
+          docToUpdate.reactions.push({ reactionId: doc.reactionId, __typename: 'document_reaction' });
           rGroup.count++;
           docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup];
         }
       } else {
         // add new
-        docToUpdate.reactions = [...docToUpdate.reactions, { id: '', reactionId: doc.reactionId, __typename: 'document_reaction' }];
+        docToUpdate.reactions = [...docToUpdate.reactions, { reactionId: doc.reactionId, __typename: 'document_reaction' }];
         docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup, {
           count: 1,
           reactionid: doc.reactionId,

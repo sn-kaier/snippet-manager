@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PickEmojiService } from '../../../layouts/feed/pick-emoji/pick-emoji.service';
-import { FeedService } from '../../../layouts/feed/feed/feed.service';
 
 export interface RGroup {
   count: number;
@@ -8,7 +7,6 @@ export interface RGroup {
 }
 
 export interface CommonReaction {
-  id: string;
   reactionId: string;
 }
 
@@ -30,19 +28,18 @@ export class ReactionSectionComponent implements OnInit {
   rGroup: RGroup[];
 
   @Input()
-  reactions: CommonReaction[];
-
-  @Input()
-  documentId: string;
+  reactions?: CommonReaction[];
 
   @Input()
   commentId: string;
 
+  @Output()
+  toggleReaction = new EventEmitter<string>();
+
   filteredReactionsGroup: RGroup[];
 
   constructor(private readonly pickEmojiService: PickEmojiService,
-              private readonly el: ElementRef,
-              private readonly feedService: FeedService) {
+              private readonly el: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -78,11 +75,7 @@ export class ReactionSectionComponent implements OnInit {
     setTimeout(async () => {
       try {
         const pickedUnified = await this.pickEmojiService.showEmoji(clientRect.x, clientRect.y);
-        if (this.documentId) {
-          this.feedService.toggleDocumentReaction({ reactionId: pickedUnified, documentId: this.documentId });
-        } else if (this.commentId) {
-          // TODO: toggle comment reaction
-        }
+        this.toggleReaction.emit(pickedUnified);
       } catch (e) {
         // closed instead of selected an emoji
       }
@@ -90,10 +83,6 @@ export class ReactionSectionComponent implements OnInit {
   }
 
   clickReaction(reactionId: string) {
-    if (this.documentId) {
-      this.feedService.toggleDocumentReaction({ reactionId, documentId: this.documentId });
-    } else {
-      // TODO: toggle comment reaction
-    }
+    this.toggleReaction.emit(reactionId);
   }
 }

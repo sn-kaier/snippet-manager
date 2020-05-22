@@ -28,7 +28,9 @@
   <ng-container *ngIf="doc.allowComments">
     <div class="row">
       <div class="col-xs-12">
-        <app-reaction-section [documentId]="doc.id" [reactions]="doc.reactions" [reactionsGroup]="doc.reactionsGroup"></app-reaction-section>
+        <app-reaction-section [reactions]="reactions"
+                              [reactionsGroup]="doc.reactionsGroup"
+                              (toggleReaction)="toggleReaction(doc.id, $event)"></app-reaction-section>
       </div>
     </div>
 

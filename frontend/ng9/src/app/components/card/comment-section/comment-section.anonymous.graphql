@@ -9,6 +9,7 @@ fragment ACommentSectionCommentReactionGroup on comment_reactions_group {
 }
 
 fragment ACommentSectionComment on comment {
+  id
   author {
     ...ACommentSectionCommentAuthor
   }
