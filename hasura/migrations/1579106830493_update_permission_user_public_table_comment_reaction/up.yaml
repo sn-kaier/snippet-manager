@@ -1,0 +1,26 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        comment:
+          document:
+            _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+      columns:
+      - comment_id
+      - reaction_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: comment_reaction
+      schema: public
+  type: create_insert_permission

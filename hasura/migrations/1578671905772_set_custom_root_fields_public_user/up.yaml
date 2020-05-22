@@ -1,0 +1,20 @@
+- args:
+    custom_column_names:
+      auth_id: authId
+      count_private_docs: countPrivateDocs
+      created_at: createdAt
+      image_url: imageUrl
+      max_private_docs: maxPrivateDocs
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: removeUser
+      insert: addUser
+      select: allUsers
+      select_aggregate: null
+      select_by_pk: user
+      update: updateUser
+    table:
+      name: user
+      schema: public
+  type: set_table_custom_fields
+  version: 2

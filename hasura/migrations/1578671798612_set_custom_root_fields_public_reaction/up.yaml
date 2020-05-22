@@ -1,0 +1,15 @@
+- args:
+    custom_column_names:
+      html_code: htmlCode
+    custom_root_fields:
+      delete: removeReaction
+      insert: addReaction
+      select: allReactions
+      select_aggregate: null
+      select_by_pk: reaction
+      update: updateReaction
+    table:
+      name: reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2

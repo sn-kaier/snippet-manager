@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - reaction_id
+      - count
+      - document_id
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: document_reactions_group
+      schema: public
+  type: create_select_permission

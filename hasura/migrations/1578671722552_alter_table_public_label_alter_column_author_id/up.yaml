@@ -1,0 +1,18 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: label
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."label"."author_id" IS E''
+  type: run_sql

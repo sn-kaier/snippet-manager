@@ -1,0 +1,14 @@
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: removeComment
+      insert: addComment
+      select: allComments
+      select_aggregate: null
+      select_by_pk: comment
+      update: updateComment
+    table:
+      name: comment
+      schema: public
+  type: set_table_custom_fields
+  version: 2

@@ -1,0 +1,9 @@
+- args:
+    custom_column_names:
+      document_id: documentId
+    custom_root_fields: {}
+    table:
+      name: document_reaction_group_persisted
+      schema: public
+  type: set_table_custom_fields
+  version: 2

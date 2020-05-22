@@ -1,0 +1,16 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - color_id
+      - id
+      - label
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      limit: 1000
+    role: user
+    table:
+      name: label
+      schema: public
+  type: create_select_permission

@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - color_name
+      - label
+      computed_fields: []
+      filter: {}
+      limit: 1000
+    role: anonymous
+    table:
+      name: label
+      schema: public
+  type: create_select_permission

@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: DROP TABLE "public"."document_reaction_group_persisted";
+  type: run_sql

@@ -1,0 +1,33 @@
+- args:
+    role: user
+    table:
+      name: document_reaction
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      check:
+        document:
+          _and:
+          - allow_comments:
+              _eq: true
+          - _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+      columns:
+      - document_id
+      - reaction_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: document_reaction
+      schema: public
+  type: create_insert_permission

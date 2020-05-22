@@ -1,0 +1,30 @@
+{
+  "name": "Hasura",
+  "projects": {
+    "user": {
+      "schemaPath": "./user-schema.graphql",
+      "includes": ["./**/*.user.graphql"],
+      "extensions": {
+        "endpoints": {
+          "snippeter-user": {
+            "url": "http://localhost:8080/v1/graphql",
+            "headers": {
+              "Authorization": "Bearer eyJ*"
+            }
+          }
+        }
+      }
+    },
+    "anonymous": {
+      "schemaPath": "./anonymous-schema.graphql",
+      "includes": ["./**/*.anonymous.graphql"],
+      "extensions": {
+        "endpoints": {
+          "snippeter-user": {
+            "url": "http://localhost:8080/v1/graphql"
+          }
+        }
+      }
+    }
+  }
+}

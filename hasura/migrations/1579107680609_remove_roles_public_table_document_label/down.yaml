@@ -1,0 +1,48 @@
+- args:
+    permission:
+      check:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - document_id
+      - label_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: document_label
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - created_at
+      - author_id
+      - document_id
+      - id
+      - label_id
+      computed_fields: []
+      filter: {}
+    role: user
+    table:
+      name: document_label
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      filter:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: document_label
+      schema: public
+  type: create_delete_permission

@@ -1,0 +1,9 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "count_private_docs" TYPE int4;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "count_private_docs" SET NOT NULL;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."user"."count_private_docs" IS E''
+  type: run_sql

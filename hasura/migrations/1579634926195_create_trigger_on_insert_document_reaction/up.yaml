@@ -1,0 +1,50 @@
+- args:
+    cascade: false
+    sql: |
+      -- the function to call when the trigger is invoked
+      CREATE OR REPLACE FUNCTION trigger_on_insert_document_reaction()
+          RETURNS TRIGGER
+          LANGUAGE PLPGSQL AS $BODY$
+      declare r_id text;
+          declare blc integer;
+      BEGIN
+          -- increment the count of written documents
+          IF NEW IS NOT NULL THEN
+              r_id = NEW.reaction_id;
+          ELSE
+              r_id = OLD.reaction_id;
+          END IF;
+
+          SELECT balance INTO blc
+          FROM reaction
+          WHERE html_code = r_id;
+
+          IF NEW IS NOT NULL THEN
+              UPDATE "document"
+                  SET reaction_balance = reaction_balance + blc
+                  WHERE id = NEW.document_id;
+              UPDATE "user"
+                  SET balance_document_reaction = balance_document_reaction + blc
+                  WHERE auth_id = NEW.author_id;
+          ELSE
+              UPDATE "document"
+                  SET reaction_balance = reaction_balance - blc
+                  WHERE id = OLD.document_id;
+              UPDATE "user"
+                  SET balance_document_reaction = balance_document_reaction - blc
+                  WHERE auth_id = OLD.author_id;
+          END IF;
+
+          -- Return the NEW record so that update can carry on as usual
+          RETURN NEW;
+      END;
+      $BODY$;
+
+      drop trigger if exists trigger_add_document_reaction on document_reaction;
+      -- create the trigger
+      CREATE TRIGGER trigger_add_document_reaction
+          AFTER INSERT OR DELETE
+          ON document_reaction
+          FOR EACH ROW
+      EXECUTE PROCEDURE trigger_on_insert_document_reaction();
+  type: run_sql

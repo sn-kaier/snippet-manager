@@ -1,0 +1,24 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - allow_comments
+      - is_public
+      - author_id
+      - description
+      - title
+      - created_at
+      - updated_at
+      - id
+      filter:
+        _or:
+        - is_public:
+            _eq: true
+        - author_id:
+            _eq: X-Hasura-User-Id
+      limit: 100
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_select_permission

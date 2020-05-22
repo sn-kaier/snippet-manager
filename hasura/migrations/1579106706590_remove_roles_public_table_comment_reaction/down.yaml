@@ -1,0 +1,52 @@
+- args:
+    permission:
+      check:
+        comment:
+          document:
+            _or:
+            - author_id:
+                _eq: X-Hasura-User-Id
+            - is_public:
+                _eq: true
+      columns:
+      - comment_id
+      - reaction_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: comment_reaction
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - author_id
+      - comment_id
+      - created_at
+      - id
+      - reaction_id
+      computed_fields: []
+      filter: {}
+      limit: 500
+    role: user
+    table:
+      name: comment_reaction
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: comment_reaction
+      schema: public
+  type: create_delete_permission

@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "public"."follow"
+  type: run_sql

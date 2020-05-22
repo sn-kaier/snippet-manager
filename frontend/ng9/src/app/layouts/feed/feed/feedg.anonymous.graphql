@@ -1,0 +1,39 @@
+fragment AFeedDocAuthor on user {
+  imageUrl
+  name
+}
+
+fragment AFeedDocLabel on document_label {
+  label {
+    color {
+      color
+    }
+    label
+  }
+}
+
+fragment AFeedDoc on document {
+  author {
+    ...AFeedDocAuthor
+  }
+  updatedAt
+  reactionsGroup(limit: 10, order_by: {count: desc}) {
+    count
+    reactionId
+  }
+  countComments
+  allowComments
+  isPublic
+  labels(limit: 10) {
+    ...AFeedDocLabel
+  }
+  title
+  description
+  id
+}
+
+query AFeedDocs($limit: Int!, $offset: Int!) {
+  allDocuments(limit: $limit, offset: $offset) {
+    ...AFeedDoc
+  }
+}

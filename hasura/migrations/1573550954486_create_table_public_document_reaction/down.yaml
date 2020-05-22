@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "public"."document_reaction"
+  type: run_sql

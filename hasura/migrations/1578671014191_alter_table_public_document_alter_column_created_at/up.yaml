@@ -1,0 +1,21 @@
+- args:
+    sql: ALTER TABLE "public"."document" ALTER COLUMN "created_at" TYPE timestamptz;
+  type: run_sql
+- args:
+    custom_column_names:
+      created_at: createdAt
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: document
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document"."created_at" IS E''
+  type: run_sql

@@ -1,0 +1,8 @@
+- args:
+    sql: CREATE TABLE "public"."color"("id" serial NOT NULL, "name" text NOT NULL,
+      "color" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("name"), UNIQUE ("color"));
+  type: run_sql
+- args:
+    name: color
+    schema: public
+  type: add_existing_table_or_view

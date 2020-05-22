@@ -1,0 +1,6 @@
+- args:
+    sql: alter table "public"."reaction" drop constraint "reaction_pkey";
+  type: run_sql
+- sql: "alter table \"public\".\"reaction\"\n    add constraint \"reaction_pkey\"
+    \n    primary key ( \"id\" );"
+  type: run_sql

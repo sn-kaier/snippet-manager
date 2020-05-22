@@ -1,0 +1,15 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."document_reaction_group_persisted"("id" bigserial
+      NOT NULL, "document_id" uuid NOT NULL, "reaction_id" text NOT NULL, "count"
+      integer NOT NULL DEFAULT 1, PRIMARY KEY ("id") , FOREIGN KEY ("document_id")
+      REFERENCES "public"."document"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN
+      KEY ("reaction_id") REFERENCES "public"."reaction"("html_code") ON UPDATE cascade
+      ON DELETE cascade, UNIQUE ("document_id", "reaction_id")); COMMENT ON TABLE
+      "public"."document_reaction_group_persisted" IS E'persisted version of the document_reaction_group';
+  type: run_sql
+- args:
+    name: document_reaction_group_persisted
+    schema: public
+  type: add_existing_table_or_view

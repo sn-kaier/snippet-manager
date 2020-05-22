@@ -1,0 +1,23 @@
+- args:
+    sql: ALTER TABLE "public"."document_reaction" ALTER COLUMN "created_at" TYPE timestamptz;
+  type: run_sql
+- args:
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      document_id: documentId
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: document_reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document_reaction"."created_at" IS E''
+  type: run_sql

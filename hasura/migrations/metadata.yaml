@@ -1,0 +1,757 @@
+version: 2
+tables:
+- table:
+    schema: public
+    name: color
+  configuration:
+    custom_root_fields:
+      insert: addColor
+      select_by_pk: color
+      select: allColors
+      delete: removeColor
+      update: updateColor
+    custom_column_names: {}
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - color
+      - name
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - color
+      - name
+      filter: {}
+- table:
+    schema: public
+    name: comment
+  configuration:
+    custom_root_fields:
+      insert: addComment
+      select_by_pk: comment
+      select: allComments
+      delete: removeComment
+      update: updateComment
+    custom_column_names:
+      author_id: authorId
+      document_id: documentId
+      reaction_balance: reactionBalance
+      updated_at: updatedAt
+      created_at: createdAt
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id
+  array_relationships:
+  - name: reactionsGroup
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: comment_reactions_group
+        column_mapping:
+          id: commentid
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        document:
+          _and:
+          - _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+          - allow_comments:
+              _eq: true
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - comment
+      - document_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - author_id
+      - comment
+      - created_at
+      - document_id
+      - id
+      - reaction_balance
+      - updated_at
+      filter: {}
+      limit: 500
+  - role: user
+    permission:
+      columns:
+      - author_id
+      - comment
+      - created_at
+      - document_id
+      - id
+      - reaction_balance
+      - updated_at
+      filter: {}
+      limit: 1000
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - comment
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: comment_reaction
+  configuration:
+    custom_root_fields:
+      insert: addCommentReaction
+      select_by_pk: commentReaction
+      select: allCommentReactions
+      delete: removeCommentReaction
+      update: updateCommentReaction
+    custom_column_names:
+      author_id: authorId
+      comment_id: commentId
+      created_at: createdAt
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: comment
+    using:
+      foreign_key_constraint_on: comment_id
+  - name: reaction
+    using:
+      foreign_key_constraint_on: reaction_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        comment:
+          document:
+            _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - comment_id
+      - reaction_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - author_id
+      - comment_id
+      - created_at
+      - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - author_id
+      - comment_id
+      - created_at
+      - id
+      - reaction_id
+      filter: {}
+      limit: 1000
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: comment_reactions_group
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - count
+      - reactionid
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - count
+      - reactionid
+      filter: {}
+- table:
+    schema: public
+    name: document
+  configuration:
+    custom_root_fields:
+      insert: addDocument
+      select_by_pk: document
+      select: allDocuments
+      delete: removeDocument
+      update: updateDocument
+    custom_column_names:
+      author_id: authorId
+      reaction_balance: reactionBalance
+      allow_comments: allowComments
+      is_public: isPublic
+      count_comments: countComments
+      updated_at: updatedAt
+      created_at: createdAt
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: content
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: document_content
+        column_mapping:
+          id: document_id
+  array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: document_id
+        table:
+          schema: public
+          name: comment
+  - name: labels
+    using:
+      foreign_key_constraint_on:
+        column: document_id
+        table:
+          schema: public
+          name: document_label
+  - name: reactions
+    using:
+      foreign_key_constraint_on:
+        column: document_id
+        table:
+          schema: public
+          name: document_reaction
+  - name: reactionsGroup
+    using:
+      foreign_key_constraint_on:
+        column: document_id
+        table:
+          schema: public
+          name: document_reaction_group_persisted
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        author:
+          max_private_docs:
+            _cgt: count_private_docs
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - allow_comments
+      - description
+      - is_public
+      - title
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - allow_comments
+      - author_id
+      - count_comments
+      - created_at
+      - description
+      - id
+      - is_public
+      - reaction_balance
+      - title
+      - updated_at
+      filter:
+        is_public:
+          _eq: true
+      limit: 100
+  - role: user
+    permission:
+      columns:
+      - allow_comments
+      - author_id
+      - count_comments
+      - created_at
+      - description
+      - id
+      - is_public
+      - reaction_balance
+      - title
+      - updated_at
+      filter:
+        _or:
+        - is_public:
+            _eq: true
+        - author_id:
+            _eq: X-Hasura-User-Id
+      limit: 100
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - allow_comments
+      - description
+      - is_public
+      - title
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: document_content
+  configuration:
+    custom_root_fields:
+      insert: addDocumentContent
+      select_by_pk: documentContent
+      select: allDocumentContents
+      delete: removeDocumentContent
+      update: updateDocumentContent
+    custom_column_names:
+      document_id: documentId
+      updated_at: updatedAt
+  object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - content
+      - document_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - content
+      - updated_at
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - content
+      - updated_at
+      - document_id
+      - id
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - content
+      filter:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: public
+    name: document_label
+  configuration:
+    custom_root_fields:
+      insert: addDocumentLabel
+      select_by_pk: documentLabel
+      select: allDocumentLabels
+      delete: removeDocumentLabel
+      update: updateDocumentLabel
+    custom_column_names:
+      label_id: labelId
+      author_id: authorId
+      document_id: documentId
+      created_at: createdAt
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id
+  - name: label
+    using:
+      foreign_key_constraint_on: label_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - document_id
+      - label_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - label_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - author_id
+      - id
+      - label_id
+      filter: {}
+      limit: 500
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: document_reaction
+  configuration:
+    custom_root_fields:
+      insert: addDocumentReaction
+      select_by_pk: documentReactino
+      select: allDocumentReactions
+      delete: removeDocumentReaction
+      update: updateDocumentReaction
+    custom_column_names:
+      author_id: authorId
+      document_id: documentId
+      created_at: createdAt
+  object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id
+  - name: reaction
+    using:
+      foreign_key_constraint_on: reaction_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        document:
+          _and:
+          - allow_comments:
+              _eq: true
+          - _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - document_id
+      - reaction_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - author_id
+      - created_at
+      - document_id
+      - reaction_id
+      filter: {}
+      limit: 100
+  - role: user
+    permission:
+      columns:
+      - author_id
+      - created_at
+      - document_id
+      - id
+      - reaction_id
+      filter: {}
+      limit: 1000
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: document_reaction_group
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - count
+      - reaction_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - count
+      - reaction_id
+      filter: {}
+- table:
+    schema: public
+    name: document_reaction_group_persisted
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      document_id: documentId
+      reaction_id: reactionId
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - count
+      - reaction_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - count
+      - reaction_id
+      filter: {}
+- table:
+    schema: public
+    name: follow
+  configuration:
+    custom_root_fields:
+      insert: addFollow
+      select_by_pk: follow
+      select: allFollows
+      delete: removeFollow
+      update: updateFollow
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      following_id: followingId
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: following
+    using:
+      foreign_key_constraint_on: following_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - following_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - author_id
+      - following_id
+      - id
+      filter: {}
+      limit: 100
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: label
+  configuration:
+    custom_root_fields:
+      insert: addLabel
+      select_by_pk: label
+      select: allLabels
+      delete: removeLabel
+      update: updateLabel
+    custom_column_names:
+      author_id: authorId
+  object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: color
+    using:
+      foreign_key_constraint_on: color_name
+  array_relationships:
+  - name: document_labels
+    using:
+      foreign_key_constraint_on:
+        column: label_id
+        table:
+          schema: public
+          name: document_label
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+      - color_name
+      - label
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - color_name
+      - label
+      filter: {}
+      limit: 1000
+  - role: user
+    permission:
+      columns:
+      - author_id
+      - color_name
+      - id
+      - label
+      filter: {}
+      limit: 1000
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - color_name
+      - label
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: reaction
+  configuration:
+    custom_root_fields:
+      insert: addReaction
+      select_by_pk: reaction
+      select: allReactions
+      delete: removeReaction
+      update: updateReaction
+    custom_column_names:
+      html_code: htmlCode
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - html_code
+      - title
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - html_code
+      - title
+      filter: {}
+- table:
+    schema: public
+    name: user
+  configuration:
+    custom_root_fields:
+      insert: addUser
+      select_by_pk: user
+      select: allUsers
+      delete: removeUser
+      update: updateUser
+    custom_column_names:
+      count_written_comments: countWrittenComments
+      balance_comment_reaction: balanceCommentReaction
+      max_private_docs: maxPrivateDocs
+      auth_id: authId
+      image_url: imageUrl
+      updated_at: updatedAt
+      created_at: createdAt
+      count_private_docs: countPrivateDocs
+      balance_document_reaction: balanceDocumentReaction
+  array_relationships:
+  - name: document_labels
+    using:
+      foreign_key_constraint_on:
+        column: author_id
+        table:
+          schema: public
+          name: document_label
+  - name: documents
+    using:
+      foreign_key_constraint_on:
+        column: author_id
+        table:
+          schema: public
+          name: document
+  - name: followers
+    using:
+      foreign_key_constraint_on:
+        column: following_id
+        table:
+          schema: public
+          name: follow
+  - name: followings
+    using:
+      foreign_key_constraint_on:
+        column: author_id
+        table:
+          schema: public
+          name: follow
+  - name: labels
+    using:
+      foreign_key_constraint_on:
+        column: author_id
+        table:
+          schema: public
+          name: label
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - balance_document_reaction
+      - count_written_comments
+      - image_url
+      - name
+      filter: {}
+      limit: 500
+  - role: user
+    permission:
+      columns:
+      - auth_id
+      - balance_comment_reaction
+      - balance_document_reaction
+      - count_private_docs
+      - count_written_comments
+      - created_at
+      - id
+      - image_url
+      - max_private_docs
+      - name
+      filter: {}
+      limit: 500

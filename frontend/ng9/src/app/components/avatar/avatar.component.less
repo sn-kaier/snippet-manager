@@ -1,0 +1,29 @@
+@import "../../base-styles/colors";
+.avatar {
+  border-radius: 50%;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  width: 40px;
+  z-index: 0;
+  background: @color-manatee;
+  border: 1px solid @color-manatee;
+
+  cursor: pointer;
+  &:hover {
+    background: @color-ghost;
+    border-color: @color-ghost;
+  }
+
+  &:active {
+    background: @color-snow;
+    border-color: @color-snow;
+  }
+}
+
+.avatar-img {
+  width: 38px;
+  height: 38px;
+}

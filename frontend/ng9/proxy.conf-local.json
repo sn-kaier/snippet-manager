@@ -1,0 +1,10 @@
+{
+  "/hasura": {
+    "target": "http://localhost:8888/",
+    "pathRewrite": {
+      "^/hasura": ""
+    },
+    "secure": false,
+    "changeOrigin": true
+  }
+}

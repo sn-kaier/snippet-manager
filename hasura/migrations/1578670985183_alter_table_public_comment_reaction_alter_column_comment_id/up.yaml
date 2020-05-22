@@ -1,0 +1,21 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+      comment_id: commentId
+      created_at: createdAt
+      reaction_id: reactionId
+    custom_root_fields:
+      delete: removeCommentReaction
+      insert: addCommentReaction
+      select: allCommentReactions
+      select_aggregate: null
+      select_by_pk: commentReaction
+      update: updateCommentReaction
+    table:
+      name: comment_reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."comment_reaction"."comment_id" IS E''
+  type: run_sql

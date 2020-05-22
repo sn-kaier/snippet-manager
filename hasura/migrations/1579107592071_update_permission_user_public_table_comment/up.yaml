@@ -1,0 +1,33 @@
+- args:
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      check:
+        document:
+          _and:
+          - _or:
+            - is_public:
+                _eq: true
+            - author_id:
+                _eq: X-Hasura-User-Id
+          - allow_comments:
+              _eq: true
+      columns:
+      - comment
+      - document_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_insert_permission

@@ -1,0 +1,71 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - comment
+      - created_at
+      - updated_at
+      - author_id
+      - document_id
+      - id
+      computed_fields: []
+      filter: {}
+      limit: 500
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      check:
+        _or:
+        - author:
+            auth_id:
+              _eq: X-Hasura-User-Id
+        - document:
+            is_public:
+              _eq: true
+      columns:
+      - comment
+      - document_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      filter:
+        author:
+          auth_id:
+            _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_delete_permission
+- args:
+    permission:
+      columns:
+      - comment
+      filter:
+        author:
+          auth_id:
+            _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_update_permission

@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "create index comment_reaction_comment_id_index\n\ton comment_reaction (comment_id);"
+  type: run_sql

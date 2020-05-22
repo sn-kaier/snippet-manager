@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - count
+      - reaction_id
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: document_reaction_group_persisted
+      schema: public
+  type: create_select_permission

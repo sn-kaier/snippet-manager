@@ -1,0 +1,15 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - content
+      - updated_at
+      - document_id
+      - id
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: document_content
+      schema: public
+  type: create_select_permission

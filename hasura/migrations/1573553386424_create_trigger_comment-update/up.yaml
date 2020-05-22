@@ -1,0 +1,21 @@
+- args:
+    enable_manual: false
+    headers: []
+    name: comment-update
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    table:
+      name: comment
+      schema: public
+    update:
+      columns:
+      - comment
+      - created_at
+      - updated_at
+      - author_id
+      - document_id
+      - id
+    webhook: http://nest:3000/hooks/comment/update
+  type: create_event_trigger

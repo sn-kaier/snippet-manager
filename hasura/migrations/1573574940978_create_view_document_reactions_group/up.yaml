@@ -1,0 +1,13 @@
+- args:
+    cascade: false
+    sql: |+
+      CREATE VIEW document_reactions_group AS
+      SELECT reaction_id, document_id, count(id)
+      FROM document_reaction
+      GROUP BY document_id, reaction_id
+
+  type: run_sql
+- args:
+    name: document_reactions_group
+    schema: public
+  type: add_existing_table_or_view

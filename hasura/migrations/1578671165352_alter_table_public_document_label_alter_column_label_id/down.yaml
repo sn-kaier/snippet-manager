@@ -1,0 +1,17 @@
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: document_label
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document_label"."label_id" IS E'null'
+  type: run_sql

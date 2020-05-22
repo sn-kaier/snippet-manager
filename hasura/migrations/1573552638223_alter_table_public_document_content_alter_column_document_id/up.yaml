@@ -1,0 +1,7 @@
+- args:
+    sql: ALTER TABLE "public"."document_content" ADD CONSTRAINT "document_content_document_id_key"
+      UNIQUE ("document_id")
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."document_content"."document_id" IS E''
+  type: run_sql

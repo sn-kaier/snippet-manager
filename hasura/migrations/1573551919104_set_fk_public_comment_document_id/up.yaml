@@ -1,0 +1,6 @@
+- args:
+    sql: "\n           alter table \"public\".\"comment\"\n           add constraint
+      \"comment_document_id_fkey\" \n           foreign key (\"document_id\") \n           references
+      \"public\".\"document\"\n           (\"id\") on update restrict on delete cascade;\n
+      \     "
+  type: run_sql

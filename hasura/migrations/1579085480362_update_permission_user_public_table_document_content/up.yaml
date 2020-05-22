@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        document:
+          author_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - content
+      - document_id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: document_content
+      schema: public
+  type: create_insert_permission

@@ -1,0 +1,24 @@
+generates:
+  ./src/app/__generated/user-gql-services.ts:
+    schema: ./user-schema.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular
+    config:
+      preResolveTypes: true
+      declarationKind:
+        type: 'interface'
+        input: 'interface'
+    documents:
+      - ./src/**/*.user.graphql
+  ./src/app/__generated/anonymous-gql-services.ts:
+    schema: ./anonymous-schema.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular
+    config:
+      preResolveTypes: true
+    documents:
+      - ./src/**/*.anonymous.graphql

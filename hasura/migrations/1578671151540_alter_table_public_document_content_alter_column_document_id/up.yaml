@@ -1,0 +1,19 @@
+- args:
+    custom_column_names:
+      document_id: documentId
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: removeDocumentContent
+      insert: addDocumentContent
+      select: allDocumentContents
+      select_aggregate: null
+      select_by_pk: documentContent
+      update: updateDocumentContent
+    table:
+      name: document_content
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document_content"."document_id" IS E''
+  type: run_sql

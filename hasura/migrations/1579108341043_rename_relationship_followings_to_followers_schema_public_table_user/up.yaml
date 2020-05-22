@@ -1,0 +1,7 @@
+- args:
+    name: followings
+    new_name: followers
+    table:
+      name: user
+      schema: public
+  type: rename_relationship

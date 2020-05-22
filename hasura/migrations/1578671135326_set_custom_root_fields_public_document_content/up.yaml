@@ -1,0 +1,14 @@
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: removeDocumentContent
+      insert: addDocumentContent
+      select: allDocumentContents
+      select_aggregate: null
+      select_by_pk: documentContent
+      update: updateDocumentContent
+    table:
+      name: document_content
+      schema: public
+  type: set_table_custom_fields
+  version: 2

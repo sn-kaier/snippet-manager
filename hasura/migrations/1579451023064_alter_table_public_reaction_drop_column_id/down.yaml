@@ -1,0 +1,9 @@
+- args:
+    sql: ALTER TABLE "public"."reaction" ADD COLUMN "id" int4
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."reaction" ALTER COLUMN "id" DROP NOT NULL
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."reaction" ALTER COLUMN "id" SET DEFAULT nextval('reaction_id_seq'::regclass)
+  type: run_sql

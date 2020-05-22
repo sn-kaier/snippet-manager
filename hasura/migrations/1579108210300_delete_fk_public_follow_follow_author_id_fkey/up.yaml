@@ -1,0 +1,3 @@
+- args:
+    sql: alter table "public"."follow" drop constraint "follow_author_id_fkey";
+  type: run_sql

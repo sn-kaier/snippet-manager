@@ -1,0 +1,20 @@
+<div *ngIf="(authService.authState | async) as authState" class="scroll-ref" #ref>
+  <app-pick-emoji></app-pick-emoji>
+  <div class="col-xs-12" *ngIf="authState.state === 'in'; else anonymous">
+    <div class="row" *ngFor="let feedDoc of userFeed$ | async">
+      <div class="col-xs-12">
+        <app-feed-card [doc]="feedDoc"></app-feed-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #anonymous>
+    <div class="col-xs-12">
+      <div class="row" *ngFor="let feedDoc of anonymousFeed$ | async">
+        {{feedDoc.title}}
+        <br>
+        anonymous
+        <hr>
+      </div>
+    </div>
+  </ng-template>
+</div>

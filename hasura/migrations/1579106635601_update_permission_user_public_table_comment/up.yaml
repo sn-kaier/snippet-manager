@@ -1,0 +1,11 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns: []
+      filter: {}
+      limit: 1000
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_select_permission

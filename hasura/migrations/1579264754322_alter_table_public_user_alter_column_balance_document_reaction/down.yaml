@@ -1,0 +1,28 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "balance_document_reaction" TYPE
+      bigint;
+  type: run_sql
+- args:
+    custom_column_names:
+      auth_id: authId
+      count_private_docs: countPrivateDocs
+      count_written_comments: countWrittenComments
+      created_at: createdAt
+      image_url: imageUrl
+      max_private_docs: maxPrivateDocs
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: removeUser
+      insert: addUser
+      select: allUsers
+      select_aggregate: null
+      select_by_pk: user
+      update: updateUser
+    table:
+      name: user
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."user"."balance_document_reaction" IS E'null'
+  type: run_sql

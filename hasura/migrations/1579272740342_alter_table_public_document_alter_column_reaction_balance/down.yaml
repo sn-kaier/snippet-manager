@@ -1,0 +1,10 @@
+- args:
+    sql: ALTER TABLE "public"."document" ALTER COLUMN "reaction_balance" TYPE integer;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."document" ALTER COLUMN "reaction_balance" DROP NOT
+      NULL;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."document"."reaction_balance" IS E'null'
+  type: run_sql

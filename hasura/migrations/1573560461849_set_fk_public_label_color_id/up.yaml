@@ -1,0 +1,6 @@
+- args:
+    sql: "\n           alter table \"public\".\"label\"\n           add constraint
+      \"label_color_id_fkey\" \n           foreign key (\"color_id\") \n           references
+      \"public\".\"color\"\n           (\"id\") on update restrict on delete cascade;\n
+      \     "
+  type: run_sql

@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "create index comment_document_id_index\n\ton comment (document_id);"
+  type: run_sql

@@ -1,0 +1,11 @@
+- args:
+    sql: ALTER TABLE "public"."document_reaction" ADD COLUMN "reaction_id" int4
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."document_reaction" ALTER COLUMN "reaction_id" DROP
+      NOT NULL
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."document_reaction" ADD CONSTRAINT document_reaction_author_id_reaction_id_document_id_key
+      UNIQUE (author_id, reaction_id, document_id)
+  type: run_sql

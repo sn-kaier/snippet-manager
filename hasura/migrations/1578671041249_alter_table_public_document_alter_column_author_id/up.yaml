@@ -1,0 +1,22 @@
+- args:
+    custom_column_names:
+      allow_comments: allowComments
+      author_id: authorId
+      created_at: createdAt
+      is_public: isPublic
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: document
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document"."author_id" IS E''
+  type: run_sql

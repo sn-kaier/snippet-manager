@@ -1,0 +1,48 @@
+:host {
+  padding: 0 5px;
+  cursor: pointer;
+
+  &:hover {
+    .mouth {
+      transform: translate(-15px, 0px) scaleX(1.2);
+    }
+
+    .plus {
+      stroke-width: 18;
+      transform: scale(1.1) translate(-11px, -4px);
+      stroke: @highlight-color;
+    }
+  }
+}
+
+@base-color: #787878;
+@highlight-color: #444444;
+
+.left-eye {
+  fill: @base-color;
+}
+
+.right-eye {
+  fill: @base-color;
+}
+
+.circle {
+  fill: @base-color;
+}
+
+.mouth {
+  stroke-width: 8;
+}
+
+.fill-segment {
+  transition: all 0.1s ease;
+
+  fill: @base-color;
+}
+
+.stroke-segment {
+  transition: all 0.1s ease;
+
+  stroke: @base-color;
+  stroke-width: 8;
+}

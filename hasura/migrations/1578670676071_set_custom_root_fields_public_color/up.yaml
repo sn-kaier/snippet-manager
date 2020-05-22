@@ -1,0 +1,14 @@
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: removeColor
+      insert: addColor
+      select: allColors
+      select_aggregate: null
+      select_by_pk: color
+      update: updateColor
+    table:
+      name: color
+      schema: public
+  type: set_table_custom_fields
+  version: 2

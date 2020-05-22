@@ -1,0 +1,12 @@
+- args:
+    name: reactionsGroup
+    table:
+      name: comment
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: commentid
+        table:
+          name: comment_reactions_group
+          schema: public
+  type: create_array_relationship

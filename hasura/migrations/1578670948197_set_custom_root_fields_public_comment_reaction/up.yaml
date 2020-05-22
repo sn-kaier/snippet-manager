@@ -1,0 +1,14 @@
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: removeCommentReaction
+      insert: addCommentReaction
+      select: allCommentReactions
+      select_aggregate: null
+      select_by_pk: commentReaction
+      update: updateCommentReaction
+    table:
+      name: comment_reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2

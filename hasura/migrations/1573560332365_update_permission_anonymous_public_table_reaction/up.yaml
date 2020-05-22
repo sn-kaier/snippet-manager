@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - html_code
+      - title
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: reaction
+      schema: public
+  type: create_select_permission

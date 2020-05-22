@@ -1,0 +1,24 @@
+- args:
+    sql: ALTER TABLE "public"."comment" ALTER COLUMN "reaction_balance" TYPE integer;
+  type: run_sql
+- args:
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      document_id: documentId
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: removeComment
+      insert: addComment
+      select: allComments
+      select_aggregate: null
+      select_by_pk: comment
+      update: updateComment
+    table:
+      name: comment
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."comment"."reaction_balance" IS E'null'
+  type: run_sql

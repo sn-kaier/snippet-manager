@@ -1,0 +1,18 @@
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - following_id
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: follow
+      schema: public
+  type: create_insert_permission

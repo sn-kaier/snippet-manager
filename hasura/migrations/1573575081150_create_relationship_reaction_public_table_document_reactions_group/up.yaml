@@ -1,0 +1,13 @@
+- args:
+    name: reaction
+    table:
+      name: document_reactions_group
+      schema: public
+    using:
+      manual_configuration:
+        column_mapping:
+          reaction_id: id
+        remote_table:
+          name: reaction
+          schema: public
+  type: create_object_relationship

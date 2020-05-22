@@ -1,0 +1,3 @@
+- args:
+    sql: COMMENT ON COLUMN "public"."comment_reaction"."reaction_id" IS E''
+  type: run_sql

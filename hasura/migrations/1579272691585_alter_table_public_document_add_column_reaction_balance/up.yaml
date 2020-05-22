@@ -1,0 +1,4 @@
+- args:
+    sql: ALTER TABLE "public"."document" ADD COLUMN "reaction_balance" integer NULL
+      DEFAULT 0;
+  type: run_sql

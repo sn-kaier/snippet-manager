@@ -1,0 +1,19 @@
+- args:
+    custom_column_names:
+      document_id: documentId
+      label_id: labelId
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: document_label
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."document_label"."document_id" IS E''
+  type: run_sql

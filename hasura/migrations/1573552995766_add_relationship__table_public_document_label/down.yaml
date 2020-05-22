@@ -1,0 +1,6 @@
+- args:
+    relationship: document
+    table:
+      name: document_label
+      schema: public
+  type: drop_relationship

@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "create index document_reaction_group_persisted_document_id_index\n\ton document_reaction_group_persisted
+      (document_id);"
+  type: run_sql

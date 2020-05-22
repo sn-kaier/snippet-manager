@@ -1,0 +1,8 @@
+- args:
+    sql: CREATE TABLE "public"."reaction"("id" serial NOT NULL, "title" text NOT NULL,
+      "html_code" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("html_code"));
+  type: run_sql
+- args:
+    name: reaction
+    schema: public
+  type: add_existing_table_or_view

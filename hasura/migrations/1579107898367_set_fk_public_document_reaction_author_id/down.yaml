@@ -1,0 +1,4 @@
+- args:
+    sql: "\n          alter table \"public\".\"document_reaction\" drop constraint
+      \"document_reaction_author_id_fkey\"\n      "
+  type: run_sql

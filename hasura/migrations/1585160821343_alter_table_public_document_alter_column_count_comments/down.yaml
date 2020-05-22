@@ -1,0 +1,24 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."document" ALTER COLUMN "count_comments" TYPE integer;
+  type: run_sql
+- args:
+    custom_column_names:
+      allow_comments: allowComments
+      author_id: authorId
+      created_at: createdAt
+      is_public: isPublic
+      reaction_balance: reactionBalance
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: removeDocument
+      insert: addDocument
+      select: allDocuments
+      select_by_pk: document
+      update: updateDocument
+    table:
+      name: document
+      schema: public
+  type: set_table_custom_fields
+  version: 2

@@ -1,0 +1,28 @@
+- args:
+    role: user
+    table:
+      name: user
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - auth_id
+      - balance_comment_reaction
+      - balance_document_reaction
+      - count_private_docs
+      - count_written_comments
+      - created_at
+      - id
+      - image_url
+      - max_private_docs
+      - name
+      computed_fields: []
+      filter: {}
+      limit: 500
+    role: user
+    table:
+      name: user
+      schema: public
+  type: create_select_permission

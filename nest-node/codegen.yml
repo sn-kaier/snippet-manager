@@ -1,0 +1,11 @@
+schema:
+  - http://127.0.0.1:8080/v1/graphql:
+      headers:
+        "x-hasura-admin-secret": "hAdminsura"
+documents:
+  - ./src/**/*.ts
+generates:
+  ./src/__generated/types.d.ts:
+    plugins:
+      - typescript
+

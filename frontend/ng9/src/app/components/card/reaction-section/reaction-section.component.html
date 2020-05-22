@@ -1,0 +1,20 @@
+<div class="row">
+  <app-reaction-badge [reactionId]="thumbsUpId" [count]="countThumbsUp" [isSelected]="isThumbsUpSelected" [docId]="doc.id"
+                      (clickReaction)="clickReaction($event)"
+  ></app-reaction-badge>
+
+  <app-reaction-badge class="mrs" [reactionId]="thumbsDownId" [count]="countThumbsDown" [isSelected]="isThumbsDownSelected" [docId]="doc.id"
+                      (clickReaction)="clickReaction($event)"
+  ></app-reaction-badge>
+
+  <app-reaction-badge *ngFor="let reaction of filteredReactionsGroup"
+                      [count]="reaction.count"
+                      [reactionId]="reaction.reactionId"
+                      [docId]="doc.id"
+                      [isSelected]="isSelected(reaction.reactionId)"
+                      (clickReaction)="clickReaction($event)"
+  ></app-reaction-badge>
+
+  <app-add-reaction-button (click)="openEmojiPicker()"></app-add-reaction-button>
+
+</div>

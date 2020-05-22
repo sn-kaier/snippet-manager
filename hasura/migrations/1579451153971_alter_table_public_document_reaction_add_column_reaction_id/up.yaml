@@ -1,0 +1,4 @@
+- args:
+    sql: ALTER TABLE "public"."document_reaction" ADD COLUMN "reaction_id" text NOT
+      NULL;
+  type: run_sql

@@ -1,0 +1,11 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "balance_document_reaction" TYPE
+      bigint;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "balance_document_reaction" DROP
+      NOT NULL;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."user"."balance_document_reaction" IS E'null'
+  type: run_sql

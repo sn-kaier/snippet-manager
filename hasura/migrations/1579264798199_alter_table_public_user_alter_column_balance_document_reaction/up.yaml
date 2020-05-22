@@ -1,0 +1,11 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "balance_document_reaction" TYPE
+      int8;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "balance_document_reaction" SET
+      NOT NULL;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."user"."balance_document_reaction" IS E''
+  type: run_sql

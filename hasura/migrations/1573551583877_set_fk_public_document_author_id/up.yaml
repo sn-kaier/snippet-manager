@@ -1,0 +1,6 @@
+- args:
+    sql: "\n           alter table \"public\".\"document\"\n           add constraint
+      \"document_author_id_fkey\" \n           foreign key (\"author_id\") \n           references
+      \"public\".\"user\"\n           (\"id\") on update set null on delete cascade;\n
+      \     "
+  type: run_sql

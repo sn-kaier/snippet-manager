@@ -1,0 +1,17 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - author_id
+      - comment
+      - created_at
+      - document_id
+      - id
+      - updated_at
+      filter: {}
+      limit: 500
+    role: anonymous
+    table:
+      name: comment
+      schema: public
+  type: create_select_permission

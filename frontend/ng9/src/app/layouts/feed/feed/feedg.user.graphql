@@ -1,0 +1,82 @@
+fragment UFeedDocAuthor on user {
+  authId
+  imageUrl
+  name
+  followers(where: {authorId: {_eq: $authorId}}) {
+    id
+  }
+}
+
+fragment UFeedDocLabel on document_label {
+  label {
+    label
+    color {
+      color
+    }
+  }
+}
+
+fragment UFeedDocReactionGroup on document_reaction_group_persisted {
+  count
+  reactionId
+}
+
+fragment UFeedDocReaction on document_reaction {
+  reaction_id
+  id
+}
+
+fragment UFeedDoc on document {
+  author {
+    ...UFeedDocAuthor
+  }
+  updatedAt
+  reactionsGroup(limit: 10, order_by: {count: desc}) {
+    ...UFeedDocReactionGroup
+  }
+  countComments
+  allowComments
+  isPublic
+  labels(limit: 10) {
+    ...UFeedDocLabel
+  }
+  title
+  description
+  id
+  reactions(where: {authorId: {_eq: $authorId}}) {
+    ...UFeedDocReaction
+  }
+}
+
+query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!) {
+  allDocuments(limit: $limit, offset: $offset, order_by: {id: asc}) {
+    ...UFeedDoc
+  }
+}
+
+mutation UAddDocumentReaction($documentReaction: document_reaction_insert_input!) {
+  addDocumentReaction(objects: [$documentReaction]) {
+    returning {
+      reaction_id
+      documentId
+    }
+  }
+}
+
+mutation UAddCommentReaction($commentReaction: comment_reaction_insert_input!) {
+  addCommentReaction(objects: [$commentReaction]) {
+    returning {
+      reaction_id
+      commentId
+    }
+  }
+}
+
+mutation URemoveDocumentReaction($reactionId: String!, $documentId: uuid!) {
+  removeDocumentReaction(where: {documentId: {_eq: $documentId}, reaction_id: {_eq: $reactionId}}) {affected_rows}
+}
+
+
+mutation URemoveCommentReaction($reactionId: String!, $commentId: uuid!) {
+  removeCommentReaction(where: {commentId: {_eq: $commentId}, reaction_id: {_eq: $reactionId}}) {affected_rows}
+}

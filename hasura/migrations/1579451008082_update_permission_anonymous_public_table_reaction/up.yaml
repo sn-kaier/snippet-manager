@@ -1,0 +1,19 @@
+- args:
+    role: anonymous
+    table:
+      name: reaction
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - html_code
+      - title
+      computed_fields: []
+      filter: {}
+    role: anonymous
+    table:
+      name: reaction
+      schema: public
+  type: create_select_permission

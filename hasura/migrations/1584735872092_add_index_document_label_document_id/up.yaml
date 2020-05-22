@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "create index document_label_document_id_index\n\ton document_label (document_id);"
+  type: run_sql

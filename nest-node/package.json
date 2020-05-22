@@ -1,0 +1,83 @@
+{
+  "name": "nest-node",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:seed": "curl 127.0.0.1:4321/startSeed",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug",
+    "start:prod": "node dist/main",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm:generate": "typeorm-model-generator --cf param -h 127.0.0.1 -d postgres -u postgres -e postgres -x U3JP2qFaNE2Wa6zg -o ./src/database/__generated_entities/ -s public --noConfig",
+    "gql:generate": "graphql-codegen"
+  },
+  "dependencies": {
+    "@nestjs/common": "^7.0.0",
+    "@nestjs/config": "0.0.9",
+    "@nestjs/core": "^7.0.0",
+    "@nestjs/platform-express": "^7.0.0",
+    "change-case": "^4.1.1",
+    "graphql-request": "^1.8.2",
+    "haikunator": "^2.1.2",
+    "lorem-ipsum": "^2.0.3",
+    "pg": "^7.14.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^6.5.4",
+    "typeorm": "^0.2.20",
+    "typeorm-model-generator": "^0.4.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "~1.13.5",
+    "@graphql-codegen/typescript": "~1.13.5",
+    "@types/uuid": "^3.4.6",
+    "graphql": "^14.5.8",
+    "@nestjs/cli": "^7.0.0",
+    "@nestjs/schematics": "^7.0.0",
+    "@nestjs/testing": "^7.0.0",
+    "@types/express": "^4.17.3",
+    "@types/jest": "25.1.4",
+    "@types/node": "^13.9.1",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "25.2.1",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.7.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts",
+      "d.ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
+  }
+}

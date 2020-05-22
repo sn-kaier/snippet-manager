@@ -1,0 +1,22 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "max_private_docs" TYPE int4;
+  type: run_sql
+- args:
+    custom_column_names:
+      auth_id: authId
+      created_at: createdAt
+      image_url: imageUrl
+      max_private_docs: maxPrivateDocs
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: user
+      schema: public
+  type: set_table_custom_fields
+  version: 2

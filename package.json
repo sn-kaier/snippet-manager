@@ -1,0 +1,28 @@
+{
+  "name": "snippet-manager",
+  "version": "1.0.0",
+  "description": "snippet manager root directory mainly for hasura installation",
+  "main": "index.js",
+  "scripts": {
+    "hasura:console": "cd hasura && hasura console && cd ..",
+    "hasura-prod:console": "cd hasura-prod && hasura console && cd ..",
+    "hasura:apply-schema": "cd hasura && hasura migrate apply && cd ..",
+    "hasura-prod:apply-schema": "cd hasura-prod && hasura migrate apply && cd ..",
+    "hasura:start": "docker-compose up -d",
+    "hasura:stop": "docker-compose down",
+    "hasura": "hasura"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sn-kaier/snippet-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sn-kaier/snippet-manager/issues"
+  },
+  "homepage": "https://github.com/sn-kaier/snippet-manager#readme",
+  "devDependencies": {
+    "hasura-cli": "1.2.1"
+  }
+}

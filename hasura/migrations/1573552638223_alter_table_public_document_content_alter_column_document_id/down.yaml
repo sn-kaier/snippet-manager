@@ -1,0 +1,6 @@
+- args:
+    sql: ALTER TABLE "public"."document_content" DROP CONSTRAINT "document_content_document_id_key"
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."document_content"."document_id" IS E'null'
+  type: run_sql

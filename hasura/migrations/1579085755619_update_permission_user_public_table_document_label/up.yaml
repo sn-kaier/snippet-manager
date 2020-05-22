@@ -1,0 +1,16 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - created_at
+      - author_id
+      - document_id
+      - id
+      - label_id
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: document_label
+      schema: public
+  type: create_select_permission

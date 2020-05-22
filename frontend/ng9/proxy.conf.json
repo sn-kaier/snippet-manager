@@ -1,0 +1,6 @@
+{
+  "/hasura": {
+    "target": "https://www.snippeter.net/",
+    "changeOrigin": true
+  }
+}

@@ -1,0 +1,13 @@
+- args:
+    name: content
+    table:
+      name: document
+      schema: public
+    using:
+      manual_configuration:
+        column_mapping:
+          id: document_id
+        remote_table:
+          name: document_content
+          schema: public
+  type: create_object_relationship

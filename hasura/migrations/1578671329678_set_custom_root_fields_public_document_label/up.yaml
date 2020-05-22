@@ -1,0 +1,18 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      document_id: documentId
+      label_id: labelId
+    custom_root_fields:
+      delete: removeDocumentLabel
+      insert: addDocumentLabel
+      select: allDocumentLabels
+      select_aggregate: null
+      select_by_pk: documentLabel
+      update: updateDocumentLabel
+    table:
+      name: document_label
+      schema: public
+  type: set_table_custom_fields
+  version: 2

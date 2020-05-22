@@ -1,0 +1,13 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - count
+      - reactionid
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: comment_reactions_group
+      schema: public
+  type: create_select_permission

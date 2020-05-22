@@ -1,0 +1,23 @@
+- args:
+    sql: ALTER TABLE "public"."user" ALTER COLUMN "updated_at" TYPE timestamptz;
+  type: run_sql
+- args:
+    custom_column_names:
+      auth_id: authId
+      created_at: createdAt
+      updated_at: updatedAt
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: user
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."user"."updated_at" IS E''
+  type: run_sql

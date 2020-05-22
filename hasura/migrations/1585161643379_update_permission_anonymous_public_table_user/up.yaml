@@ -1,0 +1,16 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - balance_document_reaction
+      - count_written_comments
+      - image_url
+      - name
+      computed_fields: []
+      filter: {}
+      limit: 500
+    role: anonymous
+    table:
+      name: user
+      schema: public
+  type: create_select_permission

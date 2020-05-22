@@ -1,0 +1,7 @@
+- args:
+    sql: ALTER TABLE "public"."reaction" ALTER COLUMN "balance" TYPE int4;
+  type: run_sql
+- args:
+    sql: 'COMMENT ON COLUMN "public"."reaction"."balance" IS E''Indicator of this
+      is a positive or negative reaction. Range: -100 to 100'''
+  type: run_sql

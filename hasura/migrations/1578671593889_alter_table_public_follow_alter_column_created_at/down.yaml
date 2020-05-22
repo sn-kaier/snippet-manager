@@ -1,0 +1,21 @@
+- args:
+    sql: ALTER TABLE "public"."follow" ALTER COLUMN "created_at" TYPE timestamp with
+      time zone;
+  type: run_sql
+- args:
+    custom_column_names: {}
+    custom_root_fields:
+      delete: null
+      insert: null
+      select: null
+      select_aggregate: null
+      select_by_pk: null
+      update: null
+    table:
+      name: follow
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."follow"."created_at" IS E'null'
+  type: run_sql

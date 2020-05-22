@@ -1,0 +1,15 @@
+- args:
+    permission:
+      columns: []
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_update_permission

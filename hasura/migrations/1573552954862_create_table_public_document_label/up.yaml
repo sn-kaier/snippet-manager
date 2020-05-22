@@ -1,0 +1,16 @@
+- args:
+    sql: CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  type: run_sql
+- args:
+    sql: CREATE TABLE "public"."document_label"("id" uuid NOT NULL DEFAULT gen_random_uuid(),
+      "label_id" uuid NOT NULL, "document_id" uuid NOT NULL, "created_at" timestamptz
+      NOT NULL DEFAULT now(), "author_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN
+      KEY ("author_id") REFERENCES "public"."user"("id") ON UPDATE restrict ON DELETE
+      cascade, FOREIGN KEY ("label_id") REFERENCES "public"."label"("id") ON UPDATE
+      restrict ON DELETE cascade, FOREIGN KEY ("document_id") REFERENCES "public"."document"("id")
+      ON UPDATE restrict ON DELETE cascade);
+  type: run_sql
+- args:
+    name: document_label
+    schema: public
+  type: add_existing_table_or_view

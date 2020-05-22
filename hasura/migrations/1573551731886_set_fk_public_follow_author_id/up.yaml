@@ -1,0 +1,6 @@
+- args:
+    sql: "\n           alter table \"public\".\"follow\"\n           add constraint
+      \"follow_author_id_fkey\" \n           foreign key (\"author_id\") \n           references
+      \"public\".\"user\"\n           (\"id\") on update restrict on delete cascade;\n
+      \     "
+  type: run_sql

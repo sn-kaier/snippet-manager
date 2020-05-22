@@ -1,0 +1,12 @@
+- args:
+    name: document_labels
+    table:
+      name: user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: author_id
+        table:
+          name: document_label
+          schema: public
+  type: create_array_relationship

@@ -1,0 +1,6 @@
+- args:
+    sql: alter table "public"."color" drop constraint "color_pkey";
+  type: run_sql
+- sql: "alter table \"public\".\"color\"\n    add constraint \"color_pkey\" \n    primary
+    key ( \"id\" );"
+  type: run_sql

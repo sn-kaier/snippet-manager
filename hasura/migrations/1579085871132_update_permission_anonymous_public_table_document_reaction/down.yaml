@@ -1,0 +1,25 @@
+- args:
+    role: anonymous
+    table:
+      name: document_reaction
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - author_id
+      - created_at
+      - document_id
+      - reaction_id
+      computed_fields: []
+      filter:
+        document:
+          is_public:
+            _eq: true
+      limit: 10
+    role: anonymous
+    table:
+      name: document_reaction
+      schema: public
+  type: create_select_permission

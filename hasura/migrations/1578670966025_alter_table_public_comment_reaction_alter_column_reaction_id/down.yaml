@@ -1,0 +1,21 @@
+- args:
+    sql: ALTER TABLE "public"."comment_reaction" ALTER COLUMN "reaction_id" TYPE integer;
+  type: run_sql
+- args:
+    custom_column_names:
+      created_at: createdAt
+    custom_root_fields:
+      delete: removeCommentReaction
+      insert: addCommentReaction
+      select: allCommentReactions
+      select_aggregate: null
+      select_by_pk: commentReaction
+      update: updateCommentReaction
+    table:
+      name: comment_reaction
+      schema: public
+  type: set_table_custom_fields
+  version: 2
+- args:
+    sql: COMMENT ON COLUMN "public"."comment_reaction"."reaction_id" IS E'null'
+  type: run_sql

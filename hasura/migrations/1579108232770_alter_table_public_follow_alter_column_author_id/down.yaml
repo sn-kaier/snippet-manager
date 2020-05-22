@@ -1,0 +1,6 @@
+- args:
+    sql: ALTER TABLE "public"."follow" ALTER COLUMN "author_id" TYPE uuid;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."follow"."author_id" IS E'null'
+  type: run_sql

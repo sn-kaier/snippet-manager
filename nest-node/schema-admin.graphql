@@ -1,0 +1,4814 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: query_root
+    mutation: mutation_root
+    subscription: subscription_root
+}
+
+type SampleOutput {
+    accessToken: String!
+}
+
+"columns and relationships of \"color\""
+type color {
+    color: String!
+    name: String!
+}
+
+"aggregated selection of \"color\""
+type color_aggregate {
+    aggregate: color_aggregate_fields
+    nodes: [color!]!
+}
+
+"aggregate fields of \"color\""
+type color_aggregate_fields {
+    count(columns: [color_select_column!], distinct: Boolean): Int
+    max: color_max_fields
+    min: color_min_fields
+}
+
+"aggregate max on columns"
+type color_max_fields {
+    color: String
+    name: String
+}
+
+"aggregate min on columns"
+type color_min_fields {
+    color: String
+    name: String
+}
+
+"response of any mutation on the table \"color\""
+type color_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [color!]!
+}
+
+"columns and relationships of \"comment\""
+type comment {
+    "An object relationship"
+    author: user!
+    authorId: String!
+    comment: String!
+    createdAt: timestamptz!
+    "An object relationship"
+    document: document!
+    documentId: uuid!
+    id: uuid!
+    reactionBalance: Int!
+    "An array relationship"
+    reactionsGroup(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): [comment_reactions_group!]!
+    "An aggregated array relationship"
+    reactionsGroup_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): comment_reactions_group_aggregate!
+    updatedAt: timestamptz!
+}
+
+"aggregated selection of \"comment\""
+type comment_aggregate {
+    aggregate: comment_aggregate_fields
+    nodes: [comment!]!
+}
+
+"aggregate fields of \"comment\""
+type comment_aggregate_fields {
+    avg: comment_avg_fields
+    count(columns: [comment_select_column!], distinct: Boolean): Int
+    max: comment_max_fields
+    min: comment_min_fields
+    stddev: comment_stddev_fields
+    stddev_pop: comment_stddev_pop_fields
+    stddev_samp: comment_stddev_samp_fields
+    sum: comment_sum_fields
+    var_pop: comment_var_pop_fields
+    var_samp: comment_var_samp_fields
+    variance: comment_variance_fields
+}
+
+"aggregate avg on columns"
+type comment_avg_fields {
+    reactionBalance: Float
+}
+
+"aggregate max on columns"
+type comment_max_fields {
+    authorId: String
+    comment: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reactionBalance: Int
+    updatedAt: timestamptz
+}
+
+"aggregate min on columns"
+type comment_min_fields {
+    authorId: String
+    comment: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reactionBalance: Int
+    updatedAt: timestamptz
+}
+
+"response of any mutation on the table \"comment\""
+type comment_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [comment!]!
+}
+
+"columns and relationships of \"comment_reaction\""
+type comment_reaction {
+    "An object relationship"
+    author: user!
+    authorId: String!
+    "An object relationship"
+    comment: comment!
+    commentId: uuid!
+    createdAt: timestamptz!
+    id: uuid!
+    "An object relationship"
+    reaction: reaction!
+    reaction_id: String!
+}
+
+"aggregated selection of \"comment_reaction\""
+type comment_reaction_aggregate {
+    aggregate: comment_reaction_aggregate_fields
+    nodes: [comment_reaction!]!
+}
+
+"aggregate fields of \"comment_reaction\""
+type comment_reaction_aggregate_fields {
+    count(columns: [comment_reaction_select_column!], distinct: Boolean): Int
+    max: comment_reaction_max_fields
+    min: comment_reaction_min_fields
+}
+
+"aggregate max on columns"
+type comment_reaction_max_fields {
+    authorId: String
+    commentId: uuid
+    createdAt: timestamptz
+    id: uuid
+    reaction_id: String
+}
+
+"aggregate min on columns"
+type comment_reaction_min_fields {
+    authorId: String
+    commentId: uuid
+    createdAt: timestamptz
+    id: uuid
+    reaction_id: String
+}
+
+"response of any mutation on the table \"comment_reaction\""
+type comment_reaction_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [comment_reaction!]!
+}
+
+"columns and relationships of \"comment_reactions_group\""
+type comment_reactions_group {
+    commentid: uuid
+    count: bigint
+    reactionid: String
+}
+
+"aggregated selection of \"comment_reactions_group\""
+type comment_reactions_group_aggregate {
+    aggregate: comment_reactions_group_aggregate_fields
+    nodes: [comment_reactions_group!]!
+}
+
+"aggregate fields of \"comment_reactions_group\""
+type comment_reactions_group_aggregate_fields {
+    avg: comment_reactions_group_avg_fields
+    count(columns: [comment_reactions_group_select_column!], distinct: Boolean): Int
+    max: comment_reactions_group_max_fields
+    min: comment_reactions_group_min_fields
+    stddev: comment_reactions_group_stddev_fields
+    stddev_pop: comment_reactions_group_stddev_pop_fields
+    stddev_samp: comment_reactions_group_stddev_samp_fields
+    sum: comment_reactions_group_sum_fields
+    var_pop: comment_reactions_group_var_pop_fields
+    var_samp: comment_reactions_group_var_samp_fields
+    variance: comment_reactions_group_variance_fields
+}
+
+"aggregate avg on columns"
+type comment_reactions_group_avg_fields {
+    count: Float
+}
+
+"aggregate max on columns"
+type comment_reactions_group_max_fields {
+    commentid: uuid
+    count: bigint
+    reactionid: String
+}
+
+"aggregate min on columns"
+type comment_reactions_group_min_fields {
+    commentid: uuid
+    count: bigint
+    reactionid: String
+}
+
+"aggregate stddev on columns"
+type comment_reactions_group_stddev_fields {
+    count: Float
+}
+
+"aggregate stddev_pop on columns"
+type comment_reactions_group_stddev_pop_fields {
+    count: Float
+}
+
+"aggregate stddev_samp on columns"
+type comment_reactions_group_stddev_samp_fields {
+    count: Float
+}
+
+"aggregate sum on columns"
+type comment_reactions_group_sum_fields {
+    count: bigint
+}
+
+"aggregate var_pop on columns"
+type comment_reactions_group_var_pop_fields {
+    count: Float
+}
+
+"aggregate var_samp on columns"
+type comment_reactions_group_var_samp_fields {
+    count: Float
+}
+
+"aggregate variance on columns"
+type comment_reactions_group_variance_fields {
+    count: Float
+}
+
+"aggregate stddev on columns"
+type comment_stddev_fields {
+    reactionBalance: Float
+}
+
+"aggregate stddev_pop on columns"
+type comment_stddev_pop_fields {
+    reactionBalance: Float
+}
+
+"aggregate stddev_samp on columns"
+type comment_stddev_samp_fields {
+    reactionBalance: Float
+}
+
+"aggregate sum on columns"
+type comment_sum_fields {
+    reactionBalance: Int
+}
+
+"aggregate var_pop on columns"
+type comment_var_pop_fields {
+    reactionBalance: Float
+}
+
+"aggregate var_samp on columns"
+type comment_var_samp_fields {
+    reactionBalance: Float
+}
+
+"aggregate variance on columns"
+type comment_variance_fields {
+    reactionBalance: Float
+}
+
+"columns and relationships of \"document\""
+type document {
+    allowComments: Boolean!
+    "An object relationship"
+    author: user!
+    authorId: String!
+    "An array relationship"
+    comments(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): [comment!]!
+    "An aggregated array relationship"
+    comments_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): comment_aggregate!
+    "An object relationship"
+    content: document_content
+    countComments: Int!
+    createdAt: timestamptz!
+    description: String!
+    id: uuid!
+    isPublic: Boolean!
+    "An array relationship"
+    labels(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): [document_label!]!
+    "An aggregated array relationship"
+    labels_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): document_label_aggregate!
+    reactionBalance: Int!
+    "An array relationship"
+    reactions(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): [document_reaction!]!
+    "An array relationship"
+    reactionsGroup(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): [document_reaction_group_persisted!]!
+    "An aggregated array relationship"
+    reactionsGroup_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): document_reaction_group_persisted_aggregate!
+    "An aggregated array relationship"
+    reactions_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): document_reaction_aggregate!
+    title: String!
+    updatedAt: timestamptz!
+}
+
+"aggregated selection of \"document\""
+type document_aggregate {
+    aggregate: document_aggregate_fields
+    nodes: [document!]!
+}
+
+"aggregate fields of \"document\""
+type document_aggregate_fields {
+    avg: document_avg_fields
+    count(columns: [document_select_column!], distinct: Boolean): Int
+    max: document_max_fields
+    min: document_min_fields
+    stddev: document_stddev_fields
+    stddev_pop: document_stddev_pop_fields
+    stddev_samp: document_stddev_samp_fields
+    sum: document_sum_fields
+    var_pop: document_var_pop_fields
+    var_samp: document_var_samp_fields
+    variance: document_variance_fields
+}
+
+"aggregate avg on columns"
+type document_avg_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"columns and relationships of \"document_content\""
+type document_content {
+    content: String!
+    "An object relationship"
+    document: document!
+    documentId: uuid!
+    id: uuid!
+    updatedAt: timestamptz!
+}
+
+"aggregated selection of \"document_content\""
+type document_content_aggregate {
+    aggregate: document_content_aggregate_fields
+    nodes: [document_content!]!
+}
+
+"aggregate fields of \"document_content\""
+type document_content_aggregate_fields {
+    count(columns: [document_content_select_column!], distinct: Boolean): Int
+    max: document_content_max_fields
+    min: document_content_min_fields
+}
+
+"aggregate max on columns"
+type document_content_max_fields {
+    content: String
+    documentId: uuid
+    id: uuid
+    updatedAt: timestamptz
+}
+
+"aggregate min on columns"
+type document_content_min_fields {
+    content: String
+    documentId: uuid
+    id: uuid
+    updatedAt: timestamptz
+}
+
+"response of any mutation on the table \"document_content\""
+type document_content_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [document_content!]!
+}
+
+"columns and relationships of \"document_label\""
+type document_label {
+    "An object relationship"
+    author: user!
+    authorId: String!
+    createdAt: timestamptz!
+    "An object relationship"
+    document: document!
+    documentId: uuid!
+    id: uuid!
+    "An object relationship"
+    label: label!
+    labelId: uuid!
+}
+
+"aggregated selection of \"document_label\""
+type document_label_aggregate {
+    aggregate: document_label_aggregate_fields
+    nodes: [document_label!]!
+}
+
+"aggregate fields of \"document_label\""
+type document_label_aggregate_fields {
+    count(columns: [document_label_select_column!], distinct: Boolean): Int
+    max: document_label_max_fields
+    min: document_label_min_fields
+}
+
+"aggregate max on columns"
+type document_label_max_fields {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    labelId: uuid
+}
+
+"aggregate min on columns"
+type document_label_min_fields {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    labelId: uuid
+}
+
+"response of any mutation on the table \"document_label\""
+type document_label_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [document_label!]!
+}
+
+"aggregate max on columns"
+type document_max_fields {
+    authorId: String
+    countComments: Int
+    createdAt: timestamptz
+    description: String
+    id: uuid
+    reactionBalance: Int
+    title: String
+    updatedAt: timestamptz
+}
+
+"aggregate min on columns"
+type document_min_fields {
+    authorId: String
+    countComments: Int
+    createdAt: timestamptz
+    description: String
+    id: uuid
+    reactionBalance: Int
+    title: String
+    updatedAt: timestamptz
+}
+
+"response of any mutation on the table \"document\""
+type document_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [document!]!
+}
+
+"columns and relationships of \"document_reaction\""
+type document_reaction {
+    authorId: String!
+    createdAt: timestamptz!
+    "An object relationship"
+    document: document!
+    documentId: uuid!
+    id: uuid!
+    "An object relationship"
+    reaction: reaction!
+    reaction_id: String!
+}
+
+"aggregated selection of \"document_reaction\""
+type document_reaction_aggregate {
+    aggregate: document_reaction_aggregate_fields
+    nodes: [document_reaction!]!
+}
+
+"aggregate fields of \"document_reaction\""
+type document_reaction_aggregate_fields {
+    count(columns: [document_reaction_select_column!], distinct: Boolean): Int
+    max: document_reaction_max_fields
+    min: document_reaction_min_fields
+}
+
+"columns and relationships of \"document_reaction_group\""
+type document_reaction_group {
+    count: bigint
+    document_id: uuid
+    reaction_id: String
+}
+
+"aggregated selection of \"document_reaction_group\""
+type document_reaction_group_aggregate {
+    aggregate: document_reaction_group_aggregate_fields
+    nodes: [document_reaction_group!]!
+}
+
+"aggregate fields of \"document_reaction_group\""
+type document_reaction_group_aggregate_fields {
+    avg: document_reaction_group_avg_fields
+    count(columns: [document_reaction_group_select_column!], distinct: Boolean): Int
+    max: document_reaction_group_max_fields
+    min: document_reaction_group_min_fields
+    stddev: document_reaction_group_stddev_fields
+    stddev_pop: document_reaction_group_stddev_pop_fields
+    stddev_samp: document_reaction_group_stddev_samp_fields
+    sum: document_reaction_group_sum_fields
+    var_pop: document_reaction_group_var_pop_fields
+    var_samp: document_reaction_group_var_samp_fields
+    variance: document_reaction_group_variance_fields
+}
+
+"aggregate avg on columns"
+type document_reaction_group_avg_fields {
+    count: Float
+}
+
+"aggregate max on columns"
+type document_reaction_group_max_fields {
+    count: bigint
+    document_id: uuid
+    reaction_id: String
+}
+
+"aggregate min on columns"
+type document_reaction_group_min_fields {
+    count: bigint
+    document_id: uuid
+    reaction_id: String
+}
+
+"""
+
+persisted version of the document_reaction_group
+
+
+columns and relationships of \"document_reaction_group_persisted\"
+"""
+type document_reaction_group_persisted {
+    count: Int!
+    documentId: uuid!
+    id: bigint!
+    reactionId: String!
+}
+
+"aggregated selection of \"document_reaction_group_persisted\""
+type document_reaction_group_persisted_aggregate {
+    aggregate: document_reaction_group_persisted_aggregate_fields
+    nodes: [document_reaction_group_persisted!]!
+}
+
+"aggregate fields of \"document_reaction_group_persisted\""
+type document_reaction_group_persisted_aggregate_fields {
+    avg: document_reaction_group_persisted_avg_fields
+    count(columns: [document_reaction_group_persisted_select_column!], distinct: Boolean): Int
+    max: document_reaction_group_persisted_max_fields
+    min: document_reaction_group_persisted_min_fields
+    stddev: document_reaction_group_persisted_stddev_fields
+    stddev_pop: document_reaction_group_persisted_stddev_pop_fields
+    stddev_samp: document_reaction_group_persisted_stddev_samp_fields
+    sum: document_reaction_group_persisted_sum_fields
+    var_pop: document_reaction_group_persisted_var_pop_fields
+    var_samp: document_reaction_group_persisted_var_samp_fields
+    variance: document_reaction_group_persisted_variance_fields
+}
+
+"aggregate avg on columns"
+type document_reaction_group_persisted_avg_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate max on columns"
+type document_reaction_group_persisted_max_fields {
+    count: Int
+    documentId: uuid
+    id: bigint
+    reactionId: String
+}
+
+"aggregate min on columns"
+type document_reaction_group_persisted_min_fields {
+    count: Int
+    documentId: uuid
+    id: bigint
+    reactionId: String
+}
+
+"response of any mutation on the table \"document_reaction_group_persisted\""
+type document_reaction_group_persisted_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [document_reaction_group_persisted!]!
+}
+
+"aggregate stddev on columns"
+type document_reaction_group_persisted_stddev_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate stddev_pop on columns"
+type document_reaction_group_persisted_stddev_pop_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate stddev_samp on columns"
+type document_reaction_group_persisted_stddev_samp_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate sum on columns"
+type document_reaction_group_persisted_sum_fields {
+    count: Int
+    id: bigint
+}
+
+"aggregate var_pop on columns"
+type document_reaction_group_persisted_var_pop_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate var_samp on columns"
+type document_reaction_group_persisted_var_samp_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate variance on columns"
+type document_reaction_group_persisted_variance_fields {
+    count: Float
+    id: Float
+}
+
+"aggregate stddev on columns"
+type document_reaction_group_stddev_fields {
+    count: Float
+}
+
+"aggregate stddev_pop on columns"
+type document_reaction_group_stddev_pop_fields {
+    count: Float
+}
+
+"aggregate stddev_samp on columns"
+type document_reaction_group_stddev_samp_fields {
+    count: Float
+}
+
+"aggregate sum on columns"
+type document_reaction_group_sum_fields {
+    count: bigint
+}
+
+"aggregate var_pop on columns"
+type document_reaction_group_var_pop_fields {
+    count: Float
+}
+
+"aggregate var_samp on columns"
+type document_reaction_group_var_samp_fields {
+    count: Float
+}
+
+"aggregate variance on columns"
+type document_reaction_group_variance_fields {
+    count: Float
+}
+
+"aggregate max on columns"
+type document_reaction_max_fields {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reaction_id: String
+}
+
+"aggregate min on columns"
+type document_reaction_min_fields {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reaction_id: String
+}
+
+"response of any mutation on the table \"document_reaction\""
+type document_reaction_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [document_reaction!]!
+}
+
+"aggregate stddev on columns"
+type document_stddev_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"aggregate stddev_pop on columns"
+type document_stddev_pop_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"aggregate stddev_samp on columns"
+type document_stddev_samp_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"aggregate sum on columns"
+type document_sum_fields {
+    countComments: Int
+    reactionBalance: Int
+}
+
+"aggregate var_pop on columns"
+type document_var_pop_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"aggregate var_samp on columns"
+type document_var_samp_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"aggregate variance on columns"
+type document_variance_fields {
+    countComments: Float
+    reactionBalance: Float
+}
+
+"columns and relationships of \"follow\""
+type follow {
+    "An object relationship"
+    author: user!
+    authorId: String!
+    createdAt: timestamptz!
+    "An object relationship"
+    following: user!
+    followingId: String!
+    id: uuid!
+}
+
+"aggregated selection of \"follow\""
+type follow_aggregate {
+    aggregate: follow_aggregate_fields
+    nodes: [follow!]!
+}
+
+"aggregate fields of \"follow\""
+type follow_aggregate_fields {
+    count(columns: [follow_select_column!], distinct: Boolean): Int
+    max: follow_max_fields
+    min: follow_min_fields
+}
+
+"aggregate max on columns"
+type follow_max_fields {
+    authorId: String
+    createdAt: timestamptz
+    followingId: String
+    id: uuid
+}
+
+"aggregate min on columns"
+type follow_min_fields {
+    authorId: String
+    createdAt: timestamptz
+    followingId: String
+    id: uuid
+}
+
+"response of any mutation on the table \"follow\""
+type follow_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [follow!]!
+}
+
+"columns and relationships of \"label\""
+type label {
+    "An object relationship"
+    author: user!
+    authorId: String!
+    "An object relationship"
+    color: color!
+    color_name: String!
+    "An array relationship"
+    document_labels(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): [document_label!]!
+    "An aggregated array relationship"
+    document_labels_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): document_label_aggregate!
+    id: uuid!
+    label: String!
+}
+
+"aggregated selection of \"label\""
+type label_aggregate {
+    aggregate: label_aggregate_fields
+    nodes: [label!]!
+}
+
+"aggregate fields of \"label\""
+type label_aggregate_fields {
+    count(columns: [label_select_column!], distinct: Boolean): Int
+    max: label_max_fields
+    min: label_min_fields
+}
+
+"aggregate max on columns"
+type label_max_fields {
+    authorId: String
+    color_name: String
+    id: uuid
+    label: String
+}
+
+"aggregate min on columns"
+type label_min_fields {
+    authorId: String
+    color_name: String
+    id: uuid
+    label: String
+}
+
+"response of any mutation on the table \"label\""
+type label_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [label!]!
+}
+
+"mutation root"
+type mutation_root {
+    "insert data into the table: \"color\""
+    addColor(
+        "the rows to be inserted"
+        objects: [color_insert_input!]!,
+        "on conflict condition"
+        on_conflict: color_on_conflict
+    ): color_mutation_response
+    "insert data into the table: \"comment\""
+    addComment(
+        "the rows to be inserted"
+        objects: [comment_insert_input!]!,
+        "on conflict condition"
+        on_conflict: comment_on_conflict
+    ): comment_mutation_response
+    "insert data into the table: \"comment_reaction\""
+    addCommentReaction(
+        "the rows to be inserted"
+        objects: [comment_reaction_insert_input!]!,
+        "on conflict condition"
+        on_conflict: comment_reaction_on_conflict
+    ): comment_reaction_mutation_response
+    "insert data into the table: \"document\""
+    addDocument(
+        "the rows to be inserted"
+        objects: [document_insert_input!]!,
+        "on conflict condition"
+        on_conflict: document_on_conflict
+    ): document_mutation_response
+    "insert data into the table: \"document_content\""
+    addDocumentContent(
+        "the rows to be inserted"
+        objects: [document_content_insert_input!]!,
+        "on conflict condition"
+        on_conflict: document_content_on_conflict
+    ): document_content_mutation_response
+    "insert data into the table: \"document_label\""
+    addDocumentLabel(
+        "the rows to be inserted"
+        objects: [document_label_insert_input!]!,
+        "on conflict condition"
+        on_conflict: document_label_on_conflict
+    ): document_label_mutation_response
+    "insert data into the table: \"document_reaction\""
+    addDocumentReaction(
+        "the rows to be inserted"
+        objects: [document_reaction_insert_input!]!,
+        "on conflict condition"
+        on_conflict: document_reaction_on_conflict
+    ): document_reaction_mutation_response
+    "insert data into the table: \"follow\""
+    addFollow(
+        "the rows to be inserted"
+        objects: [follow_insert_input!]!,
+        "on conflict condition"
+        on_conflict: follow_on_conflict
+    ): follow_mutation_response
+    "insert data into the table: \"label\""
+    addLabel(
+        "the rows to be inserted"
+        objects: [label_insert_input!]!,
+        "on conflict condition"
+        on_conflict: label_on_conflict
+    ): label_mutation_response
+    "insert data into the table: \"reaction\""
+    addReaction(
+        "the rows to be inserted"
+        objects: [reaction_insert_input!]!,
+        "on conflict condition"
+        on_conflict: reaction_on_conflict
+    ): reaction_mutation_response
+    "insert data into the table: \"user\""
+    addUser(
+        "the rows to be inserted"
+        objects: [user_insert_input!]!,
+        "on conflict condition"
+        on_conflict: user_on_conflict
+    ): user_mutation_response
+    "delete single row from the table: \"color\""
+    delete_color_by_pk(name: String!): color
+    "delete single row from the table: \"comment\""
+    delete_comment_by_pk(id: uuid!): comment
+    "delete single row from the table: \"comment_reaction\""
+    delete_comment_reaction_by_pk(id: uuid!): comment_reaction
+    "delete single row from the table: \"document\""
+    delete_document_by_pk(id: uuid!): document
+    "delete single row from the table: \"document_content\""
+    delete_document_content_by_pk(id: uuid!): document_content
+    "delete single row from the table: \"document_label\""
+    delete_document_label_by_pk(id: uuid!): document_label
+    "delete single row from the table: \"document_reaction\""
+    delete_document_reaction_by_pk(id: uuid!): document_reaction
+    "delete data from the table: \"document_reaction_group_persisted\""
+    delete_document_reaction_group_persisted(
+        "filter the rows which have to be deleted"
+        where: document_reaction_group_persisted_bool_exp!
+    ): document_reaction_group_persisted_mutation_response
+    "delete single row from the table: \"document_reaction_group_persisted\""
+    delete_document_reaction_group_persisted_by_pk(id: bigint!): document_reaction_group_persisted
+    "delete single row from the table: \"follow\""
+    delete_follow_by_pk(id: uuid!): follow
+    "delete single row from the table: \"label\""
+    delete_label_by_pk(id: uuid!): label
+    "delete single row from the table: \"reaction\""
+    delete_reaction_by_pk(htmlCode: String!): reaction
+    "delete single row from the table: \"user\""
+    delete_user_by_pk(id: uuid!): user
+    "insert a single row into the table: \"color\""
+    insert_color_one(
+        "the row to be inserted"
+        object: color_insert_input!,
+        "on conflict condition"
+        on_conflict: color_on_conflict
+    ): color
+    "insert a single row into the table: \"comment\""
+    insert_comment_one(
+        "the row to be inserted"
+        object: comment_insert_input!,
+        "on conflict condition"
+        on_conflict: comment_on_conflict
+    ): comment
+    "insert a single row into the table: \"comment_reaction\""
+    insert_comment_reaction_one(
+        "the row to be inserted"
+        object: comment_reaction_insert_input!,
+        "on conflict condition"
+        on_conflict: comment_reaction_on_conflict
+    ): comment_reaction
+    "insert a single row into the table: \"document_content\""
+    insert_document_content_one(
+        "the row to be inserted"
+        object: document_content_insert_input!,
+        "on conflict condition"
+        on_conflict: document_content_on_conflict
+    ): document_content
+    "insert a single row into the table: \"document_label\""
+    insert_document_label_one(
+        "the row to be inserted"
+        object: document_label_insert_input!,
+        "on conflict condition"
+        on_conflict: document_label_on_conflict
+    ): document_label
+    "insert a single row into the table: \"document\""
+    insert_document_one(
+        "the row to be inserted"
+        object: document_insert_input!,
+        "on conflict condition"
+        on_conflict: document_on_conflict
+    ): document
+    "insert data into the table: \"document_reaction_group_persisted\""
+    insert_document_reaction_group_persisted(
+        "the rows to be inserted"
+        objects: [document_reaction_group_persisted_insert_input!]!,
+        "on conflict condition"
+        on_conflict: document_reaction_group_persisted_on_conflict
+    ): document_reaction_group_persisted_mutation_response
+    "insert a single row into the table: \"document_reaction_group_persisted\""
+    insert_document_reaction_group_persisted_one(
+        "the row to be inserted"
+        object: document_reaction_group_persisted_insert_input!,
+        "on conflict condition"
+        on_conflict: document_reaction_group_persisted_on_conflict
+    ): document_reaction_group_persisted
+    "insert a single row into the table: \"document_reaction\""
+    insert_document_reaction_one(
+        "the row to be inserted"
+        object: document_reaction_insert_input!,
+        "on conflict condition"
+        on_conflict: document_reaction_on_conflict
+    ): document_reaction
+    "insert a single row into the table: \"follow\""
+    insert_follow_one(
+        "the row to be inserted"
+        object: follow_insert_input!,
+        "on conflict condition"
+        on_conflict: follow_on_conflict
+    ): follow
+    "insert a single row into the table: \"label\""
+    insert_label_one(
+        "the row to be inserted"
+        object: label_insert_input!,
+        "on conflict condition"
+        on_conflict: label_on_conflict
+    ): label
+    "insert a single row into the table: \"reaction\""
+    insert_reaction_one(
+        "the row to be inserted"
+        object: reaction_insert_input!,
+        "on conflict condition"
+        on_conflict: reaction_on_conflict
+    ): reaction
+    "insert a single row into the table: \"user\""
+    insert_user_one(
+        "the row to be inserted"
+        object: user_insert_input!,
+        "on conflict condition"
+        on_conflict: user_on_conflict
+    ): user
+    "delete data from the table: \"color\""
+    removeColor(
+        "filter the rows which have to be deleted"
+        where: color_bool_exp!
+    ): color_mutation_response
+    "delete data from the table: \"comment\""
+    removeComment(
+        "filter the rows which have to be deleted"
+        where: comment_bool_exp!
+    ): comment_mutation_response
+    "delete data from the table: \"comment_reaction\""
+    removeCommentReaction(
+        "filter the rows which have to be deleted"
+        where: comment_reaction_bool_exp!
+    ): comment_reaction_mutation_response
+    "delete data from the table: \"document\""
+    removeDocument(
+        "filter the rows which have to be deleted"
+        where: document_bool_exp!
+    ): document_mutation_response
+    "delete data from the table: \"document_content\""
+    removeDocumentContent(
+        "filter the rows which have to be deleted"
+        where: document_content_bool_exp!
+    ): document_content_mutation_response
+    "delete data from the table: \"document_label\""
+    removeDocumentLabel(
+        "filter the rows which have to be deleted"
+        where: document_label_bool_exp!
+    ): document_label_mutation_response
+    "delete data from the table: \"document_reaction\""
+    removeDocumentReaction(
+        "filter the rows which have to be deleted"
+        where: document_reaction_bool_exp!
+    ): document_reaction_mutation_response
+    "delete data from the table: \"follow\""
+    removeFollow(
+        "filter the rows which have to be deleted"
+        where: follow_bool_exp!
+    ): follow_mutation_response
+    "delete data from the table: \"label\""
+    removeLabel(
+        "filter the rows which have to be deleted"
+        where: label_bool_exp!
+    ): label_mutation_response
+    "delete data from the table: \"reaction\""
+    removeReaction(
+        "filter the rows which have to be deleted"
+        where: reaction_bool_exp!
+    ): reaction_mutation_response
+    "delete data from the table: \"user\""
+    removeUser(
+        "filter the rows which have to be deleted"
+        where: user_bool_exp!
+    ): user_mutation_response
+    "update data of the table: \"color\""
+    updateColor(
+        "sets the columns of the filtered rows to the given values"
+        _set: color_set_input,
+        "filter the rows which have to be updated"
+        where: color_bool_exp!
+    ): color_mutation_response
+    "update data of the table: \"comment\""
+    updateComment(
+        "increments the integer columns with given value of the filtered values"
+        _inc: comment_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: comment_set_input,
+        "filter the rows which have to be updated"
+        where: comment_bool_exp!
+    ): comment_mutation_response
+    "update data of the table: \"comment_reaction\""
+    updateCommentReaction(
+        "sets the columns of the filtered rows to the given values"
+        _set: comment_reaction_set_input,
+        "filter the rows which have to be updated"
+        where: comment_reaction_bool_exp!
+    ): comment_reaction_mutation_response
+    "update data of the table: \"document\""
+    updateDocument(
+        "increments the integer columns with given value of the filtered values"
+        _inc: document_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: document_set_input,
+        "filter the rows which have to be updated"
+        where: document_bool_exp!
+    ): document_mutation_response
+    "update data of the table: \"document_content\""
+    updateDocumentContent(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_content_set_input,
+        "filter the rows which have to be updated"
+        where: document_content_bool_exp!
+    ): document_content_mutation_response
+    "update data of the table: \"document_label\""
+    updateDocumentLabel(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_label_set_input,
+        "filter the rows which have to be updated"
+        where: document_label_bool_exp!
+    ): document_label_mutation_response
+    "update data of the table: \"document_reaction\""
+    updateDocumentReaction(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_reaction_set_input,
+        "filter the rows which have to be updated"
+        where: document_reaction_bool_exp!
+    ): document_reaction_mutation_response
+    "update data of the table: \"follow\""
+    updateFollow(
+        "sets the columns of the filtered rows to the given values"
+        _set: follow_set_input,
+        "filter the rows which have to be updated"
+        where: follow_bool_exp!
+    ): follow_mutation_response
+    "update data of the table: \"label\""
+    updateLabel(
+        "sets the columns of the filtered rows to the given values"
+        _set: label_set_input,
+        "filter the rows which have to be updated"
+        where: label_bool_exp!
+    ): label_mutation_response
+    "update data of the table: \"reaction\""
+    updateReaction(
+        "increments the integer columns with given value of the filtered values"
+        _inc: reaction_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: reaction_set_input,
+        "filter the rows which have to be updated"
+        where: reaction_bool_exp!
+    ): reaction_mutation_response
+    "update data of the table: \"user\""
+    updateUser(
+        "increments the integer columns with given value of the filtered values"
+        _inc: user_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: user_set_input,
+        "filter the rows which have to be updated"
+        where: user_bool_exp!
+    ): user_mutation_response
+    "update single row of the table: \"color\""
+    update_color_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: color_set_input,
+        pk_columns: color_pk_columns_input!
+    ): color
+    "update single row of the table: \"comment\""
+    update_comment_by_pk(
+        "increments the integer columns with given value of the filtered values"
+        _inc: comment_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: comment_set_input,
+        pk_columns: comment_pk_columns_input!
+    ): comment
+    "update single row of the table: \"comment_reaction\""
+    update_comment_reaction_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: comment_reaction_set_input,
+        pk_columns: comment_reaction_pk_columns_input!
+    ): comment_reaction
+    "update single row of the table: \"document\""
+    update_document_by_pk(
+        "increments the integer columns with given value of the filtered values"
+        _inc: document_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: document_set_input,
+        pk_columns: document_pk_columns_input!
+    ): document
+    "update single row of the table: \"document_content\""
+    update_document_content_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_content_set_input,
+        pk_columns: document_content_pk_columns_input!
+    ): document_content
+    "update single row of the table: \"document_label\""
+    update_document_label_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_label_set_input,
+        pk_columns: document_label_pk_columns_input!
+    ): document_label
+    "update single row of the table: \"document_reaction\""
+    update_document_reaction_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: document_reaction_set_input,
+        pk_columns: document_reaction_pk_columns_input!
+    ): document_reaction
+    "update data of the table: \"document_reaction_group_persisted\""
+    update_document_reaction_group_persisted(
+        "increments the integer columns with given value of the filtered values"
+        _inc: document_reaction_group_persisted_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: document_reaction_group_persisted_set_input,
+        "filter the rows which have to be updated"
+        where: document_reaction_group_persisted_bool_exp!
+    ): document_reaction_group_persisted_mutation_response
+    "update single row of the table: \"document_reaction_group_persisted\""
+    update_document_reaction_group_persisted_by_pk(
+        "increments the integer columns with given value of the filtered values"
+        _inc: document_reaction_group_persisted_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: document_reaction_group_persisted_set_input,
+        pk_columns: document_reaction_group_persisted_pk_columns_input!
+    ): document_reaction_group_persisted
+    "update single row of the table: \"follow\""
+    update_follow_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: follow_set_input,
+        pk_columns: follow_pk_columns_input!
+    ): follow
+    "update single row of the table: \"label\""
+    update_label_by_pk(
+        "sets the columns of the filtered rows to the given values"
+        _set: label_set_input,
+        pk_columns: label_pk_columns_input!
+    ): label
+    "update single row of the table: \"reaction\""
+    update_reaction_by_pk(
+        "increments the integer columns with given value of the filtered values"
+        _inc: reaction_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: reaction_set_input,
+        pk_columns: reaction_pk_columns_input!
+    ): reaction
+    "update single row of the table: \"user\""
+    update_user_by_pk(
+        "increments the integer columns with given value of the filtered values"
+        _inc: user_inc_input,
+        "sets the columns of the filtered rows to the given values"
+        _set: user_set_input,
+        pk_columns: user_pk_columns_input!
+    ): user
+}
+
+"query root"
+type query_root {
+    "fetch data from the table: \"color\""
+    allColors(
+        "distinct select on columns"
+        distinct_on: [color_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [color_order_by!],
+        "filter the rows returned"
+        where: color_bool_exp
+    ): [color!]!
+    "fetch data from the table: \"comment_reaction\""
+    allCommentReactions(
+        "distinct select on columns"
+        distinct_on: [comment_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reaction_order_by!],
+        "filter the rows returned"
+        where: comment_reaction_bool_exp
+    ): [comment_reaction!]!
+    "fetch data from the table: \"comment\""
+    allComments(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): [comment!]!
+    "fetch data from the table: \"document_content\""
+    allDocumentContents(
+        "distinct select on columns"
+        distinct_on: [document_content_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_content_order_by!],
+        "filter the rows returned"
+        where: document_content_bool_exp
+    ): [document_content!]!
+    "fetch data from the table: \"document_label\""
+    allDocumentLabels(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): [document_label!]!
+    "fetch data from the table: \"document_reaction\""
+    allDocumentReactions(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): [document_reaction!]!
+    "fetch data from the table: \"document\""
+    allDocuments(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): [document!]!
+    "fetch data from the table: \"follow\""
+    allFollows(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): [follow!]!
+    "fetch data from the table: \"label\""
+    allLabels(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): [label!]!
+    "fetch data from the table: \"reaction\""
+    allReactions(
+        "distinct select on columns"
+        distinct_on: [reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [reaction_order_by!],
+        "filter the rows returned"
+        where: reaction_bool_exp
+    ): [reaction!]!
+    "fetch data from the table: \"user\""
+    allUsers(
+        "distinct select on columns"
+        distinct_on: [user_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [user_order_by!],
+        "filter the rows returned"
+        where: user_bool_exp
+    ): [user!]!
+    "fetch data from the table: \"color\" using primary key columns"
+    color(name: String!): color
+    "fetch aggregated fields from the table: \"color\""
+    color_aggregate(
+        "distinct select on columns"
+        distinct_on: [color_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [color_order_by!],
+        "filter the rows returned"
+        where: color_bool_exp
+    ): color_aggregate!
+    "fetch data from the table: \"comment\" using primary key columns"
+    comment(id: uuid!): comment
+    "fetch data from the table: \"comment_reaction\" using primary key columns"
+    commentReaction(id: uuid!): comment_reaction
+    "fetch aggregated fields from the table: \"comment\""
+    comment_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): comment_aggregate!
+    "fetch aggregated fields from the table: \"comment_reaction\""
+    comment_reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reaction_order_by!],
+        "filter the rows returned"
+        where: comment_reaction_bool_exp
+    ): comment_reaction_aggregate!
+    "fetch data from the table: \"comment_reactions_group\""
+    comment_reactions_group(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): [comment_reactions_group!]!
+    "fetch aggregated fields from the table: \"comment_reactions_group\""
+    comment_reactions_group_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): comment_reactions_group_aggregate!
+    "fetch data from the table: \"document\" using primary key columns"
+    document(id: uuid!): document
+    "fetch data from the table: \"document_content\" using primary key columns"
+    documentContent(id: uuid!): document_content
+    "fetch data from the table: \"document_label\" using primary key columns"
+    documentLabel(id: uuid!): document_label
+    "fetch data from the table: \"document_reaction\" using primary key columns"
+    documentReactino(id: uuid!): document_reaction
+    "fetch aggregated fields from the table: \"document\""
+    document_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): document_aggregate!
+    "fetch aggregated fields from the table: \"document_content\""
+    document_content_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_content_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_content_order_by!],
+        "filter the rows returned"
+        where: document_content_bool_exp
+    ): document_content_aggregate!
+    "fetch aggregated fields from the table: \"document_label\""
+    document_label_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): document_label_aggregate!
+    "fetch aggregated fields from the table: \"document_reaction\""
+    document_reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): document_reaction_aggregate!
+    "fetch data from the table: \"document_reaction_group\""
+    document_reaction_group(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_bool_exp
+    ): [document_reaction_group!]!
+    "fetch aggregated fields from the table: \"document_reaction_group\""
+    document_reaction_group_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_bool_exp
+    ): document_reaction_group_aggregate!
+    "fetch data from the table: \"document_reaction_group_persisted\""
+    document_reaction_group_persisted(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): [document_reaction_group_persisted!]!
+    "fetch aggregated fields from the table: \"document_reaction_group_persisted\""
+    document_reaction_group_persisted_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): document_reaction_group_persisted_aggregate!
+    "fetch data from the table: \"document_reaction_group_persisted\" using primary key columns"
+    document_reaction_group_persisted_by_pk(id: bigint!): document_reaction_group_persisted
+    "fetch data from the table: \"follow\" using primary key columns"
+    follow(id: uuid!): follow
+    "fetch aggregated fields from the table: \"follow\""
+    follow_aggregate(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): follow_aggregate!
+    "fetch data from the table: \"label\" using primary key columns"
+    label(id: uuid!): label
+    "fetch aggregated fields from the table: \"label\""
+    label_aggregate(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): label_aggregate!
+    "fetch data from the table: \"reaction\" using primary key columns"
+    reaction(htmlCode: String!): reaction
+    "fetch aggregated fields from the table: \"reaction\""
+    reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [reaction_order_by!],
+        "filter the rows returned"
+        where: reaction_bool_exp
+    ): reaction_aggregate!
+    "fetch data from the table: \"user\" using primary key columns"
+    user(id: uuid!): user
+    "fetch aggregated fields from the table: \"user\""
+    user_aggregate(
+        "distinct select on columns"
+        distinct_on: [user_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [user_order_by!],
+        "filter the rows returned"
+        where: user_bool_exp
+    ): user_aggregate!
+}
+
+"columns and relationships of \"reaction\""
+type reaction {
+    "Indicator of this is a positive or negative reaction. Range: -100 to 100"
+    balance: Int!
+    htmlCode: String!
+    title: String!
+}
+
+"aggregated selection of \"reaction\""
+type reaction_aggregate {
+    aggregate: reaction_aggregate_fields
+    nodes: [reaction!]!
+}
+
+"aggregate fields of \"reaction\""
+type reaction_aggregate_fields {
+    avg: reaction_avg_fields
+    count(columns: [reaction_select_column!], distinct: Boolean): Int
+    max: reaction_max_fields
+    min: reaction_min_fields
+    stddev: reaction_stddev_fields
+    stddev_pop: reaction_stddev_pop_fields
+    stddev_samp: reaction_stddev_samp_fields
+    sum: reaction_sum_fields
+    var_pop: reaction_var_pop_fields
+    var_samp: reaction_var_samp_fields
+    variance: reaction_variance_fields
+}
+
+"aggregate avg on columns"
+type reaction_avg_fields {
+    balance: Float
+}
+
+"aggregate max on columns"
+type reaction_max_fields {
+    balance: Int
+    htmlCode: String
+    title: String
+}
+
+"aggregate min on columns"
+type reaction_min_fields {
+    balance: Int
+    htmlCode: String
+    title: String
+}
+
+"response of any mutation on the table \"reaction\""
+type reaction_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [reaction!]!
+}
+
+"aggregate stddev on columns"
+type reaction_stddev_fields {
+    balance: Float
+}
+
+"aggregate stddev_pop on columns"
+type reaction_stddev_pop_fields {
+    balance: Float
+}
+
+"aggregate stddev_samp on columns"
+type reaction_stddev_samp_fields {
+    balance: Float
+}
+
+"aggregate sum on columns"
+type reaction_sum_fields {
+    balance: Int
+}
+
+"aggregate var_pop on columns"
+type reaction_var_pop_fields {
+    balance: Float
+}
+
+"aggregate var_samp on columns"
+type reaction_var_samp_fields {
+    balance: Float
+}
+
+"aggregate variance on columns"
+type reaction_variance_fields {
+    balance: Float
+}
+
+"subscription root"
+type subscription_root {
+    "fetch data from the table: \"color\""
+    allColors(
+        "distinct select on columns"
+        distinct_on: [color_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [color_order_by!],
+        "filter the rows returned"
+        where: color_bool_exp
+    ): [color!]!
+    "fetch data from the table: \"comment_reaction\""
+    allCommentReactions(
+        "distinct select on columns"
+        distinct_on: [comment_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reaction_order_by!],
+        "filter the rows returned"
+        where: comment_reaction_bool_exp
+    ): [comment_reaction!]!
+    "fetch data from the table: \"comment\""
+    allComments(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): [comment!]!
+    "fetch data from the table: \"document_content\""
+    allDocumentContents(
+        "distinct select on columns"
+        distinct_on: [document_content_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_content_order_by!],
+        "filter the rows returned"
+        where: document_content_bool_exp
+    ): [document_content!]!
+    "fetch data from the table: \"document_label\""
+    allDocumentLabels(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): [document_label!]!
+    "fetch data from the table: \"document_reaction\""
+    allDocumentReactions(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): [document_reaction!]!
+    "fetch data from the table: \"document\""
+    allDocuments(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): [document!]!
+    "fetch data from the table: \"follow\""
+    allFollows(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): [follow!]!
+    "fetch data from the table: \"label\""
+    allLabels(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): [label!]!
+    "fetch data from the table: \"reaction\""
+    allReactions(
+        "distinct select on columns"
+        distinct_on: [reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [reaction_order_by!],
+        "filter the rows returned"
+        where: reaction_bool_exp
+    ): [reaction!]!
+    "fetch data from the table: \"user\""
+    allUsers(
+        "distinct select on columns"
+        distinct_on: [user_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [user_order_by!],
+        "filter the rows returned"
+        where: user_bool_exp
+    ): [user!]!
+    "fetch data from the table: \"color\" using primary key columns"
+    color(name: String!): color
+    "fetch aggregated fields from the table: \"color\""
+    color_aggregate(
+        "distinct select on columns"
+        distinct_on: [color_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [color_order_by!],
+        "filter the rows returned"
+        where: color_bool_exp
+    ): color_aggregate!
+    "fetch data from the table: \"comment\" using primary key columns"
+    comment(id: uuid!): comment
+    "fetch data from the table: \"comment_reaction\" using primary key columns"
+    commentReaction(id: uuid!): comment_reaction
+    "fetch aggregated fields from the table: \"comment\""
+    comment_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_order_by!],
+        "filter the rows returned"
+        where: comment_bool_exp
+    ): comment_aggregate!
+    "fetch aggregated fields from the table: \"comment_reaction\""
+    comment_reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reaction_order_by!],
+        "filter the rows returned"
+        where: comment_reaction_bool_exp
+    ): comment_reaction_aggregate!
+    "fetch data from the table: \"comment_reactions_group\""
+    comment_reactions_group(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): [comment_reactions_group!]!
+    "fetch aggregated fields from the table: \"comment_reactions_group\""
+    comment_reactions_group_aggregate(
+        "distinct select on columns"
+        distinct_on: [comment_reactions_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [comment_reactions_group_order_by!],
+        "filter the rows returned"
+        where: comment_reactions_group_bool_exp
+    ): comment_reactions_group_aggregate!
+    "fetch data from the table: \"document\" using primary key columns"
+    document(id: uuid!): document
+    "fetch data from the table: \"document_content\" using primary key columns"
+    documentContent(id: uuid!): document_content
+    "fetch data from the table: \"document_label\" using primary key columns"
+    documentLabel(id: uuid!): document_label
+    "fetch data from the table: \"document_reaction\" using primary key columns"
+    documentReactino(id: uuid!): document_reaction
+    "fetch aggregated fields from the table: \"document\""
+    document_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): document_aggregate!
+    "fetch aggregated fields from the table: \"document_content\""
+    document_content_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_content_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_content_order_by!],
+        "filter the rows returned"
+        where: document_content_bool_exp
+    ): document_content_aggregate!
+    "fetch aggregated fields from the table: \"document_label\""
+    document_label_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): document_label_aggregate!
+    "fetch aggregated fields from the table: \"document_reaction\""
+    document_reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_order_by!],
+        "filter the rows returned"
+        where: document_reaction_bool_exp
+    ): document_reaction_aggregate!
+    "fetch data from the table: \"document_reaction_group\""
+    document_reaction_group(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_bool_exp
+    ): [document_reaction_group!]!
+    "fetch aggregated fields from the table: \"document_reaction_group\""
+    document_reaction_group_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_bool_exp
+    ): document_reaction_group_aggregate!
+    "fetch data from the table: \"document_reaction_group_persisted\""
+    document_reaction_group_persisted(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): [document_reaction_group_persisted!]!
+    "fetch aggregated fields from the table: \"document_reaction_group_persisted\""
+    document_reaction_group_persisted_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_reaction_group_persisted_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_reaction_group_persisted_order_by!],
+        "filter the rows returned"
+        where: document_reaction_group_persisted_bool_exp
+    ): document_reaction_group_persisted_aggregate!
+    "fetch data from the table: \"document_reaction_group_persisted\" using primary key columns"
+    document_reaction_group_persisted_by_pk(id: bigint!): document_reaction_group_persisted
+    "fetch data from the table: \"follow\" using primary key columns"
+    follow(id: uuid!): follow
+    "fetch aggregated fields from the table: \"follow\""
+    follow_aggregate(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): follow_aggregate!
+    "fetch data from the table: \"label\" using primary key columns"
+    label(id: uuid!): label
+    "fetch aggregated fields from the table: \"label\""
+    label_aggregate(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): label_aggregate!
+    "fetch data from the table: \"reaction\" using primary key columns"
+    reaction(htmlCode: String!): reaction
+    "fetch aggregated fields from the table: \"reaction\""
+    reaction_aggregate(
+        "distinct select on columns"
+        distinct_on: [reaction_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [reaction_order_by!],
+        "filter the rows returned"
+        where: reaction_bool_exp
+    ): reaction_aggregate!
+    "fetch data from the table: \"user\" using primary key columns"
+    user(id: uuid!): user
+    "fetch aggregated fields from the table: \"user\""
+    user_aggregate(
+        "distinct select on columns"
+        distinct_on: [user_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [user_order_by!],
+        "filter the rows returned"
+        where: user_bool_exp
+    ): user_aggregate!
+}
+
+"""
+
+add author table
+
+
+columns and relationships of \"user\"
+"""
+type user {
+    authId: String!
+    balanceCommentReaction: bigint!
+    balanceDocumentReaction: bigint!
+    countPrivateDocs: Int!
+    countWrittenComments: Int!
+    createdAt: timestamptz!
+    "An array relationship"
+    document_labels(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): [document_label!]!
+    "An aggregated array relationship"
+    document_labels_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_label_order_by!],
+        "filter the rows returned"
+        where: document_label_bool_exp
+    ): document_label_aggregate!
+    "An array relationship"
+    documents(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): [document!]!
+    "An aggregated array relationship"
+    documents_aggregate(
+        "distinct select on columns"
+        distinct_on: [document_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [document_order_by!],
+        "filter the rows returned"
+        where: document_bool_exp
+    ): document_aggregate!
+    "An array relationship"
+    followers(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): [follow!]!
+    "An aggregated array relationship"
+    followers_aggregate(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): follow_aggregate!
+    "An array relationship"
+    followings(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): [follow!]!
+    "An aggregated array relationship"
+    followings_aggregate(
+        "distinct select on columns"
+        distinct_on: [follow_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [follow_order_by!],
+        "filter the rows returned"
+        where: follow_bool_exp
+    ): follow_aggregate!
+    id: uuid!
+    imageUrl: String
+    "An array relationship"
+    labels(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): [label!]!
+    "An aggregated array relationship"
+    labels_aggregate(
+        "distinct select on columns"
+        distinct_on: [label_select_column!],
+        "limit the number of rows returned"
+        limit: Int,
+        "skip the first n rows. Use only with order_by"
+        offset: Int,
+        "sort the rows by one or more columns"
+        order_by: [label_order_by!],
+        "filter the rows returned"
+        where: label_bool_exp
+    ): label_aggregate!
+    maxPrivateDocs: Int!
+    name: String!
+    updatedAt: timestamptz!
+}
+
+"aggregated selection of \"user\""
+type user_aggregate {
+    aggregate: user_aggregate_fields
+    nodes: [user!]!
+}
+
+"aggregate fields of \"user\""
+type user_aggregate_fields {
+    avg: user_avg_fields
+    count(columns: [user_select_column!], distinct: Boolean): Int
+    max: user_max_fields
+    min: user_min_fields
+    stddev: user_stddev_fields
+    stddev_pop: user_stddev_pop_fields
+    stddev_samp: user_stddev_samp_fields
+    sum: user_sum_fields
+    var_pop: user_var_pop_fields
+    var_samp: user_var_samp_fields
+    variance: user_variance_fields
+}
+
+"aggregate avg on columns"
+type user_avg_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate max on columns"
+type user_max_fields {
+    authId: String
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    createdAt: timestamptz
+    id: uuid
+    imageUrl: String
+    maxPrivateDocs: Int
+    name: String
+    updatedAt: timestamptz
+}
+
+"aggregate min on columns"
+type user_min_fields {
+    authId: String
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    createdAt: timestamptz
+    id: uuid
+    imageUrl: String
+    maxPrivateDocs: Int
+    name: String
+    updatedAt: timestamptz
+}
+
+"response of any mutation on the table \"user\""
+type user_mutation_response {
+    "number of affected rows by the mutation"
+    affected_rows: Int!
+    "data of the affected rows by the mutation"
+    returning: [user!]!
+}
+
+"aggregate stddev on columns"
+type user_stddev_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate stddev_pop on columns"
+type user_stddev_pop_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate stddev_samp on columns"
+type user_stddev_samp_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate sum on columns"
+type user_sum_fields {
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    maxPrivateDocs: Int
+}
+
+"aggregate var_pop on columns"
+type user_var_pop_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate var_samp on columns"
+type user_var_samp_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"aggregate variance on columns"
+type user_variance_fields {
+    balanceCommentReaction: Float
+    balanceDocumentReaction: Float
+    countPrivateDocs: Float
+    countWrittenComments: Float
+    maxPrivateDocs: Float
+}
+
+"unique or primary key constraints on table \"color\""
+enum color_constraint {
+    "unique or primary key constraint"
+    color_color_key
+    "unique or primary key constraint"
+    color_name_key
+    "unique or primary key constraint"
+    color_pkey
+}
+
+"select columns of table \"color\""
+enum color_select_column {
+    "column name"
+    color
+    "column name"
+    name
+}
+
+"update columns of table \"color\""
+enum color_update_column {
+    "column name"
+    color
+    "column name"
+    name
+}
+
+"unique or primary key constraints on table \"comment\""
+enum comment_constraint {
+    "unique or primary key constraint"
+    comment_pkey
+}
+
+"unique or primary key constraints on table \"comment_reaction\""
+enum comment_reaction_constraint {
+    "unique or primary key constraint"
+    comment_reaction_pkey
+}
+
+"select columns of table \"comment_reaction\""
+enum comment_reaction_select_column {
+    "column name"
+    authorId
+    "column name"
+    commentId
+    "column name"
+    createdAt
+    "column name"
+    id
+    "column name"
+    reaction_id
+}
+
+"update columns of table \"comment_reaction\""
+enum comment_reaction_update_column {
+    "column name"
+    authorId
+    "column name"
+    commentId
+    "column name"
+    createdAt
+    "column name"
+    id
+    "column name"
+    reaction_id
+}
+
+"select columns of table \"comment_reactions_group\""
+enum comment_reactions_group_select_column {
+    "column name"
+    commentid
+    "column name"
+    count
+    "column name"
+    reactionid
+}
+
+"select columns of table \"comment\""
+enum comment_select_column {
+    "column name"
+    authorId
+    "column name"
+    comment
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reactionBalance
+    "column name"
+    updatedAt
+}
+
+"update columns of table \"comment\""
+enum comment_update_column {
+    "column name"
+    authorId
+    "column name"
+    comment
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reactionBalance
+    "column name"
+    updatedAt
+}
+
+"unique or primary key constraints on table \"document\""
+enum document_constraint {
+    "unique or primary key constraint"
+    document_pkey
+}
+
+"unique or primary key constraints on table \"document_content\""
+enum document_content_constraint {
+    "unique or primary key constraint"
+    document_content_document_id_key
+    "unique or primary key constraint"
+    document_content_pkey
+}
+
+"select columns of table \"document_content\""
+enum document_content_select_column {
+    "column name"
+    content
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    updatedAt
+}
+
+"update columns of table \"document_content\""
+enum document_content_update_column {
+    "column name"
+    content
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    updatedAt
+}
+
+"unique or primary key constraints on table \"document_label\""
+enum document_label_constraint {
+    "unique or primary key constraint"
+    document_label_pkey
+}
+
+"select columns of table \"document_label\""
+enum document_label_select_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    labelId
+}
+
+"update columns of table \"document_label\""
+enum document_label_update_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    labelId
+}
+
+"unique or primary key constraints on table \"document_reaction\""
+enum document_reaction_constraint {
+    "unique or primary key constraint"
+    document_reaction_pkey
+}
+
+"unique or primary key constraints on table \"document_reaction_group_persisted\""
+enum document_reaction_group_persisted_constraint {
+    "unique or primary key constraint"
+    document_reaction_group_persisted_document_id_reaction_id_key
+    "unique or primary key constraint"
+    document_reaction_group_persisted_pkey
+}
+
+"select columns of table \"document_reaction_group_persisted\""
+enum document_reaction_group_persisted_select_column {
+    "column name"
+    count
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reactionId
+}
+
+"update columns of table \"document_reaction_group_persisted\""
+enum document_reaction_group_persisted_update_column {
+    "column name"
+    count
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reactionId
+}
+
+"select columns of table \"document_reaction_group\""
+enum document_reaction_group_select_column {
+    "column name"
+    count
+    "column name"
+    document_id
+    "column name"
+    reaction_id
+}
+
+"select columns of table \"document_reaction\""
+enum document_reaction_select_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reaction_id
+}
+
+"update columns of table \"document_reaction\""
+enum document_reaction_update_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    documentId
+    "column name"
+    id
+    "column name"
+    reaction_id
+}
+
+"select columns of table \"document\""
+enum document_select_column {
+    "column name"
+    allowComments
+    "column name"
+    authorId
+    "column name"
+    countComments
+    "column name"
+    createdAt
+    "column name"
+    description
+    "column name"
+    id
+    "column name"
+    isPublic
+    "column name"
+    reactionBalance
+    "column name"
+    title
+    "column name"
+    updatedAt
+}
+
+"update columns of table \"document\""
+enum document_update_column {
+    "column name"
+    allowComments
+    "column name"
+    authorId
+    "column name"
+    countComments
+    "column name"
+    createdAt
+    "column name"
+    description
+    "column name"
+    id
+    "column name"
+    isPublic
+    "column name"
+    reactionBalance
+    "column name"
+    title
+    "column name"
+    updatedAt
+}
+
+"unique or primary key constraints on table \"follow\""
+enum follow_constraint {
+    "unique or primary key constraint"
+    follow_pkey
+}
+
+"select columns of table \"follow\""
+enum follow_select_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    followingId
+    "column name"
+    id
+}
+
+"update columns of table \"follow\""
+enum follow_update_column {
+    "column name"
+    authorId
+    "column name"
+    createdAt
+    "column name"
+    followingId
+    "column name"
+    id
+}
+
+"unique or primary key constraints on table \"label\""
+enum label_constraint {
+    "unique or primary key constraint"
+    label_pkey
+}
+
+"select columns of table \"label\""
+enum label_select_column {
+    "column name"
+    authorId
+    "column name"
+    color_name
+    "column name"
+    id
+    "column name"
+    label
+}
+
+"update columns of table \"label\""
+enum label_update_column {
+    "column name"
+    authorId
+    "column name"
+    color_name
+    "column name"
+    id
+    "column name"
+    label
+}
+
+"column ordering options"
+enum order_by {
+    "in the ascending order, nulls last"
+    asc
+    "in the ascending order, nulls first"
+    asc_nulls_first
+    "in the ascending order, nulls last"
+    asc_nulls_last
+    "in the descending order, nulls first"
+    desc
+    "in the descending order, nulls first"
+    desc_nulls_first
+    "in the descending order, nulls last"
+    desc_nulls_last
+}
+
+"unique or primary key constraints on table \"reaction\""
+enum reaction_constraint {
+    "unique or primary key constraint"
+    reaction_html_code_key
+    "unique or primary key constraint"
+    reaction_pkey
+}
+
+"select columns of table \"reaction\""
+enum reaction_select_column {
+    "column name"
+    balance
+    "column name"
+    htmlCode
+    "column name"
+    title
+}
+
+"update columns of table \"reaction\""
+enum reaction_update_column {
+    "column name"
+    balance
+    "column name"
+    htmlCode
+    "column name"
+    title
+}
+
+"unique or primary key constraints on table \"user\""
+enum user_constraint {
+    "unique or primary key constraint"
+    user_auth_id_key
+    "unique or primary key constraint"
+    user_pkey
+}
+
+"select columns of table \"user\""
+enum user_select_column {
+    "column name"
+    authId
+    "column name"
+    balanceCommentReaction
+    "column name"
+    balanceDocumentReaction
+    "column name"
+    countPrivateDocs
+    "column name"
+    countWrittenComments
+    "column name"
+    createdAt
+    "column name"
+    id
+    "column name"
+    imageUrl
+    "column name"
+    maxPrivateDocs
+    "column name"
+    name
+    "column name"
+    updatedAt
+}
+
+"update columns of table \"user\""
+enum user_update_column {
+    "column name"
+    authId
+    "column name"
+    balanceCommentReaction
+    "column name"
+    balanceDocumentReaction
+    "column name"
+    countPrivateDocs
+    "column name"
+    countWrittenComments
+    "column name"
+    createdAt
+    "column name"
+    id
+    "column name"
+    imageUrl
+    "column name"
+    maxPrivateDocs
+    "column name"
+    name
+    "column name"
+    updatedAt
+}
+
+"expression to compare columns of type Boolean. All fields are combined with logical 'AND'."
+input Boolean_comparison_exp {
+    _eq: Boolean
+    _gt: Boolean
+    _gte: Boolean
+    _in: [Boolean!]
+    _is_null: Boolean
+    _lt: Boolean
+    _lte: Boolean
+    _neq: Boolean
+    _nin: [Boolean!]
+}
+
+"expression to compare columns of type Int. All fields are combined with logical 'AND'."
+input Int_comparison_exp {
+    _eq: Int
+    _gt: Int
+    _gte: Int
+    _in: [Int!]
+    _is_null: Boolean
+    _lt: Int
+    _lte: Int
+    _neq: Int
+    _nin: [Int!]
+}
+
+input SampleInput {
+    password: String!
+    username: String!
+}
+
+"expression to compare columns of type String. All fields are combined with logical 'AND'."
+input String_comparison_exp {
+    _eq: String
+    _gt: String
+    _gte: String
+    _ilike: String
+    _in: [String!]
+    _is_null: Boolean
+    _like: String
+    _lt: String
+    _lte: String
+    _neq: String
+    _nilike: String
+    _nin: [String!]
+    _nlike: String
+    _nsimilar: String
+    _similar: String
+}
+
+"expression to compare columns of type bigint. All fields are combined with logical 'AND'."
+input bigint_comparison_exp {
+    _eq: bigint
+    _gt: bigint
+    _gte: bigint
+    _in: [bigint!]
+    _is_null: Boolean
+    _lt: bigint
+    _lte: bigint
+    _neq: bigint
+    _nin: [bigint!]
+}
+
+"order by aggregate values of table \"color\""
+input color_aggregate_order_by {
+    count: order_by
+    max: color_max_order_by
+    min: color_min_order_by
+}
+
+"input type for inserting array relation for remote table \"color\""
+input color_arr_rel_insert_input {
+    data: [color_insert_input!]!
+    on_conflict: color_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"color\". All fields are combined with a logical 'AND'."
+input color_bool_exp {
+    _and: [color_bool_exp]
+    _not: color_bool_exp
+    _or: [color_bool_exp]
+    color: String_comparison_exp
+    name: String_comparison_exp
+}
+
+"input type for inserting data into table \"color\""
+input color_insert_input {
+    color: String
+    name: String
+}
+
+"order by max() on columns of table \"color\""
+input color_max_order_by {
+    color: order_by
+    name: order_by
+}
+
+"order by min() on columns of table \"color\""
+input color_min_order_by {
+    color: order_by
+    name: order_by
+}
+
+"input type for inserting object relation for remote table \"color\""
+input color_obj_rel_insert_input {
+    data: color_insert_input!
+    on_conflict: color_on_conflict
+}
+
+"on conflict condition type for table \"color\""
+input color_on_conflict {
+    constraint: color_constraint!
+    update_columns: [color_update_column!]!
+    where: color_bool_exp
+}
+
+"ordering options when selecting data from \"color\""
+input color_order_by {
+    color: order_by
+    name: order_by
+}
+
+"primary key columns input for table: \"color\""
+input color_pk_columns_input {
+    name: String!
+}
+
+"input type for updating data in table \"color\""
+input color_set_input {
+    color: String
+    name: String
+}
+
+"order by aggregate values of table \"comment\""
+input comment_aggregate_order_by {
+    avg: comment_avg_order_by
+    count: order_by
+    max: comment_max_order_by
+    min: comment_min_order_by
+    stddev: comment_stddev_order_by
+    stddev_pop: comment_stddev_pop_order_by
+    stddev_samp: comment_stddev_samp_order_by
+    sum: comment_sum_order_by
+    var_pop: comment_var_pop_order_by
+    var_samp: comment_var_samp_order_by
+    variance: comment_variance_order_by
+}
+
+"input type for inserting array relation for remote table \"comment\""
+input comment_arr_rel_insert_input {
+    data: [comment_insert_input!]!
+    on_conflict: comment_on_conflict
+}
+
+"order by avg() on columns of table \"comment\""
+input comment_avg_order_by {
+    reactionBalance: order_by
+}
+
+"Boolean expression to filter rows from the table \"comment\". All fields are combined with a logical 'AND'."
+input comment_bool_exp {
+    _and: [comment_bool_exp]
+    _not: comment_bool_exp
+    _or: [comment_bool_exp]
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    comment: String_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    document: document_bool_exp
+    documentId: uuid_comparison_exp
+    id: uuid_comparison_exp
+    reactionBalance: Int_comparison_exp
+    reactionsGroup: comment_reactions_group_bool_exp
+    updatedAt: timestamptz_comparison_exp
+}
+
+"input type for incrementing integer columne in table \"comment\""
+input comment_inc_input {
+    reactionBalance: Int
+}
+
+"input type for inserting data into table \"comment\""
+input comment_insert_input {
+    author: user_obj_rel_insert_input
+    authorId: String
+    comment: String
+    createdAt: timestamptz
+    document: document_obj_rel_insert_input
+    documentId: uuid
+    id: uuid
+    reactionBalance: Int
+    updatedAt: timestamptz
+}
+
+"order by max() on columns of table \"comment\""
+input comment_max_order_by {
+    authorId: order_by
+    comment: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    reactionBalance: order_by
+    updatedAt: order_by
+}
+
+"order by min() on columns of table \"comment\""
+input comment_min_order_by {
+    authorId: order_by
+    comment: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    reactionBalance: order_by
+    updatedAt: order_by
+}
+
+"input type for inserting object relation for remote table \"comment\""
+input comment_obj_rel_insert_input {
+    data: comment_insert_input!
+    on_conflict: comment_on_conflict
+}
+
+"on conflict condition type for table \"comment\""
+input comment_on_conflict {
+    constraint: comment_constraint!
+    update_columns: [comment_update_column!]!
+    where: comment_bool_exp
+}
+
+"ordering options when selecting data from \"comment\""
+input comment_order_by {
+    author: user_order_by
+    authorId: order_by
+    comment: order_by
+    createdAt: order_by
+    document: document_order_by
+    documentId: order_by
+    id: order_by
+    reactionBalance: order_by
+    reactionsGroup_aggregate: comment_reactions_group_aggregate_order_by
+    updatedAt: order_by
+}
+
+"primary key columns input for table: \"comment\""
+input comment_pk_columns_input {
+    id: uuid!
+}
+
+"order by aggregate values of table \"comment_reaction\""
+input comment_reaction_aggregate_order_by {
+    count: order_by
+    max: comment_reaction_max_order_by
+    min: comment_reaction_min_order_by
+}
+
+"input type for inserting array relation for remote table \"comment_reaction\""
+input comment_reaction_arr_rel_insert_input {
+    data: [comment_reaction_insert_input!]!
+    on_conflict: comment_reaction_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"comment_reaction\". All fields are combined with a logical 'AND'."
+input comment_reaction_bool_exp {
+    _and: [comment_reaction_bool_exp]
+    _not: comment_reaction_bool_exp
+    _or: [comment_reaction_bool_exp]
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    comment: comment_bool_exp
+    commentId: uuid_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    id: uuid_comparison_exp
+    reaction: reaction_bool_exp
+    reaction_id: String_comparison_exp
+}
+
+"input type for inserting data into table \"comment_reaction\""
+input comment_reaction_insert_input {
+    author: user_obj_rel_insert_input
+    authorId: String
+    comment: comment_obj_rel_insert_input
+    commentId: uuid
+    createdAt: timestamptz
+    id: uuid
+    reaction: reaction_obj_rel_insert_input
+    reaction_id: String
+}
+
+"order by max() on columns of table \"comment_reaction\""
+input comment_reaction_max_order_by {
+    authorId: order_by
+    commentId: order_by
+    createdAt: order_by
+    id: order_by
+    reaction_id: order_by
+}
+
+"order by min() on columns of table \"comment_reaction\""
+input comment_reaction_min_order_by {
+    authorId: order_by
+    commentId: order_by
+    createdAt: order_by
+    id: order_by
+    reaction_id: order_by
+}
+
+"input type for inserting object relation for remote table \"comment_reaction\""
+input comment_reaction_obj_rel_insert_input {
+    data: comment_reaction_insert_input!
+    on_conflict: comment_reaction_on_conflict
+}
+
+"on conflict condition type for table \"comment_reaction\""
+input comment_reaction_on_conflict {
+    constraint: comment_reaction_constraint!
+    update_columns: [comment_reaction_update_column!]!
+    where: comment_reaction_bool_exp
+}
+
+"ordering options when selecting data from \"comment_reaction\""
+input comment_reaction_order_by {
+    author: user_order_by
+    authorId: order_by
+    comment: comment_order_by
+    commentId: order_by
+    createdAt: order_by
+    id: order_by
+    reaction: reaction_order_by
+    reaction_id: order_by
+}
+
+"primary key columns input for table: \"comment_reaction\""
+input comment_reaction_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"comment_reaction\""
+input comment_reaction_set_input {
+    authorId: String
+    commentId: uuid
+    createdAt: timestamptz
+    id: uuid
+    reaction_id: String
+}
+
+"order by aggregate values of table \"comment_reactions_group\""
+input comment_reactions_group_aggregate_order_by {
+    avg: comment_reactions_group_avg_order_by
+    count: order_by
+    max: comment_reactions_group_max_order_by
+    min: comment_reactions_group_min_order_by
+    stddev: comment_reactions_group_stddev_order_by
+    stddev_pop: comment_reactions_group_stddev_pop_order_by
+    stddev_samp: comment_reactions_group_stddev_samp_order_by
+    sum: comment_reactions_group_sum_order_by
+    var_pop: comment_reactions_group_var_pop_order_by
+    var_samp: comment_reactions_group_var_samp_order_by
+    variance: comment_reactions_group_variance_order_by
+}
+
+"order by avg() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_avg_order_by {
+    count: order_by
+}
+
+"Boolean expression to filter rows from the table \"comment_reactions_group\". All fields are combined with a logical 'AND'."
+input comment_reactions_group_bool_exp {
+    _and: [comment_reactions_group_bool_exp]
+    _not: comment_reactions_group_bool_exp
+    _or: [comment_reactions_group_bool_exp]
+    commentid: uuid_comparison_exp
+    count: bigint_comparison_exp
+    reactionid: String_comparison_exp
+}
+
+"order by max() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_max_order_by {
+    commentid: order_by
+    count: order_by
+    reactionid: order_by
+}
+
+"order by min() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_min_order_by {
+    commentid: order_by
+    count: order_by
+    reactionid: order_by
+}
+
+"ordering options when selecting data from \"comment_reactions_group\""
+input comment_reactions_group_order_by {
+    commentid: order_by
+    count: order_by
+    reactionid: order_by
+}
+
+"order by stddev() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_stddev_order_by {
+    count: order_by
+}
+
+"order by stddev_pop() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_stddev_pop_order_by {
+    count: order_by
+}
+
+"order by stddev_samp() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_stddev_samp_order_by {
+    count: order_by
+}
+
+"order by sum() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_sum_order_by {
+    count: order_by
+}
+
+"order by var_pop() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_var_pop_order_by {
+    count: order_by
+}
+
+"order by var_samp() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_var_samp_order_by {
+    count: order_by
+}
+
+"order by variance() on columns of table \"comment_reactions_group\""
+input comment_reactions_group_variance_order_by {
+    count: order_by
+}
+
+"input type for updating data in table \"comment\""
+input comment_set_input {
+    authorId: String
+    comment: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reactionBalance: Int
+    updatedAt: timestamptz
+}
+
+"order by stddev() on columns of table \"comment\""
+input comment_stddev_order_by {
+    reactionBalance: order_by
+}
+
+"order by stddev_pop() on columns of table \"comment\""
+input comment_stddev_pop_order_by {
+    reactionBalance: order_by
+}
+
+"order by stddev_samp() on columns of table \"comment\""
+input comment_stddev_samp_order_by {
+    reactionBalance: order_by
+}
+
+"order by sum() on columns of table \"comment\""
+input comment_sum_order_by {
+    reactionBalance: order_by
+}
+
+"order by var_pop() on columns of table \"comment\""
+input comment_var_pop_order_by {
+    reactionBalance: order_by
+}
+
+"order by var_samp() on columns of table \"comment\""
+input comment_var_samp_order_by {
+    reactionBalance: order_by
+}
+
+"order by variance() on columns of table \"comment\""
+input comment_variance_order_by {
+    reactionBalance: order_by
+}
+
+"order by aggregate values of table \"document\""
+input document_aggregate_order_by {
+    avg: document_avg_order_by
+    count: order_by
+    max: document_max_order_by
+    min: document_min_order_by
+    stddev: document_stddev_order_by
+    stddev_pop: document_stddev_pop_order_by
+    stddev_samp: document_stddev_samp_order_by
+    sum: document_sum_order_by
+    var_pop: document_var_pop_order_by
+    var_samp: document_var_samp_order_by
+    variance: document_variance_order_by
+}
+
+"input type for inserting array relation for remote table \"document\""
+input document_arr_rel_insert_input {
+    data: [document_insert_input!]!
+    on_conflict: document_on_conflict
+}
+
+"order by avg() on columns of table \"document\""
+input document_avg_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"Boolean expression to filter rows from the table \"document\". All fields are combined with a logical 'AND'."
+input document_bool_exp {
+    _and: [document_bool_exp]
+    _not: document_bool_exp
+    _or: [document_bool_exp]
+    allowComments: Boolean_comparison_exp
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    comments: comment_bool_exp
+    content: document_content_bool_exp
+    countComments: Int_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    description: String_comparison_exp
+    id: uuid_comparison_exp
+    isPublic: Boolean_comparison_exp
+    labels: document_label_bool_exp
+    reactionBalance: Int_comparison_exp
+    reactions: document_reaction_bool_exp
+    reactionsGroup: document_reaction_group_persisted_bool_exp
+    title: String_comparison_exp
+    updatedAt: timestamptz_comparison_exp
+}
+
+"order by aggregate values of table \"document_content\""
+input document_content_aggregate_order_by {
+    count: order_by
+    max: document_content_max_order_by
+    min: document_content_min_order_by
+}
+
+"input type for inserting array relation for remote table \"document_content\""
+input document_content_arr_rel_insert_input {
+    data: [document_content_insert_input!]!
+    on_conflict: document_content_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"document_content\". All fields are combined with a logical 'AND'."
+input document_content_bool_exp {
+    _and: [document_content_bool_exp]
+    _not: document_content_bool_exp
+    _or: [document_content_bool_exp]
+    content: String_comparison_exp
+    document: document_bool_exp
+    documentId: uuid_comparison_exp
+    id: uuid_comparison_exp
+    updatedAt: timestamptz_comparison_exp
+}
+
+"input type for inserting data into table \"document_content\""
+input document_content_insert_input {
+    content: String
+    document: document_obj_rel_insert_input
+    documentId: uuid
+    id: uuid
+    updatedAt: timestamptz
+}
+
+"order by max() on columns of table \"document_content\""
+input document_content_max_order_by {
+    content: order_by
+    documentId: order_by
+    id: order_by
+    updatedAt: order_by
+}
+
+"order by min() on columns of table \"document_content\""
+input document_content_min_order_by {
+    content: order_by
+    documentId: order_by
+    id: order_by
+    updatedAt: order_by
+}
+
+"input type for inserting object relation for remote table \"document_content\""
+input document_content_obj_rel_insert_input {
+    data: document_content_insert_input!
+    on_conflict: document_content_on_conflict
+}
+
+"on conflict condition type for table \"document_content\""
+input document_content_on_conflict {
+    constraint: document_content_constraint!
+    update_columns: [document_content_update_column!]!
+    where: document_content_bool_exp
+}
+
+"ordering options when selecting data from \"document_content\""
+input document_content_order_by {
+    content: order_by
+    document: document_order_by
+    documentId: order_by
+    id: order_by
+    updatedAt: order_by
+}
+
+"primary key columns input for table: \"document_content\""
+input document_content_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"document_content\""
+input document_content_set_input {
+    content: String
+    documentId: uuid
+    id: uuid
+    updatedAt: timestamptz
+}
+
+"input type for incrementing integer columne in table \"document\""
+input document_inc_input {
+    countComments: Int
+    reactionBalance: Int
+}
+
+"input type for inserting data into table \"document\""
+input document_insert_input {
+    allowComments: Boolean
+    author: user_obj_rel_insert_input
+    authorId: String
+    comments: comment_arr_rel_insert_input
+    content: document_content_obj_rel_insert_input
+    countComments: Int
+    createdAt: timestamptz
+    description: String
+    id: uuid
+    isPublic: Boolean
+    labels: document_label_arr_rel_insert_input
+    reactionBalance: Int
+    reactions: document_reaction_arr_rel_insert_input
+    reactionsGroup: document_reaction_group_persisted_arr_rel_insert_input
+    title: String
+    updatedAt: timestamptz
+}
+
+"order by aggregate values of table \"document_label\""
+input document_label_aggregate_order_by {
+    count: order_by
+    max: document_label_max_order_by
+    min: document_label_min_order_by
+}
+
+"input type for inserting array relation for remote table \"document_label\""
+input document_label_arr_rel_insert_input {
+    data: [document_label_insert_input!]!
+    on_conflict: document_label_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"document_label\". All fields are combined with a logical 'AND'."
+input document_label_bool_exp {
+    _and: [document_label_bool_exp]
+    _not: document_label_bool_exp
+    _or: [document_label_bool_exp]
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    document: document_bool_exp
+    documentId: uuid_comparison_exp
+    id: uuid_comparison_exp
+    label: label_bool_exp
+    labelId: uuid_comparison_exp
+}
+
+"input type for inserting data into table \"document_label\""
+input document_label_insert_input {
+    author: user_obj_rel_insert_input
+    authorId: String
+    createdAt: timestamptz
+    document: document_obj_rel_insert_input
+    documentId: uuid
+    id: uuid
+    label: label_obj_rel_insert_input
+    labelId: uuid
+}
+
+"order by max() on columns of table \"document_label\""
+input document_label_max_order_by {
+    authorId: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    labelId: order_by
+}
+
+"order by min() on columns of table \"document_label\""
+input document_label_min_order_by {
+    authorId: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    labelId: order_by
+}
+
+"input type for inserting object relation for remote table \"document_label\""
+input document_label_obj_rel_insert_input {
+    data: document_label_insert_input!
+    on_conflict: document_label_on_conflict
+}
+
+"on conflict condition type for table \"document_label\""
+input document_label_on_conflict {
+    constraint: document_label_constraint!
+    update_columns: [document_label_update_column!]!
+    where: document_label_bool_exp
+}
+
+"ordering options when selecting data from \"document_label\""
+input document_label_order_by {
+    author: user_order_by
+    authorId: order_by
+    createdAt: order_by
+    document: document_order_by
+    documentId: order_by
+    id: order_by
+    label: label_order_by
+    labelId: order_by
+}
+
+"primary key columns input for table: \"document_label\""
+input document_label_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"document_label\""
+input document_label_set_input {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    labelId: uuid
+}
+
+"order by max() on columns of table \"document\""
+input document_max_order_by {
+    authorId: order_by
+    countComments: order_by
+    createdAt: order_by
+    description: order_by
+    id: order_by
+    reactionBalance: order_by
+    title: order_by
+    updatedAt: order_by
+}
+
+"order by min() on columns of table \"document\""
+input document_min_order_by {
+    authorId: order_by
+    countComments: order_by
+    createdAt: order_by
+    description: order_by
+    id: order_by
+    reactionBalance: order_by
+    title: order_by
+    updatedAt: order_by
+}
+
+"input type for inserting object relation for remote table \"document\""
+input document_obj_rel_insert_input {
+    data: document_insert_input!
+    on_conflict: document_on_conflict
+}
+
+"on conflict condition type for table \"document\""
+input document_on_conflict {
+    constraint: document_constraint!
+    update_columns: [document_update_column!]!
+    where: document_bool_exp
+}
+
+"ordering options when selecting data from \"document\""
+input document_order_by {
+    allowComments: order_by
+    author: user_order_by
+    authorId: order_by
+    comments_aggregate: comment_aggregate_order_by
+    content: document_content_order_by
+    countComments: order_by
+    createdAt: order_by
+    description: order_by
+    id: order_by
+    isPublic: order_by
+    labels_aggregate: document_label_aggregate_order_by
+    reactionBalance: order_by
+    reactionsGroup_aggregate: document_reaction_group_persisted_aggregate_order_by
+    reactions_aggregate: document_reaction_aggregate_order_by
+    title: order_by
+    updatedAt: order_by
+}
+
+"primary key columns input for table: \"document\""
+input document_pk_columns_input {
+    id: uuid!
+}
+
+"order by aggregate values of table \"document_reaction\""
+input document_reaction_aggregate_order_by {
+    count: order_by
+    max: document_reaction_max_order_by
+    min: document_reaction_min_order_by
+}
+
+"input type for inserting array relation for remote table \"document_reaction\""
+input document_reaction_arr_rel_insert_input {
+    data: [document_reaction_insert_input!]!
+    on_conflict: document_reaction_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"document_reaction\". All fields are combined with a logical 'AND'."
+input document_reaction_bool_exp {
+    _and: [document_reaction_bool_exp]
+    _not: document_reaction_bool_exp
+    _or: [document_reaction_bool_exp]
+    authorId: String_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    document: document_bool_exp
+    documentId: uuid_comparison_exp
+    id: uuid_comparison_exp
+    reaction: reaction_bool_exp
+    reaction_id: String_comparison_exp
+}
+
+"order by aggregate values of table \"document_reaction_group\""
+input document_reaction_group_aggregate_order_by {
+    avg: document_reaction_group_avg_order_by
+    count: order_by
+    max: document_reaction_group_max_order_by
+    min: document_reaction_group_min_order_by
+    stddev: document_reaction_group_stddev_order_by
+    stddev_pop: document_reaction_group_stddev_pop_order_by
+    stddev_samp: document_reaction_group_stddev_samp_order_by
+    sum: document_reaction_group_sum_order_by
+    var_pop: document_reaction_group_var_pop_order_by
+    var_samp: document_reaction_group_var_samp_order_by
+    variance: document_reaction_group_variance_order_by
+}
+
+"order by avg() on columns of table \"document_reaction_group\""
+input document_reaction_group_avg_order_by {
+    count: order_by
+}
+
+"Boolean expression to filter rows from the table \"document_reaction_group\". All fields are combined with a logical 'AND'."
+input document_reaction_group_bool_exp {
+    _and: [document_reaction_group_bool_exp]
+    _not: document_reaction_group_bool_exp
+    _or: [document_reaction_group_bool_exp]
+    count: bigint_comparison_exp
+    document_id: uuid_comparison_exp
+    reaction_id: String_comparison_exp
+}
+
+"order by max() on columns of table \"document_reaction_group\""
+input document_reaction_group_max_order_by {
+    count: order_by
+    document_id: order_by
+    reaction_id: order_by
+}
+
+"order by min() on columns of table \"document_reaction_group\""
+input document_reaction_group_min_order_by {
+    count: order_by
+    document_id: order_by
+    reaction_id: order_by
+}
+
+"ordering options when selecting data from \"document_reaction_group\""
+input document_reaction_group_order_by {
+    count: order_by
+    document_id: order_by
+    reaction_id: order_by
+}
+
+"order by aggregate values of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_aggregate_order_by {
+    avg: document_reaction_group_persisted_avg_order_by
+    count: order_by
+    max: document_reaction_group_persisted_max_order_by
+    min: document_reaction_group_persisted_min_order_by
+    stddev: document_reaction_group_persisted_stddev_order_by
+    stddev_pop: document_reaction_group_persisted_stddev_pop_order_by
+    stddev_samp: document_reaction_group_persisted_stddev_samp_order_by
+    sum: document_reaction_group_persisted_sum_order_by
+    var_pop: document_reaction_group_persisted_var_pop_order_by
+    var_samp: document_reaction_group_persisted_var_samp_order_by
+    variance: document_reaction_group_persisted_variance_order_by
+}
+
+"input type for inserting array relation for remote table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_arr_rel_insert_input {
+    data: [document_reaction_group_persisted_insert_input!]!
+    on_conflict: document_reaction_group_persisted_on_conflict
+}
+
+"order by avg() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_avg_order_by {
+    count: order_by
+    id: order_by
+}
+
+"Boolean expression to filter rows from the table \"document_reaction_group_persisted\". All fields are combined with a logical 'AND'."
+input document_reaction_group_persisted_bool_exp {
+    _and: [document_reaction_group_persisted_bool_exp]
+    _not: document_reaction_group_persisted_bool_exp
+    _or: [document_reaction_group_persisted_bool_exp]
+    count: Int_comparison_exp
+    documentId: uuid_comparison_exp
+    id: bigint_comparison_exp
+    reactionId: String_comparison_exp
+}
+
+"input type for incrementing integer columne in table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_inc_input {
+    count: Int
+    id: bigint
+}
+
+"input type for inserting data into table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_insert_input {
+    count: Int
+    documentId: uuid
+    id: bigint
+    reactionId: String
+}
+
+"order by max() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_max_order_by {
+    count: order_by
+    documentId: order_by
+    id: order_by
+    reactionId: order_by
+}
+
+"order by min() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_min_order_by {
+    count: order_by
+    documentId: order_by
+    id: order_by
+    reactionId: order_by
+}
+
+"input type for inserting object relation for remote table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_obj_rel_insert_input {
+    data: document_reaction_group_persisted_insert_input!
+    on_conflict: document_reaction_group_persisted_on_conflict
+}
+
+"on conflict condition type for table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_on_conflict {
+    constraint: document_reaction_group_persisted_constraint!
+    update_columns: [document_reaction_group_persisted_update_column!]!
+    where: document_reaction_group_persisted_bool_exp
+}
+
+"ordering options when selecting data from \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_order_by {
+    count: order_by
+    documentId: order_by
+    id: order_by
+    reactionId: order_by
+}
+
+"primary key columns input for table: \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_pk_columns_input {
+    id: bigint!
+}
+
+"input type for updating data in table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_set_input {
+    count: Int
+    documentId: uuid
+    id: bigint
+    reactionId: String
+}
+
+"order by stddev() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_stddev_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by stddev_pop() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_stddev_pop_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by stddev_samp() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_stddev_samp_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by sum() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_sum_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by var_pop() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_var_pop_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by var_samp() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_var_samp_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by variance() on columns of table \"document_reaction_group_persisted\""
+input document_reaction_group_persisted_variance_order_by {
+    count: order_by
+    id: order_by
+}
+
+"order by stddev() on columns of table \"document_reaction_group\""
+input document_reaction_group_stddev_order_by {
+    count: order_by
+}
+
+"order by stddev_pop() on columns of table \"document_reaction_group\""
+input document_reaction_group_stddev_pop_order_by {
+    count: order_by
+}
+
+"order by stddev_samp() on columns of table \"document_reaction_group\""
+input document_reaction_group_stddev_samp_order_by {
+    count: order_by
+}
+
+"order by sum() on columns of table \"document_reaction_group\""
+input document_reaction_group_sum_order_by {
+    count: order_by
+}
+
+"order by var_pop() on columns of table \"document_reaction_group\""
+input document_reaction_group_var_pop_order_by {
+    count: order_by
+}
+
+"order by var_samp() on columns of table \"document_reaction_group\""
+input document_reaction_group_var_samp_order_by {
+    count: order_by
+}
+
+"order by variance() on columns of table \"document_reaction_group\""
+input document_reaction_group_variance_order_by {
+    count: order_by
+}
+
+"input type for inserting data into table \"document_reaction\""
+input document_reaction_insert_input {
+    authorId: String
+    createdAt: timestamptz
+    document: document_obj_rel_insert_input
+    documentId: uuid
+    id: uuid
+    reaction: reaction_obj_rel_insert_input
+    reaction_id: String
+}
+
+"order by max() on columns of table \"document_reaction\""
+input document_reaction_max_order_by {
+    authorId: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    reaction_id: order_by
+}
+
+"order by min() on columns of table \"document_reaction\""
+input document_reaction_min_order_by {
+    authorId: order_by
+    createdAt: order_by
+    documentId: order_by
+    id: order_by
+    reaction_id: order_by
+}
+
+"input type for inserting object relation for remote table \"document_reaction\""
+input document_reaction_obj_rel_insert_input {
+    data: document_reaction_insert_input!
+    on_conflict: document_reaction_on_conflict
+}
+
+"on conflict condition type for table \"document_reaction\""
+input document_reaction_on_conflict {
+    constraint: document_reaction_constraint!
+    update_columns: [document_reaction_update_column!]!
+    where: document_reaction_bool_exp
+}
+
+"ordering options when selecting data from \"document_reaction\""
+input document_reaction_order_by {
+    authorId: order_by
+    createdAt: order_by
+    document: document_order_by
+    documentId: order_by
+    id: order_by
+    reaction: reaction_order_by
+    reaction_id: order_by
+}
+
+"primary key columns input for table: \"document_reaction\""
+input document_reaction_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"document_reaction\""
+input document_reaction_set_input {
+    authorId: String
+    createdAt: timestamptz
+    documentId: uuid
+    id: uuid
+    reaction_id: String
+}
+
+"input type for updating data in table \"document\""
+input document_set_input {
+    allowComments: Boolean
+    authorId: String
+    countComments: Int
+    createdAt: timestamptz
+    description: String
+    id: uuid
+    isPublic: Boolean
+    reactionBalance: Int
+    title: String
+    updatedAt: timestamptz
+}
+
+"order by stddev() on columns of table \"document\""
+input document_stddev_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by stddev_pop() on columns of table \"document\""
+input document_stddev_pop_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by stddev_samp() on columns of table \"document\""
+input document_stddev_samp_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by sum() on columns of table \"document\""
+input document_sum_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by var_pop() on columns of table \"document\""
+input document_var_pop_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by var_samp() on columns of table \"document\""
+input document_var_samp_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by variance() on columns of table \"document\""
+input document_variance_order_by {
+    countComments: order_by
+    reactionBalance: order_by
+}
+
+"order by aggregate values of table \"follow\""
+input follow_aggregate_order_by {
+    count: order_by
+    max: follow_max_order_by
+    min: follow_min_order_by
+}
+
+"input type for inserting array relation for remote table \"follow\""
+input follow_arr_rel_insert_input {
+    data: [follow_insert_input!]!
+    on_conflict: follow_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"follow\". All fields are combined with a logical 'AND'."
+input follow_bool_exp {
+    _and: [follow_bool_exp]
+    _not: follow_bool_exp
+    _or: [follow_bool_exp]
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    following: user_bool_exp
+    followingId: String_comparison_exp
+    id: uuid_comparison_exp
+}
+
+"input type for inserting data into table \"follow\""
+input follow_insert_input {
+    author: user_obj_rel_insert_input
+    authorId: String
+    createdAt: timestamptz
+    following: user_obj_rel_insert_input
+    followingId: String
+    id: uuid
+}
+
+"order by max() on columns of table \"follow\""
+input follow_max_order_by {
+    authorId: order_by
+    createdAt: order_by
+    followingId: order_by
+    id: order_by
+}
+
+"order by min() on columns of table \"follow\""
+input follow_min_order_by {
+    authorId: order_by
+    createdAt: order_by
+    followingId: order_by
+    id: order_by
+}
+
+"input type for inserting object relation for remote table \"follow\""
+input follow_obj_rel_insert_input {
+    data: follow_insert_input!
+    on_conflict: follow_on_conflict
+}
+
+"on conflict condition type for table \"follow\""
+input follow_on_conflict {
+    constraint: follow_constraint!
+    update_columns: [follow_update_column!]!
+    where: follow_bool_exp
+}
+
+"ordering options when selecting data from \"follow\""
+input follow_order_by {
+    author: user_order_by
+    authorId: order_by
+    createdAt: order_by
+    following: user_order_by
+    followingId: order_by
+    id: order_by
+}
+
+"primary key columns input for table: \"follow\""
+input follow_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"follow\""
+input follow_set_input {
+    authorId: String
+    createdAt: timestamptz
+    followingId: String
+    id: uuid
+}
+
+"order by aggregate values of table \"label\""
+input label_aggregate_order_by {
+    count: order_by
+    max: label_max_order_by
+    min: label_min_order_by
+}
+
+"input type for inserting array relation for remote table \"label\""
+input label_arr_rel_insert_input {
+    data: [label_insert_input!]!
+    on_conflict: label_on_conflict
+}
+
+"Boolean expression to filter rows from the table \"label\". All fields are combined with a logical 'AND'."
+input label_bool_exp {
+    _and: [label_bool_exp]
+    _not: label_bool_exp
+    _or: [label_bool_exp]
+    author: user_bool_exp
+    authorId: String_comparison_exp
+    color: color_bool_exp
+    color_name: String_comparison_exp
+    document_labels: document_label_bool_exp
+    id: uuid_comparison_exp
+    label: String_comparison_exp
+}
+
+"input type for inserting data into table \"label\""
+input label_insert_input {
+    author: user_obj_rel_insert_input
+    authorId: String
+    color: color_obj_rel_insert_input
+    color_name: String
+    document_labels: document_label_arr_rel_insert_input
+    id: uuid
+    label: String
+}
+
+"order by max() on columns of table \"label\""
+input label_max_order_by {
+    authorId: order_by
+    color_name: order_by
+    id: order_by
+    label: order_by
+}
+
+"order by min() on columns of table \"label\""
+input label_min_order_by {
+    authorId: order_by
+    color_name: order_by
+    id: order_by
+    label: order_by
+}
+
+"input type for inserting object relation for remote table \"label\""
+input label_obj_rel_insert_input {
+    data: label_insert_input!
+    on_conflict: label_on_conflict
+}
+
+"on conflict condition type for table \"label\""
+input label_on_conflict {
+    constraint: label_constraint!
+    update_columns: [label_update_column!]!
+    where: label_bool_exp
+}
+
+"ordering options when selecting data from \"label\""
+input label_order_by {
+    author: user_order_by
+    authorId: order_by
+    color: color_order_by
+    color_name: order_by
+    document_labels_aggregate: document_label_aggregate_order_by
+    id: order_by
+    label: order_by
+}
+
+"primary key columns input for table: \"label\""
+input label_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"label\""
+input label_set_input {
+    authorId: String
+    color_name: String
+    id: uuid
+    label: String
+}
+
+"order by aggregate values of table \"reaction\""
+input reaction_aggregate_order_by {
+    avg: reaction_avg_order_by
+    count: order_by
+    max: reaction_max_order_by
+    min: reaction_min_order_by
+    stddev: reaction_stddev_order_by
+    stddev_pop: reaction_stddev_pop_order_by
+    stddev_samp: reaction_stddev_samp_order_by
+    sum: reaction_sum_order_by
+    var_pop: reaction_var_pop_order_by
+    var_samp: reaction_var_samp_order_by
+    variance: reaction_variance_order_by
+}
+
+"input type for inserting array relation for remote table \"reaction\""
+input reaction_arr_rel_insert_input {
+    data: [reaction_insert_input!]!
+    on_conflict: reaction_on_conflict
+}
+
+"order by avg() on columns of table \"reaction\""
+input reaction_avg_order_by {
+    balance: order_by
+}
+
+"Boolean expression to filter rows from the table \"reaction\". All fields are combined with a logical 'AND'."
+input reaction_bool_exp {
+    _and: [reaction_bool_exp]
+    _not: reaction_bool_exp
+    _or: [reaction_bool_exp]
+    balance: Int_comparison_exp
+    htmlCode: String_comparison_exp
+    title: String_comparison_exp
+}
+
+"input type for incrementing integer columne in table \"reaction\""
+input reaction_inc_input {
+    balance: Int
+}
+
+"input type for inserting data into table \"reaction\""
+input reaction_insert_input {
+    balance: Int
+    htmlCode: String
+    title: String
+}
+
+"order by max() on columns of table \"reaction\""
+input reaction_max_order_by {
+    balance: order_by
+    htmlCode: order_by
+    title: order_by
+}
+
+"order by min() on columns of table \"reaction\""
+input reaction_min_order_by {
+    balance: order_by
+    htmlCode: order_by
+    title: order_by
+}
+
+"input type for inserting object relation for remote table \"reaction\""
+input reaction_obj_rel_insert_input {
+    data: reaction_insert_input!
+    on_conflict: reaction_on_conflict
+}
+
+"on conflict condition type for table \"reaction\""
+input reaction_on_conflict {
+    constraint: reaction_constraint!
+    update_columns: [reaction_update_column!]!
+    where: reaction_bool_exp
+}
+
+"ordering options when selecting data from \"reaction\""
+input reaction_order_by {
+    balance: order_by
+    htmlCode: order_by
+    title: order_by
+}
+
+"primary key columns input for table: \"reaction\""
+input reaction_pk_columns_input {
+    htmlCode: String!
+}
+
+"input type for updating data in table \"reaction\""
+input reaction_set_input {
+    balance: Int
+    htmlCode: String
+    title: String
+}
+
+"order by stddev() on columns of table \"reaction\""
+input reaction_stddev_order_by {
+    balance: order_by
+}
+
+"order by stddev_pop() on columns of table \"reaction\""
+input reaction_stddev_pop_order_by {
+    balance: order_by
+}
+
+"order by stddev_samp() on columns of table \"reaction\""
+input reaction_stddev_samp_order_by {
+    balance: order_by
+}
+
+"order by sum() on columns of table \"reaction\""
+input reaction_sum_order_by {
+    balance: order_by
+}
+
+"order by var_pop() on columns of table \"reaction\""
+input reaction_var_pop_order_by {
+    balance: order_by
+}
+
+"order by var_samp() on columns of table \"reaction\""
+input reaction_var_samp_order_by {
+    balance: order_by
+}
+
+"order by variance() on columns of table \"reaction\""
+input reaction_variance_order_by {
+    balance: order_by
+}
+
+"expression to compare columns of type timestamptz. All fields are combined with logical 'AND'."
+input timestamptz_comparison_exp {
+    _eq: timestamptz
+    _gt: timestamptz
+    _gte: timestamptz
+    _in: [timestamptz!]
+    _is_null: Boolean
+    _lt: timestamptz
+    _lte: timestamptz
+    _neq: timestamptz
+    _nin: [timestamptz!]
+}
+
+"order by aggregate values of table \"user\""
+input user_aggregate_order_by {
+    avg: user_avg_order_by
+    count: order_by
+    max: user_max_order_by
+    min: user_min_order_by
+    stddev: user_stddev_order_by
+    stddev_pop: user_stddev_pop_order_by
+    stddev_samp: user_stddev_samp_order_by
+    sum: user_sum_order_by
+    var_pop: user_var_pop_order_by
+    var_samp: user_var_samp_order_by
+    variance: user_variance_order_by
+}
+
+"input type for inserting array relation for remote table \"user\""
+input user_arr_rel_insert_input {
+    data: [user_insert_input!]!
+    on_conflict: user_on_conflict
+}
+
+"order by avg() on columns of table \"user\""
+input user_avg_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"Boolean expression to filter rows from the table \"user\". All fields are combined with a logical 'AND'."
+input user_bool_exp {
+    _and: [user_bool_exp]
+    _not: user_bool_exp
+    _or: [user_bool_exp]
+    authId: String_comparison_exp
+    balanceCommentReaction: bigint_comparison_exp
+    balanceDocumentReaction: bigint_comparison_exp
+    countPrivateDocs: Int_comparison_exp
+    countWrittenComments: Int_comparison_exp
+    createdAt: timestamptz_comparison_exp
+    document_labels: document_label_bool_exp
+    documents: document_bool_exp
+    followers: follow_bool_exp
+    followings: follow_bool_exp
+    id: uuid_comparison_exp
+    imageUrl: String_comparison_exp
+    labels: label_bool_exp
+    maxPrivateDocs: Int_comparison_exp
+    name: String_comparison_exp
+    updatedAt: timestamptz_comparison_exp
+}
+
+"input type for incrementing integer columne in table \"user\""
+input user_inc_input {
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    maxPrivateDocs: Int
+}
+
+"input type for inserting data into table \"user\""
+input user_insert_input {
+    authId: String
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    createdAt: timestamptz
+    document_labels: document_label_arr_rel_insert_input
+    documents: document_arr_rel_insert_input
+    followers: follow_arr_rel_insert_input
+    followings: follow_arr_rel_insert_input
+    id: uuid
+    imageUrl: String
+    labels: label_arr_rel_insert_input
+    maxPrivateDocs: Int
+    name: String
+    updatedAt: timestamptz
+}
+
+"order by max() on columns of table \"user\""
+input user_max_order_by {
+    authId: order_by
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    createdAt: order_by
+    id: order_by
+    imageUrl: order_by
+    maxPrivateDocs: order_by
+    name: order_by
+    updatedAt: order_by
+}
+
+"order by min() on columns of table \"user\""
+input user_min_order_by {
+    authId: order_by
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    createdAt: order_by
+    id: order_by
+    imageUrl: order_by
+    maxPrivateDocs: order_by
+    name: order_by
+    updatedAt: order_by
+}
+
+"input type for inserting object relation for remote table \"user\""
+input user_obj_rel_insert_input {
+    data: user_insert_input!
+    on_conflict: user_on_conflict
+}
+
+"on conflict condition type for table \"user\""
+input user_on_conflict {
+    constraint: user_constraint!
+    update_columns: [user_update_column!]!
+    where: user_bool_exp
+}
+
+"ordering options when selecting data from \"user\""
+input user_order_by {
+    authId: order_by
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    createdAt: order_by
+    document_labels_aggregate: document_label_aggregate_order_by
+    documents_aggregate: document_aggregate_order_by
+    followers_aggregate: follow_aggregate_order_by
+    followings_aggregate: follow_aggregate_order_by
+    id: order_by
+    imageUrl: order_by
+    labels_aggregate: label_aggregate_order_by
+    maxPrivateDocs: order_by
+    name: order_by
+    updatedAt: order_by
+}
+
+"primary key columns input for table: \"user\""
+input user_pk_columns_input {
+    id: uuid!
+}
+
+"input type for updating data in table \"user\""
+input user_set_input {
+    authId: String
+    balanceCommentReaction: bigint
+    balanceDocumentReaction: bigint
+    countPrivateDocs: Int
+    countWrittenComments: Int
+    createdAt: timestamptz
+    id: uuid
+    imageUrl: String
+    maxPrivateDocs: Int
+    name: String
+    updatedAt: timestamptz
+}
+
+"order by stddev() on columns of table \"user\""
+input user_stddev_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by stddev_pop() on columns of table \"user\""
+input user_stddev_pop_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by stddev_samp() on columns of table \"user\""
+input user_stddev_samp_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by sum() on columns of table \"user\""
+input user_sum_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by var_pop() on columns of table \"user\""
+input user_var_pop_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by var_samp() on columns of table \"user\""
+input user_var_samp_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"order by variance() on columns of table \"user\""
+input user_variance_order_by {
+    balanceCommentReaction: order_by
+    balanceDocumentReaction: order_by
+    countPrivateDocs: order_by
+    countWrittenComments: order_by
+    maxPrivateDocs: order_by
+}
+
+"expression to compare columns of type uuid. All fields are combined with logical 'AND'."
+input uuid_comparison_exp {
+    _eq: uuid
+    _gt: uuid
+    _gte: uuid
+    _in: [uuid!]
+    _is_null: Boolean
+    _lt: uuid
+    _lte: uuid
+    _neq: uuid
+    _nin: [uuid!]
+}
+
+
+scalar bigint
+
+scalar timestamptz
+
+scalar uuid

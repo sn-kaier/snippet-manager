@@ -1,0 +1,13 @@
+- args:
+    name: reactionsGroup
+    table:
+      name: document
+      schema: public
+    using:
+      manual_configuration:
+        column_mapping:
+          id: document_id
+        remote_table:
+          name: document_reaction_group
+          schema: public
+  type: create_array_relationship

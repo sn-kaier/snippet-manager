@@ -1,0 +1,4 @@
+- args:
+    sql: "\n          alter table \"public\".\"comment_reaction\" drop constraint
+      \"comment_reaction_author_id_fkey\"\n      "
+  type: run_sql

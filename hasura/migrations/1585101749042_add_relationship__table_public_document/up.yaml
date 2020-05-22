@@ -1,0 +1,12 @@
+- args:
+    name: reactionGroup
+    table:
+      name: document
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: document_id
+        table:
+          name: document_reaction_group_persisted
+          schema: public
+  type: create_array_relationship

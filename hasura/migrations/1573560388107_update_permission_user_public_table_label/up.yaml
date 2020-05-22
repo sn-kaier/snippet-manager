@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - color_id
+      - label
+      localPresets:
+      - key: author_id
+        value: x-hasura-User-Id
+      - key: ""
+        value: ""
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: label
+      schema: public
+  type: create_insert_permission

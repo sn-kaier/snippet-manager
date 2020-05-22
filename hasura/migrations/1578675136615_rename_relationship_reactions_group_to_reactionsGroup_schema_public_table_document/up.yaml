@@ -1,0 +1,7 @@
+- args:
+    name: reactions_group
+    new_name: reactionsGroup
+    table:
+      name: document
+      schema: public
+  type: rename_relationship

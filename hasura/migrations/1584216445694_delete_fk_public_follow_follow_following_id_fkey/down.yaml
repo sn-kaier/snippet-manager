@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."follow" add foreign key ("following_id") references
+      "public"."user"("id") on update restrict on delete cascade;
+  type: run_sql

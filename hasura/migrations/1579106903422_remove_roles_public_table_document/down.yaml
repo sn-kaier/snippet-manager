@@ -1,0 +1,65 @@
+- args:
+    permission:
+      columns: []
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+      set: {}
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_update_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - allow_comments
+      - is_public
+      - description
+      - title
+      - created_at
+      - updated_at
+      - author_id
+      - id
+      computed_fields: []
+      filter:
+        _or:
+        - author_id:
+            _eq: X-Hasura-User-Id
+        - is_public:
+            _eq: true
+      limit: 100
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      filter:
+        author_id:
+          _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_delete_permission
+- args:
+    permission:
+      check:
+        author:
+          max_private_docs:
+            _cgt: count_private_docs
+      columns:
+      - allow_comments
+      - description
+      - is_public
+      - title
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_insert_permission

@@ -1,0 +1,17 @@
+- args:
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: drop_delete_permission
+- args:
+    permission:
+      filter:
+        author:
+          auth_id:
+            _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: comment
+      schema: public
+  type: create_delete_permission

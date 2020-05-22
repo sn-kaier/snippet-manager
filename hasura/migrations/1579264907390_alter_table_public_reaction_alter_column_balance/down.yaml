@@ -1,0 +1,6 @@
+- args:
+    sql: ALTER TABLE "public"."reaction" ALTER COLUMN "balance" TYPE integer;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."reaction"."balance" IS E'null'
+  type: run_sql

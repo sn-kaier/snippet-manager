@@ -1,0 +1,13 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - content
+      - updated_at
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: document_content
+      schema: public
+  type: create_select_permission

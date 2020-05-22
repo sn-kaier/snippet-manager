@@ -1,0 +1,5 @@
+<emoji-mart
+  *ngIf="showEmoji | async"
+  (emojiClick)="addEmoji($event)"
+  (click)="preventPropagation($event)"
+></emoji-mart>

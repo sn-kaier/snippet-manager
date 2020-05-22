@@ -1,0 +1,4 @@
+- args:
+    sql: "\n          alter table \"public\".\"label\" drop constraint \"label_color_id_fkey\"\n
+      \     "
+  type: run_sql

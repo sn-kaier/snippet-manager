@@ -1,0 +1,17 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+      created_at: createdAt
+      following_id: followingId
+    custom_root_fields:
+      delete: removeFollow
+      insert: addFollow
+      select: allFollows
+      select_aggregate: null
+      select_by_pk: follow
+      update: updateFollow
+    table:
+      name: follow
+      schema: public
+  type: set_table_custom_fields
+  version: 2

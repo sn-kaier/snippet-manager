@@ -1,0 +1,12 @@
+- args:
+    sql: CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  type: run_sql
+- args:
+    sql: CREATE TABLE "public"."document_reaction"("id" uuid NOT NULL DEFAULT gen_random_uuid(),
+      "author_id" uuid NOT NULL, "document_id" uuid NOT NULL, "reaction_id" integer
+      NOT NULL, PRIMARY KEY ("id") );
+  type: run_sql
+- args:
+    name: document_reaction
+    schema: public
+  type: add_existing_table_or_view

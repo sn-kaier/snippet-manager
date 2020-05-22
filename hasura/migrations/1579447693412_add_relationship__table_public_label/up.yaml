@@ -1,0 +1,8 @@
+- args:
+    name: color
+    table:
+      name: label
+      schema: public
+    using:
+      foreign_key_constraint_on: color_name
+  type: create_object_relationship

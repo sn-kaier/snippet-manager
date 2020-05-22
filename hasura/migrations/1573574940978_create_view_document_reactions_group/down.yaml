@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    sql: |
+      -- empty down migration
+  type: run_sql

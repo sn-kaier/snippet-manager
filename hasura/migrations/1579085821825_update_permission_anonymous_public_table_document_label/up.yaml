@@ -1,0 +1,12 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - label_id
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: document_label
+      schema: public
+  type: create_select_permission
