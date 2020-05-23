@@ -15,8 +15,8 @@ import {
   UCommentSectionRemoveCommentReactionGQL
 } from '../../../__generated/user-gql-services';
 import { QueryRef } from 'apollo-angular';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { iif, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comment-section',
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 export class CommentSectionComponent implements OnInit {
 
   private docId: string;
-  private limit = 10;
+  private limit = 5;
   private offset = 0;
 
   @Input()
@@ -39,11 +39,13 @@ export class CommentSectionComponent implements OnInit {
     return this.docId;
   }
 
+  @Input()
+  countComments: number;
+
   userQueryRef: QueryRef<UCommentSectionCommentsQuery, UCommentSectionCommentsQueryVariables>;
   anonymousQueryRef: QueryRef<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables>;
 
-  uComments$: Observable<UCommentSectionCommentFragment[]>;
-  aComments$: Observable<ACommentSectionCommentFragment[]>;
+  comments$: Observable<UCommentSectionCommentFragment[] | ACommentSectionCommentFragment[]>;
 
   constructor(
     private readonly aCommentsQuery: ACommentSectionCommentsGQL,
@@ -55,25 +57,40 @@ export class CommentSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userQueryRef = this.uCommentsQuery.watch({
-      authorId: this.authService.authState.value?.userId,
-      documentId: this.docId,
-      limit: this.limit,
-      offset: this.offset
-    }, { fetchResults: false });
 
-    this.uComments$ = this.userQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
 
-    this.anonymousQueryRef = this.aCommentsQuery.watch({
-      documentId: this.docId,
-      limit: this.limit,
-      offset: this.offset
-    }, { fetchResults: false });
+    const getUserComments = () => {
+      this.userQueryRef = this.uCommentsQuery.watch({
+        authorId: this.authService.authState.value?.userId,
+        documentId: this.docId,
+        limit: this.limit,
+        offset: this.offset
+      }, { fetchResults: false });
 
-    this.aComments$ = this.anonymousQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
+      return this.userQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
+    };
+
+    const getAnonymousComments = () => {
+      this.anonymousQueryRef = this.aCommentsQuery.watch({
+        documentId: this.docId,
+        limit: this.limit,
+        offset: this.offset
+      }, { fetchResults: false });
+
+      return this.anonymousQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
+    };
+
+    this.comments$ = this.authService.authState.pipe(mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments())));
+  }
+
+  get canLoadMore(): boolean {
+    return this.offset + this.limit < this.countComments;
   }
 
   toggleReaction(commentId: string, reactionId: string) {
+    if (!this.userQueryRef) {
+      return;
+    }
     this.userQueryRef.updateQuery(prev => {
       const allComments = prev.allComments;
       const prevComment = allComments.find(c => c.id === commentId);
@@ -124,5 +141,45 @@ export class CommentSectionComponent implements OnInit {
         allComments: [...allComments]
       };
     });
+  }
+
+  loadMore() {
+    const s = this.authService.authState.getValue();
+
+    if (s.state === 'in') {
+      this.offset += this.limit;
+      this.userQueryRef.fetchMore({
+        variables: {
+          documentId: this.docId,
+          authorId: s.userId,
+          limit: this.limit,
+          offset: this.offset
+        },
+        updateQuery: (prev, res) => {
+          if (!res.fetchMoreResult) {
+            return prev;
+          }
+          return {
+            allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+          };
+        }
+      }).then();
+    } else {
+      this.anonymousQueryRef.fetchMore({
+        variables: {
+          documentId: this.docId,
+          limit: this.limit,
+          offset: this.offset
+        },
+        updateQuery: (prev, res) => {
+          if (!res.fetchMoreResult) {
+            return prev;
+          }
+          return {
+            allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+          };
+        }
+      }).then();
+    }
   }
 }

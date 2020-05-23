@@ -273,7 +273,7 @@ type label {
   authorId: String!
   "An object relationship"
   color: color!
-  color_name: String!
+  colorName: String!
   "An array relationship"
   document_labels(
     "distinct select on columns"
@@ -1202,7 +1202,7 @@ enum label_select_column {
   "column name"
   authorId
   "column name"
-  color_name
+  colorName
   "column name"
   id
   "column name"
@@ -1212,7 +1212,7 @@ enum label_select_column {
 "update columns of table \"label\""
 enum label_update_column {
   "column name"
-  color_name
+  colorName
   "column name"
   label
 }
@@ -1800,7 +1800,7 @@ input label_bool_exp {
   author: user_bool_exp
   authorId: String_comparison_exp
   color: color_bool_exp
-  color_name: String_comparison_exp
+  colorName: String_comparison_exp
   document_labels: document_label_bool_exp
   id: uuid_comparison_exp
   label: String_comparison_exp
@@ -1808,7 +1808,7 @@ input label_bool_exp {
 
 "input type for inserting data into table \"label\""
 input label_insert_input {
-  color_name: String
+  colorName: String
   document_labels: document_label_arr_rel_insert_input
   label: String
 }
@@ -1831,7 +1831,7 @@ input label_order_by {
   author: user_order_by
   authorId: order_by
   color: color_order_by
-  color_name: order_by
+  colorName: order_by
   id: order_by
   label: order_by
 }
@@ -1843,7 +1843,7 @@ input label_pk_columns_input {
 
 "input type for updating data in table \"label\""
 input label_set_input {
-  color_name: String
+  colorName: String
   label: String
 }
 

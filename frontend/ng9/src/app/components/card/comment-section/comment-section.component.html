@@ -1,23 +1,13 @@
 <div class="hr"></div>
-<div class="mlm">
-  <div class="comment-container" *ngIf="(authService.authState | async).state === 'in'; else out">
-    <div class="row">
-      <div class="col-xs-12 mtm" *ngFor="let comment of uComments$ | async">
-        <app-comment  [comment]="comment" [isLoggedIn]="true" (toggleReaction)="toggleReaction(comment.id, $event)"></app-comment>
-
-      </div>
+<div class="comment-container mlm">
+  <div class="row">
+    <div class="col-xs-12 mtm" *ngFor="let comment of comments$ | async">
+      <app-comment [comment]="comment" (toggleReaction)="toggleReaction(comment.id, $event)"></app-comment>
     </div>
   </div>
 
-  <ng-template #out>
-    <div class="comment-container">
-      <div class="row">
-        <div class="col-xs-12 mtm" *ngFor="let comment of aComments$ | async">
-          <app-comment  [comment]="comment" [isLoggedIn]="true" (toggleReaction)="toggleReaction(comment.id, $event)"></app-comment>
-
-        </div>
-      </div>
-    </div>
-  </ng-template>
+  <div class="row center-xs mrm mts">
+    <button class="btn-flat c-primary " *ngIf="canLoadMore" (click)="loadMore()">show more</button>
+  </div>
 
 </div>

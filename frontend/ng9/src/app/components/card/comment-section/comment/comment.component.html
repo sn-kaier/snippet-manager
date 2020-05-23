@@ -1,9 +1,13 @@
 <app-author-section [author]="comment.author" [showFollow]="false" [publishedDate]="comment.createdAt"></app-author-section>
 
-<div class="mts">
-  {{ comment.comment }}
+<div class="row mbs mts">
+  <div class="col-xs-12">
+    {{ comment.comment }}
+  </div>
 </div>
 
-{{ comment.createdAt }}
-
-<app-reaction-section [reactionsGroup]="comment.reactionsGroup" [reactions]="myReactions" (toggleReaction)="toggleReaction.emit($event)"></app-reaction-section>
+<app-reaction-section
+  [reactionsGroup]="comment.reactionsGroup"
+  [reactions]="myReactions"
+  (toggleReaction)="toggleReaction.emit($event)"
+></app-reaction-section>

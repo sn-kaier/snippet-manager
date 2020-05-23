@@ -499,10 +499,10 @@ export type DocumentReactionGroupOrderBy = {
   reaction_id?: Maybe<OrderBy>;
 };
 
-/**
+/** 
  * persisted version of the document_reaction_group
- *
- *
+ * 
+ * 
  * columns and relationships of \"document_reaction_group_persisted\"
  */
 export type DocumentReactionGroupPersisted = {
@@ -511,7 +511,7 @@ export type DocumentReactionGroupPersisted = {
   reactionid: Scalars['String'];
 };
 
-/**
+/** 
  * Boolean expression to filter rows from the table
  * "document_reaction_group_persisted". All fields are combined with a logical 'AND'.
  */
@@ -621,7 +621,7 @@ export type Label = {
   author: User;
   /** An object relationship */
   color: Color;
-  color_name: Scalars['String'];
+  colorName: Scalars['String'];
   /** An array relationship */
   document_labels: Array<DocumentLabel>;
   label: Scalars['String'];
@@ -644,7 +644,7 @@ export type LabelBoolExp = {
   _or?: Maybe<Array<Maybe<LabelBoolExp>>>;
   author?: Maybe<UserBoolExp>;
   color?: Maybe<ColorBoolExp>;
-  color_name?: Maybe<StringComparisonExp>;
+  colorName?: Maybe<StringComparisonExp>;
   document_labels?: Maybe<DocumentLabelBoolExp>;
   label?: Maybe<StringComparisonExp>;
 };
@@ -653,7 +653,7 @@ export type LabelBoolExp = {
 export type LabelOrderBy = {
   author?: Maybe<UserOrderBy>;
   color?: Maybe<ColorOrderBy>;
-  color_name?: Maybe<OrderBy>;
+  colorName?: Maybe<OrderBy>;
   label?: Maybe<OrderBy>;
 };
 
@@ -665,7 +665,7 @@ export type LabelPkColumnsInput = {
 /** select columns of table "label" */
 export enum LabelSelectColumn {
   /** column name */
-  ColorName = 'color_name',
+  ColorName = 'colorName',
   /** column name */
   Label = 'label'
 }
@@ -1252,10 +1252,10 @@ export type TimestamptzComparisonExp = {
   _nin?: Maybe<Array<Scalars['timestamptz']>>;
 };
 
-/**
+/** 
  * add author table
- *
- *
+ * 
+ * 
  * columns and relationships of \"user\"
  */
 export type User = {
@@ -1273,10 +1273,10 @@ export type User = {
 };
 
 
-/**
+/** 
  * add author table
- *
- *
+ * 
+ * 
  * columns and relationships of \"user\"
  */
 export type UserDocumentLabelsArgs = {
@@ -1288,10 +1288,10 @@ export type UserDocumentLabelsArgs = {
 };
 
 
-/**
+/** 
  * add author table
- *
- *
+ * 
+ * 
  * columns and relationships of \"user\"
  */
 export type UserDocumentsArgs = {
@@ -1303,10 +1303,10 @@ export type UserDocumentsArgs = {
 };
 
 
-/**
+/** 
  * add author table
- *
- *
+ * 
+ * 
  * columns and relationships of \"user\"
  */
 export type UserLabelsArgs = {
@@ -1495,7 +1495,7 @@ export const ACommentSectionCommentsDocument = gql`
   })
   export class ACommentSectionCommentsGQL extends Apollo.Query<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables> {
     document = ACommentSectionCommentsDocument;
-
+    
   }
 export const AFeedDocsDocument = gql`
     query AFeedDocs($limit: Int!, $offset: Int!) {
@@ -1510,5 +1510,5 @@ export const AFeedDocsDocument = gql`
   })
   export class AFeedDocsGQL extends Apollo.Query<AFeedDocsQuery, AFeedDocsQueryVariables> {
     document = AFeedDocsDocument;
-
+    
   }

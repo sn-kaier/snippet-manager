@@ -981,7 +981,7 @@ export interface Label {
   authorId: Scalars['String'];
   /** An object relationship */
   color: Color;
-  color_name: Scalars['String'];
+  colorName: Scalars['String'];
   /** An array relationship */
   document_labels: Array<DocumentLabel>;
   id: Scalars['uuid'];
@@ -1012,7 +1012,7 @@ export interface LabelBoolExp {
   author?: Maybe<UserBoolExp>;
   authorId?: Maybe<StringComparisonExp>;
   color?: Maybe<ColorBoolExp>;
-  color_name?: Maybe<StringComparisonExp>;
+  colorName?: Maybe<StringComparisonExp>;
   document_labels?: Maybe<DocumentLabelBoolExp>;
   id?: Maybe<UuidComparisonExp>;
   label?: Maybe<StringComparisonExp>;
@@ -1026,7 +1026,7 @@ export enum LabelConstraint {
 
 /** input type for inserting data into table "label" */
 export interface LabelInsertInput {
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   document_labels?: Maybe<DocumentLabelArrRelInsertInput>;
   label?: Maybe<Scalars['String']>;
 }
@@ -1058,7 +1058,7 @@ export interface LabelOrderBy {
   author?: Maybe<UserOrderBy>;
   authorId?: Maybe<OrderBy>;
   color?: Maybe<ColorOrderBy>;
-  color_name?: Maybe<OrderBy>;
+  colorName?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   label?: Maybe<OrderBy>;
 }
@@ -1073,7 +1073,7 @@ export enum LabelSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
-  ColorName = 'color_name',
+  ColorName = 'colorName',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1082,14 +1082,14 @@ export enum LabelSelectColumn {
 
 /** input type for updating data in table "label" */
 export interface LabelSetInput {
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
 }
 
 /** update columns of table "label" */
 export enum LabelUpdateColumn {
   /** column name */
-  ColorName = 'color_name',
+  ColorName = 'colorName',
   /** column name */
   Label = 'label'
 }

@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mtm mbm">
     <div class="col-xs-12">
       {{doc.description}}
     </div>
@@ -46,6 +46,6 @@
       </div>
     </div>
 
-    <app-comment-section *ngIf="showComments" [documentId]="doc.id"></app-comment-section>
+    <app-comment-section *ngIf="showComments" [documentId]="doc.id" [countComments]="doc.countComments"></app-comment-section>
   </ng-container>
 </app-card>
