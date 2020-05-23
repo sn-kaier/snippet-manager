@@ -13,7 +13,7 @@ export interface CommonReaction {
 @Component({
   selector: 'app-reaction-section',
   templateUrl: './reaction-section.component.html',
-  styleUrls: ['./reaction-section.component.less'],
+  styleUrls: ['./reaction-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionSectionComponent implements OnInit {

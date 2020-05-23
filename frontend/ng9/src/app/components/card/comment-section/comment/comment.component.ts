@@ -6,7 +6,7 @@ import { CommonReaction } from '../../reaction-section/reaction-section.componen
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.less'],
+  styleUrls: ['./comment.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentComponent implements OnInit {
@@ -14,8 +14,7 @@ export class CommentComponent implements OnInit {
   @Input()
   comment: UCommentSectionCommentFragment | ACommentSectionCommentFragment;
 
-  @Input()
-  isLoggedIn: boolean;
+  @Input() isLoggedIn: boolean;
 
   @Output() toggleReaction = new EventEmitter<string>();
 

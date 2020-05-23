@@ -1484,7 +1484,7 @@ export const AFeedDocFragmentDoc = gql`
 ${AFeedDocLabelFragmentDoc}`;
 export const ACommentSectionCommentsDocument = gql`
     query ACommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!) {
-  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
+  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset, order_by: [{createdAt: desc}]) {
     ...ACommentSectionComment
   }
 }

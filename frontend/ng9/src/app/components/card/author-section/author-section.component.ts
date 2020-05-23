@@ -6,7 +6,7 @@ import { AFeedDocAuthorFragment } from '../../../__generated/anonymous-gql-servi
 @Component({
   selector: 'app-author-section',
   templateUrl: './author-section.component.html',
-  styleUrls: ['./author-section.component.less'],
+  styleUrls: ['./author-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorSectionComponent implements OnInit {

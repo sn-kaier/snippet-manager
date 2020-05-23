@@ -2225,7 +2225,7 @@ export interface UuidComparisonExp {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 }
 
-export type UCommentSectionCommentAuthorFragment = { __typename?: 'user', name: string, imageUrl: Maybe<string> };
+export type UCommentSectionCommentAuthorFragment = { __typename?: 'user', authId: string, name: string, imageUrl: Maybe<string> };
 
 export type UCommentSectionCommentReactionGroupFragment = { __typename?: 'comment_reactions_group', count: Maybe<any>, reactionid: Maybe<string> };
 
@@ -2270,6 +2270,14 @@ export type UCommentSectionRemoveCommentReactionMutationVariables = {
 
 
 export type UCommentSectionRemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+
+export type UAddCommentMutationVariables = {
+  comment: Scalars['String'];
+  documentId: Scalars['uuid'];
+};
+
+
+export type UAddCommentMutation = { __typename?: 'mutation_root', addComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
 
 export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
@@ -2337,6 +2345,7 @@ export type URemoveCommentReactionMutation = { __typename?: 'mutation_root', rem
 
 export const UCommentSectionCommentAuthorFragmentDoc = gql`
     fragment UCommentSectionCommentAuthor on user {
+  authId
   name
   imageUrl
 }
@@ -2430,7 +2439,7 @@ ${UFeedDocLabelFragmentDoc}
 ${UFeedDocReactionFragmentDoc}`;
 export const UCommentSectionCommentsDocument = gql`
     query UCommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!, $authorId: String!) {
-  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
+  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset, order_by: [{createdAt: desc}]) {
     ...UCommentSectionComment
   }
 }
@@ -2471,6 +2480,21 @@ export const UCommentSectionRemoveCommentReactionDocument = gql`
   })
   export class UCommentSectionRemoveCommentReactionGQL extends Apollo.Mutation<UCommentSectionRemoveCommentReactionMutation, UCommentSectionRemoveCommentReactionMutationVariables> {
     document = UCommentSectionRemoveCommentReactionDocument;
+    
+  }
+export const UAddCommentDocument = gql`
+    mutation UAddComment($comment: String!, $documentId: uuid!) {
+  addComment(objects: [{comment: $comment, documentId: $documentId}]) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UAddCommentGQL extends Apollo.Mutation<UAddCommentMutation, UAddCommentMutationVariables> {
+    document = UAddCommentDocument;
     
   }
 export const UFeedDocsDocument = gql`

@@ -30,7 +30,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/@ctrl/ngx-emoji-mart/picker.css",
-              "src/styles.less"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -95,7 +95,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.less"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -128,5 +128,10 @@
       }
     }
   },
-  "defaultProject": "ng9"
+  "defaultProject": "ng9",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

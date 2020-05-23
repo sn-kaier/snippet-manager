@@ -5,7 +5,7 @@ import { PickEmojiService } from './layouts/feed/pick-emoji/pick-emoji.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'Snippets';

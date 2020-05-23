@@ -6,19 +6,25 @@
 
       <div class="col-xs-12">
         <mat-form-field class="form-field">
-          <mat-label class="c-primary">Leave a comment</mat-label>
+          <mat-label>Leave a comment</mat-label>
           <textarea
+            (focus)="toggleFocus($event)"
             cdkTextareaAutosize
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="8"
+            [(ngModel)]="commentText"
             matInput [placeholder]="'Publish as ' + authService.authState?.value?.name"></textarea>
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <button mat-flat-button>Basic</button>
-        <button mat-flat-button color="primary">Primary</button>
+    <div class="row" *ngIf="focused">
+      <div class="col-xs-12 end-xs">
+        <button mat-flat-button (click)="resetText()">Cancel</button>
+        <button mat-flat-button color="primary"
+                [disabled]="!commentText?.length" style="margin-left: 1em"
+                (click)="send()">
+          Send
+        </button>
 
       </div>
     </div>

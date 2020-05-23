@@ -3,7 +3,7 @@
 
   <div class="row">
     <div class="col-xs-12 mtm" *ngIf="authService.authState?.value?.state === 'in'">
-      <app-add-comment></app-add-comment>
+      <app-add-comment (addComment)="postComment($event)"></app-add-comment>
     </div>
 
     <div class="col-xs-12 mtm" *ngFor="let comment of comments$ | async">

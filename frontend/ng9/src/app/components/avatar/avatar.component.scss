@@ -8,18 +8,18 @@
   height: 40px;
   width: 40px;
   z-index: 0;
-  background: @color-manatee;
-  border: 1px solid @color-manatee;
+  background: $color-manatee;
+  border: 1px solid $color-manatee;
 
   cursor: pointer;
   &:hover {
-    background: @color-ghost;
-    border-color: @color-ghost;
+    background: $color-ghost;
+    border-color: $color-ghost;
   }
 
   &:active {
-    background: @color-snow;
-    border-color: @color-snow;
+    background: $color-snow;
+    border-color: $color-snow;
   }
 }
 

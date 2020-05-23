@@ -22,6 +22,6 @@
 }
 
 .icon-close {
-  .icon-search;
+  @extend .icon-search;
   cursor: pointer;
 }

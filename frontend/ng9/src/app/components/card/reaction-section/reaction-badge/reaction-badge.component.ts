@@ -4,7 +4,7 @@ import { EmojiService } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 @Component({
   selector: 'app-reaction-badge',
   templateUrl: './reaction-badge.component.html',
-  styleUrls: ['./reaction-badge.component.less'],
+  styleUrls: ['./reaction-badge.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionBadgeComponent implements OnInit {

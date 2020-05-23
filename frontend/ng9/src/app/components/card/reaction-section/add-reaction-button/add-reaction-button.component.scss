@@ -1,3 +1,6 @@
+$base-color: #787878;
+$highlight-color: #444444;
+
 :host {
   margin-left: 2em;
   margin-top: -2px;
@@ -11,24 +14,21 @@
     .plus {
       stroke-width: 18;
       transform: scale(1.1) translate(-11px, -4px);
-      stroke: @highlight-color;
+      stroke: $highlight-color;
     }
   }
 }
 
-@base-color: #787878;
-@highlight-color: #444444;
-
 .left-eye {
-  fill: @base-color;
+  fill: $base-color;
 }
 
 .right-eye {
-  fill: @base-color;
+  fill: $base-color;
 }
 
 .circle {
-  fill: @base-color;
+  fill: $base-color;
 }
 
 .mouth {
@@ -38,12 +38,12 @@
 .fill-segment {
   transition: all 0.1s ease;
 
-  fill: @base-color;
+  fill: $base-color;
 }
 
 .stroke-segment {
   transition: all 0.1s ease;
 
-  stroke: @base-color;
+  stroke: $base-color;
   stroke-width: 8;
 }

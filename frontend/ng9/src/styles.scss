@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "~flexboxgrid/dist/flexboxgrid.min.css";
-@import "app/base-styles/colors";
+@import "src/app/base-styles/colors";
 @import "app/base-styles/font";
 @import "app/base-styles/layout";
 @import "app/base-styles/button";
+@import "app/base-styles/material-theming";
 
 body {
   margin: 0;

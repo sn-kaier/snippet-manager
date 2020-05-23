@@ -1,0 +1,81 @@
+@import "material-theming";
+
+$primary: map-get($snippets-app-theme, primary);
+$accent: map-get($snippets-app-theme, accent);
+
+
+$color-primary: mat-color($primary); // #1565c0;
+$color-primary-light: mat-color($primary, 400); // #5e92f3;
+$color-primary-dark: mat-color($primary, 900); //  #003c8f;
+
+$color-accent: #ffc107;
+$color-accent-light: lighten($color-accent, 10);
+$color-accent-dark: darken($color-accent, 10);
+
+$color-snow: white;
+$color-ghost: #aaa;
+$color-ghost-light: lighten($color-ghost, 20%);
+$color-manatee: #666;
+$color-coal: black;
+
+.c-coal {
+  color: $color-coal;
+}
+
+.bg-coal {
+  background: $color-coal;
+}
+
+.bg-snow {
+  background: $color-snow;
+}
+
+.c-accent {
+  color: $color-accent;
+}
+
+.c-accent-dark {
+  color: $color-accent-dark;
+}
+.c-accent-light {
+  color: $color-accent-light;
+}
+
+
+.c-primary {
+  color: $color-primary;
+}
+
+.c-primary-dark {
+  color: $color-primary-dark;
+}
+
+.c-primary-light {
+  color: $color-primary-light;
+}
+
+.bg-primary {
+  background: $color-primary;
+}
+
+.bg-primary-dark {
+  background: $color-primary-dark;
+}
+
+.bg-primary-light {
+  background: $color-primary-light;
+}
+
+.c-manatee {
+  color: $color-manatee;
+}
+.bg-manatee {
+  background: $color-manatee;
+}
+
+.c-ghost {
+  color: $color-ghost;
+}
+.bg-ghost {
+  background: $color-ghost;
+}

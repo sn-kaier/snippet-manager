@@ -1,4 +1,5 @@
 fragment UCommentSectionCommentAuthor on user {
+  authId
   name
   imageUrl
 }
@@ -28,7 +29,7 @@ fragment UCommentSectionComment on comment {
 }
 
 query UCommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!, $authorId: String!) {
-  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset) {
+  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset, order_by: [{createdAt: desc}]) {
     ...UCommentSectionComment
   }
 }
@@ -42,6 +43,12 @@ mutation UCommentSectionAddCommentReaction($commentId: uuid!, $reactionId: Strin
 
 mutation UCommentSectionRemoveCommentReaction($commentId: uuid!, $reactionId: String!) {
   removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {
+    affected_rows
+  }
+}
+
+mutation UAddComment($comment: String!, $documentId: uuid!) {
+  addComment(objects: [{comment: $comment, documentId: $documentId}]) {
     affected_rows
   }
 }

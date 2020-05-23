@@ -7,6 +7,7 @@ import {
   ACommentSectionCommentsQueryVariables
 } from '../../../__generated/anonymous-gql-services';
 import {
+  UAddCommentGQL,
   UCommentSectionAddCommentReactionGQL,
   UCommentSectionCommentFragment,
   UCommentSectionCommentsGQL,
@@ -21,7 +22,7 @@ import { iif, Observable } from 'rxjs';
 @Component({
   selector: 'app-comment-section',
   templateUrl: './comment-section.component.html',
-  styleUrls: ['./comment-section.component.less'],
+  styleUrls: ['./comment-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentSectionComponent implements OnInit {
@@ -52,13 +53,12 @@ export class CommentSectionComponent implements OnInit {
     private readonly uCommentsQuery: UCommentSectionCommentsGQL,
     private readonly addCommentReactionGQL: UCommentSectionAddCommentReactionGQL,
     private readonly removeCommentReactionGQL: UCommentSectionRemoveCommentReactionGQL,
+    private readonly addComment: UAddCommentGQL,
     readonly authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
-
-
     const getUserComments = () => {
       this.userQueryRef = this.uCommentsQuery.watch({
         authorId: this.authService.authState.value?.userId,
@@ -181,5 +181,36 @@ export class CommentSectionComponent implements OnInit {
         }
       }).then();
     }
+  }
+
+  postComment(comment: string) {
+    this.addComment.mutate({
+      comment,
+      documentId: this.docId,
+    }).toPromise()
+      .then(res => console.log('added comment', res))
+      .catch(err => console.error('failed to add comment', err));
+
+
+    this.userQueryRef.updateQuery(prev => {
+      const newComment: UCommentSectionCommentFragment =  {
+        myReactions: [],
+        reactionsGroup: [],
+        author: {
+          __typename: 'user',
+          imageUrl: this.authService.authState?.value?.imageUrl,
+          name: this.authService.authState?.value?.name,
+          authId: this.authService.authState?.value.userId,
+        },
+        createdAt: new Date(),
+        comment,
+        __typename: 'comment',
+        reactionBalance: 0,
+        id: ''
+      };
+      return {
+        allComments: [newComment, ...prev.allComments]
+      };
+    });
   }
 }

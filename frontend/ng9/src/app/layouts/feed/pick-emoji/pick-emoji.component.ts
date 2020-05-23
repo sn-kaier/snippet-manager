@@ -6,7 +6,7 @@ import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 @Component({
   selector: 'app-pick-emoji',
   templateUrl: './pick-emoji.component.html',
-  styleUrls: ['./pick-emoji.component.less']
+  styleUrls: ['./pick-emoji.component.scss']
 })
 export class PickEmojiComponent implements OnInit, OnDestroy {
 

@@ -7,7 +7,7 @@ import { FeedService } from '../feed/feed.service';
 @Component({
   selector: 'app-feed-card',
   templateUrl: './feed-card.component.html',
-  styleUrls: ['./feed-card.component.less'],
+  styleUrls: ['./feed-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedCardComponent {
