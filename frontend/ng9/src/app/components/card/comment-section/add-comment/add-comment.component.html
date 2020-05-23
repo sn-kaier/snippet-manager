@@ -1,0 +1,27 @@
+<div class="flex">
+  <app-avatar class="mts" [imageUrl]="authService.authState?.value?.imageUrl"></app-avatar>
+  <div class="flex-1 mls">
+
+    <div class="row">
+
+      <div class="col-xs-12">
+        <mat-form-field class="form-field">
+          <mat-label class="c-primary">Leave a comment</mat-label>
+          <textarea
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="8"
+            matInput [placeholder]="'Publish as ' + authService.authState?.value?.name"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <button mat-flat-button>Basic</button>
+        <button mat-flat-button color="primary">Primary</button>
+
+      </div>
+    </div>
+  </div>
+
+</div>

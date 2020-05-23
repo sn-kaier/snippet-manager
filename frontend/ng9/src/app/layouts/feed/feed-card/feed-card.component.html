@@ -19,14 +19,14 @@
     </div>
   </div>
 
-  <div class="row mtm mbm">
+  <div class="row mtm mbs">
     <div class="col-xs-12">
       {{doc.description}}
     </div>
   </div>
 
   <ng-container *ngIf="doc.allowComments">
-    <div class="row">
+    <div class="row mtm">
       <div class="col-xs-12">
         <app-reaction-section [reactions]="reactions"
                               [reactionsGroup]="doc.reactionsGroup"
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mts">
       <div class="col-xs-12">
         <a (click)="showComments = !showComments" class="align-center">
           <mat-icon aria-hidden="false" aria-label="Example home icon" class="c-primary show-comments-icon"
@@ -46,6 +46,10 @@
       </div>
     </div>
 
-    <app-comment-section *ngIf="showComments" [documentId]="doc.id" [countComments]="doc.countComments"></app-comment-section>
+    <div class="row mtm" *ngIf="showComments">
+      <div class="col-xs-12">
+        <app-comment-section  [documentId]="doc.id" [countComments]="doc.countComments"></app-comment-section>
+      </div>
+    </div>
   </ng-container>
 </app-card>
