@@ -11,10 +11,9 @@ import { ColorSeedGeneratorService } from './generators/color-seed-generator.ser
 import { ReactionSeedGeneratorService } from './generators/reaction-seed-generator.service';
 import { DocumentReactionSeedGeneratorService } from './generators/document-reaction-seed-generator.service';
 import { CommentReactionSeedGeneratorService } from './generators/comment-reaction-seed-generator.service';
-import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [GqlRequestModule, ConfigModule.forRoot(), DatabaseModule],
+  imports: [GqlRequestModule, ConfigModule.forRoot()],
   providers: [
     SeedersService,
     DocumentSeedGeneratorService,

@@ -2720,7 +2720,7 @@ export type Label = {
   authorId: Scalars['String'];
   /** An object relationship */
   color: Color;
-  color_name: Scalars['String'];
+  colorName: Scalars['String'];
   /** An array relationship */
   document_labels: Array<DocumentLabel>;
   /** An aggregated array relationship */
@@ -2792,7 +2792,7 @@ export type LabelBoolExp = {
   author?: Maybe<UserBoolExp>;
   authorId?: Maybe<StringComparisonExp>;
   color?: Maybe<ColorBoolExp>;
-  color_name?: Maybe<StringComparisonExp>;
+  colorName?: Maybe<StringComparisonExp>;
   document_labels?: Maybe<DocumentLabelBoolExp>;
   id?: Maybe<UuidComparisonExp>;
   label?: Maybe<StringComparisonExp>;
@@ -2809,7 +2809,7 @@ export type LabelInsertInput = {
   author?: Maybe<UserObjRelInsertInput>;
   authorId?: Maybe<Scalars['String']>;
   color?: Maybe<ColorObjRelInsertInput>;
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   document_labels?: Maybe<DocumentLabelArrRelInsertInput>;
   id?: Maybe<Scalars['uuid']>;
   label?: Maybe<Scalars['String']>;
@@ -2819,7 +2819,7 @@ export type LabelInsertInput = {
 export type LabelMaxFields = {
    __typename?: 'label_max_fields';
   authorId?: Maybe<Scalars['String']>;
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   label?: Maybe<Scalars['String']>;
 };
@@ -2827,7 +2827,7 @@ export type LabelMaxFields = {
 /** order by max() on columns of table "label" */
 export type LabelMaxOrderBy = {
   authorId?: Maybe<OrderBy>;
-  color_name?: Maybe<OrderBy>;
+  colorName?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   label?: Maybe<OrderBy>;
 };
@@ -2836,7 +2836,7 @@ export type LabelMaxOrderBy = {
 export type LabelMinFields = {
    __typename?: 'label_min_fields';
   authorId?: Maybe<Scalars['String']>;
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   label?: Maybe<Scalars['String']>;
 };
@@ -2844,7 +2844,7 @@ export type LabelMinFields = {
 /** order by min() on columns of table "label" */
 export type LabelMinOrderBy = {
   authorId?: Maybe<OrderBy>;
-  color_name?: Maybe<OrderBy>;
+  colorName?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   label?: Maybe<OrderBy>;
 };
@@ -2876,7 +2876,7 @@ export type LabelOrderBy = {
   author?: Maybe<UserOrderBy>;
   authorId?: Maybe<OrderBy>;
   color?: Maybe<ColorOrderBy>;
-  color_name?: Maybe<OrderBy>;
+  colorName?: Maybe<OrderBy>;
   document_labels_aggregate?: Maybe<DocumentLabelAggregateOrderBy>;
   id?: Maybe<OrderBy>;
   label?: Maybe<OrderBy>;
@@ -2892,7 +2892,7 @@ export enum LabelSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
-  ColorName = 'color_name',
+  ColorName = 'colorName',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2902,7 +2902,7 @@ export enum LabelSelectColumn {
 /** input type for updating data in table "label" */
 export type LabelSetInput = {
   authorId?: Maybe<Scalars['String']>;
-  color_name?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   label?: Maybe<Scalars['String']>;
 };
@@ -2912,7 +2912,7 @@ export enum LabelUpdateColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
-  ColorName = 'color_name',
+  ColorName = 'colorName',
   /** column name */
   Id = 'id',
   /** column name */

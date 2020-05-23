@@ -6,4 +6,4 @@
 
 {{ comment.createdAt }}
 
-<app-reaction-section [reactionsGroup]="comment.reactionsGroup" [reactions]="comment.myReactions" (toggleReaction)="toggleReaction.emit($event)"></app-reaction-section>
+<app-reaction-section [reactionsGroup]="comment.reactionsGroup" [reactions]="myReactions" (toggleReaction)="toggleReaction.emit($event)"></app-reaction-section>

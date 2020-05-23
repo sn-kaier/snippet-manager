@@ -22,7 +22,7 @@ export class DocumentReactionSeedGeneratorService {
     return {
       documentId,
       authorId: ar.authorId,
-      reactionId: this.emojiService.getRandom().htmlCode,
+      reactionId: ar.reaction.htmlCode,
     };
   }
 

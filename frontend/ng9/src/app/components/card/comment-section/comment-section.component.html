@@ -10,7 +10,14 @@
   </div>
 
   <ng-template #out>
-    not logged in
+    <div class="comment-container">
+      <div class="row">
+        <div class="col-xs-12 mtm" *ngFor="let comment of aComments$ | async">
+          <app-comment  [comment]="comment" [isLoggedIn]="true" (toggleReaction)="toggleReaction(comment.id, $event)"></app-comment>
+
+        </div>
+      </div>
+    </div>
   </ng-template>
 
 </div>

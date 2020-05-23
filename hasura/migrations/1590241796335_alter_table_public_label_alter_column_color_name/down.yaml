@@ -1,0 +1,14 @@
+- args:
+    custom_column_names:
+      author_id: authorId
+    custom_root_fields:
+      delete: removeLabel
+      insert: addLabel
+      select: allLabels
+      select_by_pk: label
+      update: updateLabel
+    table:
+      name: label
+      schema: public
+  type: set_table_custom_fields
+  version: 2

@@ -22,6 +22,9 @@ export class AuthorSectionComponent implements OnInit {
   }
 
   get isOwnDocument(): boolean {
+    if (!this.authService.authState.getValue()?.userId) {
+      return false;
+    }
     return (this.author as UFeedDocAuthorFragment)?.authId === this.authService.authState.getValue()?.userId;
   }
 }

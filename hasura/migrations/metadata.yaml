@@ -601,6 +601,7 @@ tables:
       update: updateLabel
     custom_column_names:
       author_id: authorId
+      color_name: colorName
   object_relationships:
   - name: author
     using:

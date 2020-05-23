@@ -1,15 +1,10 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { CommonSeederService, Keys, pick, randomIndex, rndBoolean, rndInt, rndPow } from './common-seeder.service';
+import { CommonSeederService, pick, randomIndex, rndBoolean, rndPow } from './common-seeder.service';
 import { CommentSeedGeneratorService } from './comment-seed-generator.service';
 import { AuthorSeedGeneratorService } from './author-seed-generator.service';
 import { DocumentReactionSeedGeneratorService } from './document-reaction-seed-generator.service';
-import { DbDocumentService } from '../../database/services/db-document/db-document.service';
-import { DbDocumentLabelService } from '../../database/services/db-document-label/db-document-label.service';
-import { DocumentLabel } from '../../database/__generated_entities/document-label';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
 import { DocumentInsertInput, MutationRoot } from '../../__generated/types';
-
-export type KDocument = Keys<Keys<Keys<DocumentLabel, 'author'>, 'document'>, 'label'>;
 
 @Injectable()
 export class DocumentSeedGeneratorService {
@@ -21,8 +16,6 @@ export class DocumentSeedGeneratorService {
               private readonly common: CommonSeederService,
               @Inject(forwardRef(() => AuthorSeedGeneratorService))
               private readonly authorSeedGeneratorService: AuthorSeedGeneratorService,
-              private readonly dbDocumentService: DbDocumentService,
-              private readonly dbDocumentLabelService: DbDocumentLabelService,
               private readonly gqlRequestService: GqlRequestService,
   ) {
   }
@@ -52,7 +45,7 @@ export class DocumentSeedGeneratorService {
       `, { document: doc });
     if (doc.allowComments) {
       // add comments
-      await this.commentGen.generateAndSaveWithReactions(doc.id, rndInt(0, 10)());
+      await this.commentGen.generateAndSaveWithReactions(doc.id, rndPow(30, 2));
       // add reactions
       await this.reactionGen.generateAndSaveMany(doc.id, rndPow(2000, 8));
     }

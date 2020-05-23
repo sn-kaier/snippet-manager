@@ -36,7 +36,13 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <a (click)="showComments = !showComments">show {{doc.countComments}} comments</a>
+        <a (click)="showComments = !showComments" class="align-center">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" class="c-primary show-comments-icon"
+                    [class.mirror-y]="showComments"
+          >keyboard_arrow_down</mat-icon>
+
+          <span *ngIf="!showComments; else hideComments">show {{doc.countComments}}&nbsp;</span>
+          <ng-template #hideComments><span>hide&nbsp;</span></ng-template>comments</a>
       </div>
     </div>
 

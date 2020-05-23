@@ -109,25 +109,32 @@ export class ReactionSeedGeneratorService {
     }
   }
 
-  public getRandom() {
+  public getRandomReaction(reactionSet: Set<ReactionInsertInput> = null) {
+    if (reactionSet && reactionSet.size && Math.random() > 0.1) {
+      const iSet = Math.floor(Math.random() * reactionSet.size);
+      return [...reactionSet.values()][iSet];
+    }
     const index = Math.floor(Math.random() * this.reactions.length);
     return this.reactions[index];
   }
 
   public getMany(attempts: number): AuthorReaction[] {
-    const toKey = (reaction: Partial<Reaction>, authorId: string) =>
-      `${authorId},${reaction.htmlCode}`;
     const map = new Map<string, AuthorReaction>();
+    const reactionSet = new Set<ReactionInsertInput>();
+
     for (let i = 0; i < attempts; i++) {
-      const reaction = this.getRandom();
+      const reaction = this.getRandomReaction(reactionSet);
+      reactionSet.add(reaction);
       const authorId = this.authorService.getRandomId();
-      const key = toKey(reaction, authorId);
+
+      const key = `${authorId}-${reaction.htmlCode}`;
       const authorReaction = {
         authorId,
         reaction,
       };
       map.set(key, authorReaction);
     }
+
     return [...map.values()];
   }
 }
