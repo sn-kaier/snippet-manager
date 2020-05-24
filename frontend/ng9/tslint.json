@@ -87,5 +87,8 @@
   },
   "rulesDirectory": [
     "codelyzer"
-  ]
+  ],
+  "linterOptions": {
+    "exclude": ["src/app/__generated"]
+  }
 }

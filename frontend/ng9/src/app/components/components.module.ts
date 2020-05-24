@@ -16,6 +16,7 @@ import { CommentComponent } from './card/comment-section/comment/comment.compone
 import { AddCommentComponent } from './card/comment-section/add-comment/add-comment.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent],
@@ -33,7 +34,8 @@ import { MatButtonModule } from '@angular/material/button';
     EmojiModule,
     MatIconModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule
   ]
 })
 export class ComponentsModule {

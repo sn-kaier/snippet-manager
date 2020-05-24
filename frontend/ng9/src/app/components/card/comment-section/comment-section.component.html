@@ -7,7 +7,10 @@
     </div>
 
     <div class="col-xs-12 mtm" *ngFor="let comment of comments$ | async">
-      <app-comment [comment]="comment" (toggleReaction)="toggleReaction(comment.id, $event)"></app-comment>
+      <app-comment [comment]="comment"
+                   (toggleReaction)="toggleReaction(comment.id, $event)"
+                   (deleteComment)="deleteComment(comment)"
+      ></app-comment>
     </div>
   </div>
 

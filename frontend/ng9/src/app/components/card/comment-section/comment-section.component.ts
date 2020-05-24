@@ -13,7 +13,7 @@ import {
   UCommentSectionCommentsGQL,
   UCommentSectionCommentsQuery,
   UCommentSectionCommentsQueryVariables,
-  UCommentSectionRemoveCommentReactionGQL
+  UCommentSectionRemoveCommentReactionGQL, URemoveCommentGQL
 } from '../../../__generated/user-gql-services';
 import { QueryRef } from 'apollo-angular';
 import { map, mergeMap } from 'rxjs/operators';
@@ -54,6 +54,7 @@ export class CommentSectionComponent implements OnInit {
     private readonly addCommentReactionGQL: UCommentSectionAddCommentReactionGQL,
     private readonly removeCommentReactionGQL: UCommentSectionRemoveCommentReactionGQL,
     private readonly addComment: UAddCommentGQL,
+    private readonly removeComment: URemoveCommentGQL,
     readonly authService: AuthService
   ) {
   }
@@ -186,31 +187,65 @@ export class CommentSectionComponent implements OnInit {
   postComment(comment: string) {
     this.addComment.mutate({
       comment,
-      documentId: this.docId,
+      documentId: this.docId
     }).toPromise()
-      .then(res => console.log('added comment', res))
+      .then(res => {
+        // update id of added comment in apollo cache
+        const newCommentId = res.data?.addComment?.returning?.[0]?.id;
+        if (newCommentId) {
+          this.userQueryRef.updateQuery(prev => {
+            const addedComment = prev.allComments.splice(0, 1)[0];
+            return {
+              allComments: [{
+                ...addedComment,
+                id: newCommentId
+              }, ...prev.allComments]
+            };
+          });
+        } else {
+          console.error('failed to add comment', comment, res);
+        }
+      })
       .catch(err => console.error('failed to add comment', err));
 
+    const newComment: UCommentSectionCommentFragment = {
+      myReactions: [],
+      reactionsGroup: [],
+      author: {
+        __typename: 'user',
+        imageUrl: this.authService.authState?.value?.imageUrl,
+        name: this.authService.authState?.value?.name,
+        authId: this.authService.authState?.value.userId
+      },
+      createdAt: new Date(),
+      comment,
+      __typename: 'comment',
+      reactionBalance: 0,
+      id: ''
+    };
 
     this.userQueryRef.updateQuery(prev => {
-      const newComment: UCommentSectionCommentFragment =  {
-        myReactions: [],
-        reactionsGroup: [],
-        author: {
-          __typename: 'user',
-          imageUrl: this.authService.authState?.value?.imageUrl,
-          name: this.authService.authState?.value?.name,
-          authId: this.authService.authState?.value.userId,
-        },
-        createdAt: new Date(),
-        comment,
-        __typename: 'comment',
-        reactionBalance: 0,
-        id: ''
-      };
       return {
         allComments: [newComment, ...prev.allComments]
       };
     });
   }
+
+  deleteComment(comment: UCommentSectionCommentFragment | ACommentSectionCommentFragment) {
+    this.removeComment.mutate({
+      commentId: comment.id
+    }).toPromise().then(res => console.log('removed comment', comment, res))
+      .catch(err => console.error('failed to remove comment', comment, err));
+
+    this.userQueryRef.updateQuery(prev => {
+      const removedIndex = prev.allComments.findIndex(c => c.id === comment.id);
+      if (removedIndex >= 0) {
+        prev.allComments.splice(removedIndex, 1);
+      }
+      return {
+        allComments: [...prev.allComments]
+      };
+    });
+  }
+
 }

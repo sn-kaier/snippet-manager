@@ -49,6 +49,19 @@ mutation UCommentSectionRemoveCommentReaction($commentId: uuid!, $reactionId: St
 
 mutation UAddComment($comment: String!, $documentId: uuid!) {
   addComment(objects: [{comment: $comment, documentId: $documentId}]) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation URemoveComment($commentId: uuid!) {
+  removeComment(where: {id: {_eq: $commentId}}) {
     affected_rows
   }
 }
+
+# TODO: implement
+#mutation UEditComment() {
+#
+#}

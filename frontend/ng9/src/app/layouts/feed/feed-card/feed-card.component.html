@@ -36,13 +36,13 @@
 
     <div class="row mts">
       <div class="col-xs-12">
-        <a (click)="showComments = !showComments" class="align-center">
+        <a (click)="showComments = !showComments" class="align-center toggle-show-comments">
           <mat-icon aria-hidden="false" aria-label="arrow down icon" class="c-primary show-comments-icon"
                     [class.mirror-y]="showComments"
           >keyboard_arrow_down</mat-icon>
 
-          <span *ngIf="!showComments; else hideComments">show {{doc.countComments}}&nbsp;</span>
-          <ng-template #hideComments><span>hide&nbsp;</span></ng-template>comments</a>
+          <span *ngIf="!showComments; else hideComments">show {{doc.countComments}} comments</span>
+          <ng-template #hideComments><span>hide comments</span></ng-template></a>
       </div>
     </div>
 

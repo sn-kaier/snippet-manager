@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 
@@ -22,6 +22,9 @@ export class AuthService {
   public readonly authState = new BehaviorSubject<AuthState>({
     state: 'pending'
   });
+
+  public readonly userId$ = this.authState.pipe(map(state => state?.userId));
+  public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
 
   constructor(public afAuth: AngularFireAuth,
               readonly apollo: Apollo) {
@@ -53,6 +56,14 @@ export class AuthService {
     await this.apollo.getClient().clearStore();
     await this.apollo.getClient().resetStore();
     await this.afAuth.signOut();
+  }
+
+  get authId(): string {
+    return this.authState?.value?.userId;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authState?.value?.state === 'in';
   }
 
   doGoogleLogin() {

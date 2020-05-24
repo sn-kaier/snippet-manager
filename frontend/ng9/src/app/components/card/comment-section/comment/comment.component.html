@@ -1,13 +1,59 @@
-<app-author-section [author]="comment.author" [showFollow]="false" [publishedDate]="comment.createdAt"></app-author-section>
+<app-author-section [author]="comment.author" [showFollow]="false"
+                    [publishedDate]="comment.createdAt"></app-author-section>
 
 <div class="row mbs mts">
-  <div class="col-xs-12">
+  <div class="col-xs-12" *ngIf="!editMode; else edit">
     {{ comment.comment }}
   </div>
+  <ng-template #edit>
+    <div class="col-xs-12">
+      <mat-form-field class="form-field">
+        <mat-label>Edit a comment</mat-label>
+        <textarea
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="8"
+          [(ngModel)]="commentEditText"
+          matInput [placeholder]="'Publish as ' + authService.authState?.value?.name"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-12 end-xs">
+      <button mat-flat-button (click)="cancelEditMode()">Cancel</button>
+      <button mat-flat-button color="primary"
+              [disabled]="!commentEditText?.length || commentEditText === comment.comment" style="margin-left: 1em"
+              (click)="saveEditComment()">
+        Save
+      </button>
+
+    </div>
+  </ng-template>
 </div>
 
-<app-reaction-section
-  [reactionsGroup]="comment.reactionsGroup"
-  [reactions]="myReactions"
-  (toggleReaction)="toggleReaction.emit($event)"
-></app-reaction-section>
+<div class="row middle-xs">
+  <div class="col-xs-11">
+    <app-reaction-section
+      [reactionsGroup]="comment.reactionsGroup"
+      [reactions]="myReactions"
+      (toggleReaction)="toggleReaction.emit($event)"
+    ></app-reaction-section>
+  </div>
+  <div class="col-xs-1 end-xs" *ngIf="isAuthor">
+    <button class="trigger-menu-button"
+            mat-icon-button aria-label="icon button with a vertical three dot icon"
+            [class.opened]="isMenuOpen"
+            (onMenuOpen)="menuOpened()"
+            [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" (closed)="menuClosed()">
+      <button mat-menu-item (click)="enterEditMode()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-menu-item (click)="deleteComment.emit()">
+        <mat-icon color="warn">delete</mat-icon>
+        Delete
+      </button>
+    </mat-menu>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+:host:hover .trigger-menu-button {
+  display: block;
+}
+
+.trigger-menu-button {
+  margin-top: -10px;
+  display: none;
+  &.opened {
+    display: block;
+  }
+}
+
+.form-field {
+  width: 100%;
+}
