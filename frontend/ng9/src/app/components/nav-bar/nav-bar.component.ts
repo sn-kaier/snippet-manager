@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService, AuthState} from '../../core/auth.service';
-import {Observable} from 'rxjs';
-import {filter} from 'rxjs/operators';
-import {SearchService} from '../../core/search.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService, AuthState } from '../../core/auth.service';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { SearchService } from '../../core/search.service';
 
 @Component({
   selector: 'app-nav-bar',

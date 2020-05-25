@@ -5,8 +5,10 @@
         <div class="col-xs-10">
           <h1>{{doc.title}}</h1>
         </div>
-        <div class="col-xs-2">
-          <button [routerLink]="['/document', doc.id]" mat-button color="primary">show</button>
+        <div class="col-xs-2" *ngIf="isOwnDocument">
+          <button [routerLink]="['/document', doc.id]" mat-button color="primary">
+            <mat-icon>edit</mat-icon>
+            Edit</button>
         </div>
       </div>
       <div class="row" *ngIf="!hideAuthor">

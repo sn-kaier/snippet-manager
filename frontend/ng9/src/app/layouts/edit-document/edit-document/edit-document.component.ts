@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentSetInput,
   UEditDocFragment,
@@ -13,6 +13,7 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { filter, map, tap } from 'rxjs/operators';
+import { RoutingHistoryService } from '../../../core/routing-history.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -32,7 +33,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
               private readonly activeRoute: ActivatedRoute,
               private readonly getEditDocument: UEditDocumentGetGQL,
               private readonly saveDocumentMutation: UEditDocumentSaveGQL,
-              private readonly addDocumentMutation: UEditDocumentAddGQL
+              private readonly addDocumentMutation: UEditDocumentAddGQL,
+              private readonly router: Router,
+              private readonly historyService: RoutingHistoryService
   ) {
   }
 
@@ -134,5 +137,15 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     } else {
       this.setDefaultDocumentInput();
     }
+  }
+
+  navigateBack() {
+    const prevRoute = this.historyService.previousRoute;
+    if (prevRoute) {
+      this.router.navigate([prevRoute]);
+    } else {
+      this.router.navigate(['/feed', 'my-documents']);
+    }
+    console.log(this.historyService.history);
   }
 }

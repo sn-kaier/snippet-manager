@@ -1,6 +1,7 @@
 <div class="nav-bar bg-coal">
   <div class="container row middle-xs">
     <div class="col-xs-4">
+      <ng-container *ngIf="(authState | async)?.state === 'in'"></ng-container>
       <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/my-documents">My documents</button>
       <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/public">Browse</button>
     </div>
