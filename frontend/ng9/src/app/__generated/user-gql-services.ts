@@ -2368,6 +2368,7 @@ export type UFeedDocsQueryVariables = {
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   authorId: Scalars['String'];
+  filter?: Maybe<DocumentBoolExp>;
 };
 
 
@@ -2697,8 +2698,8 @@ export const UEditDocumentAddDocument = gql`
     
   }
 export const UFeedDocsDocument = gql`
-    query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!) {
-  allDocuments(limit: $limit, offset: $offset, order_by: {id: asc}) {
+    query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp) {
+  allDocuments(limit: $limit, offset: $offset, order_by: {reactionBalance: desc}, where: $filter) {
     ...UFeedDoc
   }
 }

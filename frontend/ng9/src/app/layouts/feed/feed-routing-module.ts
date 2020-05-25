@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':mode',
     component: FeedComponent
-  }
+  },
 ];
 
 @NgModule({

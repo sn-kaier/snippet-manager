@@ -15,6 +15,7 @@ export class FeedCardComponent {
   showComments = false;
 
   @Input() doc: UFeedDocFragment | AFeedDocFragment;
+  @Input() hideAuthor: boolean;
   constructor(private feedService: FeedService) { }
 
   toggleReaction(documentId: string, reactionId: string) {

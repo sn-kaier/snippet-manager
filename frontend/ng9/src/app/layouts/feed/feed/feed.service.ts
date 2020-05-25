@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
 import {
   CommentReactionInsertInput,
+  DocumentBoolExp,
   DocumentReactionInsertInput,
   UAddDocumentReactionGQL,
   UFeedDocsGQL,
@@ -14,30 +15,54 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FeedService {
+  private readonly limit = 10;
+  private offset = 0;
+  private filter: DocumentBoolExp = {};
+
+  readonly userQueryRef = this.uFeedDocsGQL.watch({
+    authorId: '',
+    limit: this.limit,
+    offset: 0,
+    filter: this.filter
+  }, { fetchResults: false, useInitialLoading: true });
+  readonly anonymousQueryRef = this.aFeedDocsGQL.watch({ limit: this.limit, offset: 0 },
+    { fetchResults: false, useInitialLoading: true });
+  private requestsPerSecond = 0;
 
   constructor(private readonly aFeedDocsGQL: AFeedDocsGQL,
               private readonly uFeedDocsGQL: UFeedDocsGQL,
               private readonly authService: AuthService,
               private readonly uAddDocumentReactionGQL: UAddDocumentReactionGQL,
-              private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL,
-              ) {
+              private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL
+  ) {
     this.authService.authState.pipe(filter(s => s.state !== 'pending')).subscribe(async (s: AuthState) => {
-      this.offset = 0;
-      if (s.state === 'in') {
-        await this.userQueryRef.refetch({ authorId: s.userId, limit: this.limit, offset: 0 });
-      } else {
-        await this.anonymousQueryRef.refetch({ limit: this.limit, offset: 0 });
-      }
+      await this.refetch(s);
     });
   }
 
-  private readonly limit = 10;
-  private offset = 0;
+  async configure({ onlyMyDocuments = false }: { onlyMyDocuments: boolean }) {
+    const authState = await this.authService.waitUntilLoggedIn();
+    if (onlyMyDocuments) {
+      this.filter = {
+        ...this.filter,
+        authorId: {
+          _eq: authState.userId
+        }
+      };
+    } else {
+      this.filter = {};
+    }
+    await this.refetch(authState);
+  }
 
-  readonly userQueryRef = this.uFeedDocsGQL.watch({ authorId: '', limit: this.limit, offset: 0 }, { fetchResults: false });
-  readonly anonymousQueryRef = this.aFeedDocsGQL.watch({ limit: this.limit, offset: 0 }, { fetchResults: false });
-
-  private requestsPerSecond = 0;
+  private async refetch(s: AuthState) {
+    this.offset = 0;
+    if (s.state === 'in') {
+      await this.userQueryRef.refetch({ authorId: s.userId, limit: this.limit, offset: 0, filter: this.filter });
+    } else {
+      await this.anonymousQueryRef.setVariables({ limit: this.limit, offset: 0 });
+    }
+  }
 
   fetchMore() {
     const s = this.authService.authState.getValue();
@@ -113,7 +138,10 @@ export class FeedService {
         }
       } else {
         // add new
-        docToUpdate.reactions = [...docToUpdate.reactions, { reactionId: doc.reactionId, __typename: 'document_reaction' }];
+        docToUpdate.reactions = [...docToUpdate.reactions, {
+          reactionId: doc.reactionId,
+          __typename: 'document_reaction'
+        }];
         docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup, {
           count: 1,
           reactionid: doc.reactionId,
@@ -122,7 +150,7 @@ export class FeedService {
       }
 
       if (isSelected) {
-        this.uRemoveDocumentReactionGQL.mutate({documentId: doc.documentId, reactionId: doc.reactionId}).toPromise()
+        this.uRemoveDocumentReactionGQL.mutate({ documentId: doc.documentId, reactionId: doc.reactionId }).toPromise()
           .then(res => console.log('removed document reaction', res))
           .catch(err => console.error('failed to remove document reaction', err));
       } else {

@@ -8,6 +8,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MatIconModule } from '@angular/material/icon';
 import { FeedRoutingModule } from './feed-routing-module';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [FeedCardComponent, FeedComponent, PickEmojiComponent],
@@ -21,7 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
     ComponentsModule,
     PickerModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    HighlightModule
   ]
 })
 export class FeedModule {

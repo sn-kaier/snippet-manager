@@ -2,29 +2,29 @@
   <div class="row">
     <div class="col-xs-12 col-md-6">
       <div class="row">
-        <div class="col">
+        <div class="col-xs-10">
           <h1>{{doc.title}}</h1>
         </div>
-        <div class="col mlm">
+        <div class="col-xs-2">
           <button [routerLink]="['/document', doc.id]" mat-button color="primary">show</button>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
+      <div class="row" *ngIf="!hideAuthor">
+        <div class="col-xs-12">
           <app-author-section [author]="doc.author"></app-author-section>
         </div>
       </div>
     </div>
-<!--    <div class="col-xs-6">-->
-<!--      <div class="row">-->
-<!--        <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="col-xs-6">-->
+    <!--      <div class="row">-->
+    <!--        <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 
-  <div class="row mtm mbs">
+  <div class="row mbs">
     <div class="col-xs-12">
-      {{doc.description}}
+      <pre><code class="word-wrap code" [highlight]="doc.description"></code></pre>
     </div>
   </div>
 
@@ -42,19 +42,21 @@
         <a (click)="showComments = !showComments" class="align-center toggle-show-comments">
           <mat-icon aria-hidden="false" aria-label="arrow down icon" class="c-primary show-comments-icon"
                     [class.mirror-y]="showComments"
-          >keyboard_arrow_down</mat-icon>
+          >keyboard_arrow_down
+          </mat-icon>
           <ng-container *ngIf="!showComments; else hideComments">
             <span>
               show {{doc.countComments}} comments
             </span>
           </ng-container>
-          <ng-template #hideComments><span>hide comments</span></ng-template></a>
+          <ng-template #hideComments><span>hide comments</span></ng-template>
+        </a>
       </div>
     </div>
 
     <div class="row mtm" *ngIf="showComments">
       <div class="col-xs-12">
-        <app-comment-section  [documentId]="doc.id" [countComments]="doc.countComments"></app-comment-section>
+        <app-comment-section [documentId]="doc.id" [countComments]="doc.countComments"></app-comment-section>
       </div>
     </div>
   </ng-container>
