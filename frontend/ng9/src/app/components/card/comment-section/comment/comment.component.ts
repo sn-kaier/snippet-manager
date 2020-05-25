@@ -17,9 +17,9 @@ export class CommentComponent implements OnInit {
 
   @Output() toggleReaction = new EventEmitter<string>();
   @Output() deleteComment = new EventEmitter();
+  @Output() editComment = new EventEmitter<string>();
 
   isMenuOpen = false;
-
   editMode = false;
   commentEditText: string;
 
@@ -58,5 +58,6 @@ export class CommentComponent implements OnInit {
   saveEditComment() {
     this.editMode = false;
 
+    this.editComment.emit(this.commentEditText);
   }
 }

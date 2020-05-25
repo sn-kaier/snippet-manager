@@ -1,0 +1,68 @@
+fragment UEditDocAuthor on user {
+  authId
+  imageUrl
+  name
+  followers(where: {authorId: {_eq: $authorId}}) {
+    id
+  }
+}
+
+fragment UEditDocLabel on document_label {
+  label {
+    label
+    color {
+      color
+    }
+  }
+}
+
+fragment UEditDocReactionGroup on document_reaction_group_persisted {
+  count
+  reactionid
+}
+
+fragment UEditDocReaction on document_reaction {
+  reactionId
+}
+
+fragment UEditDoc on document {
+  author {
+    ...UEditDocAuthor
+  }
+  updatedAt
+  reactionsGroup(limit: 10, order_by: {count: desc}) {
+    ...UEditDocReactionGroup
+  }
+  countComments
+  allowComments
+  isPublic
+  labels(limit: 10) {
+    ...UEditDocLabel
+  }
+  title
+  description
+  id
+  reactions(where: {authorId: {_eq: $authorId}}) {
+    ...UEditDocReaction
+  }
+}
+
+query UEditDocumentGet($documentId: uuid!, $authorId: String!) {
+  document(id: $documentId) {
+    ...UEditDoc
+  }
+}
+
+mutation UEditDocumentSave($documentId: uuid!, $documentInput: document_set_input) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: $documentInput) {
+    affected_rows
+  }
+}
+
+mutation UEditDocumentAdd($newDocument: document_insert_input!) {
+  addDocument(objects: [$newDocument]) {
+    returning {
+      id
+    }
+  }
+}

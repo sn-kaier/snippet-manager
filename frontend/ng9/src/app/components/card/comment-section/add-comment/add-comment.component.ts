@@ -35,4 +35,10 @@ export class AddCommentComponent implements OnInit {
     this.addComment.emit(this.commentText);
     this.resetText();
   }
+
+  onKeyDown(keyboardEvent: KeyboardEvent) {
+    if (keyboardEvent.ctrlKey && keyboardEvent.code === 'Enter') {
+      this.send();
+    }
+  }
 }

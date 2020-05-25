@@ -6,16 +6,26 @@
       <app-add-comment (addComment)="postComment($event)"></app-add-comment>
     </div>
 
+  </div>
+
+  <div class="row">
+
     <div class="col-xs-12 mtm" *ngFor="let comment of comments$ | async">
       <app-comment [comment]="comment"
                    (toggleReaction)="toggleReaction(comment.id, $event)"
+                   (editComment)="onEditComment(comment.id, $event)"
                    (deleteComment)="deleteComment(comment)"
       ></app-comment>
     </div>
   </div>
 
-  <div class="row center-xs mrm mts">
-    <button class="btn-flat c-primary " *ngIf="canLoadMore" (click)="loadMore()">show more</button>
+  <div class="row center-xs mtm mbm" *ngIf="loading$ | async">
+    <div class="col">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
   </div>
 
+  <div class="row center-xs mrm mts" *ngIf="!(loading$ | async)">
+    <button class="btn-flat c-primary " *ngIf="canLoadMore" (click)="loadMore()">show more</button>
+  </div>
 </div>

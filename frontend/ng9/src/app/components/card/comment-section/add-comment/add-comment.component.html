@@ -9,6 +9,7 @@
           <mat-label>Leave a comment</mat-label>
           <textarea
             (focus)="toggleFocus($event)"
+            (keydown)="onKeyDown($event)"
             cdkTextareaAutosize
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="8"

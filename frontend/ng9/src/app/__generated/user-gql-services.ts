@@ -2286,6 +2286,62 @@ export type URemoveCommentMutationVariables = {
 
 export type URemoveCommentMutation = { __typename?: 'mutation_root', removeComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
 
+export type UEditCommentMutationVariables = {
+  commentId: Scalars['uuid'];
+  comment: Scalars['String'];
+};
+
+
+export type UEditCommentMutation = { __typename?: 'mutation_root', updateComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
+
+export type UEditDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
+
+export type UEditDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
+
+export type UEditDocReactionGroupFragment = { __typename?: 'document_reaction_group_persisted', count: number, reactionid: string };
+
+export type UEditDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
+
+export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
+    { __typename?: 'user' }
+    & UEditDocAuthorFragment
+  ), reactionsGroup: Array<(
+    { __typename?: 'document_reaction_group_persisted' }
+    & UEditDocReactionGroupFragment
+  )>, labels: Array<(
+    { __typename?: 'document_label' }
+    & UEditDocLabelFragment
+  )>, reactions: Array<(
+    { __typename?: 'document_reaction' }
+    & UEditDocReactionFragment
+  )> };
+
+export type UEditDocumentGetQueryVariables = {
+  documentId: Scalars['uuid'];
+  authorId: Scalars['String'];
+};
+
+
+export type UEditDocumentGetQuery = { __typename?: 'query_root', document: Maybe<(
+    { __typename?: 'document' }
+    & UEditDocFragment
+  )> };
+
+export type UEditDocumentSaveMutationVariables = {
+  documentId: Scalars['uuid'];
+  documentInput?: Maybe<DocumentSetInput>;
+};
+
+
+export type UEditDocumentSaveMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+
+export type UEditDocumentAddMutationVariables = {
+  newDocument: DocumentInsertInput;
+};
+
+
+export type UEditDocumentAddMutation = { __typename?: 'mutation_root', addDocument: Maybe<{ __typename?: 'document_mutation_response', returning: Array<{ __typename?: 'document', id: any }> }> };
+
 export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
@@ -2387,6 +2443,63 @@ export const UCommentSectionCommentFragmentDoc = gql`
     ${UCommentSectionCommentAuthorFragmentDoc}
 ${UCommentSectionCommentReactionGroupFragmentDoc}
 ${UCommentSectionCommentReactionFragmentDoc}`;
+export const UEditDocAuthorFragmentDoc = gql`
+    fragment UEditDocAuthor on user {
+  authId
+  imageUrl
+  name
+  followers(where: {authorId: {_eq: $authorId}}) {
+    id
+  }
+}
+    `;
+export const UEditDocReactionGroupFragmentDoc = gql`
+    fragment UEditDocReactionGroup on document_reaction_group_persisted {
+  count
+  reactionid
+}
+    `;
+export const UEditDocLabelFragmentDoc = gql`
+    fragment UEditDocLabel on document_label {
+  label {
+    label
+    color {
+      color
+    }
+  }
+}
+    `;
+export const UEditDocReactionFragmentDoc = gql`
+    fragment UEditDocReaction on document_reaction {
+  reactionId
+}
+    `;
+export const UEditDocFragmentDoc = gql`
+    fragment UEditDoc on document {
+  author {
+    ...UEditDocAuthor
+  }
+  updatedAt
+  reactionsGroup(limit: 10, order_by: {count: desc}) {
+    ...UEditDocReactionGroup
+  }
+  countComments
+  allowComments
+  isPublic
+  labels(limit: 10) {
+    ...UEditDocLabel
+  }
+  title
+  description
+  id
+  reactions(where: {authorId: {_eq: $authorId}}) {
+    ...UEditDocReaction
+  }
+}
+    ${UEditDocAuthorFragmentDoc}
+${UEditDocReactionGroupFragmentDoc}
+${UEditDocLabelFragmentDoc}
+${UEditDocReactionFragmentDoc}`;
 export const UFeedDocAuthorFragmentDoc = gql`
     fragment UFeedDocAuthor on user {
   authId
@@ -2519,6 +2632,68 @@ export const URemoveCommentDocument = gql`
   })
   export class URemoveCommentGQL extends Apollo.Mutation<URemoveCommentMutation, URemoveCommentMutationVariables> {
     document = URemoveCommentDocument;
+    
+  }
+export const UEditCommentDocument = gql`
+    mutation UEditComment($commentId: uuid!, $comment: String!) {
+  updateComment(where: {id: {_eq: $commentId}}, _set: {comment: $comment}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UEditCommentGQL extends Apollo.Mutation<UEditCommentMutation, UEditCommentMutationVariables> {
+    document = UEditCommentDocument;
+    
+  }
+export const UEditDocumentGetDocument = gql`
+    query UEditDocumentGet($documentId: uuid!, $authorId: String!) {
+  document(id: $documentId) {
+    ...UEditDoc
+  }
+}
+    ${UEditDocFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UEditDocumentGetGQL extends Apollo.Query<UEditDocumentGetQuery, UEditDocumentGetQueryVariables> {
+    document = UEditDocumentGetDocument;
+    
+  }
+export const UEditDocumentSaveDocument = gql`
+    mutation UEditDocumentSave($documentId: uuid!, $documentInput: document_set_input) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: $documentInput) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UEditDocumentSaveGQL extends Apollo.Mutation<UEditDocumentSaveMutation, UEditDocumentSaveMutationVariables> {
+    document = UEditDocumentSaveDocument;
+    
+  }
+export const UEditDocumentAddDocument = gql`
+    mutation UEditDocumentAdd($newDocument: document_insert_input!) {
+  addDocument(objects: [$newDocument]) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UEditDocumentAddGQL extends Apollo.Mutation<UEditDocumentAddMutation, UEditDocumentAddMutationVariables> {
+    document = UEditDocumentAddDocument;
     
   }
 export const UFeedDocsDocument = gql`

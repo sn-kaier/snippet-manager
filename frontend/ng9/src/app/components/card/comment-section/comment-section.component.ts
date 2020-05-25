@@ -13,11 +13,11 @@ import {
   UCommentSectionCommentsGQL,
   UCommentSectionCommentsQuery,
   UCommentSectionCommentsQueryVariables,
-  UCommentSectionRemoveCommentReactionGQL, URemoveCommentGQL
+  UCommentSectionRemoveCommentReactionGQL, UEditCommentGQL, URemoveCommentGQL
 } from '../../../__generated/user-gql-services';
 import { QueryRef } from 'apollo-angular';
-import { map, mergeMap } from 'rxjs/operators';
-import { iif, Observable } from 'rxjs';
+import { filter, map, mergeMap, tap } from 'rxjs/operators';
+import { iif, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-comment-section',
@@ -47,6 +47,7 @@ export class CommentSectionComponent implements OnInit {
   anonymousQueryRef: QueryRef<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables>;
 
   comments$: Observable<UCommentSectionCommentFragment[] | ACommentSectionCommentFragment[]>;
+  loading$ = new Subject<boolean>();
 
   constructor(
     private readonly aCommentsQuery: ACommentSectionCommentsGQL,
@@ -55,6 +56,7 @@ export class CommentSectionComponent implements OnInit {
     private readonly removeCommentReactionGQL: UCommentSectionRemoveCommentReactionGQL,
     private readonly addComment: UAddCommentGQL,
     private readonly removeComment: URemoveCommentGQL,
+    private readonly editComment: UEditCommentGQL,
     readonly authService: AuthService
   ) {
   }
@@ -66,9 +68,18 @@ export class CommentSectionComponent implements OnInit {
         documentId: this.docId,
         limit: this.limit,
         offset: this.offset
-      }, { fetchResults: false });
+      }, { fetchResults: false, useInitialLoading: true });
 
-      return this.userQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
+      return this.userQueryRef.valueChanges.pipe(
+        tap(res => {
+          setTimeout(() => {
+            this.loading$.next(res.loading);
+          });
+          console.log('tap this.userQueryRef.valueChanges loading', res.loading);
+        }),
+        filter(res => !!res.data),
+        map(res => res.data.allComments)
+      );
     };
 
     const getAnonymousComments = () => {
@@ -76,9 +87,13 @@ export class CommentSectionComponent implements OnInit {
         documentId: this.docId,
         limit: this.limit,
         offset: this.offset
-      }, { fetchResults: false });
+      }, { fetchResults: false, useInitialLoading: true });
 
-      return this.anonymousQueryRef.valueChanges.pipe(map(res => res.data?.allComments));
+      return this.anonymousQueryRef.valueChanges.pipe(
+        tap(res => this.loading$.next(res.loading)),
+        filter(res => !!res.data),
+        map(res => res.data.allComments)
+      );
     };
 
     this.comments$ = this.authService.authState.pipe(mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments())));
@@ -147,6 +162,7 @@ export class CommentSectionComponent implements OnInit {
   loadMore() {
     const s = this.authService.authState.getValue();
 
+    this.loading$.next(true);
     if (s.state === 'in') {
       this.offset += this.limit;
       this.userQueryRef.fetchMore({
@@ -248,4 +264,24 @@ export class CommentSectionComponent implements OnInit {
     });
   }
 
+  onEditComment(commentId: string, newComment: string) {
+    this.editComment.mutate({
+      comment: newComment,
+      commentId
+    }).toPromise().then(res => console.log('updated comment', res))
+      .catch(err => console.error('failed to update comment', err, commentId));
+    this.userQueryRef.updateQuery(prev => {
+      const commentIndex = prev.allComments.findIndex(c => c.id === commentId);
+      if (commentIndex >= 0) {
+        const comment = prev.allComments[commentIndex];
+        prev.allComments[commentIndex] = {
+          ...comment,
+          comment: newComment
+        };
+      }
+      return {
+        allComments: [...prev.allComments]
+      };
+    });
+  }
 }

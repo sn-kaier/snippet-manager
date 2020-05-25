@@ -61,7 +61,8 @@ mutation URemoveComment($commentId: uuid!) {
   }
 }
 
-# TODO: implement
-#mutation UEditComment() {
-#
-#}
+mutation UEditComment($commentId: uuid!, $comment: String!) {
+  updateComment(where: {id: {_eq: $commentId}}, _set: {comment: $comment}) {
+    affected_rows
+  }
+}

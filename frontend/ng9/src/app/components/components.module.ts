@@ -17,6 +17,7 @@ import { AddCommentComponent } from './card/comment-section/add-comment/add-comm
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent],
@@ -35,7 +36,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ComponentsModule {
