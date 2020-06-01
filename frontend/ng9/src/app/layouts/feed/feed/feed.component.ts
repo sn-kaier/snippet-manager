@@ -18,17 +18,12 @@ export class FeedComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   mode: FeedMode = 'public';
   loading$ = new Subject<boolean>();
-  userFeed$ = this.feedService.userQueryRef.valueChanges
+  feed$ = this.feedService.feed$
     .pipe(
       tap(s => this.loading$.next(s.loading)),
       filter(s => !!s.data?.allDocuments),
-      map(s => s.data.allDocuments),
-      tap(s => console.log('fetch all documents', s)));
-  anonymousFeed$ = this.feedService.anonymousQueryRef.valueChanges
-    .pipe(
-      tap(s => this.loading$.next(s.loading)),
-      filter(s => !!s.data?.allDocuments),
-      map(s => s.data.allDocuments));
+      map(s => s.data.allDocuments)
+    );
 
   @ViewChild('ref') ref: ElementRef<HTMLDivElement>;
 
@@ -43,10 +38,10 @@ export class FeedComponent implements OnInit, OnDestroy {
       this.mode = paramMap.get('mode') as FeedMode;
       switch (this.mode) {
         case 'my-documents':
-          await this.feedService.configure({onlyMyDocuments: true});
+          await this.feedService.configure({ onlyMyDocuments: true });
           break;
         case 'public':
-          await this.feedService.configure({onlyMyDocuments: false});
+          await this.feedService.configure({ onlyMyDocuments: false });
           break;
       }
     });
@@ -67,6 +62,9 @@ export class FeedComponent implements OnInit, OnDestroy {
         this.feedService.fetchMore();
       }
     }
-  }
+  };
 
+  onChangeIsPublic(documentId: string, isPublic: boolean) {
+    this.feedService.changeDocumentVisibility(documentId, isPublic);
+  }
 }

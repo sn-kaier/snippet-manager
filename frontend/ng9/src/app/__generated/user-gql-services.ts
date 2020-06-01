@@ -1488,6 +1488,8 @@ export interface QueryRoot {
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
   reaction?: Maybe<Reaction>;
+  /** execute function "search_documents" which returns "document" */
+  search_documents: Array<Document>;
   /** fetch data from the table: "user" using primary key columns */
   user?: Maybe<User>;
 }
@@ -1700,6 +1702,17 @@ export type QueryRootReactionArgs = {
 
 
 /** query root */
+export type QueryRootSearchDocumentsArgs = {
+  args: SearchDocumentsArgs;
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
+};
+
+
+/** query root */
 export type QueryRootUserArgs = {
   id: Scalars['uuid'];
 };
@@ -1737,6 +1750,10 @@ export enum ReactionSelectColumn {
   HtmlCode = 'htmlCode',
   /** column name */
   Title = 'title'
+}
+
+export interface SearchDocumentsArgs {
+  search?: Maybe<Scalars['String']>;
 }
 
 /** expression to compare columns of type String. All fields are combined with logical 'AND'. */
@@ -1811,6 +1828,8 @@ export interface SubscriptionRoot {
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
   reaction?: Maybe<Reaction>;
+  /** execute function "search_documents" which returns "document" */
+  search_documents: Array<Document>;
   /** fetch data from the table: "user" using primary key columns */
   user?: Maybe<User>;
 }
@@ -2019,6 +2038,17 @@ export type SubscriptionRootLabelArgs = {
 /** subscription root */
 export type SubscriptionRootReactionArgs = {
   htmlCode: Scalars['String'];
+};
+
+
+/** subscription root */
+export type SubscriptionRootSearchDocumentsArgs = {
+  args: SearchDocumentsArgs;
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
 };
 
 
@@ -2377,6 +2407,20 @@ export type UFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
     & UFeedDocFragment
   )> };
 
+export type USearchFeedDocsQueryVariables = {
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  authorId: Scalars['String'];
+  filter?: Maybe<DocumentBoolExp>;
+  search?: Maybe<Scalars['String']>;
+};
+
+
+export type USearchFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
+    { __typename?: 'document' }
+    & UFeedDocFragment
+  )> };
+
 export type UAddDocumentReactionMutationVariables = {
   documentReaction: DocumentReactionInsertInput;
 };
@@ -2406,6 +2450,14 @@ export type URemoveCommentReactionMutationVariables = {
 
 
 export type URemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+
+export type UChangeDocumentVisibilityMutationVariables = {
+  documentId: Scalars['uuid'];
+  isPublic: Scalars['Boolean'];
+};
+
+
+export type UChangeDocumentVisibilityMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
 export const UCommentSectionCommentAuthorFragmentDoc = gql`
     fragment UCommentSectionCommentAuthor on user {
@@ -2699,7 +2751,7 @@ export const UEditDocumentAddDocument = gql`
   }
 export const UFeedDocsDocument = gql`
     query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp) {
-  allDocuments(limit: $limit, offset: $offset, order_by: {reactionBalance: desc}, where: $filter) {
+  allDocuments(limit: $limit, offset: $offset, order_by: {createdAt: desc}, where: $filter) {
     ...UFeedDoc
   }
 }
@@ -2710,6 +2762,21 @@ export const UFeedDocsDocument = gql`
   })
   export class UFeedDocsGQL extends Apollo.Query<UFeedDocsQuery, UFeedDocsQueryVariables> {
     document = UFeedDocsDocument;
+    
+  }
+export const USearchFeedDocsDocument = gql`
+    query USearchFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp, $search: String) {
+  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
+    ...UFeedDoc
+  }
+}
+    ${UFeedDocFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class USearchFeedDocsGQL extends Apollo.Query<USearchFeedDocsQuery, USearchFeedDocsQueryVariables> {
+    document = USearchFeedDocsDocument;
     
   }
 export const UAddDocumentReactionDocument = gql`
@@ -2776,5 +2843,20 @@ export const URemoveCommentReactionDocument = gql`
   })
   export class URemoveCommentReactionGQL extends Apollo.Mutation<URemoveCommentReactionMutation, URemoveCommentReactionMutationVariables> {
     document = URemoveCommentReactionDocument;
+    
+  }
+export const UChangeDocumentVisibilityDocument = gql`
+    mutation UChangeDocumentVisibility($documentId: uuid!, $isPublic: Boolean!) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: {isPublic: $isPublic}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UChangeDocumentVisibilityGQL extends Apollo.Mutation<UChangeDocumentVisibilityMutation, UChangeDocumentVisibilityMutationVariables> {
+    document = UChangeDocumentVisibilityDocument;
     
   }

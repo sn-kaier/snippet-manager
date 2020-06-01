@@ -19,16 +19,23 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
+import { VisibilityLabelComponent } from './visibility-label/visibility-label.component';
+import { MakeDocumentPublicDialogComponent } from './visibility-label/make-document-public-dialog/make-document-public-dialog.component';
+import { MakeDocumentPrivateDialogComponent } from './visibility-label/make-document-private-dialog/make-document-private-dialog.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent],
+  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent],
   exports: [
     NavBarComponent,
     CardComponent,
     AuthorSectionComponent,
     LabelComponent,
     ReactionSectionComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    VisibilityLabelComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +46,10 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    RouterModule
+    RouterModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatTooltipModule
   ]
 })
 export class ComponentsModule {

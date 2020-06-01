@@ -1,0 +1,18 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE FUNCTION search_documents(search text)
+          RETURNS SETOF document AS $$
+      SELECT *
+      FROM document
+      WHERE
+              search <% (description || ' ' || title)
+      ORDER BY
+          similarity(search, (description || ' ' || title)) DESC;
+      $$ LANGUAGE sql STABLE;
+  type: run_sql
+- args:
+    name: search_documents
+    schema: public
+  type: track_function

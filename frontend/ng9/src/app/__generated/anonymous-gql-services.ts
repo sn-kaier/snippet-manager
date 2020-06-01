@@ -735,6 +735,8 @@ export type QueryRoot = {
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
   reaction?: Maybe<Reaction>;
+  /** execute function "search_documents" which returns "document" */
+  search_documents: Array<Document>;
   /** fetch data from the table: "user" using primary key columns */
   user?: Maybe<User>;
 };
@@ -931,6 +933,17 @@ export type QueryRootReactionArgs = {
 
 
 /** query root */
+export type QueryRootSearchDocumentsArgs = {
+  args: SearchDocumentsArgs;
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
+};
+
+
+/** query root */
 export type QueryRootUserArgs = {
   id: Scalars['uuid'];
 };
@@ -969,6 +982,10 @@ export enum ReactionSelectColumn {
   /** column name */
   Title = 'title'
 }
+
+export type SearchDocumentsArgs = {
+  search?: Maybe<Scalars['String']>;
+};
 
 /** expression to compare columns of type String. All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
@@ -1038,6 +1055,8 @@ export type SubscriptionRoot = {
   label?: Maybe<Label>;
   /** fetch data from the table: "reaction" using primary key columns */
   reaction?: Maybe<Reaction>;
+  /** execute function "search_documents" which returns "document" */
+  search_documents: Array<Document>;
   /** fetch data from the table: "user" using primary key columns */
   user?: Maybe<User>;
 };
@@ -1234,6 +1253,17 @@ export type SubscriptionRootReactionArgs = {
 
 
 /** subscription root */
+export type SubscriptionRootSearchDocumentsArgs = {
+  args: SearchDocumentsArgs;
+  distinct_on?: Maybe<Array<DocumentSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<DocumentOrderBy>>;
+  where?: Maybe<DocumentBoolExp>;
+};
+
+
+/** subscription root */
 export type SubscriptionRootUserArgs = {
   id: Scalars['uuid'];
 };
@@ -1409,10 +1439,24 @@ export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countC
 export type AFeedDocsQueryVariables = {
   limit: Scalars['Int'];
   offset: Scalars['Int'];
+  filter?: Maybe<DocumentBoolExp>;
 };
 
 
 export type AFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
+    { __typename?: 'document' }
+    & AFeedDocFragment
+  )> };
+
+export type ASearchFeedDocsQueryVariables = {
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  filter?: Maybe<DocumentBoolExp>;
+  search?: Maybe<Scalars['String']>;
+};
+
+
+export type ASearchFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
     { __typename?: 'document' }
     & AFeedDocFragment
   )> };
@@ -1498,8 +1542,8 @@ export const ACommentSectionCommentsDocument = gql`
     
   }
 export const AFeedDocsDocument = gql`
-    query AFeedDocs($limit: Int!, $offset: Int!) {
-  allDocuments(limit: $limit, offset: $offset) {
+    query AFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp) {
+  allDocuments(limit: $limit, offset: $offset, where: $filter) {
     ...AFeedDoc
   }
 }
@@ -1510,5 +1554,20 @@ export const AFeedDocsDocument = gql`
   })
   export class AFeedDocsGQL extends Apollo.Query<AFeedDocsQuery, AFeedDocsQueryVariables> {
     document = AFeedDocsDocument;
+    
+  }
+export const ASearchFeedDocsDocument = gql`
+    query ASearchFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp, $search: String) {
+  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
+    ...AFeedDoc
+  }
+}
+    ${AFeedDocFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ASearchFeedDocsGQL extends Apollo.Query<ASearchFeedDocsQuery, ASearchFeedDocsQueryVariables> {
+    document = ASearchFeedDocsDocument;
     
   }

@@ -8,7 +8,8 @@
         <div class="col-xs-2" *ngIf="isOwnDocument">
           <button [routerLink]="['/document', doc.id]" mat-button color="primary">
             <mat-icon>edit</mat-icon>
-            Edit</button>
+            Edit
+          </button>
         </div>
       </div>
       <div class="row" *ngIf="!hideAuthor">
@@ -17,11 +18,14 @@
         </div>
       </div>
     </div>
-    <!--    <div class="col-xs-6">-->
-    <!--      <div class="row">-->
-    <!--        <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <div class="col-md-6 col-xs-12" *ngIf="isOwnDocument">
+      <div class="row end-xs">
+        <app-visibility-label [isPublic]="doc.isPublic"
+                              [showDialog]="true"
+                              [title]="doc.title"
+                              (changeIsPublic)="changeIsPublic.emit($event)"></app-visibility-label>
+      </div>
+    </div>
   </div>
 
   <div class="row mbs">

@@ -1,0 +1,8 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE EXTENSION pg_trgm;
+      CREATE INDEX document_gin_idx ON document
+          USING GIN ((description || ' ' || title) gin_trgm_ops);
+  type: run_sql

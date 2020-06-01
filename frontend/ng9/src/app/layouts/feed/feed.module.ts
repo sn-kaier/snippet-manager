@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FeedCardComponent} from './feed-card/feed-card.component';
-import {ComponentsModule} from '../../components/components.module';
-import {FeedComponent} from './feed/feed.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeedCardComponent } from './feed-card/feed-card.component';
+import { ComponentsModule } from '../../components/components.module';
+import { FeedComponent } from './feed/feed.component';
 import { PickEmojiComponent } from './pick-emoji/pick-emoji.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { HighlightModule } from 'ngx-highlightjs';
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    HighlightModule
+    HighlightModule,
   ]
 })
 export class FeedModule {

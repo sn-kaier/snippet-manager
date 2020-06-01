@@ -148,4 +148,10 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     }
     console.log(this.historyService.history);
   }
+
+  setIsPublic(isPublic: boolean) {
+    if (this.documentSetInput) {
+      this.documentSetInput.isPublic = isPublic;
+    }
+  }
 }

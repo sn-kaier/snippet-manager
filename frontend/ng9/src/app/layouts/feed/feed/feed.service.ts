@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
+import { AFeedDocsGQL, AFeedDocsQuery, ASearchFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
 import {
-  CommentReactionInsertInput,
   DocumentBoolExp,
   DocumentReactionInsertInput,
-  UAddDocumentReactionGQL,
+  UAddDocumentReactionGQL, UChangeDocumentVisibilityGQL,
   UFeedDocsGQL,
-  URemoveDocumentReactionGQL
+  UFeedDocsQuery,
+  URemoveDocumentReactionGQL,
+  USearchFeedDocsGQL
 } from '../../../__generated/user-gql-services';
 import { AuthService, AuthState } from '../../../core/auth.service';
-import { filter } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
+import { SearchService } from '../../../core/search.service';
+import { ApolloQueryResult } from 'apollo-client';
+import { Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,25 +22,53 @@ export class FeedService {
   private readonly limit = 10;
   private offset = 0;
   private filter: DocumentBoolExp = {};
+  private searchText = '';
 
-  readonly userQueryRef = this.uFeedDocsGQL.watch({
+  private readonly userQueryRef = this.uFeedDocsGQL.watch({
     authorId: '',
     limit: this.limit,
     offset: 0,
     filter: this.filter
   }, { fetchResults: false, useInitialLoading: true });
-  readonly anonymousQueryRef = this.aFeedDocsGQL.watch({ limit: this.limit, offset: 0 },
+  private readonly anonymousQueryRef = this.aFeedDocsGQL.watch({ limit: this.limit, offset: 0 },
     { fetchResults: false, useInitialLoading: true });
+
+  private readonly userSearchQueryRef = this.uSearchFeedDocsGQL.watch({
+    authorId: '',
+    limit: this.limit,
+    offset: 0,
+    filter: this.filter,
+    search: ''
+  }, { fetchResults: false, useInitialLoading: true });
+  private readonly anonymousSearchQueryRef = this.aSearchFeedDocsGQL.watch({ limit: this.limit, offset: 0, search: '' },
+    { fetchResults: false, useInitialLoading: true });
+
   private requestsPerSecond = 0;
 
-  constructor(private readonly aFeedDocsGQL: AFeedDocsGQL,
-              private readonly uFeedDocsGQL: UFeedDocsGQL,
-              private readonly authService: AuthService,
-              private readonly uAddDocumentReactionGQL: UAddDocumentReactionGQL,
-              private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL
+  private feedSubject$ = new Subject<ApolloQueryResult<UFeedDocsQuery> | ApolloQueryResult<AFeedDocsQuery>>();
+  private feedSubscription: Subscription;
+  feed$ = this.feedSubject$.asObservable();
+
+  constructor(
+    private readonly aFeedDocsGQL: AFeedDocsGQL,
+    private readonly aSearchFeedDocsGQL: ASearchFeedDocsGQL,
+    private readonly uFeedDocsGQL: UFeedDocsGQL,
+    private readonly uSearchFeedDocsGQL: USearchFeedDocsGQL,
+    private readonly authService: AuthService,
+    private readonly uAddDocumentReactionGQL: UAddDocumentReactionGQL,
+    private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL,
+    private readonly uChangeDocumentVisibility: UChangeDocumentVisibilityGQL,
+    private readonly searchService: SearchService
   ) {
     this.authService.authState.pipe(filter(s => s.state !== 'pending')).subscribe(async (s: AuthState) => {
       await this.refetch(s);
+    });
+    this.searchService.onSearch.pipe(debounceTime(200)).subscribe(async searchTerm => {
+      const changeOfType = (!!this.searchText) !== (!!searchTerm);
+      this.searchText = searchTerm;
+
+      await this.refetch(this.authService.authState.value);
+      console.log(`FeedService search: [${searchTerm}]`);
     });
   }
 
@@ -57,53 +89,86 @@ export class FeedService {
 
   private async refetch(s: AuthState) {
     this.offset = 0;
+    if (this.feedSubscription) {
+      this.feedSubscription.unsubscribe();
+    }
     if (s.state === 'in') {
-      await this.userQueryRef.refetch({ authorId: s.userId, limit: this.limit, offset: 0, filter: this.filter });
+      if (this.searchText) {
+        this.feedSubscription = this.userSearchQueryRef.valueChanges.subscribe(this.feedSubject$);
+        await this.userSearchQueryRef.refetch({
+          authorId: s.userId,
+          limit: this.limit,
+          offset: 0,
+          filter: this.filter,
+          search: this.searchText
+        });
+      } else {
+        this.feedSubscription = this.userQueryRef.valueChanges.subscribe(this.feedSubject$);
+        await this.userQueryRef.refetch({
+          authorId: s.userId,
+          limit: this.limit,
+          offset: 0,
+          filter: this.filter
+        });
+      }
+
     } else {
-      await this.anonymousQueryRef.setVariables({ limit: this.limit, offset: 0 });
+      if (this.searchText) {
+        this.feedSubscription = this.anonymousSearchQueryRef.valueChanges.subscribe(this.feedSubject$);
+        await this.anonymousSearchQueryRef.refetch({
+          limit: this.limit,
+          offset: 0,
+          filter: this.filter,
+          search: this.searchText
+        });
+      } else {
+        this.feedSubscription = this.anonymousQueryRef.valueChanges.subscribe(this.feedSubject$);
+        await this.anonymousQueryRef.setVariables({
+          limit: this.limit,
+          offset: 0,
+          filter: this.filter
+        });
+      }
     }
   }
 
   fetchMore() {
     const s = this.authService.authState.getValue();
-    if (s.state === 'in') {
-      this.offset += this.limit;
-      this.userQueryRef.fetchMore({
-        variables: {
-          authorId: s.userId,
-          limit: this.limit,
-          offset: this.offset
-        },
-        updateQuery: (prev, res) => {
-          if (!res.fetchMoreResult) {
-            return prev;
-          }
-          return Object.assign({}, prev, {
-            allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
-          });
-        }
-      }).then();
-    } else {
-      this.anonymousQueryRef.fetchMore({
-        variables: {
-          limit: this.limit,
-          offset: this.offset
-        },
-        updateQuery: (prev, res) => {
-          if (!res.fetchMoreResult) {
-            return prev;
-          }
-          return Object.assign({}, prev, {
-            allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
-          });
-        }
-      }).then();
+    this.offset += this.limit;
+
+    const variables: any = {
+      limit: this.limit,
+      offset: this.offset,
+      filter: this.filter
+    };
+    if (this.searchText) {
+      variables.search = this.searchText;
     }
+    if (s.state === 'in') {
+      variables.authorId = s.userId;
+    }
+
+    const queryRef = s.state === 'in' ?
+      (this.searchText ? this.userSearchQueryRef : this.userQueryRef) :
+      (this.searchText ? this.anonymousSearchQueryRef : this.anonymousQueryRef);
+
+    queryRef.fetchMore({
+      variables,
+      updateQuery: (prev, res) => {
+        if (!res.fetchMoreResult) {
+          return prev;
+        }
+        return {
+          ...prev,
+          allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
+        };
+      }
+    }).then();
   }
 
   toggleDocumentReaction(doc: DocumentReactionInsertInput) {
 
-    this.userQueryRef.updateQuery(prev => {
+    (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
       const docToUpdateIndex = prev.allDocuments.findIndex(docs => docs.id === doc.documentId);
       const docToUpdate = prev.allDocuments[docToUpdateIndex];
 
@@ -164,13 +229,36 @@ export class FeedService {
       prev.allDocuments[docToUpdateIndex] = { ...docToUpdate };
       console.log('updated document reaction in userQueryRef', prev);
       return {
+        ...prev,
         allDocuments: [...prev.allDocuments]
       };
     });
   }
 
-  addCommentReaction(documentId: string, commentReaction: CommentReactionInsertInput) {
+  changeDocumentVisibility(documentId: string, isPublic: boolean) {
+    this.uChangeDocumentVisibility.mutate({
+      isPublic,
+      documentId
+    }).toPromise().then(res => {
+      console.log('updated visibility of document', res);
+    }).catch(err => {
+      console.warn('failed do update visibility of document', err);
+    });
 
+    // update apollo store
+    (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
+      const docIndex = prev.allDocuments.findIndex(d => d.id === documentId);
+      if (docIndex >= 0) {
+        prev.allDocuments[docIndex] = {
+          ...prev.allDocuments[docIndex],
+          isPublic
+        };
+      }
+      return {
+        ...prev,
+        allDocuments: [...prev.allDocuments]
+      };
+    });
   }
 
   private async testPerformance() {

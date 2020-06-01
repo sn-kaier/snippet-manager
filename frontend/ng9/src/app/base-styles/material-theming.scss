@@ -13,7 +13,9 @@ $snippets-app-primary: mat-palette($mat-blue, 600);
 $snippets-app-accent:  mat-palette($mat-orange, A500, A200, A800);
 
 // The warn palette is optional (defaults to red).
-$snippets-app-warn:    mat-palette($mat-red);
+$snippets-app-warn: mat-palette($mat-red);
+$snippets-app-purple: mat-palette($mat-purple);
+$snippets-app-green: mat-palette($mat-green);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $snippets-app-theme: mat-light-theme($snippets-app-primary, $snippets-app-accent, $snippets-app-warn);

@@ -32,8 +32,14 @@ fragment AFeedDoc on document {
   id
 }
 
-query AFeedDocs($limit: Int!, $offset: Int!) {
-  allDocuments(limit: $limit, offset: $offset) {
+query AFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp) {
+  allDocuments(limit: $limit, offset: $offset, where: $filter) {
+    ...AFeedDoc
+  }
+}
+
+query ASearchFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp, $search: String) {
+  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
     ...AFeedDoc
   }
 }

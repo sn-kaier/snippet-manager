@@ -48,7 +48,13 @@ fragment UFeedDoc on document {
 }
 
 query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp) {
-  allDocuments(limit: $limit, offset: $offset, order_by: {reactionBalance: desc}, where: $filter) {
+  allDocuments(limit: $limit, offset: $offset, order_by: {createdAt: desc}, where: $filter) {
+    ...UFeedDoc
+  }
+}
+
+query USearchFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp, $search: String) {
+  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
     ...UFeedDoc
   }
 }
@@ -78,4 +84,10 @@ mutation URemoveDocumentReaction($reactionId: String!, $documentId: uuid!) {
 
 mutation URemoveCommentReaction($reactionId: String!, $commentId: uuid!) {
   removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {affected_rows}
+}
+
+mutation UChangeDocumentVisibility($documentId: uuid!, $isPublic: Boolean!) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: {isPublic: $isPublic}) {
+    affected_rows
+  }
 }

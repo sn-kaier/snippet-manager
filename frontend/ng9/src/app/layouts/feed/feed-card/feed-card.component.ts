@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { UFeedDocFragment } from '../../../__generated/user-gql-services';
 import { AFeedDocFragment } from '../../../__generated/anonymous-gql-services';
@@ -17,6 +17,8 @@ export class FeedCardComponent {
 
   @Input() doc: UFeedDocFragment | AFeedDocFragment;
   @Input() hideAuthor: boolean;
+
+  @Output() changeIsPublic = new EventEmitter<boolean>();
 
   constructor(private readonly feedService: FeedService,
               private readonly authService: AuthService) {

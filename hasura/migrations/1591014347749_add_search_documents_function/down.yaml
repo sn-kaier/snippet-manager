@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      DROP FUNCTION search_documents;
+  type: run_sql

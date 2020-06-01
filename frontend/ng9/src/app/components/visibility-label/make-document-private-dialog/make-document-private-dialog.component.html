@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Make document <span class="c-primary">{{ title }}</span> private</h1>
+<div mat-dialog-content>The document will only be visible to you. You then need to be logged in to access it.</div>
+<div mat-dialog-actions class="row between-xs mts">
+  <button mat-button color="primary" [mat-dialog-close]="true">Make Private</button>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+</div>

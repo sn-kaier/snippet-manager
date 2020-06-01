@@ -5,20 +5,12 @@
       <mat-spinner [diameter]="30"></mat-spinner>
     </div>
   </div>
-  <div class="col-xs-12" *ngIf="authState.state === 'in'; else anonymous">
-    <div class="row" *ngFor="let feedDoc of userFeed$ | async">
+  <div class="col-xs-12">
+    <div class="row" *ngFor="let feedDoc of feed$ | async">
       <div class="col-xs-12" *ngIf="!(loading$ | async)">
-        <app-feed-card [doc]="feedDoc" [hideAuthor]="mode === 'my-documents'"></app-feed-card>
+        <app-feed-card (changeIsPublic)="onChangeIsPublic(feedDoc.id, $event)" [doc]="feedDoc" [hideAuthor]="authState.state === 'in' && mode === 'my-documents'"></app-feed-card>
       </div>
     </div>
   </div>
-  <ng-template #anonymous>
-    <div class="col-xs-12">
-      <div class="row" *ngFor="let feedDoc of anonymousFeed$ | async">
-        <div class="col-xs-12" *ngIf="!(loading$ | async)">
-          <app-feed-card [doc]="feedDoc"></app-feed-card>
-        </div>
-      </div>
-    </div>
-  </ng-template>
+
 </div>

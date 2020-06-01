@@ -9,20 +9,21 @@
 
 
 <div class="row center-xs mtm mbm" *ngIf="loading$ | async">
-  <div class="col">
+  <div class="col-xs-12">
     <mat-spinner [diameter]="30"></mat-spinner>
   </div>
+
 </div>
 
 <ng-container *ngIf="documentSetInput">
   <app-card>
     <div class="row mts">
       <div class="col-xs-12 col-md-6">
-<!--        <div class="row mbm">-->
-<!--          <div class="col">-->
-<!--            <app-author-section [author]="doc.author"></app-author-section>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="row mbm">-->
+        <!--          <div class="col">-->
+        <!--            <app-author-section [author]="doc.author"></app-author-section>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <div class="row">
           <div class="col-xs-11">
             <mat-form-field class="form-field">
@@ -33,11 +34,19 @@
           </div>
         </div>
       </div>
-<!--      <div class="col-xs-6">-->
-<!--        <div class="row">-->
-<!--          <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="col-xs-12 col-md-6">
+        <div class="row end-xs">
+          <app-visibility-label [title]="documentSetInput.title"
+                                [isPublic]="documentSetInput.isPublic"
+                                [showDialog]="false"
+                                (changeIsPublic)="setIsPublic($event)"></app-visibility-label>
+        </div>
+      </div>
+      <!--      <div class="col-xs-6">-->
+      <!--        <div class="row">-->
+      <!--          <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
 
     <div class="row mtm mbs">

@@ -1,0 +1,18 @@
+<mat-chip-list>
+  <mat-chip *ngIf="isPublic; else privateLabel"
+            class="public"
+            matTooltip="The document can be viewed by everyone on the internet."
+            (click)="updateIsPublic(false)"
+  >
+    <mat-icon class="chip-icon">lock_open</mat-icon>
+    <span class="chip-text">public</span>
+  </mat-chip>
+  <ng-template #privateLabel>
+    <mat-chip class="private"
+              (click)="updateIsPublic(true)"
+              matTooltip="The document can only be viewed by you.">
+      <mat-icon class="chip-icon">lock</mat-icon>
+      <span class="chip-text">private</span>
+    </mat-chip>
+  </ng-template>
+</mat-chip-list>

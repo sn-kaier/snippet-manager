@@ -1,0 +1,7 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      DROP EXTENSION pg_trgm;
+      DROP INDEX document_gin_idx;
+  type: run_sql

@@ -706,6 +706,21 @@ type query_root {
   label(id: uuid!): label
   "fetch data from the table: \"reaction\" using primary key columns"
   reaction(htmlCode: String!): reaction
+  "execute function \"search_documents\" which returns \"document\""
+  search_documents(
+    "input parameters for function \"search_documents\""
+    args: search_documents_args!,
+    "distinct select on columns"
+    distinct_on: [document_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [document_order_by!],
+    "filter the rows returned"
+    where: document_bool_exp
+  ): [document!]!
   "fetch data from the table: \"user\" using primary key columns"
   user(id: uuid!): user
 }
@@ -922,6 +937,21 @@ type subscription_root {
   label(id: uuid!): label
   "fetch data from the table: \"reaction\" using primary key columns"
   reaction(htmlCode: String!): reaction
+  "execute function \"search_documents\" which returns \"document\""
+  search_documents(
+    "input parameters for function \"search_documents\""
+    args: search_documents_args!,
+    "distinct select on columns"
+    distinct_on: [document_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [document_order_by!],
+    "filter the rows returned"
+    where: document_bool_exp
+  ): [document!]!
   "fetch data from the table: \"user\" using primary key columns"
   user(id: uuid!): user
 }
@@ -1865,6 +1895,10 @@ input reaction_order_by {
 "primary key columns input for table: \"reaction\""
 input reaction_pk_columns_input {
   htmlCode: String!
+}
+
+input search_documents_args {
+  search: String
 }
 
 "expression to compare columns of type timestamptz. All fields are combined with logical 'AND'."
