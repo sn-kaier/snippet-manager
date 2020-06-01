@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService, AuthState } from '../../core/auth.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -7,7 +7,8 @@ import { SearchService } from '../../core/search.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavBarComponent implements OnInit {
   authState: Observable<AuthState>;

@@ -1,8 +1,15 @@
 @import "src/app/base-styles/colors";
 
 .align-center {
-  display: flex;
   align-items: center;
+}
+
+.align-right {
+  justify-content: flex-end;
+}
+
+.align-middle {
+  justify-content: center;
 }
 
 .mirror-y {
@@ -17,6 +24,27 @@
   cursor: pointer;
 }
 
-.code {
+.pre-code {
   border: 1px solid $color-ghost-light;
+
+  padding: 8px;
+}
+
+.code {
+  padding: 0;
+  background-color: transparent;
+}
+
+.collapsed {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 7; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.toggle-text-collapsed {
+  position: absolute;
+  right: 1em;
+  bottom: 1.5em;
 }

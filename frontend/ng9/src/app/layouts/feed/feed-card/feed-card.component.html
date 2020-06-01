@@ -1,36 +1,43 @@
 <app-card>
   <div class="row">
-    <div class="col-xs-12 col-md-6">
-      <div class="row">
-        <div class="col-xs-10">
-          <h1>{{doc.title}}</h1>
-        </div>
-        <div class="col-xs-2" *ngIf="isOwnDocument">
-          <button [routerLink]="['/document', doc.id]" mat-button color="primary">
-            <mat-icon>edit</mat-icon>
-            Edit
-          </button>
-        </div>
-      </div>
-      <div class="row" *ngIf="!hideAuthor">
-        <div class="col-xs-12">
-          <app-author-section [author]="doc.author"></app-author-section>
-        </div>
-      </div>
+    <div class="col-xs-12">
+      <h1>{{doc.title}} - {{highlightResult?.language}}</h1>
     </div>
-    <div class="col-md-6 col-xs-12" *ngIf="isOwnDocument">
-      <div class="row end-xs">
-        <app-visibility-label [isPublic]="doc.isPublic"
-                              [showDialog]="true"
-                              [title]="doc.title"
-                              (changeIsPublic)="changeIsPublic.emit($event)"></app-visibility-label>
-      </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4" *ngIf="!hideAuthor">
+      <app-author-section [author]="doc.author"></app-author-section>
+    </div>
+
+    <div class="col-xs-6 col-sm-4 right-xs {{hideAuthor ? 'col-sm-8' : 'center-sm'}}" *ngIf="isOwnDocument">
+      <button [routerLink]="['/document', doc.id]" mat-button color="primary">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </div>
+
+    <div class="col-xs-6 col-sm-4 middle-sm end-xs flex" *ngIf="isOwnDocument">
+      <app-visibility-label
+        [isPublic]="doc.isPublic"
+        [showDialog]="true"
+        [title]="doc.title"
+        (changeIsPublic)="changeIsPublic.emit($event)"></app-visibility-label>
     </div>
   </div>
 
+
   <div class="row mbs">
-    <div class="col-xs-12">
-      <pre><code class="word-wrap code" [highlight]="doc.description"></code></pre>
+    <div class="col-xs-12 position-relative">
+      <pre class="pre-code"><code class="word-wrap code"
+                                  [class.collapsed]="textCollapsed"
+                                  #codeElement
+                                  [highlight]="doc.description"
+                                  (highlighted)="onHighlighted($event)"></code></pre>
+      <button mat-button
+              class="toggle-text-collapsed"
+              color="primary"
+              *ngIf="canTextExpand"
+              (click)="toggleTextCollapsed()">{{textCollapsed ? 'Show more' : 'Collapse'}}</button>
     </div>
   </div>
 
@@ -45,7 +52,7 @@
 
     <div class="row mts">
       <div class="col-xs-12">
-        <a (click)="showComments = !showComments" class="align-center toggle-show-comments">
+        <a (click)="showComments = !showComments" class="flex align-center toggle-show-comments">
           <mat-icon aria-hidden="false" aria-label="arrow down icon" class="c-primary show-comments-icon"
                     [class.mirror-y]="showComments"
           >keyboard_arrow_down

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MakeDocumentPublicDialogComponent } from './make-document-public-dialog/make-document-public-dialog.component';
 import { MakeDocumentPrivateDialogComponent } from './make-document-private-dialog/make-document-private-dialog.component';
 import { filter, take } from 'rxjs/operators';
@@ -7,7 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-visibility-label',
   templateUrl: './visibility-label.component.html',
-  styleUrls: ['./visibility-label.component.scss']
+  styleUrls: ['./visibility-label.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisibilityLabelComponent implements OnInit {
 

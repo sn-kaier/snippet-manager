@@ -19,20 +19,11 @@
   <app-card>
     <div class="row mts">
       <div class="col-xs-12 col-md-6">
-        <!--        <div class="row mbm">-->
-        <!--          <div class="col">-->
-        <!--            <app-author-section [author]="doc.author"></app-author-section>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <div class="row">
-          <div class="col-xs-11">
-            <mat-form-field class="form-field">
-              <mat-label>Title</mat-label>
-              <input matInput placeholder="Ex. Cookie recipe" [(ngModel)]="documentSetInput.title">
-            </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Ex. Cookie recipe" [(ngModel)]="documentSetInput.title">
+        </mat-form-field>
 
-          </div>
-        </div>
       </div>
       <div class="col-xs-12 col-md-6">
         <div class="row end-xs">
@@ -42,11 +33,6 @@
                                 (changeIsPublic)="setIsPublic($event)"></app-visibility-label>
         </div>
       </div>
-      <!--      <div class="col-xs-6">-->
-      <!--        <div class="row">-->
-      <!--          <app-label *ngFor="let label of doc.labels" [label]="label"></app-label>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
 
     <div class="row mtm mbs">
@@ -59,6 +45,12 @@
             [(ngModel)]="documentSetInput.description"
             matInput [placeholder]="'Write something'"></textarea>
         </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-checkbox color="primary" [(ngModel)]="documentSetInput.allowComments">Allow comments</mat-checkbox>
       </div>
     </div>
 

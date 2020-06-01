@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -18,7 +18,8 @@ import { RoutingHistoryService } from '../../../core/routing-history.service';
 @Component({
   selector: 'app-edit-document',
   templateUrl: './edit-document.component.html',
-  styleUrls: ['./edit-document.component.scss']
+  styleUrls: ['./edit-document.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDocumentComponent implements OnInit, OnDestroy {
   documentId: string;
@@ -126,7 +127,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     }
     if (this.doc) {
       return this.documentSetInput.title !== this.doc.title ||
-        this.documentSetInput.description !== this.doc.description;
+        this.documentSetInput.description !== this.doc.description ||
+        this.documentSetInput.allowComments !== this.doc.allowComments ||
+        this.documentSetInput.isPublic !== this.doc.isPublic;
     }
     return true;
   }

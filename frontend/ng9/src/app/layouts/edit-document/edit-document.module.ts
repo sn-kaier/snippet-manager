@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ComponentsModule } from '../../components/components.module';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -23,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     ComponentsModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule
   ]
 })
 export class EditDocumentModule { }

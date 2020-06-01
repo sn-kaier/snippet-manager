@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { filter, map, tap } from 'rxjs/operators';
 import { FeedService } from './feed.service';
@@ -10,7 +10,8 @@ export type FeedMode = 'public' | 'my-documents';
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.scss']
+  styleUrls: ['./feed.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeedComponent implements OnInit, OnDestroy {
   private loadingAtWindowSize = 0;

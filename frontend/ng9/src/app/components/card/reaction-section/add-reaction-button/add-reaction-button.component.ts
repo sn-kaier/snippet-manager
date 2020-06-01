@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-add-reaction-button',
   templateUrl: './add-reaction-button.component.html',
-  styleUrls: ['./add-reaction-button.component.scss']
+  styleUrls: ['./add-reaction-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddReactionButtonComponent implements OnInit {
 
