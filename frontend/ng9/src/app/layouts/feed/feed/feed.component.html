@@ -5,6 +5,14 @@
       <mat-spinner [diameter]="30"></mat-spinner>
     </div>
   </div>
+
+  <div *ngIf="mode === 'my-documents'" class="col-xs-12 center-xs mts mbs">
+    <button mat-raised-button color="accent" routerLink="/document">
+      <mat-icon>note_add</mat-icon>
+      Add new document
+    </button>
+  </div>
+
   <div class="col-xs-12" *ngIf="(feed$ | async) as feed">
     <div class="row" *ngFor="let feedDoc of feed;">
       <div class="col-xs-12" *ngIf="!(loading$ | async)">

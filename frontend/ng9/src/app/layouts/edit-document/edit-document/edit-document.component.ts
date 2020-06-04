@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -36,7 +36,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
               private readonly saveDocumentMutation: UEditDocumentSaveGQL,
               private readonly addDocumentMutation: UEditDocumentAddGQL,
               private readonly router: Router,
-              private readonly historyService: RoutingHistoryService
+              private readonly historyService: RoutingHistoryService,
+              private readonly changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
@@ -66,6 +67,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.subscriptions.push(sub);
     } else {
       this.setDefaultDocumentInput();
+      this.changeDetectorRef.detectChanges();
     }
   }
 
