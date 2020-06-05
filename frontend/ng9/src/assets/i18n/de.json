@@ -5,16 +5,17 @@
     "collapse": "Zuklappen",
     "showComments": "Zeige {{ count }} Kommentare",
     "hideComments": "Schließe Kommentare",
-    "addDocument": "Neues Dokument"
+    "addDocument": "Neues Dokument",
+    "noDocumentsFound": "Keine Ergebnisse"
   },
   "visibility": {
     "private": "Privat",
     "public": "Öffentlich",
-    "makePrivate": "Öffentlich schalten",
-    "makePublic": "Privat schalten",
+    "makePrivate": "Privat schalten",
+    "makePublic": "Öffentlich schalten",
     "descriptionPublic": "Das Dokument kann von jedem gefunden und gelesen werden.",
     "descriptionPrivate": "Nur du hast Zugriff auf das Dokument.",
-    "noDocumentsFound": "Keine Ergebnisse",
+
     "dialog": {
       "makePublic": {
         "header": "Dokument '{{ title }}' öffentlich schalten",
@@ -50,5 +51,10 @@
     "markPublic": "Öffentliches Dokument",
     "textAreaPlaceholder": "Schreibe etwas",
     "titlePlaceholder": "Bsp.: Hello World in JavaScript"
+  },
+  "comment": {
+    "areaPlaceholer": "Als {{ name }} veröffentlichen",
+    "areaTitle": "Kommentar verfassen",
+    "send": "Senden"
   }
 }

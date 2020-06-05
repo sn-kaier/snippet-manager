@@ -1,5 +1,6 @@
+@import "src/app/base-styles/colors";
 $base-color: #787878;
-$highlight-color: #444444;
+$highlight-color: $color-manatee;
 
 :host {
   margin-left: 2em;

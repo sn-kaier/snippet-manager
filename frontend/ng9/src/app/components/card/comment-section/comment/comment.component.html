@@ -22,7 +22,7 @@
       <button mat-flat-button color="primary"
               [disabled]="!commentEditText?.length || commentEditText === comment.comment" style="margin-left: 1em"
               (click)="saveEditComment()">
-        Save
+        {{'common.save' | translate}}
       </button>
 
     </div>
@@ -48,11 +48,11 @@
     <mat-menu #menu="matMenu" (closed)="menuClosed()">
       <button mat-menu-item (click)="enterEditMode()">
         <mat-icon>edit</mat-icon>
-        Edit
+        {{'feed.edit' | translate}}
       </button>
       <button mat-menu-item (click)="deleteComment.emit()">
         <mat-icon color="warn">delete</mat-icon>
-        Delete
+        {{ 'common.delete' | json }}
       </button>
     </mat-menu>
   </div>

@@ -8,12 +8,12 @@
 
 .private {
   .chip-icon, .chip-text {
-    color: mat-color($snippets-app-purple, 800);
+    color: mat-color($snippets-app-primary, 900);
   }
 }
 
 .public {
   .chip-icon, .chip-text {
-    color: mat-color($snippets-app-green, 800);
+    color: mat-color($snippets-app-primary, 900);
   }
 }

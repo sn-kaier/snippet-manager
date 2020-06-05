@@ -5,7 +5,8 @@
     "collapse": "Collapse",
     "showComments": "Show {{ count }} comments",
     "hideComments": "Hide comments",
-    "addDocument": "Add new document"
+    "addDocument": "Add new document",
+    "noDocumentsFound": "No documents found"
   },
   "visibility": {
     "private": "Private",
@@ -14,7 +15,6 @@
     "makePublic": "Make Public",
     "descriptionPublic": "The document can be viewed by everyone on the internet.",
     "descriptionPrivate": "The document can only be viewed by you.",
-    "noDocumentsFound": "No documents found",
     "dialog": {
       "makePublic": {
         "header": "Make document '{{ title }}' public",
@@ -50,5 +50,10 @@
     "markPublic": "Mark as public",
     "textAreaPlaceholder": "Write something",
     "titlePlaceholder": "Ex. Hello World in JavaScript"
+  },
+  "comment": {
+    "areaPlaceholer": "Publish as {{name}}",
+    "areaTitle": "Leave a comment",
+    "send": "Send"
   }
 }
