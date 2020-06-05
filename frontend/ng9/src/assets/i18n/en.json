@@ -1,0 +1,54 @@
+{
+  "feed": {
+    "edit": "Edit",
+    "expand": "Show more",
+    "collapse": "Collapse",
+    "showComments": "Show {{ count }} comments",
+    "hideComments": "Hide comments",
+    "addDocument": "Add new document"
+  },
+  "visibility": {
+    "private": "Private",
+    "public": "Public",
+    "makePrivate": "Make Private",
+    "makePublic": "Make Public",
+    "descriptionPublic": "The document can be viewed by everyone on the internet.",
+    "descriptionPrivate": "The document can only be viewed by you.",
+    "noDocumentsFound": "No documents found",
+    "dialog": {
+      "makePublic": {
+        "header": "Make document '{{ title }}' public",
+        "description": "This will allow any user on the internet to see the content of this document."
+      },
+      "makePrivate": {
+        "header": "Make document '{{ title }}' private",
+        "description": "The document will only be visible to you. You then need to be logged in to access it."
+      }
+    }
+  },
+  "nav": {
+    "myDocuments": "My documents",
+    "browse": "Browse",
+    "search": "search",
+    "logIn": "Sign in",
+    "logOut": "Sign out"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "you": "You",
+    "follow": "Follow",
+    "goBack": "Go Back",
+    "save": "Speichern",
+    "reset": "Verwerfen"
+  },
+  "edit": {
+    "titleNew": "New document",
+    "titleEdit": "Edit document",
+    "title": "Title",
+    "content": "Content",
+    "allowComments": "Allow comments",
+    "markPublic": "Mark as public",
+    "textAreaPlaceholder": "Write something",
+    "titlePlaceholder": "Ex. Hello World in JavaScript"
+  }
+}

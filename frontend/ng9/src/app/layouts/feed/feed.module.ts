@@ -10,6 +10,7 @@ import { FeedRoutingModule } from './feed-routing-module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HighlightModule } from 'ngx-highlightjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FeedCardComponent, FeedComponent, PickEmojiComponent],
@@ -26,6 +27,7 @@ import { HighlightModule } from 'ngx-highlightjs';
     MatButtonModule,
     MatProgressSpinnerModule,
     HighlightModule,
+    TranslateModule
   ]
 })
 export class FeedModule {

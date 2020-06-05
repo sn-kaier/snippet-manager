@@ -10,6 +10,7 @@ import { ComponentsModule } from '../../components/components.module';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -25,7 +26,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ComponentsModule,
     MatInputModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    TranslateModule
   ]
 })
 export class EditDocumentModule { }

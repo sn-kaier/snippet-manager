@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>Make document <span class="c-primary">{{ title }}</span> public</h1>
-<div mat-dialog-content>This will allow any user on the internet to see the content of this document.</div>
+<h1 mat-dialog-title translate [translateParams]="{title: title}">visibility.dialog.makePublic.header</h1>
+<div mat-dialog-content translate>visibility.dialog.makePublic.description</div>
 <div mat-dialog-actions class="row between-xs mts">
-  <button mat-button color="primary" [mat-dialog-close]="true">Make Public</button>
-  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button color="accent" [mat-dialog-close]="true">{{ 'visibility.makePublic' | translate }}</button>
+  <button mat-button [mat-dialog-close]="false">{{ 'common.cancel' | translate }}</button>
 </div>

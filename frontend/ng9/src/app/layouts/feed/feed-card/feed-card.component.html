@@ -12,7 +12,7 @@
     <div class="col-xs-6 col-sm-4 right-xs {{hideAuthor ? 'col-sm-8' : 'center-sm'}}" *ngIf="isOwnDocument">
       <button [routerLink]="['/document', doc.id]" mat-button color="primary">
         <mat-icon>edit</mat-icon>
-        Edit
+        {{ 'feed.edit' | translate }}
       </button>
     </div>
 
@@ -35,9 +35,9 @@
                                   (highlighted)="onHighlighted($event)"></code></pre>
       <button mat-button
               class="toggle-text-collapsed"
-              color="primary"
+              color="accent"
               *ngIf="canTextExpand"
-              (click)="toggleTextCollapsed()">{{textCollapsed ? 'Show more' : 'Collapse'}}</button>
+              (click)="toggleTextCollapsed()">{{textCollapsed ? ('feed.expand' | translate) : ('feed.collapse' | translate)}}</button>
     </div>
   </div>
 
@@ -58,11 +58,11 @@
           >keyboard_arrow_down
           </mat-icon>
           <ng-container *ngIf="!showComments; else hideComments">
-            <span>
-              show {{doc.countComments}} comments
+            <span translate [translateParams]="{count: doc.countComments}">
+              feed.showComments
             </span>
           </ng-container>
-          <ng-template #hideComments><span>hide comments</span></ng-template>
+          <ng-template #hideComments><span translate>feed.hideComments</span></ng-template>
         </a>
       </div>
     </div>

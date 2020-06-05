@@ -9,7 +9,7 @@
   <div *ngIf="mode === 'my-documents'" class="col-xs-12 center-xs mts mbs">
     <button mat-raised-button color="accent" routerLink="/document">
       <mat-icon>note_add</mat-icon>
-      Add new document
+      {{ 'feed.addDocument' | translate }}
     </button>
   </div>
 
@@ -21,7 +21,7 @@
     </div>
 
     <div class="row center-xs mtl" *ngIf="!feed?.length">
-      <h1 class="c-ghost">No documents found</h1>
+      <h1 class="c-ghost" translate>feed.noDocumentsFound</h1>
     </div>
   </div>
 

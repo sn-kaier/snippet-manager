@@ -5,8 +5,8 @@
   <span class="time c-manatee mls">{{publishedDate | date: 'short'}}</span>
 </div>
 
-<button class="btn-small c-primary mls" *ngIf="isOwnDocument; else follow">You</button>
+<button class="btn-small c-primary mls" *ngIf="isOwnDocument; else follow">{{ 'common.you' | translate }}</button>
 
 <ng-template #follow>
-  <button *ngIf="showFollow" class="btn-small mls">Follow</button>
+  <button *ngIf="showFollow" class="btn-small mls">{{ 'common.follow' | translate }}</button>
 </ng-template>

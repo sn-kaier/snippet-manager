@@ -25,9 +25,11 @@ import { MakeDocumentPrivateDialogComponent } from './visibility-label/make-docu
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
+import { LogoComponent } from './nav-bar/logo/logo.component';
 
 @NgModule({
-  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent],
+  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent, LogoComponent],
   exports: [
     NavBarComponent,
     CardComponent,
@@ -49,7 +51,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     RouterModule,
     MatChipsModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule
   ]
 })
 export class ComponentsModule {

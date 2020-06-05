@@ -1,0 +1,54 @@
+{
+  "feed": {
+    "edit": "Bearbeiten",
+    "expand": "Ausklappen",
+    "collapse": "Zuklappen",
+    "showComments": "Zeige {{ count }} Kommentare",
+    "hideComments": "Schließe Kommentare",
+    "addDocument": "Neues Dokument"
+  },
+  "visibility": {
+    "private": "Privat",
+    "public": "Öffentlich",
+    "makePrivate": "Öffentlich schalten",
+    "makePublic": "Privat schalten",
+    "descriptionPublic": "Das Dokument kann von jedem gefunden und gelesen werden.",
+    "descriptionPrivate": "Nur du hast Zugriff auf das Dokument.",
+    "noDocumentsFound": "Keine Ergebnisse",
+    "dialog": {
+      "makePublic": {
+        "header": "Dokument '{{ title }}' öffentlich schalten",
+        "description": "Öffentliche Dokumente können von allen Nutzern im Internet gefunden werden."
+      },
+      "makePrivate": {
+        "header": "Dokument '{{ title }}' privat schalten9",
+        "description": "Das Dokument kann anschließend nur noch von dir gefunden und gelesen werden."
+      }
+    }
+  },
+  "nav": {
+    "myDocuments": "Meine Dokumente",
+    "browse": "Browse",
+    "search": "durchsuchen",
+    "logIn": "Anmelden",
+    "logOut": "Abmelden"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "you": "Du",
+    "follow": "folgen",
+    "goBack": "Zurück",
+    "save": "Save",
+    "reset": "Reset"
+  },
+  "edit": {
+    "titleNew": "Neues Dokument",
+    "titleEdit": "Dokument bearbeiten",
+    "title": "Titel",
+    "content": "Inhalt",
+    "allowComments": "Kommentare erlauben",
+    "markPublic": "Öffentliches Dokument",
+    "textAreaPlaceholder": "Schreibe etwas",
+    "titlePlaceholder": "Bsp.: Hello World in JavaScript"
+  }
+}

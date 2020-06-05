@@ -1,0 +1,71 @@
+:host {
+  display: flex;
+  outline: none;
+}
+
+.svg:hover {
+  .s1 {
+    transform:  translate(-2px, -4px); //rotate(-18deg);
+  }
+
+  .s3 {
+    transform:  translate(2px, 4px);// rotate(-18deg);
+  }
+
+  .sc1 {
+    transform: translate(2px, -3px);
+  }
+
+  .sc2 {
+    transform: rotate(360deg); //translate(0px, 1px);
+  }
+
+  .sc3 {
+    transform: translate(-2px, 3px);
+  }
+
+  .sx {
+    transform: scale(1.3);
+  }
+}
+
+.svg {
+  cursor: pointer;
+
+  g {
+    transition: 0.3s;
+    //&.sc2 {
+    //  transition: 0.5s;
+    //}
+
+    &.sc1 {
+      transition-delay: 0.0s ;
+    }
+    &.s1 {
+      transition-delay: 0.1s ;
+    }
+    &.sc2 {
+      transition: 0.8s;
+      transition-delay: 0.0s ;
+    }
+    &.s3 {
+      transition-delay: 0.3s ;
+    }
+    &.sc3 {
+      transition-delay: 0.2s ;
+    }
+  }
+
+  .s1 {
+    transform-origin: 11px 13px;
+  }
+
+  .s3 {
+    transform-origin: 22px 18px;
+  }
+
+  .sc2 {
+    transform-origin: 17px 17px;
+  }
+
+}

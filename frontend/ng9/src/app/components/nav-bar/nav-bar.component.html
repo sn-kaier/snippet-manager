@@ -1,43 +1,48 @@
-<div class="nav-bar bg-coal">
+<div class="bg-coal">
   <div class="container row middle-xs">
     <div class="col-xs-4">
       <ng-container *ngIf="(authState | async)?.state === 'in'">
-        <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/my-documents">My documents</button>
-        <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/public">Browse</button>
+        <app-logo routerLink="/feed/public"></app-logo>
+<!--        <button mat-button color="primary" routerLinkActive="mat-raised-button"-->
+<!--                routerLink="/feed/my-documents">{{ 'nav.myDocuments' | translate }}</button>-->
+<!--        <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/public">-->
+<!--          {{ 'nav.browse' | translate }}-->
+<!--        </button>-->
       </ng-container>
     </div>
     <div class="col-xs-4">
-    <!--  a search component -->
+      <!--  a search component -->
       <div class="search-wrapper">
-        <input class="search-field f-l" type="text" placeholder="search" [(ngModel)]="searchValue" (ngModelChange)="search($event)">
+        <input class="search-field f-l" type="text" [placeholder]="'nav.search' | translate" [(ngModel)]="searchValue"
+               (ngModelChange)="search($event)">
         <span class="icon-search icon c-manatee" *ngIf="!searchValue; else clear">mode_search</span>
         <ng-template #clear>
           <span class="icon-close icon c-manatee" (click)="clearSearch()">mode_close</span>
         </ng-template>
       </div>
 
-<!--      <form class="example-form">-->
-<!--        <mat-form-field class="example-full-width">-->
-<!--          <mat-label>Telephone</mat-label>-->
-<!--          <input type="text" matInput placeholder="Search">-->
-<!--          <mat-icon matSuffix>mode_edit</mat-icon>-->
-<!--        </mat-form-field>-->
-<!--      </form>-->
+      <!--      <form class="example-form">-->
+      <!--        <mat-form-field class="example-full-width">-->
+      <!--          <mat-label>Telephone</mat-label>-->
+      <!--          <input type="text" matInput placeholder="Search">-->
+      <!--          <mat-icon matSuffix>mode_edit</mat-icon>-->
+      <!--        </mat-form-field>-->
+      <!--      </form>-->
     </div>
     <div class="col-xs-4" *ngIf="(authState | async) as state">
-      <div class="row end-xs" *ngIf="state.state === 'in'; else login" >
+      <div class="row end-xs" *ngIf="state.state === 'in'; else login">
         <div>
-          <app-avatar [imageUrl]="state.imageUrl"></app-avatar>
+          <app-avatar routerLink="/feed/my-documents" [imageUrl]="state.imageUrl"></app-avatar>
         </div>
         <div class="mlm">
-          <button class="btn-flat-dark f-l" (click)="auth.logout()">Logout</button>
+          <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
         </div>
       </div>
       <!--  TODO: Fix. Currently its invisible -->
       <ng-template #login>
         <div class="row end-xs">
           <div class="col">
-            <button class="btn-flat-dark f-l" (click)="auth.doGoogleLogin()">Login</button>
+            <button class="btn-flat-dark f-l" (click)="auth.doGoogleLogin()">{{ 'nav.logIn' | translate }}</button>
           </div>
         </div>
       </ng-template>

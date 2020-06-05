@@ -3,15 +3,15 @@
     <div class="col-xs-3">
       <button mat-button color="primary" (click)="navigateBack()">
         <mat-icon>arrow_back</mat-icon>
-        Go back
+        {{'common.goBack' | translate}}
       </button>
     </div>
     <div class="col-xs-6 center-xs">
-      <h3 *ngIf="documentId; else newDocumentTitle">
-        Edit document
+      <h3 *ngIf="documentId; else newDocumentTitle" translate>
+        edit.titleEdit
       </h3>
       <ng-template #newDocumentTitle>
-        <h3>New document</h3>
+        <h3 translate>edit.titleNew</h3>
       </ng-template>
     </div>
   </div>
@@ -30,8 +30,8 @@
       <div class="row mts">
         <div class="col-xs-12 col-md-6">
           <mat-form-field class="form-field">
-            <mat-label>Title</mat-label>
-            <input matInput placeholder="Ex. Cookie recipe" [(ngModel)]="documentSetInput.title">
+            <mat-label>{{ 'edit.title' | translate }}</mat-label>
+            <input matInput [placeholder]="'edit.titlePlaceholder' | translate" [(ngModel)]="documentSetInput.title">
           </mat-form-field>
         </div>
       </div>
@@ -45,28 +45,29 @@
               cdkTextareaAutosize
               cdkAutosizeMinRows="2"
               [(ngModel)]="documentSetInput.description"
-              matInput [placeholder]="'Write something'"></textarea>
+              matInput
+              [placeholder]="'edit.textAreaPlaceholder' | translate"></textarea>
           </mat-form-field>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.allowComments">Allow comments</mat-checkbox>
+          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.allowComments">{{ 'edit.allowComments' | translate }}</mat-checkbox>
         </div>
         <div class="col-xs-12">
-          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.isPublic">Mark as public</mat-checkbox>
+          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.isPublic">{{ 'edit.markPublic' | translate }}</mat-checkbox>
 
         </div>
       </div>
 
       <div class="row end-xs">
-        <button mat-flat-button (click)="reset()" [disabled]="!canSave">Reset</button>
+        <button mat-flat-button (click)="reset()" [disabled]="!canSave">{{ 'common.reset' | translate }}</button>
         <button mat-flat-button color="accent"
                 [disabled]="!canSave"
                 style="margin-left: 1em"
                 (click)="saveDocument()">
-          Save
+          {{ 'common.save' | translate }}
         </button>
       </div>
     </app-card>
