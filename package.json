@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/sn-kaier/snippet-manager#readme",
   "devDependencies": {
-    "hasura-cli": "1.2.1"
+    "hasura-cli": "1.2.2"
   }
 }
