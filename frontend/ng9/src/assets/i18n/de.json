@@ -32,7 +32,9 @@
     "browse": "Browse",
     "search": "durchsuchen",
     "logIn": "Anmelden",
-    "logOut": "Abmelden"
+    "logOut": "Abmelden",
+    "reload": "Neu laden",
+    "menu": "Weitere Aktionen"
   },
   "common": {
     "cancel": "Abbrechen",

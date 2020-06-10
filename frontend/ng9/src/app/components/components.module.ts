@@ -27,9 +27,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { LogoComponent } from './nav-bar/logo/logo.component';
+import { AuthenticatedDirective } from '../core/authenticated.directive';
 
 @NgModule({
-  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent, LogoComponent],
+  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent, LogoComponent, AuthenticatedDirective],
   exports: [
     NavBarComponent,
     CardComponent,

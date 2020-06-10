@@ -7,7 +7,7 @@ $color-primary: mat-color($primary); // #1565c0;
 $color-primary-light: mat-color($primary, 400); // #5e92f3;
 $color-primary-dark: mat-color($primary, 900); //  #003c8f;
 
-$color-accent: #ffc107;
+$color-accent: mat-color($accent); // #ffc107;
 $color-accent-light: lighten($color-accent, 10);
 $color-accent-dark: darken($color-accent, 10);
 
@@ -15,7 +15,9 @@ $color-snow: white;
 $color-ghost: #aaa;
 $color-ghost-light: lighten($color-ghost, 20%);
 $color-manatee: #666;
-$color-coal: black;
+$color-coal: #111;
+$color-coal-dark: black;
+$color-coal-light: #333;
 
 .c-coal {
   color: $color-coal;

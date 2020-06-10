@@ -1,51 +1,73 @@
-<div class="bg-coal">
-  <div class="container row middle-xs">
-    <div class="col-xs-4">
-      <ng-container *ngIf="(authState | async)?.state === 'in'">
-        <app-logo routerLink="/feed/public"></app-logo>
-<!--        <button mat-button color="primary" routerLinkActive="mat-raised-button"-->
-<!--                routerLink="/feed/my-documents">{{ 'nav.myDocuments' | translate }}</button>-->
-<!--        <button mat-button color="primary" routerLinkActive="mat-raised-button" routerLink="/feed/public">-->
-<!--          {{ 'nav.browse' | translate }}-->
-<!--        </button>-->
-      </ng-container>
-    </div>
-    <div class="col-xs-4">
-      <!--  a search component -->
-      <div class="search-wrapper">
-        <input class="search-field f-l" type="text" [placeholder]="'nav.search' | translate" [(ngModel)]="searchValue"
-               (ngModelChange)="search($event)">
-        <span class="icon-search icon c-manatee" *ngIf="!searchValue; else clear">mode_search</span>
-        <ng-template #clear>
-          <span class="icon-close icon c-manatee" (click)="clearSearch()">mode_close</span>
-        </ng-template>
-      </div>
-
-      <!--      <form class="example-form">-->
-      <!--        <mat-form-field class="example-full-width">-->
-      <!--          <mat-label>Telephone</mat-label>-->
-      <!--          <input type="text" matInput placeholder="Search">-->
-      <!--          <mat-icon matSuffix>mode_edit</mat-icon>-->
-      <!--        </mat-form-field>-->
-      <!--      </form>-->
-    </div>
-    <div class="col-xs-4" *ngIf="(authState | async) as state">
-      <div class="row end-xs" *ngIf="state.state === 'in'; else login">
-        <div>
-          <app-avatar routerLink="/feed/my-documents" [imageUrl]="state.imageUrl"></app-avatar>
-        </div>
-        <div class="mlm">
-          <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
-        </div>
-      </div>
-      <!--  TODO: Fix. Currently its invisible -->
-      <ng-template #login>
-        <div class="row end-xs">
-          <div class="col">
-            <button class="btn-flat-dark f-l" (click)="auth.doGoogleLogin()">{{ 'nav.logIn' | translate }}</button>
-          </div>
-        </div>
+<div class="bg-coal nav middle-xs flex">
+  <div class="nav-left flex middle-xs">
+    <app-logo routerLink="/feed/public"></app-logo>
+    <div class="search-wrapper mls">
+      <input class="search-field f-l" type="text" [placeholder]="'nav.search' | translate" [(ngModel)]="searchValue"
+             (ngModelChange)="search($event)">
+      <span class="icon-search icon c-manatee" *ngIf="!searchValue; else clear">mode_search</span>
+      <ng-template #clear>
+        <span class="icon-close icon c-manatee" (click)="clearSearch()">mode_close</span>
       </ng-template>
     </div>
   </div>
+
+  <div class="nav-middle flex middle-xs">
+    <button class="link-btn"
+            mat-button color="primary"
+            routerLink="/feed/public"
+            routerLinkActive="active"
+            [matTooltip]="'nav.browse' | translate"
+    >
+      <mat-icon>
+        text_snippet
+      </mat-icon>
+    </button>
+
+    <button class="link-btn"
+            appAuthenticated
+            mat-button color="primary"
+            routerLink="/feed/my-documents"
+            routerLinkActive="active"
+
+            [matTooltip]="'nav.myDocuments' | translate"
+    >
+      <mat-icon>
+        home
+      </mat-icon>
+    </button>
+
+    <button class="link-btn" mat-button
+            color="primary"
+            [matTooltip]="'nav.reload' | translate"
+            (click)="navBarService.triggerReload.emit()"
+    >
+      <mat-icon>
+        refresh
+      </mat-icon>
+    </button>
+
+    <button class="link-btn"
+            color="primary"
+            [matTooltip]="'nav.menu' | translate"
+            [matMenuTriggerFor]="navMenu"
+            mat-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #navMenu="matMenu">
+      <button mat-menu-item routerLink="/impressum">Impressum</button>
+      <button mat-menu-item disabled>About Us</button>
+    </mat-menu>
+  </div>
+  <ng-container *ngIf="(authState | async) as state">
+    <div class="nav-right flex middle-xs" *ngIf="state.state === 'in'; else login">
+      <app-avatar routerLink="/feed/my-documents" [imageUrl]="state.imageUrl"></app-avatar>
+      <div class="mlm">
+        <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
+      </div>
+    </div>
+    <ng-template #login>
+      <button class="btn-flat-dark f-l" (click)="auth.doGoogleLogin()">{{ 'nav.logIn' | translate }}</button>
+    </ng-template>
+  </ng-container>
 </div>

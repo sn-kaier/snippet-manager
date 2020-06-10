@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AFeedDocsGQL, AFeedDocsQuery, ASearchFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
 import {
   DocumentBoolExp,
@@ -10,10 +10,11 @@ import {
   USearchFeedDocsGQL
 } from '../../../__generated/user-gql-services';
 import { AuthService, AuthState } from '../../../core/auth.service';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime, filter, map, withLatestFrom } from 'rxjs/operators';
 import { SearchService } from '../../../core/search.service';
 import { ApolloQueryResult } from 'apollo-client';
-import { Subject, Subscription } from 'rxjs';
+import { combineLatest, Subject, Subscription } from 'rxjs';
+import { NavBarService } from '../../../components/nav-bar/nav-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,7 @@ export class FeedService {
   private feedSubject$ = new Subject<ApolloQueryResult<UFeedDocsQuery> | ApolloQueryResult<AFeedDocsQuery>>();
   private feedSubscription: Subscription;
   feed$ = this.feedSubject$.asObservable();
+  secondaryLoading$ = new EventEmitter<boolean>();
 
   constructor(
     private readonly aFeedDocsGQL: AFeedDocsGQL,
@@ -58,15 +60,19 @@ export class FeedService {
     private readonly uAddDocumentReactionGQL: UAddDocumentReactionGQL,
     private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL,
     private readonly uChangeDocumentVisibility: UChangeDocumentVisibilityGQL,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly navBarService: NavBarService
   ) {
+    this.navBarService.triggerReload
+      .pipe(withLatestFrom(this.authService.authState), filter(([_, s]) => s.state !== 'pending'))
+      .subscribe(async ([_, authState]) => {
+        await this.refetch(authState);
+      });
     this.authService.authState.pipe(filter(s => s.state !== 'pending')).subscribe(async (s: AuthState) => {
       await this.refetch(s);
     });
     this.searchService.onSearch.pipe(debounceTime(200)).subscribe(async searchTerm => {
-      const changeOfType = (!!this.searchText) !== (!!searchTerm);
       this.searchText = searchTerm;
-
       await this.refetch(this.authService.authState.value);
       console.log(`FeedService search: [${searchTerm}]`);
     });
@@ -89,6 +95,9 @@ export class FeedService {
 
   private async refetch(s: AuthState) {
     this.offset = 0;
+    setTimeout(() => {
+      this.secondaryLoading$.emit(true);
+    });
     if (this.feedSubscription) {
       this.feedSubscription.unsubscribe();
     }
@@ -130,6 +139,10 @@ export class FeedService {
         });
       }
     }
+
+    setTimeout(() => {
+      this.secondaryLoading$.emit(false);
+    });
   }
 
   fetchMore() {

@@ -3,6 +3,7 @@ import { AuthService, AuthState } from '../../core/auth.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SearchService } from '../../core/search.service';
+import { NavBarService } from './nav-bar.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,7 +16,9 @@ export class NavBarComponent implements OnInit {
 
   searchValue = '';
 
-  constructor(readonly auth: AuthService, readonly searchService: SearchService) {
+  constructor(readonly auth: AuthService,
+              readonly searchService: SearchService,
+              readonly navBarService: NavBarService) {
     this.authState = auth.authState.pipe(filter(s => s.state !== 'pending'));
   }
 

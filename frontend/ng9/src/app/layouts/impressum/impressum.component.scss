@@ -1,0 +1,8 @@
+.image {
+  background-color: white;
+  height: 0.8em;
+  &.email {
+    height: 1em;
+    margin-bottom: -3px;
+  }
+}

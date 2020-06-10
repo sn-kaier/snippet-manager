@@ -46,6 +46,10 @@ export class FeedComponent implements OnInit, OnDestroy {
           break;
       }
     });
+
+    this.subs.push(this.feedService.secondaryLoading$.subscribe(loading => {
+      this.loading$.next(loading);
+    }));
   }
 
   ngOnDestroy(): void {

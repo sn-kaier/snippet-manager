@@ -1,13 +1,45 @@
-.container {
-  height: 4em;
+@import "src/app/base-styles/colors";
+
+$nav-height: 4em;
+
+.nav {
+  height: $nav-height;
+  padding: 0 1em;
+}
+
+.nav-right {
+  //margin-left: auto;
+}
+
+.nav-middle {
+  margin: 0 auto;
+}
+
+.link-btn {
+  height: $nav-height;
+  width: $nav-height * 1.5;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+
+  &.active {
+    color: $color-accent-light;
+    border-bottom: 2px solid $color-accent-light;
+  }
 }
 
 .search-field {
   padding: 10px 16px;
+  width: 10em;
   margin: 0;
   border-radius: 4px;
-  border: none;
+  border: 1px solid $color-coal-light;
   outline: none;
+  color: $color-ghost;
+  background-color: transparent;
+  &:focus {
+    background-color: $color-coal-light;
+  }
 }
 
 .search-wrapper {
@@ -18,7 +50,7 @@
 .icon-search {
   position: absolute;
   right: 13px;
-  top: 9px;
+  top: 10px;
 }
 
 .icon-close {

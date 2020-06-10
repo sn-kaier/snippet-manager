@@ -1,9 +1,20 @@
 :host {
   display: flex;
   outline: none;
+  align-items: flex-end;
+  cursor: pointer;
 }
 
-.svg:hover {
+.logo-text {
+  color: #f9cd20;
+  font-weight: 500;
+  font-size: 1.4em;
+  &.suffix {
+    color: #37b9f9;
+  }
+}
+
+:host:hover {
   .s1 {
     transform:  translate(-2px, -4px); //rotate(-18deg);
   }
@@ -30,7 +41,6 @@
 }
 
 .svg {
-  cursor: pointer;
 
   g {
     transition: 0.3s;

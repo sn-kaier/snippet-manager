@@ -31,7 +31,9 @@
     "browse": "Browse",
     "search": "search",
     "logIn": "Sign in",
-    "logOut": "Sign out"
+    "logOut": "Sign out",
+    "reload": "Reload",
+    "menu": "Further actions"
   },
   "common": {
     "cancel": "Cancel",
