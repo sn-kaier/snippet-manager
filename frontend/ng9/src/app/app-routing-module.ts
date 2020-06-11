@@ -5,6 +5,7 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './layouts/login/login.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'impressum',
     loadChildren: () => import('./layouts/impressum/impressum.module').then(m => m.ImpressumModule)
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: '',

@@ -22,6 +22,11 @@ $nav-height: 4em;
   border-bottom: 2px solid transparent;
   border-top: 2px solid transparent;
 
+  &.login {
+    width: $nav-height * 2;
+    color: $color-ghost-light;
+  }
+
   &.active {
     color: $color-accent-light;
     border-bottom: 2px solid $color-accent-light;

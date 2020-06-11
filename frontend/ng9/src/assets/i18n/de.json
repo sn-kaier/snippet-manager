@@ -5,7 +5,7 @@
     "collapse": "Zuklappen",
     "showComments": "Zeige {{ count }} Kommentare",
     "hideComments": "Schließe Kommentare",
-    "addDocument": "Neues Dokument",
+    "addDocument": "Neues Snippet",
     "noDocumentsFound": "Keine Ergebnisse"
   },
   "visibility": {
@@ -13,22 +13,22 @@
     "public": "Öffentlich",
     "makePrivate": "Privat schalten",
     "makePublic": "Öffentlich schalten",
-    "descriptionPublic": "Das Dokument kann von jedem gefunden und gelesen werden.",
-    "descriptionPrivate": "Nur du hast Zugriff auf das Dokument.",
+    "descriptionPublic": "Das Snippet kann von jedem gefunden und gelesen werden.",
+    "descriptionPrivate": "Nur du hast Zugriff auf das Snippet.",
 
     "dialog": {
       "makePublic": {
-        "header": "Dokument '{{ title }}' öffentlich schalten",
-        "description": "Öffentliche Dokumente können von allen Nutzern im Internet gefunden werden."
+        "header": "Snippet '{{ title }}' öffentlich schalten",
+        "description": "Öffentliche Snippets können von allen Nutzern im Internet gefunden werden."
       },
       "makePrivate": {
-        "header": "Dokument '{{ title }}' privat schalten9",
-        "description": "Das Dokument kann anschließend nur noch von dir gefunden und gelesen werden."
+        "header": "Snippet '{{ title }}' privat schalten9",
+        "description": "Das Snippet kann anschließend nur noch von dir gefunden und gelesen werden."
       }
     }
   },
   "nav": {
-    "myDocuments": "Meine Dokumente",
+    "myDocuments": "Meine Snippets",
     "browse": "Browse",
     "search": "durchsuchen",
     "logIn": "Anmelden",
@@ -45,12 +45,12 @@
     "reset": "Reset"
   },
   "edit": {
-    "titleNew": "Neues Dokument",
-    "titleEdit": "Dokument bearbeiten",
+    "titleNew": "Neues Snippet",
+    "titleEdit": "Snippet bearbeiten",
     "title": "Titel",
     "content": "Inhalt",
     "allowComments": "Kommentare erlauben",
-    "markPublic": "Öffentliches Dokument",
+    "markPublic": "Öffentliches Snippet",
     "textAreaPlaceholder": "Schreibe etwas",
     "titlePlaceholder": "Bsp.: Hello World in JavaScript"
   },
@@ -58,5 +58,37 @@
     "areaPlaceholer": "Als {{ name }} veröffentlichen",
     "areaTitle": "Kommentar verfassen",
     "send": "Senden"
+  },
+  "login": {
+    "header": "Los geht's!",
+    "subHeader": "Logge dich ein, um eigene Snippets zu erstellen"
+  },
+  "ngxauthfirebaseui": {
+    "signInTabText": "Einloggen",
+    "signInCardTitleText": "Anmelden",
+    "loginButtonText": "Einloggen",
+    "forgotPasswordButtonText": "Passwort vergessen ?",
+    "nameText": "Name",
+    "nameErrorRequiredText": "Name ist erforderlich",
+    "nameErrorMinLengthText": "Der Name ist zu kurz!",
+    "nameErrorMaxLengthText": "Der Name ist zu lang!",
+    "emailText": "Email",
+    "emailErrorRequiredText": "E-Mail ist erforderlich",
+    "emailErrorPatternText": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "passwordText": "Passwort",
+    "passwordErrorRequiredText": "Passwort wird benötigt",
+    "registerTabText": "Registrieren",
+    "registerCardTitleText": "Anmeldung",
+    "registerButtonText": "Registrieren",
+    "guestButtonText": "als Gast fortfahren",
+    "resetPasswordTabText": "E-Mail-Adresse auf Passwort zurücksetzen",
+    "resetPasswordInputText": "E-Mail-Adresse auf Passwort zurücksetzen",
+    "resetPasswordErrorRequiredText": "Zum Zurücksetzen des Passworts ist eine E-Mail erforderlich!",
+    "resetPasswordErrorPatternText": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "resetPasswordActionButtonText": "Zurücksetzen",
+    "resetPasswordInstructionsText": "Zurücksetzen angefordert. Überprüfen Sie Ihre E-Mail-Anweisungen.",
+    "emailConfirmationTitle": "Bestätigen Sie Ihre E-Mail-Adresse!",
+    "emailConfirmationText": "Eine Bestätigungs-E-Mail wurde an Sie gesendet.\n   Überprüfen Sie Ihren Posteingang und klicken Sie auf den Link \"Bestätigen Sie meine E-Mail\", um Ihre E-Mail-Adresse zu bestätigen."
   }
+
 }

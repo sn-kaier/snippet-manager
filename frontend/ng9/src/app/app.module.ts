@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FeedModule } from './layouts/feed/feed.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LoginComponent } from './layouts/login/login.component';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -21,7 +23,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -39,7 +42,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HttpClientModule,
     ComponentsModule,
     BrowserAnimationsModule,
-    FeedModule
+    FeedModule,
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase ),
   ],
   providers: [],
   exports: [],

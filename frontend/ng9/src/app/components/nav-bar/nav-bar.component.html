@@ -61,13 +61,13 @@
   </div>
   <ng-container *ngIf="(authState | async) as state">
     <div class="nav-right flex middle-xs" *ngIf="state.state === 'in'; else login">
-      <app-avatar routerLink="/feed/my-documents" [imageUrl]="state.imageUrl"></app-avatar>
+      <app-avatar routerLink="/login" [imageUrl]="state.imageUrl"></app-avatar>
       <div class="mlm">
         <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
       </div>
     </div>
     <ng-template #login>
-      <button class="btn-flat-dark f-l" (click)="auth.doGoogleLogin()">{{ 'nav.logIn' | translate }}</button>
+      <button class="link-btn login" color="primary" mat-button routerLink="/login" routerLinkActive="active">{{ 'nav.logIn' | translate }}</button>
     </ng-template>
   </ng-container>
 </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImpressumComponent } from './impressum.component';
 import { ImpressumRoutingModule } from './impressum-routing-module';
+import { ComponentsModule } from '../../components/components.module';
 
 
 
@@ -9,7 +10,8 @@ import { ImpressumRoutingModule } from './impressum-routing-module';
   declarations: [ImpressumComponent],
   imports: [
     CommonModule,
-    ImpressumRoutingModule
+    ImpressumRoutingModule,
+    ComponentsModule
   ]
 })
 export class ImpressumModule { }
