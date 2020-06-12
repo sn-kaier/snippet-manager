@@ -1,0 +1,8 @@
+- args:
+    name: content
+    table:
+      name: document
+      schema: public
+    using:
+      foreign_key_constraint_on: id
+  type: create_object_relationship

@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."document" rename column "content" to "description";
+  type: run_sql

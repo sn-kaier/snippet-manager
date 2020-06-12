@@ -41,8 +41,12 @@
     "you": "Du",
     "follow": "folgen",
     "goBack": "Zurück",
-    "save": "Save",
-    "reset": "Reset"
+    "save": "Speichern",
+    "reset": "Verwerfen",
+    "close": "Schließen",
+    "isRequired": "darf nicht leer sein",
+    "delete": "Löschen",
+    "document": "Snippet"
   },
   "edit": {
     "titleNew": "Neues Snippet",
@@ -52,7 +56,10 @@
     "allowComments": "Kommentare erlauben",
     "markPublic": "Öffentliches Snippet",
     "textAreaPlaceholder": "Schreibe etwas",
-    "titlePlaceholder": "Bsp.: Hello World in JavaScript"
+    "titlePlaceholder": "Bsp.: Hello World in JavaScript",
+    "savedDocumentSnack": "Snippet gespeichert",
+    "successfullyDeleted": "Snippet gelöscht",
+    "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung."
   },
   "comment": {
     "areaPlaceholer": "Als {{ name }} veröffentlichen",
@@ -62,6 +69,10 @@
   "login": {
     "header": "Los geht's!",
     "subHeader": "Logge dich ein, um eigene Snippets zu erstellen"
+  },
+  "dialog": {
+    "deleteTitle": "{{ subject }} löschen",
+    "deleteContent": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "ngxauthfirebaseui": {
     "signInTabText": "Einloggen",
@@ -90,5 +101,4 @@
     "emailConfirmationTitle": "Bestätigen Sie Ihre E-Mail-Adresse!",
     "emailConfirmationText": "Eine Bestätigungs-E-Mail wurde an Sie gesendet.\n   Überprüfen Sie Ihren Posteingang und klicken Sie auf den Link \"Bestätigen Sie meine E-Mail\", um Ihre E-Mail-Adresse zu bestätigen."
   }
-
 }

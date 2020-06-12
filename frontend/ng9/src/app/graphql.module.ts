@@ -6,6 +6,7 @@ import {setContext} from 'apollo-link-context';
 import {AuthService} from './core/auth.service';
 import {HttpHeaders} from '@angular/common/http';
 import {filter, take} from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @NgModule({
   exports: [ApolloModule, HttpLinkModule],
@@ -16,7 +17,7 @@ export class GraphQLModule {
     httpLink: HttpLink,
     authService: AuthService,
   ) {
-    const http = httpLink.create({uri: 'http://localhost:8080/v1/graphql'});
+    const http = httpLink.create({uri: environment.gqlUrl});
 
     const auth = setContext(async (_, {__}) => {
       // Grab token if there is one in storage or hasn't expired

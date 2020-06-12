@@ -28,7 +28,7 @@ fragment AFeedDoc on document {
     ...AFeedDocLabel
   }
   title
-  description
+  content
   id
 }
 

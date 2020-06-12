@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  DocumentSetInput,
+  DocumentSetInput, UDeleteDocumentGQL,
   UEditDocFragment,
   UEditDocumentAddGQL,
   UEditDocumentGetGQL,
@@ -14,6 +14,20 @@ import { Subject, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { filter, map, tap } from 'rxjs/operators';
 import { RoutingHistoryService } from '../../../core/routing-history.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteDialogComponent } from '../../../components/confirm-delete-dialog.component';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class EmptyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-edit-document',
@@ -27,17 +41,23 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
 
   doc: UEditDocFragment;
   loading$ = new Subject<boolean>();
+
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
+
 
   constructor(private readonly authService: AuthService,
               private readonly activeRoute: ActivatedRoute,
               private readonly getEditDocument: UEditDocumentGetGQL,
               private readonly saveDocumentMutation: UEditDocumentSaveGQL,
               private readonly addDocumentMutation: UEditDocumentAddGQL,
+              private readonly deleteDocumentMutation: UDeleteDocumentGQL,
               private readonly router: Router,
               private readonly historyService: RoutingHistoryService,
-              private readonly changeDetectorRef: ChangeDetectorRef
+              private readonly changeDetectorRef: ChangeDetectorRef,
+              private readonly snackBar: MatSnackBar,
+              private readonly translate: TranslateService,
+              private readonly dialog: MatDialog
   ) {
   }
 
@@ -76,17 +96,21 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       allowComments: true,
       isPublic: false,
       title: '',
-      description: ''
+      content: ''
     };
   }
 
   private setDocumentInput(doc: UEditDocFragment) {
     this.documentSetInput = {
       allowComments: doc.allowComments,
-      description: doc.description,
+      content: doc.content,
       isPublic: doc.isPublic,
       title: doc.title
     };
+  }
+
+  get isNewDocument(): boolean {
+    return !this.documentId;
   }
 
   saveDocument() {
@@ -110,12 +134,26 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
           if (id) {
             this.documentId = id;
           }
+          this.navigateBack();
         });
     }
     this.doc = {
       ...this.doc,
       ...this.documentSetInput
     };
+
+
+    this.showSnackBar('edit.savedDocumentSnack').then();
+  }
+
+  private async showSnackBar(mainText: string) {
+    const savedDocumentSnackTranslated = await this.translate.get(mainText).toPromise();
+    const closeTranslated = await this.translate.get('common.close').toPromise();
+    this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
+      duration: 1000 * 5,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 
   ngOnDestroy(): void {
@@ -124,12 +162,12 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   }
 
   get canSave() {
-    if (!this.documentSetInput.description.length || !this.documentSetInput.title.length) {
+    if (!this.documentSetInput?.content.length || !this.documentSetInput.title.length) {
       return false;
     }
     if (this.doc) {
       return this.documentSetInput.title !== this.doc.title ||
-        this.documentSetInput.description !== this.doc.description ||
+        this.documentSetInput.content !== this.doc.content ||
         this.documentSetInput.allowComments !== this.doc.allowComments ||
         this.documentSetInput.isPublic !== this.doc.isPublic;
     }
@@ -154,9 +192,17 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     console.log(this.historyService.history);
   }
 
-  setIsPublic(isPublic: boolean) {
-    if (this.documentSetInput) {
-      this.documentSetInput.isPublic = isPublic;
+  async deleteDocument() {
+    const documentTranslated = await this.translate.get('common.document').toPromise();
+    const shouldDelete = await this.dialog.open(ConfirmDeleteDialogComponent, { data: { subject: documentTranslated } }).afterClosed().toPromise();
+    if (shouldDelete) {
+      this.deleteDocumentMutation.mutate({ documentId: this.documentId }).toPromise().then(() => {
+        this.showSnackBar('edit.successfullyDeleted').then();
+        this.navigateBack();
+      }).catch(() => {
+        this.showSnackBar('edit.deleteFailed').then();
+      });
+
     }
   }
 }

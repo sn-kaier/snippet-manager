@@ -109,11 +109,9 @@ type document {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "An object relationship"
-  content: document_content
+  content: String!
   countComments: Int!
   createdAt: timestamptz!
-  description: String!
   id: uuid!
   isPublic: Boolean!
   "An array relationship"
@@ -158,24 +156,6 @@ type document {
   ): [document_reaction_group_persisted!]!
   title: String!
   updatedAt: timestamptz!
-}
-
-"columns and relationships of \"document_content\""
-type document_content {
-  content: String!
-  "An object relationship"
-  document: document!
-  documentId: uuid!
-  id: uuid!
-  updatedAt: timestamptz!
-}
-
-"response of any mutation on the table \"document_content\""
-type document_content_mutation_response {
-  "number of affected rows by the mutation"
-  affected_rows: Int!
-  "data of the affected rows by the mutation"
-  returning: [document_content!]!
 }
 
 "columns and relationships of \"document_label\""
@@ -231,7 +211,7 @@ type document_reaction_group {
 persisted version of the document_reaction_group
 
 
-columns and relationships of \"document_reaction_group_persisted\"
+columns and relationships of "document_reaction_group_persisted"
 """
 type document_reaction_group_persisted {
   count: Int!
@@ -320,13 +300,6 @@ type mutation_root {
     "on conflict condition"
     on_conflict: document_on_conflict
   ): document_mutation_response
-  "insert data into the table: \"document_content\""
-  addDocumentContent(
-    "the rows to be inserted"
-    objects: [document_content_insert_input!]!,
-    "on conflict condition"
-    on_conflict: document_content_on_conflict
-  ): document_content_mutation_response
   "insert data into the table: \"document_label\""
   addDocumentLabel(
     "the rows to be inserted"
@@ -375,13 +348,6 @@ type mutation_root {
     "the row to be inserted"
     object: comment_reaction_insert_input!
   ): comment_reaction
-  "insert a single row into the table: \"document_content\""
-  insert_document_content_one(
-    "the row to be inserted"
-    object: document_content_insert_input!,
-    "on conflict condition"
-    on_conflict: document_content_on_conflict
-  ): document_content
   "insert a single row into the table: \"document_label\""
   insert_document_label_one(
     "the row to be inserted"
@@ -460,13 +426,6 @@ type mutation_root {
     "filter the rows which have to be updated"
     where: document_bool_exp!
   ): document_mutation_response
-  "update data of the table: \"document_content\""
-  updateDocumentContent(
-    "sets the columns of the filtered rows to the given values"
-    _set: document_content_set_input,
-    "filter the rows which have to be updated"
-    where: document_content_bool_exp!
-  ): document_content_mutation_response
   "update data of the table: \"label\""
   updateLabel(
     "sets the columns of the filtered rows to the given values"
@@ -486,12 +445,6 @@ type mutation_root {
     _set: document_set_input,
     pk_columns: document_pk_columns_input!
   ): document
-  "update single row of the table: \"document_content\""
-  update_document_content_by_pk(
-    "sets the columns of the filtered rows to the given values"
-    _set: document_content_set_input,
-    pk_columns: document_content_pk_columns_input!
-  ): document_content
   "update single row of the table: \"label\""
   update_label_by_pk(
     "sets the columns of the filtered rows to the given values"
@@ -541,19 +494,6 @@ type query_root {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "fetch data from the table: \"document_content\""
-  allDocumentContents(
-    "distinct select on columns"
-    distinct_on: [document_content_select_column!],
-    "limit the number of rows returned"
-    limit: Int,
-    "skip the first n rows. Use only with order_by"
-    offset: Int,
-    "sort the rows by one or more columns"
-    order_by: [document_content_order_by!],
-    "filter the rows returned"
-    where: document_content_bool_exp
-  ): [document_content!]!
   "fetch data from the table: \"document_label\""
   allDocumentLabels(
     "distinct select on columns"
@@ -666,8 +606,6 @@ type query_root {
   ): [comment_reactions_group!]!
   "fetch data from the table: \"document\" using primary key columns"
   document(id: uuid!): document
-  "fetch data from the table: \"document_content\" using primary key columns"
-  documentContent(id: uuid!): document_content
   "fetch data from the table: \"document_label\" using primary key columns"
   documentLabel(id: uuid!): document_label
   "fetch data from the table: \"document_reaction\" using primary key columns"
@@ -772,19 +710,6 @@ type subscription_root {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "fetch data from the table: \"document_content\""
-  allDocumentContents(
-    "distinct select on columns"
-    distinct_on: [document_content_select_column!],
-    "limit the number of rows returned"
-    limit: Int,
-    "skip the first n rows. Use only with order_by"
-    offset: Int,
-    "sort the rows by one or more columns"
-    order_by: [document_content_order_by!],
-    "filter the rows returned"
-    where: document_content_bool_exp
-  ): [document_content!]!
   "fetch data from the table: \"document_label\""
   allDocumentLabels(
     "distinct select on columns"
@@ -897,8 +822,6 @@ type subscription_root {
   ): [comment_reactions_group!]!
   "fetch data from the table: \"document\" using primary key columns"
   document(id: uuid!): document
-  "fetch data from the table: \"document_content\" using primary key columns"
-  documentContent(id: uuid!): document_content
   "fetch data from the table: \"document_label\" using primary key columns"
   documentLabel(id: uuid!): document_label
   "fetch data from the table: \"document_reaction\" using primary key columns"
@@ -961,7 +884,7 @@ type subscription_root {
 add author table
 
 
-columns and relationships of \"user\"
+columns and relationships of "user"
 """
 type user {
   authId: String!
@@ -1107,32 +1030,6 @@ enum document_constraint {
   document_pkey
 }
 
-"unique or primary key constraints on table \"document_content\""
-enum document_content_constraint {
-  "unique or primary key constraint"
-  document_content_document_id_key
-  "unique or primary key constraint"
-  document_content_pkey
-}
-
-"select columns of table \"document_content\""
-enum document_content_select_column {
-  "column name"
-  content
-  "column name"
-  documentId
-  "column name"
-  id
-  "column name"
-  updatedAt
-}
-
-"update columns of table \"document_content\""
-enum document_content_update_column {
-  "column name"
-  content
-}
-
 "select columns of table \"document_label\""
 enum document_label_select_column {
   "column name"
@@ -1180,11 +1077,11 @@ enum document_select_column {
   "column name"
   authorId
   "column name"
+  content
+  "column name"
   countComments
   "column name"
   createdAt
-  "column name"
-  description
   "column name"
   id
   "column name"
@@ -1202,7 +1099,7 @@ enum document_update_column {
   "column name"
   allowComments
   "column name"
-  description
+  content
   "column name"
   isPublic
   "column name"
@@ -1520,10 +1417,9 @@ input document_bool_exp {
   author: user_bool_exp
   authorId: String_comparison_exp
   comments: comment_bool_exp
-  content: document_content_bool_exp
+  content: String_comparison_exp
   countComments: Int_comparison_exp
   createdAt: timestamptz_comparison_exp
-  description: String_comparison_exp
   id: uuid_comparison_exp
   isPublic: Boolean_comparison_exp
   labels: document_label_bool_exp
@@ -1534,69 +1430,11 @@ input document_bool_exp {
   updatedAt: timestamptz_comparison_exp
 }
 
-"input type for inserting array relation for remote table \"document_content\""
-input document_content_arr_rel_insert_input {
-  data: [document_content_insert_input!]!
-  on_conflict: document_content_on_conflict
-}
-
-"Boolean expression to filter rows from the table \"document_content\". All fields are combined with a logical 'AND'."
-input document_content_bool_exp {
-  _and: [document_content_bool_exp]
-  _not: document_content_bool_exp
-  _or: [document_content_bool_exp]
-  content: String_comparison_exp
-  document: document_bool_exp
-  documentId: uuid_comparison_exp
-  id: uuid_comparison_exp
-  updatedAt: timestamptz_comparison_exp
-}
-
-"input type for inserting data into table \"document_content\""
-input document_content_insert_input {
-  content: String
-  document: document_obj_rel_insert_input
-  documentId: uuid
-}
-
-"input type for inserting object relation for remote table \"document_content\""
-input document_content_obj_rel_insert_input {
-  data: document_content_insert_input!
-  on_conflict: document_content_on_conflict
-}
-
-"on conflict condition type for table \"document_content\""
-input document_content_on_conflict {
-  constraint: document_content_constraint!
-  update_columns: [document_content_update_column!]!
-  where: document_content_bool_exp
-}
-
-"ordering options when selecting data from \"document_content\""
-input document_content_order_by {
-  content: order_by
-  document: document_order_by
-  documentId: order_by
-  id: order_by
-  updatedAt: order_by
-}
-
-"primary key columns input for table: \"document_content\""
-input document_content_pk_columns_input {
-  id: uuid!
-}
-
-"input type for updating data in table \"document_content\""
-input document_content_set_input {
-  content: String
-}
-
 "input type for inserting data into table \"document\""
 input document_insert_input {
   allowComments: Boolean
   comments: comment_arr_rel_insert_input
-  content: document_content_obj_rel_insert_input
-  description: String
+  content: String
   isPublic: Boolean
   labels: document_label_arr_rel_insert_input
   reactions: document_reaction_arr_rel_insert_input
@@ -1667,10 +1505,9 @@ input document_order_by {
   allowComments: order_by
   author: user_order_by
   authorId: order_by
-  content: document_content_order_by
+  content: order_by
   countComments: order_by
   createdAt: order_by
-  description: order_by
   id: order_by
   isPublic: order_by
   reactionBalance: order_by
@@ -1768,7 +1605,7 @@ input document_reaction_pk_columns_input {
 "input type for updating data in table \"document\""
 input document_set_input {
   allowComments: Boolean
-  description: String
+  content: String
   isPublic: Boolean
   title: String
 }

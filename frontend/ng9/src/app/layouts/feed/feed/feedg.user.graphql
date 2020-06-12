@@ -40,7 +40,7 @@ fragment UFeedDoc on document {
     ...UFeedDocLabel
   }
   title
-  description
+  content
   id
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UFeedDocReaction

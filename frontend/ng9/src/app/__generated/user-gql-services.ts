@@ -352,11 +352,9 @@ export interface Document {
   authorId: Scalars['String'];
   /** An array relationship */
   comments: Array<Comment>;
-  /** An object relationship */
-  content?: Maybe<DocumentContent>;
+  content: Scalars['String'];
   countComments: Scalars['Int'];
   createdAt: Scalars['timestamptz'];
-  description: Scalars['String'];
   id: Scalars['uuid'];
   isPublic: Scalars['Boolean'];
   /** An array relationship */
@@ -425,10 +423,9 @@ export interface DocumentBoolExp {
   author?: Maybe<UserBoolExp>;
   authorId?: Maybe<StringComparisonExp>;
   comments?: Maybe<CommentBoolExp>;
-  content?: Maybe<DocumentContentBoolExp>;
+  content?: Maybe<StringComparisonExp>;
   countComments?: Maybe<IntComparisonExp>;
   createdAt?: Maybe<TimestamptzComparisonExp>;
-  description?: Maybe<StringComparisonExp>;
   id?: Maybe<UuidComparisonExp>;
   isPublic?: Maybe<BooleanComparisonExp>;
   labels?: Maybe<DocumentLabelBoolExp>;
@@ -445,115 +442,11 @@ export enum DocumentConstraint {
   DocumentPkey = 'document_pkey'
 }
 
-/** columns and relationships of "document_content" */
-export interface DocumentContent {
-   __typename?: 'document_content';
-  content: Scalars['String'];
-  /** An object relationship */
-  document: Document;
-  documentId: Scalars['uuid'];
-  id: Scalars['uuid'];
-  updatedAt: Scalars['timestamptz'];
-}
-
-/** input type for inserting array relation for remote table "document_content" */
-export interface DocumentContentArrRelInsertInput {
-  data: Array<DocumentContentInsertInput>;
-  on_conflict?: Maybe<DocumentContentOnConflict>;
-}
-
-/** Boolean expression to filter rows from the table "document_content". All fields are combined with a logical 'AND'. */
-export interface DocumentContentBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
-  _not?: Maybe<DocumentContentBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
-  content?: Maybe<StringComparisonExp>;
-  document?: Maybe<DocumentBoolExp>;
-  documentId?: Maybe<UuidComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-  updatedAt?: Maybe<TimestamptzComparisonExp>;
-}
-
-/** unique or primary key constraints on table "document_content" */
-export enum DocumentContentConstraint {
-  /** unique or primary key constraint */
-  DocumentContentDocumentIdKey = 'document_content_document_id_key',
-  /** unique or primary key constraint */
-  DocumentContentPkey = 'document_content_pkey'
-}
-
-/** input type for inserting data into table "document_content" */
-export interface DocumentContentInsertInput {
-  content?: Maybe<Scalars['String']>;
-  document?: Maybe<DocumentObjRelInsertInput>;
-  documentId?: Maybe<Scalars['uuid']>;
-}
-
-/** response of any mutation on the table "document_content" */
-export interface DocumentContentMutationResponse {
-   __typename?: 'document_content_mutation_response';
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data of the affected rows by the mutation */
-  returning: Array<DocumentContent>;
-}
-
-/** input type for inserting object relation for remote table "document_content" */
-export interface DocumentContentObjRelInsertInput {
-  data: DocumentContentInsertInput;
-  on_conflict?: Maybe<DocumentContentOnConflict>;
-}
-
-/** on conflict condition type for table "document_content" */
-export interface DocumentContentOnConflict {
-  constraint: DocumentContentConstraint;
-  update_columns: Array<DocumentContentUpdateColumn>;
-  where?: Maybe<DocumentContentBoolExp>;
-}
-
-/** ordering options when selecting data from "document_content" */
-export interface DocumentContentOrderBy {
-  content?: Maybe<OrderBy>;
-  document?: Maybe<DocumentOrderBy>;
-  documentId?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  updatedAt?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "document_content" */
-export interface DocumentContentPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "document_content" */
-export enum DocumentContentSelectColumn {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  DocumentId = 'documentId',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updatedAt'
-}
-
-/** input type for updating data in table "document_content" */
-export interface DocumentContentSetInput {
-  content?: Maybe<Scalars['String']>;
-}
-
-/** update columns of table "document_content" */
-export enum DocumentContentUpdateColumn {
-  /** column name */
-  Content = 'content'
-}
-
 /** input type for inserting data into table "document" */
 export interface DocumentInsertInput {
   allowComments?: Maybe<Scalars['Boolean']>;
   comments?: Maybe<CommentArrRelInsertInput>;
-  content?: Maybe<DocumentContentObjRelInsertInput>;
-  description?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   isPublic?: Maybe<Scalars['Boolean']>;
   labels?: Maybe<DocumentLabelArrRelInsertInput>;
   reactions?: Maybe<DocumentReactionArrRelInsertInput>;
@@ -666,10 +559,9 @@ export interface DocumentOrderBy {
   allowComments?: Maybe<OrderBy>;
   author?: Maybe<UserOrderBy>;
   authorId?: Maybe<OrderBy>;
-  content?: Maybe<DocumentContentOrderBy>;
+  content?: Maybe<OrderBy>;
   countComments?: Maybe<OrderBy>;
   createdAt?: Maybe<OrderBy>;
-  description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
@@ -741,7 +633,7 @@ export interface DocumentReactionGroupOrderBy {
  * persisted version of the document_reaction_group
  * 
  * 
- * columns and relationships of \"document_reaction_group_persisted\"
+ * columns and relationships of "document_reaction_group_persisted"
  */
 export interface DocumentReactionGroupPersisted {
    __typename?: 'document_reaction_group_persisted';
@@ -846,11 +738,11 @@ export enum DocumentSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
+  Content = 'content',
+  /** column name */
   CountComments = 'countComments',
   /** column name */
   CreatedAt = 'createdAt',
-  /** column name */
-  Description = 'description',
   /** column name */
   Id = 'id',
   /** column name */
@@ -866,7 +758,7 @@ export enum DocumentSelectColumn {
 /** input type for updating data in table "document" */
 export interface DocumentSetInput {
   allowComments?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   isPublic?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
 }
@@ -876,7 +768,7 @@ export enum DocumentUpdateColumn {
   /** column name */
   AllowComments = 'allowComments',
   /** column name */
-  Description = 'description',
+  Content = 'content',
   /** column name */
   IsPublic = 'isPublic',
   /** column name */
@@ -1103,8 +995,6 @@ export interface MutationRoot {
   addCommentReaction?: Maybe<CommentReactionMutationResponse>;
   /** insert data into the table: "document" */
   addDocument?: Maybe<DocumentMutationResponse>;
-  /** insert data into the table: "document_content" */
-  addDocumentContent?: Maybe<DocumentContentMutationResponse>;
   /** insert data into the table: "document_label" */
   addDocumentLabel?: Maybe<DocumentLabelMutationResponse>;
   /** insert data into the table: "document_reaction" */
@@ -1131,8 +1021,6 @@ export interface MutationRoot {
   insert_comment_one?: Maybe<Comment>;
   /** insert a single row into the table: "comment_reaction" */
   insert_comment_reaction_one?: Maybe<CommentReaction>;
-  /** insert a single row into the table: "document_content" */
-  insert_document_content_one?: Maybe<DocumentContent>;
   /** insert a single row into the table: "document_label" */
   insert_document_label_one?: Maybe<DocumentLabel>;
   /** insert a single row into the table: "document" */
@@ -1161,16 +1049,12 @@ export interface MutationRoot {
   updateComment?: Maybe<CommentMutationResponse>;
   /** update data of the table: "document" */
   updateDocument?: Maybe<DocumentMutationResponse>;
-  /** update data of the table: "document_content" */
-  updateDocumentContent?: Maybe<DocumentContentMutationResponse>;
   /** update data of the table: "label" */
   updateLabel?: Maybe<LabelMutationResponse>;
   /** update single row of the table: "comment" */
   update_comment_by_pk?: Maybe<Comment>;
   /** update single row of the table: "document" */
   update_document_by_pk?: Maybe<Document>;
-  /** update single row of the table: "document_content" */
-  update_document_content_by_pk?: Maybe<DocumentContent>;
   /** update single row of the table: "label" */
   update_label_by_pk?: Maybe<Label>;
 }
@@ -1193,13 +1077,6 @@ export type MutationRootAddCommentReactionArgs = {
 export type MutationRootAddDocumentArgs = {
   objects: Array<DocumentInsertInput>;
   on_conflict?: Maybe<DocumentOnConflict>;
-};
-
-
-/** mutation root */
-export type MutationRootAddDocumentContentArgs = {
-  objects: Array<DocumentContentInsertInput>;
-  on_conflict?: Maybe<DocumentContentOnConflict>;
 };
 
 
@@ -1280,13 +1157,6 @@ export type MutationRootInsertCommentOneArgs = {
 /** mutation root */
 export type MutationRootInsertCommentReactionOneArgs = {
   object: CommentReactionInsertInput;
-};
-
-
-/** mutation root */
-export type MutationRootInsertDocumentContentOneArgs = {
-  object: DocumentContentInsertInput;
-  on_conflict?: Maybe<DocumentContentOnConflict>;
 };
 
 
@@ -1379,13 +1249,6 @@ export type MutationRootUpdateDocumentArgs = {
 
 
 /** mutation root */
-export type MutationRootUpdateDocumentContentArgs = {
-  _set?: Maybe<DocumentContentSetInput>;
-  where: DocumentContentBoolExp;
-};
-
-
-/** mutation root */
 export type MutationRootUpdateLabelArgs = {
   _set?: Maybe<LabelSetInput>;
   where: LabelBoolExp;
@@ -1403,13 +1266,6 @@ export type MutationRootUpdateCommentByPkArgs = {
 export type MutationRootUpdateDocumentByPkArgs = {
   _set?: Maybe<DocumentSetInput>;
   pk_columns: DocumentPkColumnsInput;
-};
-
-
-/** mutation root */
-export type MutationRootUpdateDocumentContentByPkArgs = {
-  _set?: Maybe<DocumentContentSetInput>;
-  pk_columns: DocumentContentPkColumnsInput;
 };
 
 
@@ -1444,8 +1300,6 @@ export interface QueryRoot {
   allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
-  /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
   allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
@@ -1470,8 +1324,6 @@ export interface QueryRoot {
   comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
-  /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
   documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
@@ -1522,16 +1374,6 @@ export type QueryRootAllCommentsArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<CommentOrderBy>>;
   where?: Maybe<CommentBoolExp>;
-};
-
-
-/** query root */
-export type QueryRootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<DocumentContentOrderBy>>;
-  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
@@ -1635,12 +1477,6 @@ export type QueryRootCommentReactionsGroupArgs = {
 
 /** query root */
 export type QueryRootDocumentArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type QueryRootDocumentContentArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1784,8 +1620,6 @@ export interface SubscriptionRoot {
   allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
-  /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
   allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
@@ -1810,8 +1644,6 @@ export interface SubscriptionRoot {
   comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
-  /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
   documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
@@ -1862,16 +1694,6 @@ export type SubscriptionRootAllCommentsArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<CommentOrderBy>>;
   where?: Maybe<CommentBoolExp>;
-};
-
-
-/** subscription root */
-export type SubscriptionRootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<DocumentContentOrderBy>>;
-  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
@@ -1980,12 +1802,6 @@ export type SubscriptionRootDocumentArgs = {
 
 
 /** subscription root */
-export type SubscriptionRootDocumentContentArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
 export type SubscriptionRootDocumentLabelArgs = {
   id: Scalars['uuid'];
 };
@@ -2075,7 +1891,7 @@ export interface TimestamptzComparisonExp {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export interface User {
    __typename?: 'user';
@@ -2106,7 +1922,7 @@ export interface User {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserDocumentLabelsArgs = {
   distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
@@ -2121,7 +1937,7 @@ export type UserDocumentLabelsArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserDocumentsArgs = {
   distinct_on?: Maybe<Array<DocumentSelectColumn>>;
@@ -2136,7 +1952,7 @@ export type UserDocumentsArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserFollowersArgs = {
   distinct_on?: Maybe<Array<FollowSelectColumn>>;
@@ -2151,7 +1967,7 @@ export type UserFollowersArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserFollowingsArgs = {
   distinct_on?: Maybe<Array<FollowSelectColumn>>;
@@ -2166,7 +1982,7 @@ export type UserFollowingsArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserLabelsArgs = {
   distinct_on?: Maybe<Array<LabelSelectColumn>>;
@@ -2332,7 +2148,7 @@ export type UEditDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UEditDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
+export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
     { __typename?: 'user' }
     & UEditDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2372,6 +2188,13 @@ export type UEditDocumentAddMutationVariables = {
 
 export type UEditDocumentAddMutation = { __typename?: 'mutation_root', addDocument: Maybe<{ __typename?: 'document_mutation_response', returning: Array<{ __typename?: 'document', id: any }> }> };
 
+export type UDeleteDocumentMutationVariables = {
+  documentId: Scalars['uuid'];
+};
+
+
+export type UDeleteDocumentMutation = { __typename?: 'mutation_root', removeDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+
 export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
@@ -2380,7 +2203,7 @@ export type UFeedDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
+export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
     { __typename?: 'user' }
     & UFeedDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2543,7 +2366,7 @@ export const UEditDocFragmentDoc = gql`
     ...UEditDocLabel
   }
   title
-  description
+  content
   id
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UEditDocReaction
@@ -2600,7 +2423,7 @@ export const UFeedDocFragmentDoc = gql`
     ...UFeedDocLabel
   }
   title
-  description
+  content
   id
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UFeedDocReaction
@@ -2747,6 +2570,21 @@ export const UEditDocumentAddDocument = gql`
   })
   export class UEditDocumentAddGQL extends Apollo.Mutation<UEditDocumentAddMutation, UEditDocumentAddMutationVariables> {
     document = UEditDocumentAddDocument;
+    
+  }
+export const UDeleteDocumentDocument = gql`
+    mutation UDeleteDocument($documentId: uuid!) {
+  removeDocument(where: {id: {_eq: $documentId}}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UDeleteDocumentGQL extends Apollo.Mutation<UDeleteDocumentMutation, UDeleteDocumentMutationVariables> {
+    document = UDeleteDocumentDocument;
     
   }
 export const UFeedDocsDocument = gql`

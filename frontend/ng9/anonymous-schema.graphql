@@ -91,11 +91,9 @@ type document {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "An object relationship"
-  content: document_content
+  content: String!
   countComments: Int!
   createdAt: timestamptz!
-  description: String!
   id: uuid!
   isPublic: Boolean!
   "An array relationship"
@@ -142,14 +140,6 @@ type document {
   updatedAt: timestamptz!
 }
 
-"columns and relationships of \"document_content\""
-type document_content {
-  content: String!
-  "An object relationship"
-  document: document!
-  updatedAt: timestamptz!
-}
-
 "columns and relationships of \"document_label\""
 type document_label {
   "An object relationship"
@@ -184,7 +174,7 @@ type document_reaction_group {
 persisted version of the document_reaction_group
 
 
-columns and relationships of \"document_reaction_group_persisted\"
+columns and relationships of "document_reaction_group_persisted"
 """
 type document_reaction_group_persisted {
   count: Int!
@@ -255,19 +245,6 @@ type query_root {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "fetch data from the table: \"document_content\""
-  allDocumentContents(
-    "distinct select on columns"
-    distinct_on: [document_content_select_column!],
-    "limit the number of rows returned"
-    limit: Int,
-    "skip the first n rows. Use only with order_by"
-    offset: Int,
-    "sort the rows by one or more columns"
-    order_by: [document_content_order_by!],
-    "filter the rows returned"
-    where: document_content_bool_exp
-  ): [document_content!]!
   "fetch data from the table: \"document_label\""
   allDocumentLabels(
     "distinct select on columns"
@@ -367,8 +344,6 @@ type query_root {
   ): [comment_reactions_group!]!
   "fetch data from the table: \"document\" using primary key columns"
   document(id: uuid!): document
-  "fetch data from the table: \"document_content\" using primary key columns"
-  documentContent(id: uuid!): document_content
   "fetch data from the table: \"document_label\" using primary key columns"
   documentLabel(id: uuid!): document_label
   "fetch data from the table: \"document_reaction\" using primary key columns"
@@ -471,19 +446,6 @@ type subscription_root {
     "filter the rows returned"
     where: comment_bool_exp
   ): [comment!]!
-  "fetch data from the table: \"document_content\""
-  allDocumentContents(
-    "distinct select on columns"
-    distinct_on: [document_content_select_column!],
-    "limit the number of rows returned"
-    limit: Int,
-    "skip the first n rows. Use only with order_by"
-    offset: Int,
-    "sort the rows by one or more columns"
-    order_by: [document_content_order_by!],
-    "filter the rows returned"
-    where: document_content_bool_exp
-  ): [document_content!]!
   "fetch data from the table: \"document_label\""
   allDocumentLabels(
     "distinct select on columns"
@@ -583,8 +545,6 @@ type subscription_root {
   ): [comment_reactions_group!]!
   "fetch data from the table: \"document\" using primary key columns"
   document(id: uuid!): document
-  "fetch data from the table: \"document_content\" using primary key columns"
-  documentContent(id: uuid!): document_content
   "fetch data from the table: \"document_label\" using primary key columns"
   documentLabel(id: uuid!): document_label
   "fetch data from the table: \"document_reaction\" using primary key columns"
@@ -645,7 +605,7 @@ type subscription_root {
 add author table
 
 
-columns and relationships of \"user\"
+columns and relationships of "user"
 """
 type user {
   balanceDocumentReaction: bigint!
@@ -739,14 +699,6 @@ enum comment_select_column {
   updatedAt
 }
 
-"select columns of table \"document_content\""
-enum document_content_select_column {
-  "column name"
-  content
-  "column name"
-  updatedAt
-}
-
 "select columns of table \"document_label\""
 enum document_label_select_column {
   "column name"
@@ -788,11 +740,11 @@ enum document_select_column {
   "column name"
   authorId
   "column name"
+  content
+  "column name"
   countComments
   "column name"
   createdAt
-  "column name"
-  description
   "column name"
   id
   "column name"
@@ -1017,10 +969,9 @@ input document_bool_exp {
   author: user_bool_exp
   authorId: String_comparison_exp
   comments: comment_bool_exp
-  content: document_content_bool_exp
+  content: String_comparison_exp
   countComments: Int_comparison_exp
   createdAt: timestamptz_comparison_exp
-  description: String_comparison_exp
   id: uuid_comparison_exp
   isPublic: Boolean_comparison_exp
   labels: document_label_bool_exp
@@ -1029,28 +980,6 @@ input document_bool_exp {
   reactionsGroup: document_reaction_group_persisted_bool_exp
   title: String_comparison_exp
   updatedAt: timestamptz_comparison_exp
-}
-
-"Boolean expression to filter rows from the table \"document_content\". All fields are combined with a logical 'AND'."
-input document_content_bool_exp {
-  _and: [document_content_bool_exp]
-  _not: document_content_bool_exp
-  _or: [document_content_bool_exp]
-  content: String_comparison_exp
-  document: document_bool_exp
-  updatedAt: timestamptz_comparison_exp
-}
-
-"ordering options when selecting data from \"document_content\""
-input document_content_order_by {
-  content: order_by
-  document: document_order_by
-  updatedAt: order_by
-}
-
-"primary key columns input for table: \"document_content\""
-input document_content_pk_columns_input {
-  id: uuid!
 }
 
 "Boolean expression to filter rows from the table \"document_label\". All fields are combined with a logical 'AND'."
@@ -1082,10 +1011,9 @@ input document_order_by {
   allowComments: order_by
   author: user_order_by
   authorId: order_by
-  content: document_content_order_by
+  content: order_by
   countComments: order_by
   createdAt: order_by
-  description: order_by
   id: order_by
   isPublic: order_by
   reactionBalance: order_by

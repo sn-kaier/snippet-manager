@@ -40,7 +40,7 @@ fragment UEditDoc on document {
     ...UEditDocLabel
   }
   title
-  description
+  content
   id
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UEditDocReaction
@@ -64,5 +64,11 @@ mutation UEditDocumentAdd($newDocument: document_insert_input!) {
     returning {
       id
     }
+  }
+}
+
+mutation UDeleteDocument($documentId: uuid!) {
+  removeDocument(where: {id: {_eq: $documentId}}) {
+    affected_rows
   }
 }

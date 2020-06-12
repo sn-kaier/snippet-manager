@@ -40,8 +40,12 @@
     "you": "You",
     "follow": "Follow",
     "goBack": "Go Back",
-    "save": "Speichern",
-    "reset": "Verwerfen"
+    "reset": "Reset",
+    "close": "Close",
+    "isRequired": "is required",
+    "save": "Save",
+    "delete": "Delete",
+    "document": "Snippet"
   },
   "edit": {
     "titleNew": "New snippet",
@@ -51,7 +55,10 @@
     "allowComments": "Allow comments",
     "markPublic": "Mark as public",
     "textAreaPlaceholder": "Write something",
-    "titlePlaceholder": "Ex. Hello World in JavaScript"
+    "titlePlaceholder": "Ex. Hello World in JavaScript",
+    "savedDocumentSnack": "Snipped saved",
+    "successfullyDeleted": "Snippet deleted",
+    "deleteFailed": "Failed to delete snippet. Please check you network connection."
   },
   "comment": {
     "areaPlaceholer": "Publish as {{name}}",
@@ -61,6 +68,10 @@
   "login": {
     "header": "Let's go!",
     "subHeader": "Sign in to create you own snippets."
+  },
+  "dialog": {
+    "deleteTitle": "Delete {{ subject }}",
+    "deleteContent": "This action can't be reversed."
   },
   "ngxauthfirebaseui": {
     "signInTabText": "Sign in",

@@ -18,7 +18,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient);
+  return new TranslateHttpLoader(httpClient, 'assets/translation/');
 }
 
 @NgModule({

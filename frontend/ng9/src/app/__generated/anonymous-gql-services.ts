@@ -268,11 +268,9 @@ export type Document = {
   authorId: Scalars['String'];
   /** An array relationship */
   comments: Array<Comment>;
-  /** An object relationship */
-  content?: Maybe<DocumentContent>;
+  content: Scalars['String'];
   countComments: Scalars['Int'];
   createdAt: Scalars['timestamptz'];
-  description: Scalars['String'];
   id: Scalars['uuid'];
   isPublic: Scalars['Boolean'];
   /** An array relationship */
@@ -335,10 +333,9 @@ export type DocumentBoolExp = {
   author?: Maybe<UserBoolExp>;
   authorId?: Maybe<StringComparisonExp>;
   comments?: Maybe<CommentBoolExp>;
-  content?: Maybe<DocumentContentBoolExp>;
+  content?: Maybe<StringComparisonExp>;
   countComments?: Maybe<IntComparisonExp>;
   createdAt?: Maybe<TimestamptzComparisonExp>;
-  description?: Maybe<StringComparisonExp>;
   id?: Maybe<UuidComparisonExp>;
   isPublic?: Maybe<BooleanComparisonExp>;
   labels?: Maybe<DocumentLabelBoolExp>;
@@ -348,45 +345,6 @@ export type DocumentBoolExp = {
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
-
-/** columns and relationships of "document_content" */
-export type DocumentContent = {
-   __typename?: 'document_content';
-  content: Scalars['String'];
-  /** An object relationship */
-  document: Document;
-  updatedAt: Scalars['timestamptz'];
-};
-
-/** Boolean expression to filter rows from the table "document_content". All fields are combined with a logical 'AND'. */
-export type DocumentContentBoolExp = {
-  _and?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
-  _not?: Maybe<DocumentContentBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentContentBoolExp>>>;
-  content?: Maybe<StringComparisonExp>;
-  document?: Maybe<DocumentBoolExp>;
-  updatedAt?: Maybe<TimestamptzComparisonExp>;
-};
-
-/** ordering options when selecting data from "document_content" */
-export type DocumentContentOrderBy = {
-  content?: Maybe<OrderBy>;
-  document?: Maybe<DocumentOrderBy>;
-  updatedAt?: Maybe<OrderBy>;
-};
-
-/** primary key columns input for table: "document_content" */
-export type DocumentContentPkColumnsInput = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "document_content" */
-export enum DocumentContentSelectColumn {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  UpdatedAt = 'updatedAt'
-}
 
 /** columns and relationships of "document_label" */
 export type DocumentLabel = {
@@ -435,10 +393,9 @@ export type DocumentOrderBy = {
   allowComments?: Maybe<OrderBy>;
   author?: Maybe<UserOrderBy>;
   authorId?: Maybe<OrderBy>;
-  content?: Maybe<DocumentContentOrderBy>;
+  content?: Maybe<OrderBy>;
   countComments?: Maybe<OrderBy>;
   createdAt?: Maybe<OrderBy>;
-  description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
@@ -503,7 +460,7 @@ export type DocumentReactionGroupOrderBy = {
  * persisted version of the document_reaction_group
  * 
  * 
- * columns and relationships of \"document_reaction_group_persisted\"
+ * columns and relationships of "document_reaction_group_persisted"
  */
 export type DocumentReactionGroupPersisted = {
    __typename?: 'document_reaction_group_persisted';
@@ -584,11 +541,11 @@ export enum DocumentSelectColumn {
   /** column name */
   AuthorId = 'authorId',
   /** column name */
+  Content = 'content',
+  /** column name */
   CountComments = 'countComments',
   /** column name */
   CreatedAt = 'createdAt',
-  /** column name */
-  Description = 'description',
   /** column name */
   Id = 'id',
   /** column name */
@@ -695,8 +652,6 @@ export type QueryRoot = {
   allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
-  /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
   allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
@@ -719,8 +674,6 @@ export type QueryRoot = {
   comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
-  /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
   documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
@@ -769,16 +722,6 @@ export type QueryRootAllCommentsArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<CommentOrderBy>>;
   where?: Maybe<CommentBoolExp>;
-};
-
-
-/** query root */
-export type QueryRootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<DocumentContentOrderBy>>;
-  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
@@ -872,12 +815,6 @@ export type QueryRootCommentReactionsGroupArgs = {
 
 /** query root */
 export type QueryRootDocumentArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type QueryRootDocumentContentArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1015,8 +952,6 @@ export type SubscriptionRoot = {
   allCommentReactions: Array<CommentReaction>;
   /** fetch data from the table: "comment" */
   allComments: Array<Comment>;
-  /** fetch data from the table: "document_content" */
-  allDocumentContents: Array<DocumentContent>;
   /** fetch data from the table: "document_label" */
   allDocumentLabels: Array<DocumentLabel>;
   /** fetch data from the table: "document_reaction" */
@@ -1039,8 +974,6 @@ export type SubscriptionRoot = {
   comment_reactions_group: Array<CommentReactionsGroup>;
   /** fetch data from the table: "document" using primary key columns */
   document?: Maybe<Document>;
-  /** fetch data from the table: "document_content" using primary key columns */
-  documentContent?: Maybe<DocumentContent>;
   /** fetch data from the table: "document_label" using primary key columns */
   documentLabel?: Maybe<DocumentLabel>;
   /** fetch data from the table: "document_reaction" using primary key columns */
@@ -1089,16 +1022,6 @@ export type SubscriptionRootAllCommentsArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<CommentOrderBy>>;
   where?: Maybe<CommentBoolExp>;
-};
-
-
-/** subscription root */
-export type SubscriptionRootAllDocumentContentsArgs = {
-  distinct_on?: Maybe<Array<DocumentContentSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<DocumentContentOrderBy>>;
-  where?: Maybe<DocumentContentBoolExp>;
 };
 
 
@@ -1197,12 +1120,6 @@ export type SubscriptionRootDocumentArgs = {
 
 
 /** subscription root */
-export type SubscriptionRootDocumentContentArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
 export type SubscriptionRootDocumentLabelArgs = {
   id: Scalars['uuid'];
 };
@@ -1286,7 +1203,7 @@ export type TimestamptzComparisonExp = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type User = {
    __typename?: 'user';
@@ -1307,7 +1224,7 @@ export type User = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserDocumentLabelsArgs = {
   distinct_on?: Maybe<Array<DocumentLabelSelectColumn>>;
@@ -1322,7 +1239,7 @@ export type UserDocumentLabelsArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserDocumentsArgs = {
   distinct_on?: Maybe<Array<DocumentSelectColumn>>;
@@ -1337,7 +1254,7 @@ export type UserDocumentsArgs = {
  * add author table
  * 
  * 
- * columns and relationships of \"user\"
+ * columns and relationships of "user"
  */
 export type UserLabelsArgs = {
   distinct_on?: Maybe<Array<LabelSelectColumn>>;
@@ -1428,7 +1345,7 @@ export type AFeedDocAuthorFragment = { __typename?: 'user', imageUrl: Maybe<stri
 
 export type AFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
-export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, description: string, id: any, author: (
+export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
     { __typename?: 'user' }
     & AFeedDocAuthorFragment
   ), reactionsGroup: Array<{ __typename?: 'document_reaction_group_persisted', count: number, reactionid: string }>, labels: Array<(
@@ -1521,7 +1438,7 @@ export const AFeedDocFragmentDoc = gql`
     ...AFeedDocLabel
   }
   title
-  description
+  content
   id
 }
     ${AFeedDocAuthorFragmentDoc}
