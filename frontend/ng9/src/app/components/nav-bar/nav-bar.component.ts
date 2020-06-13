@@ -16,17 +16,17 @@ export class NavBarComponent implements OnInit {
 
   searchValue = '';
 
-  constructor(readonly auth: AuthService,
-              readonly searchService: SearchService,
-              readonly navBarService: NavBarService) {
+  constructor(
+    readonly auth: AuthService,
+    readonly searchService: SearchService,
+    readonly navBarService: NavBarService
+  ) {
     this.authState = auth.authState.pipe(filter(s => s.state !== 'pending'));
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   search(search: string) {
-    console.log('search', search);
     this.searchService.onSearch.emit(search);
   }
 

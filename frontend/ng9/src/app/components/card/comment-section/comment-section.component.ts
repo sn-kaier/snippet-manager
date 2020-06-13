@@ -13,7 +13,9 @@ import {
   UCommentSectionCommentsGQL,
   UCommentSectionCommentsQuery,
   UCommentSectionCommentsQueryVariables,
-  UCommentSectionRemoveCommentReactionGQL, UEditCommentGQL, URemoveCommentGQL
+  UCommentSectionRemoveCommentReactionGQL,
+  UEditCommentGQL,
+  URemoveCommentGQL
 } from '../../../__generated/user-gql-services';
 import { QueryRef } from 'apollo-angular';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
@@ -26,7 +28,6 @@ import { iif, Observable, Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentSectionComponent implements OnInit {
-
   private docId: string;
   private limit = 5;
   private offset = 0;
@@ -58,24 +59,25 @@ export class CommentSectionComponent implements OnInit {
     private readonly removeComment: URemoveCommentGQL,
     private readonly editComment: UEditCommentGQL,
     readonly authService: AuthService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     const getUserComments = () => {
-      this.userQueryRef = this.uCommentsQuery.watch({
-        authorId: this.authService.authState.value?.userId,
-        documentId: this.docId,
-        limit: this.limit,
-        offset: this.offset
-      }, { fetchResults: false, useInitialLoading: true });
+      this.userQueryRef = this.uCommentsQuery.watch(
+        {
+          authorId: this.authService.authState.value?.userId,
+          documentId: this.docId,
+          limit: this.limit,
+          offset: this.offset
+        },
+        { fetchResults: false, useInitialLoading: true }
+      );
 
       return this.userQueryRef.valueChanges.pipe(
         tap(res => {
           setTimeout(() => {
             this.loading$.next(res.loading);
           });
-          console.log('tap this.userQueryRef.valueChanges loading', res.loading);
         }),
         filter(res => !!res.data),
         map(res => res.data.allComments)
@@ -83,11 +85,14 @@ export class CommentSectionComponent implements OnInit {
     };
 
     const getAnonymousComments = () => {
-      this.anonymousQueryRef = this.aCommentsQuery.watch({
-        documentId: this.docId,
-        limit: this.limit,
-        offset: this.offset
-      }, { fetchResults: false, useInitialLoading: true });
+      this.anonymousQueryRef = this.aCommentsQuery.watch(
+        {
+          documentId: this.docId,
+          limit: this.limit,
+          offset: this.offset
+        },
+        { fetchResults: false, useInitialLoading: true }
+      );
 
       return this.anonymousQueryRef.valueChanges.pipe(
         tap(res => this.loading$.next(res.loading)),
@@ -96,7 +101,9 @@ export class CommentSectionComponent implements OnInit {
       );
     };
 
-    this.comments$ = this.authService.authState.pipe(mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments())));
+    this.comments$ = this.authService.authState.pipe(
+      mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments()))
+    );
   }
 
   get canLoadMore(): boolean {
@@ -110,10 +117,8 @@ export class CommentSectionComponent implements OnInit {
     this.userQueryRef.updateQuery(prev => {
       const allComments = prev.allComments;
       const prevComment = allComments.find(c => c.id === commentId);
-      console.log('toggle for comment', prevComment);
 
       const gIndex = prevComment.reactionsGroup.findIndex(g => g.reactionid === reactionId);
-
 
       const rIndex = prevComment.myReactions.findIndex(r => r.reactionId === reactionId);
       const doAdd = rIndex === -1;
@@ -140,16 +145,22 @@ export class CommentSectionComponent implements OnInit {
 
       // mutations
       if (doAdd) {
-        this.addCommentReactionGQL.mutate({
-          commentId,
-          reactionId
-        }).toPromise().then(res => console.log('added comment reaction', res))
+        this.addCommentReactionGQL
+          .mutate({
+            commentId,
+            reactionId
+          })
+          .toPromise()
+          .then(res => console.log('added comment reaction', res))
           .catch(e => console.error('failed to add comment reaction', e));
       } else {
-        this.removeCommentReactionGQL.mutate({
-          commentId,
-          reactionId
-        }).toPromise().then(res => console.log('removed comment reaction', res))
+        this.removeCommentReactionGQL
+          .mutate({
+            commentId,
+            reactionId
+          })
+          .toPromise()
+          .then(res => console.log('removed comment reaction', res))
           .catch(e => console.error('failed to remove comment reaction', e));
       }
 
@@ -165,46 +176,52 @@ export class CommentSectionComponent implements OnInit {
     this.loading$.next(true);
     if (s.state === 'in') {
       this.offset += this.limit;
-      this.userQueryRef.fetchMore({
-        variables: {
-          documentId: this.docId,
-          authorId: s.userId,
-          limit: this.limit,
-          offset: this.offset
-        },
-        updateQuery: (prev, res) => {
-          if (!res.fetchMoreResult) {
-            return prev;
+      this.userQueryRef
+        .fetchMore({
+          variables: {
+            documentId: this.docId,
+            authorId: s.userId,
+            limit: this.limit,
+            offset: this.offset
+          },
+          updateQuery: (prev, res) => {
+            if (!res.fetchMoreResult) {
+              return prev;
+            }
+            return {
+              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+            };
           }
-          return {
-            allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
-          };
-        }
-      }).then();
+        })
+        .then();
     } else {
-      this.anonymousQueryRef.fetchMore({
-        variables: {
-          documentId: this.docId,
-          limit: this.limit,
-          offset: this.offset
-        },
-        updateQuery: (prev, res) => {
-          if (!res.fetchMoreResult) {
-            return prev;
+      this.anonymousQueryRef
+        .fetchMore({
+          variables: {
+            documentId: this.docId,
+            limit: this.limit,
+            offset: this.offset
+          },
+          updateQuery: (prev, res) => {
+            if (!res.fetchMoreResult) {
+              return prev;
+            }
+            return {
+              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+            };
           }
-          return {
-            allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
-          };
-        }
-      }).then();
+        })
+        .then();
     }
   }
 
   postComment(comment: string) {
-    this.addComment.mutate({
-      comment,
-      documentId: this.docId
-    }).toPromise()
+    this.addComment
+      .mutate({
+        comment,
+        documentId: this.docId
+      })
+      .toPromise()
       .then(res => {
         // update id of added comment in apollo cache
         const newCommentId = res.data?.addComment?.returning?.[0]?.id;
@@ -212,10 +229,13 @@ export class CommentSectionComponent implements OnInit {
           this.userQueryRef.updateQuery(prev => {
             const addedComment = prev.allComments.splice(0, 1)[0];
             return {
-              allComments: [{
-                ...addedComment,
-                id: newCommentId
-              }, ...prev.allComments]
+              allComments: [
+                {
+                  ...addedComment,
+                  id: newCommentId
+                },
+                ...prev.allComments
+              ]
             };
           });
         } else {
@@ -248,9 +268,12 @@ export class CommentSectionComponent implements OnInit {
   }
 
   deleteComment(comment: UCommentSectionCommentFragment | ACommentSectionCommentFragment) {
-    this.removeComment.mutate({
-      commentId: comment.id
-    }).toPromise().then(res => console.log('removed comment', comment, res))
+    this.removeComment
+      .mutate({
+        commentId: comment.id
+      })
+      .toPromise()
+      .then(res => console.log('removed comment', comment, res))
       .catch(err => console.error('failed to remove comment', comment, err));
 
     this.userQueryRef.updateQuery(prev => {
@@ -265,10 +288,13 @@ export class CommentSectionComponent implements OnInit {
   }
 
   onEditComment(commentId: string, newComment: string) {
-    this.editComment.mutate({
-      comment: newComment,
-      commentId
-    }).toPromise().then(res => console.log('updated comment', res))
+    this.editComment
+      .mutate({
+        comment: newComment,
+        commentId
+      })
+      .toPromise()
+      .then(res => console.log('updated comment', res))
       .catch(err => console.error('failed to update comment', err, commentId));
     this.userQueryRef.updateQuery(prev => {
       const commentIndex = prev.allComments.findIndex(c => c.id === commentId);

@@ -18,7 +18,6 @@ export interface AuthState {
   providedIn: 'root'
 })
 export class AuthService {
-
   public readonly authState = new BehaviorSubject<AuthState>({
     state: 'pending'
   });
@@ -26,10 +25,8 @@ export class AuthService {
   public readonly userId$ = this.authState.pipe(map(state => state?.userId));
   public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
 
-  constructor(public afAuth: AngularFireAuth,
-              readonly apollo: Apollo) {
-    afAuth.authState.subscribe(async (s) => {
-      console.log('auth state', s);
+  constructor(public afAuth: AngularFireAuth, readonly apollo: Apollo) {
+    afAuth.authState.subscribe(async s => {
       if (s) {
         const token = await s.getIdToken(true);
         this.authState.next({
@@ -44,12 +41,16 @@ export class AuthService {
           state: 'out'
         });
       }
-
     });
   }
 
   waitUntilLoggedIn(): Promise<AuthState> {
-    return this.authState.pipe(filter(s => s.state === 'in'), take(1)).toPromise();
+    return this.authState
+      .pipe(
+        filter(s => s.state === 'in'),
+        take(1)
+      )
+      .toPromise();
   }
 
   async logout() {
@@ -73,15 +74,15 @@ export class AuthService {
       const c = this.apollo.getClient();
       await c.clearStore();
       await c.resetStore();
-      this.afAuth
-        .signInWithPopup(provider)
-        .then(res => {
+      this.afAuth.signInWithPopup(provider).then(
+        res => {
           resolve(res);
-        }, err => {
+        },
+        err => {
           console.log(err);
           reject(err);
-        });
+        }
+      );
     });
   }
-
 }

@@ -7,20 +7,9 @@ import { AuthService } from '../../core/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   authProviderList = ['google'];
 
-  printUser(event) {
-    console.log(event);
-  }
+  constructor(readonly authService: AuthService) {}
 
-  printError(event) {
-    console.error(event);
-  }
-
-  constructor(readonly authService: AuthService) { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -7,7 +7,6 @@ import { AuthService } from '../../../../core/auth.service';
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
-
   @Output()
   addComment = new EventEmitter<string>();
 
@@ -15,11 +14,9 @@ export class AddCommentComponent implements OnInit {
 
   focused = false;
 
-  constructor(readonly authService: AuthService) {
-  }
+  constructor(readonly authService: AuthService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   resetText() {
     this.commentText = '';
@@ -28,7 +25,6 @@ export class AddCommentComponent implements OnInit {
 
   toggleFocus(focus: FocusEvent) {
     this.focused = true;
-    console.log('toggle focus', focus);
   }
 
   send() {

@@ -1,7 +1,8 @@
 import {
   AfterContentChecked,
   AfterViewChecked,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -23,7 +24,6 @@ import { HighlightResult } from 'ngx-highlightjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeedCardComponent {
-
   showComments = false;
 
   @Input() doc: UFeedDocFragment | AFeedDocFragment;
@@ -36,10 +36,11 @@ export class FeedCardComponent {
   textCollapsed = true;
   canTextExpand = false;
 
-  constructor(private readonly feedService: FeedService,
-              private readonly authService: AuthService,
-              private readonly changeDetectorRef: ChangeDetectorRef) {
-  }
+  constructor(
+    private readonly feedService: FeedService,
+    private readonly authService: AuthService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   toggleReaction(documentId: string, reactionId: string) {
     this.feedService.toggleDocumentReaction({ reactionId, documentId });
@@ -60,19 +61,14 @@ export class FeedCardComponent {
   onHighlighted(highlightResult: HighlightResult) {
     this.highlightResult = highlightResult;
 
-    console.log('set highlighted', highlightResult);
-
     setTimeout(() => {
       if (!this.codeElement?.nativeElement) {
-        console.log('set highlighted canceled update can-expand');
-
         return;
       }
       const clientHeight = this.codeElement.nativeElement.clientHeight;
       const scrollHeight = this.codeElement.nativeElement.scrollHeight;
       const canTextExpand = scrollHeight > clientHeight;
       if (canTextExpand !== this.canTextExpand) {
-        console.log('set canTextExpand', this.canTextExpand, 'clientHeight:', clientHeight, 'scrollHeight:', scrollHeight);
         this.canTextExpand = canTextExpand;
         this.changeDetectorRef.detectChanges();
       }

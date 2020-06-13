@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  DocumentSetInput, UDeleteDocumentGQL,
+  DocumentSetInput,
+  UDeleteDocumentGQL,
   UEditDocFragment,
   UEditDocumentAddGQL,
   UEditDocumentGetGQL,
@@ -45,21 +46,20 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
 
-
-  constructor(private readonly authService: AuthService,
-              private readonly activeRoute: ActivatedRoute,
-              private readonly getEditDocument: UEditDocumentGetGQL,
-              private readonly saveDocumentMutation: UEditDocumentSaveGQL,
-              private readonly addDocumentMutation: UEditDocumentAddGQL,
-              private readonly deleteDocumentMutation: UDeleteDocumentGQL,
-              private readonly router: Router,
-              private readonly historyService: RoutingHistoryService,
-              private readonly changeDetectorRef: ChangeDetectorRef,
-              private readonly snackBar: MatSnackBar,
-              private readonly translate: TranslateService,
-              private readonly dialog: MatDialog
-  ) {
-  }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly activeRoute: ActivatedRoute,
+    private readonly getEditDocument: UEditDocumentGetGQL,
+    private readonly saveDocumentMutation: UEditDocumentSaveGQL,
+    private readonly addDocumentMutation: UEditDocumentAddGQL,
+    private readonly deleteDocumentMutation: UDeleteDocumentGQL,
+    private readonly router: Router,
+    private readonly historyService: RoutingHistoryService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly snackBar: MatSnackBar,
+    private readonly translate: TranslateService,
+    private readonly dialog: MatDialog
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.loading$.next(true);
@@ -67,22 +67,27 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     const authState = await this.authService.waitUntilLoggedIn();
 
     if (this.documentId) {
-      this.userQueryRef = this.getEditDocument.watch({
-        authorId: authState.userId,
-        documentId: this.documentId
-      }, {
-        useInitialLoading: true,
-        fetchResults: false
-      });
+      this.userQueryRef = this.getEditDocument.watch(
+        {
+          authorId: authState.userId,
+          documentId: this.documentId
+        },
+        {
+          useInitialLoading: true,
+          fetchResults: false
+        }
+      );
 
-      const sub = this.userQueryRef.valueChanges.pipe(
-        tap(res => setTimeout(() => this.loading$.next(res.loading))),
-        filter(res => !!res.data),
-        map(res => res.data.document)
-      ).subscribe(doc => {
-        this.doc = doc;
-        this.setDocumentInput(doc);
-      });
+      const sub = this.userQueryRef.valueChanges
+        .pipe(
+          tap(res => setTimeout(() => this.loading$.next(res.loading))),
+          filter(res => !!res.data),
+          map(res => res.data.document)
+        )
+        .subscribe(doc => {
+          this.doc = doc;
+          this.setDocumentInput(doc);
+        });
 
       this.subscriptions.push(sub);
     } else {
@@ -116,19 +121,24 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   saveDocument() {
     if (this.doc) {
       // update
-      this.saveDocumentMutation.mutate({
-        documentId: this.doc.id,
-        documentInput: this.documentSetInput
-      }).toPromise().then(res => {
-        console.log('updated document', res);
-      });
+      this.saveDocumentMutation
+        .mutate({
+          documentId: this.doc.id,
+          documentInput: this.documentSetInput
+        })
+        .toPromise()
+        .then(res => {
+          console.log('updated document', res);
+        });
     } else {
       // create new
-      this.addDocumentMutation.mutate({
-        newDocument: {
-          ...this.documentSetInput
-        }
-      }).toPromise()
+      this.addDocumentMutation
+        .mutate({
+          newDocument: {
+            ...this.documentSetInput
+          }
+        })
+        .toPromise()
         .then(res => {
           const id = res.data?.addDocument?.returning?.[0]?.id;
           if (id) {
@@ -141,7 +151,6 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       ...this.doc,
       ...this.documentSetInput
     };
-
 
     this.showSnackBar('edit.savedDocumentSnack').then();
   }
@@ -166,10 +175,12 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       return false;
     }
     if (this.doc) {
-      return this.documentSetInput.title !== this.doc.title ||
+      return (
+        this.documentSetInput.title !== this.doc.title ||
         this.documentSetInput.content !== this.doc.content ||
         this.documentSetInput.allowComments !== this.doc.allowComments ||
-        this.documentSetInput.isPublic !== this.doc.isPublic;
+        this.documentSetInput.isPublic !== this.doc.isPublic
+      );
     }
     return true;
   }
@@ -189,20 +200,25 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/feed', 'my-documents']);
     }
-    console.log(this.historyService.history);
   }
 
   async deleteDocument() {
     const documentTranslated = await this.translate.get('common.document').toPromise();
-    const shouldDelete = await this.dialog.open(ConfirmDeleteDialogComponent, { data: { subject: documentTranslated } }).afterClosed().toPromise();
+    const shouldDelete = await this.dialog
+      .open(ConfirmDeleteDialogComponent, { data: { subject: documentTranslated } })
+      .afterClosed()
+      .toPromise();
     if (shouldDelete) {
-      this.deleteDocumentMutation.mutate({ documentId: this.documentId }).toPromise().then(() => {
-        this.showSnackBar('edit.successfullyDeleted').then();
-        this.navigateBack();
-      }).catch(() => {
-        this.showSnackBar('edit.deleteFailed').then();
-      });
-
+      this.deleteDocumentMutation
+        .mutate({ documentId: this.documentId })
+        .toPromise()
+        .then(() => {
+          this.showSnackBar('edit.successfullyDeleted').then();
+          this.navigateBack();
+        })
+        .catch(() => {
+          this.showSnackBar('edit.deleteFailed').then();
+        });
     }
   }
 }

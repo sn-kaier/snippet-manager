@@ -8,21 +8,18 @@ import { Subscription } from 'rxjs';
 export class AuthenticatedDirective implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
 
-  constructor(private readonly el: ElementRef,
-              private readonly authService: AuthService) {
-    console.log('constructor AuthenticatedDirective for', this.el);
-
-  }
+  constructor(private readonly el: ElementRef, private readonly authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log('AuthenticatedDirective for', this.el);
-    this.subs.push(this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-      if (isLoggedIn) {
-        this.el.nativeElement.style.display = 'block';
-      } else {
-        this.el.nativeElement.style.display = 'none';
-      }
-    }));
+    this.subs.push(
+      this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+        if (isLoggedIn) {
+          this.el.nativeElement.style.display = 'block';
+        } else {
+          this.el.nativeElement.style.display = 'none';
+        }
+      })
+    );
   }
 
   ngOnDestroy() {

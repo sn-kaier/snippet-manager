@@ -3,7 +3,8 @@ import { AFeedDocsGQL, AFeedDocsQuery, ASearchFeedDocsGQL } from '../../../__gen
 import {
   DocumentBoolExp,
   DocumentReactionInsertInput,
-  UAddDocumentReactionGQL, UChangeDocumentVisibilityGQL,
+  UAddDocumentReactionGQL,
+  UChangeDocumentVisibilityGQL,
   UFeedDocsGQL,
   UFeedDocsQuery,
   URemoveDocumentReactionGQL,
@@ -25,24 +26,34 @@ export class FeedService {
   private filter: DocumentBoolExp = {};
   private searchText = '';
 
-  private readonly userQueryRef = this.uFeedDocsGQL.watch({
-    authorId: '',
-    limit: this.limit,
-    offset: 0,
-    filter: this.filter
-  }, { fetchResults: false, useInitialLoading: true });
-  private readonly anonymousQueryRef = this.aFeedDocsGQL.watch({ limit: this.limit, offset: 0 },
-    { fetchResults: false, useInitialLoading: true });
+  private readonly userQueryRef = this.uFeedDocsGQL.watch(
+    {
+      authorId: '',
+      limit: this.limit,
+      offset: 0,
+      filter: this.filter
+    },
+    { fetchResults: false, useInitialLoading: true }
+  );
+  private readonly anonymousQueryRef = this.aFeedDocsGQL.watch(
+    { limit: this.limit, offset: 0 },
+    { fetchResults: false, useInitialLoading: true }
+  );
 
-  private readonly userSearchQueryRef = this.uSearchFeedDocsGQL.watch({
-    authorId: '',
-    limit: this.limit,
-    offset: 0,
-    filter: this.filter,
-    search: ''
-  }, { fetchResults: false, useInitialLoading: true });
-  private readonly anonymousSearchQueryRef = this.aSearchFeedDocsGQL.watch({ limit: this.limit, offset: 0, search: '' },
-    { fetchResults: false, useInitialLoading: true });
+  private readonly userSearchQueryRef = this.uSearchFeedDocsGQL.watch(
+    {
+      authorId: '',
+      limit: this.limit,
+      offset: 0,
+      filter: this.filter,
+      search: ''
+    },
+    { fetchResults: false, useInitialLoading: true }
+  );
+  private readonly anonymousSearchQueryRef = this.aSearchFeedDocsGQL.watch(
+    { limit: this.limit, offset: 0, search: '' },
+    { fetchResults: false, useInitialLoading: true }
+  );
 
   private requestsPerSecond = 0;
 
@@ -64,7 +75,10 @@ export class FeedService {
     private readonly navBarService: NavBarService
   ) {
     this.navBarService.triggerReload
-      .pipe(withLatestFrom(this.authService.authState), filter(([_, s]) => s.state !== 'pending'))
+      .pipe(
+        withLatestFrom(this.authService.authState),
+        filter(([_, s]) => s.state !== 'pending')
+      )
       .subscribe(async ([_, authState]) => {
         await this.refetch(authState);
       });
@@ -74,7 +88,6 @@ export class FeedService {
     this.searchService.onSearch.pipe(debounceTime(200)).subscribe(async searchTerm => {
       this.searchText = searchTerm;
       await this.refetch(this.authService.authState.value);
-      console.log(`FeedService search: [${searchTerm}]`);
     });
   }
 
@@ -120,7 +133,6 @@ export class FeedService {
           filter: this.filter
         });
       }
-
     } else {
       if (this.searchText) {
         this.feedSubscription = this.anonymousSearchQueryRef.valueChanges.subscribe(this.feedSubject$);
@@ -161,26 +173,32 @@ export class FeedService {
       variables.authorId = s.userId;
     }
 
-    const queryRef = s.state === 'in' ?
-      (this.searchText ? this.userSearchQueryRef : this.userQueryRef) :
-      (this.searchText ? this.anonymousSearchQueryRef : this.anonymousQueryRef);
+    const queryRef =
+      s.state === 'in'
+        ? this.searchText
+          ? this.userSearchQueryRef
+          : this.userQueryRef
+        : this.searchText
+        ? this.anonymousSearchQueryRef
+        : this.anonymousQueryRef;
 
-    queryRef.fetchMore({
-      variables,
-      updateQuery: (prev, res) => {
-        if (!res.fetchMoreResult) {
-          return prev;
+    queryRef
+      .fetchMore({
+        variables,
+        updateQuery: (prev, res) => {
+          if (!res.fetchMoreResult) {
+            return prev;
+          }
+          return {
+            ...prev,
+            allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
+          };
         }
-        return {
-          ...prev,
-          allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
-        };
-      }
-    }).then();
+      })
+      .then();
   }
 
   toggleDocumentReaction(doc: DocumentReactionInsertInput) {
-
     (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
       const docToUpdateIndex = prev.allDocuments.findIndex(docs => docs.id === doc.documentId);
       const docToUpdate = prev.allDocuments[docToUpdateIndex];
@@ -216,25 +234,38 @@ export class FeedService {
         }
       } else {
         // add new
-        docToUpdate.reactions = [...docToUpdate.reactions, {
-          reactionId: doc.reactionId,
-          __typename: 'document_reaction'
-        }];
-        docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup, {
-          count: 1,
-          reactionid: doc.reactionId,
-          __typename: 'document_reaction_group_persisted'
-        }];
+        docToUpdate.reactions = [
+          ...docToUpdate.reactions,
+          {
+            reactionId: doc.reactionId,
+            __typename: 'document_reaction'
+          }
+        ];
+        docToUpdate.reactionsGroup = [
+          ...docToUpdate.reactionsGroup,
+          {
+            count: 1,
+            reactionid: doc.reactionId,
+            __typename: 'document_reaction_group_persisted'
+          }
+        ];
       }
 
       if (isSelected) {
-        this.uRemoveDocumentReactionGQL.mutate({ documentId: doc.documentId, reactionId: doc.reactionId }).toPromise()
+        this.uRemoveDocumentReactionGQL
+          .mutate({ documentId: doc.documentId, reactionId: doc.reactionId })
+          .toPromise()
           .then(res => console.log('removed document reaction', res))
           .catch(err => console.error('failed to remove document reaction', err));
       } else {
-        this.uAddDocumentReactionGQL.mutate({
-          documentReaction: doc
-        }, {}).toPromise()
+        this.uAddDocumentReactionGQL
+          .mutate(
+            {
+              documentReaction: doc
+            },
+            {}
+          )
+          .toPromise()
           .then(res => console.log('added document reaction', res))
           .catch(err => console.error('failed to add document reaction', err));
       }
@@ -249,14 +280,18 @@ export class FeedService {
   }
 
   changeDocumentVisibility(documentId: string, isPublic: boolean) {
-    this.uChangeDocumentVisibility.mutate({
-      isPublic,
-      documentId
-    }).toPromise().then(res => {
-      console.log('updated visibility of document', res);
-    }).catch(err => {
-      console.warn('failed do update visibility of document', err);
-    });
+    this.uChangeDocumentVisibility
+      .mutate({
+        isPublic,
+        documentId
+      })
+      .toPromise()
+      .then(res => {
+        console.log('updated visibility of document', res);
+      })
+      .catch(err => {
+        console.warn('failed do update visibility of document', err);
+      });
 
     // update apollo store
     (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
@@ -295,5 +330,4 @@ export class FeedService {
       countRequest++;
     }
   }
-
 }
