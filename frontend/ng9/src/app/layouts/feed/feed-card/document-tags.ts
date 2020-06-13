@@ -1,8 +1,11 @@
 export class DocumentTags {
-  readonly detectedLanguages: string[] = [];
+  detectedLanguages: string[] = [];
   readonly userTags: string;
 
   constructor(tag: string = '|') {
+    if (!tag) {
+      tag = '|';
+    }
     const [dectedtedLangs, userTags] = tag.split('|');
     this.setDetectedLanguages(dectedtedLangs);
     this.userTags = userTags;
@@ -17,7 +20,10 @@ export class DocumentTags {
   }
 
   setDetectedLanguages(langTag: string) {
-    this.detectedLanguages.length = 0;
-    this.detectedLanguages.push(...langTag.split(';'));
+    if (langTag) {
+      this.detectedLanguages = langTag.split(';');
+    } else {
+      this.detectedLanguages = [];
+    }
   }
 }

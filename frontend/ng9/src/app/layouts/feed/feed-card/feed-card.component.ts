@@ -61,7 +61,7 @@ export class FeedCardComponent implements OnInit {
   }
 
   get languageTag(): string {
-    if (!this.highlightResult) {
+    if (!this.highlightResult || !this.codeElement.nativeElement) {
       return '';
     }
     const scrollHeight = this.codeElement.nativeElement.scrollHeight;
@@ -108,8 +108,6 @@ export class FeedCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isOwnDocument) {
-      this.documentTags = new DocumentTags((this.doc as UFeedDocFragment).tags);
-    }
+    this.documentTags = new DocumentTags((this.doc as UFeedDocFragment).tags);
   }
 }

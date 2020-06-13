@@ -14,7 +14,7 @@ import { AuthService, AuthState } from '../../../core/auth.service';
 import { debounceTime, filter, map, withLatestFrom } from 'rxjs/operators';
 import { SearchService } from '../../../core/search.service';
 import { ApolloQueryResult } from 'apollo-client';
-import { combineLatest, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
 import { NavBarService } from '../../../components/nav-bar/nav-bar.service';
 
 @Injectable({
@@ -57,7 +57,9 @@ export class FeedService {
 
   private requestsPerSecond = 0;
 
-  private feedSubject$ = new Subject<ApolloQueryResult<UFeedDocsQuery> | ApolloQueryResult<AFeedDocsQuery>>();
+  private feedSubject$ = new BehaviorSubject<ApolloQueryResult<UFeedDocsQuery> | ApolloQueryResult<AFeedDocsQuery>>({
+    loading: true
+  } as any);
   private feedSubscription: Subscription;
   feed$ = this.feedSubject$.asObservable();
   secondaryLoading$ = new EventEmitter<boolean>();

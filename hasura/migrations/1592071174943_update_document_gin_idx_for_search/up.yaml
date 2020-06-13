@@ -1,0 +1,8 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      DROP INDEX document_gin_idx;
+      CREATE INDEX document_gin_idx ON document
+                USING GIN ((title || ' ' || content || ' ' || tags) gin_trgm_ops);
+  type: run_sql

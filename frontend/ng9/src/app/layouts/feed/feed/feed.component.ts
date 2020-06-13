@@ -19,23 +19,23 @@ export class FeedComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   mode: FeedMode = 'public';
   loading$ = new Subject<boolean>();
-  feed$ = this.feedService.feed$
-    .pipe(
-      tap(s => this.loading$.next(s.loading)),
-      filter(s => !!s.data?.allDocuments),
-      map(s => s.data.allDocuments)
-    );
+  feed$ = this.feedService.feed$.pipe(
+    tap(s => this.loading$.next(s.loading)),
+    filter(s => !!s.data?.allDocuments),
+    map(s => s.data.allDocuments)
+  );
 
   @ViewChild('ref') ref: ElementRef<HTMLDivElement>;
 
-  constructor(readonly authService: AuthService,
-              private readonly feedService: FeedService,
-              private readonly activatedRoute: ActivatedRoute) {
-  }
+  constructor(
+    readonly authService: AuthService,
+    private readonly feedService: FeedService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {}
 
   async ngOnInit(): Promise<void> {
     window.addEventListener('scroll', this.scroll, true);
-    this.activatedRoute.paramMap.subscribe(async paramMap => {
+    const routerSub = this.activatedRoute.paramMap.subscribe(async paramMap => {
       this.mode = paramMap.get('mode') as FeedMode;
       switch (this.mode) {
         case 'my-documents':
@@ -46,10 +46,13 @@ export class FeedComponent implements OnInit, OnDestroy {
           break;
       }
     });
+    this.subs.push(routerSub);
 
-    this.subs.push(this.feedService.secondaryLoading$.subscribe(loading => {
-      this.loading$.next(loading);
-    }));
+    this.subs.push(
+      this.feedService.secondaryLoading$.subscribe(loading => {
+        this.loading$.next(loading);
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -57,7 +60,6 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
   }
-
 
   scroll = (): void => {
     const rect = this.ref.nativeElement.getBoundingClientRect();
