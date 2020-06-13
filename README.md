@@ -1,4 +1,7 @@
 # Snippet Manager
+
+### [Now online at snippeter.net](https://www.snippeter.net)
+
 ## Description
 Web platform to manage and share (code) snippets.
 

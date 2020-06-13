@@ -61,7 +61,7 @@ export class FeedCardComponent implements OnInit {
   }
 
   get languageTag(): string {
-    if (!this.highlightResult || !this.codeElement.nativeElement) {
+    if (!this.highlightResult || !this.codeElement?.nativeElement) {
       return '';
     }
     const scrollHeight = this.codeElement.nativeElement.scrollHeight;
