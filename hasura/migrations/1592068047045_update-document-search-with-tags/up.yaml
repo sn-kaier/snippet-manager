@@ -1,0 +1,17 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION public.search_documents(search text)
+       RETURNS SETOF document
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      SELECT *
+      FROM document
+      WHERE
+              search <% (title || ' ' || content || ' ' || tags)
+      ORDER BY
+          similarity(search, (title || ' ' || content || ' ' || tags)) DESC;
+      $function$;
+  type: run_sql

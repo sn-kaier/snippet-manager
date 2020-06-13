@@ -16,8 +16,7 @@
             mat-button color="primary"
             routerLink="/feed/public"
             routerLinkActive="active"
-            [matTooltip]="'nav.browse' | translate"
-    >
+            [matTooltip]="'nav.browse' | translate">
       <mat-icon>
         text_snippet
       </mat-icon>
@@ -28,9 +27,7 @@
             mat-button color="primary"
             routerLink="/feed/my-documents"
             routerLinkActive="active"
-
-            [matTooltip]="'nav.myDocuments' | translate"
-    >
+            [matTooltip]="'nav.myDocuments' | translate">
       <mat-icon>
         home
       </mat-icon>
@@ -39,8 +36,7 @@
     <button class="link-btn" mat-button
             color="primary"
             [matTooltip]="'nav.reload' | translate"
-            (click)="navBarService.triggerReload.emit()"
-    >
+            (click)="navBarService.triggerReload.emit()">
       <mat-icon>
         refresh
       </mat-icon>
@@ -60,12 +56,13 @@
     </mat-menu>
   </div>
   <ng-container *ngIf="(authState | async) as state">
-    <div class="nav-right flex middle-xs" *ngIf="state.state === 'in'; else login">
+    <div class="flex middle-xs" *ngIf="state.state === 'in'; else login">
       <app-avatar routerLink="/login" [imageUrl]="state.imageUrl"></app-avatar>
       <div class="mlm">
         <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
       </div>
     </div>
+
     <ng-template #login>
       <button class="link-btn login" color="primary" mat-button routerLink="/login" routerLinkActive="active">{{ 'nav.logIn' | translate }}</button>
     </ng-template>

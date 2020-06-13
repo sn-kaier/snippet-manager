@@ -17,7 +17,6 @@ export class GraphQLModule {
 
     const auth = setContext(async (_, { __ }) => {
       // Grab token if there is one in storage or hasn't expired
-
       const state = await authService.authState
         .pipe(
           filter(s => s.state !== 'pending'),

@@ -1,0 +1,5 @@
+mutation USetDocumentTag($documentId: uuid!, $tags: String) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: {tags: $tags}) {
+    affected_rows
+  }
+}

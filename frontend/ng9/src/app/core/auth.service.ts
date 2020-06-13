@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
-import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+
+import * as jwt_decode from 'jwt-decode';
 
 export interface AuthState {
   state: 'in' | 'out' | 'pending';
@@ -28,7 +28,16 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth, readonly apollo: Apollo) {
     afAuth.authState.subscribe(async s => {
       if (s) {
-        const token = await s.getIdToken(true);
+        let token = await s.getIdToken(true);
+
+        let decodedToken = jwt_decode(token);
+        while (!decodedToken['https://hasura.io/jwt/claims']) {
+          // wait for the hasura claims to arrive
+          await new Promise(resolve => setTimeout(resolve, 300));
+          token = await s.getIdToken(true);
+          decodedToken = jwt_decode(token);
+        }
+
         this.authState.next({
           state: 'in',
           imageUrl: s.photoURL,
@@ -61,28 +70,5 @@ export class AuthService {
 
   get authId(): string {
     return this.authState?.value?.userId;
-  }
-
-  get isLoggedIn(): boolean {
-    return this.authState?.value?.state === 'in';
-  }
-
-  doGoogleLogin() {
-    return new Promise<any>(async (resolve, reject) => {
-      const provider = new GoogleAuthProvider();
-      provider.addScope('profile');
-      const c = this.apollo.getClient();
-      await c.clearStore();
-      await c.resetStore();
-      this.afAuth.signInWithPopup(provider).then(
-        res => {
-          resolve(res);
-        },
-        err => {
-          console.log(err);
-          reject(err);
-        }
-      );
-    });
   }
 }

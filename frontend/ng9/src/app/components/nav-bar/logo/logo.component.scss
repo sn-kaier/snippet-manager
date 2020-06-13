@@ -16,11 +16,11 @@
 
 :host:hover {
   .s1 {
-    transform:  translate(-2px, -4px); //rotate(-18deg);
+    transform:  translate(-2px, -4px);
   }
 
   .s3 {
-    transform:  translate(2px, 4px);// rotate(-18deg);
+    transform:  translate(2px, 4px);
   }
 
   .sc1 {
@@ -28,7 +28,7 @@
   }
 
   .sc2 {
-    transform: rotate(360deg); //translate(0px, 1px);
+    transform: rotate(360deg);
   }
 
   .sc3 {
@@ -44,25 +44,22 @@
 
   g {
     transition: 0.3s;
-    //&.sc2 {
-    //  transition: 0.5s;
-    //}
 
     &.sc1 {
-      transition-delay: 0.0s ;
+      transition-delay: 0.0s;
     }
     &.s1 {
-      transition-delay: 0.1s ;
+      transition-delay: 0.1s;
     }
     &.sc2 {
       transition: 0.8s;
-      transition-delay: 0.0s ;
+      transition-delay: 0.0s;
     }
     &.s3 {
-      transition-delay: 0.3s ;
+      transition-delay: 0.3s;
     }
     &.sc3 {
-      transition-delay: 0.2s ;
+      transition-delay: 0.2s;
     }
   }
 
@@ -77,5 +74,4 @@
   .sc2 {
     transform-origin: 17px 17px;
   }
-
 }

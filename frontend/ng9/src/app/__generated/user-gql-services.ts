@@ -364,6 +364,7 @@ export interface Document {
   reactions: Array<DocumentReaction>;
   /** An array relationship */
   reactionsGroup: Array<DocumentReactionGroupPersisted>;
+  tags?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
 }
@@ -432,6 +433,7 @@ export interface DocumentBoolExp {
   reactionBalance?: Maybe<IntComparisonExp>;
   reactions?: Maybe<DocumentReactionBoolExp>;
   reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  tags?: Maybe<StringComparisonExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 }
@@ -565,6 +567,7 @@ export interface DocumentOrderBy {
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
+  tags?: Maybe<OrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
 }
@@ -750,6 +753,8 @@ export enum DocumentSelectColumn {
   /** column name */
   ReactionBalance = 'reactionBalance',
   /** column name */
+  Tags = 'tags',
+  /** column name */
   Title = 'title',
   /** column name */
   UpdatedAt = 'updatedAt'
@@ -760,6 +765,7 @@ export interface DocumentSetInput {
   allowComments?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
   isPublic?: Maybe<Scalars['Boolean']>;
+  tags?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 }
 
@@ -771,6 +777,8 @@ export enum DocumentUpdateColumn {
   Content = 'content',
   /** column name */
   IsPublic = 'isPublic',
+  /** column name */
+  Tags = 'tags',
   /** column name */
   Title = 'title'
 }
@@ -2195,6 +2203,14 @@ export type UDeleteDocumentMutationVariables = {
 
 export type UDeleteDocumentMutation = { __typename?: 'mutation_root', removeDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
+export type USetDocumentTagMutationVariables = {
+  documentId: Scalars['uuid'];
+  tags?: Maybe<Scalars['String']>;
+};
+
+
+export type USetDocumentTagMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+
 export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
@@ -2203,7 +2219,7 @@ export type UFeedDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
+export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, tags: Maybe<string>, id: any, author: (
     { __typename?: 'user' }
     & UFeedDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2424,6 +2440,7 @@ export const UFeedDocFragmentDoc = gql`
   }
   title
   content
+  tags
   id
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UFeedDocReaction
@@ -2585,6 +2602,21 @@ export const UDeleteDocumentDocument = gql`
   })
   export class UDeleteDocumentGQL extends Apollo.Mutation<UDeleteDocumentMutation, UDeleteDocumentMutationVariables> {
     document = UDeleteDocumentDocument;
+    
+  }
+export const USetDocumentTagDocument = gql`
+    mutation USetDocumentTag($documentId: uuid!, $tags: String) {
+  updateDocument(where: {id: {_eq: $documentId}}, _set: {tags: $tags}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class USetDocumentTagGQL extends Apollo.Mutation<USetDocumentTagMutation, USetDocumentTagMutationVariables> {
+    document = USetDocumentTagDocument;
     
   }
 export const UFeedDocsDocument = gql`

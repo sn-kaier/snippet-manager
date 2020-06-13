@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."document" DROP COLUMN "tags";
+  type: run_sql
