@@ -9,6 +9,7 @@
     "hasura:apply-schema": "cd hasura && hasura migrate apply && cd ..",
     "hasura-prod:apply-schema": "cd hasura-prod && hasura migrate apply && cd ..",
     "hasura:start": "docker-compose up -d",
+    "hasura-prod:start": "cd hasura-prod && docker-compose up -d",
     "hasura:stop": "docker-compose down",
     "hasura": "hasura"
   },

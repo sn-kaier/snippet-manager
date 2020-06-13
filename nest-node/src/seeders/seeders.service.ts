@@ -6,15 +6,14 @@ import { ReactionSeedGeneratorService } from './generators/reaction-seed-generat
 
 @Injectable()
 export class SeedersService {
+  private seeding = false;
+
   constructor(
     private readonly requestService: GqlRequestService,
     private readonly authorSeedGeneratorService: AuthorSeedGeneratorService,
     private readonly colorService: ColorSeedGeneratorService,
     private readonly reactionService: ReactionSeedGeneratorService,
-  ) {
-  }
-
-  private seeding = false;
+  ) {}
 
   public get isSeeding() {
     return this.seeding;
@@ -26,18 +25,17 @@ export class SeedersService {
       this.colorService.saveToDB(),
       this.reactionService.saveToDB(),
     ]);
-    const countUsersToGenerate = 100;
-    const users = [];
-    await this.authorSeedGeneratorService.fetchExistingIds();
-    for (let i = 0; i < countUsersToGenerate; i++) {
-      const { before } = await this.authorSeedGeneratorService.saveAuthor();
-      users.push(before);
-    }
-
-    for (const user of users) {
-      await this.authorSeedGeneratorService.addContentToUser(user);
-    }
+    // const countUsersToGenerate = 100;
+    // const users = [];
+    // await this.authorSeedGeneratorService.fetchExistingIds();
+    // for (let i = 0; i < countUsersToGenerate; i++) {
+    //   const { before } = await this.authorSeedGeneratorService.saveAuthor();
+    //   users.push(before);
+    // }
+    //
+    // for (const user of users) {
+    //   await this.authorSeedGeneratorService.addContentToUser(user);
+    // }
     this.seeding = false;
   }
-
 }
