@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <ng-container *ngIf="!this.mobileQuery.matches">
+  <ng-container *ngIf="!this.mobileQuery.matches; else mobile">
     <div class="nav-middle flex middle-xs">
       <button class="link-btn"
               mat-button color="primary"
@@ -81,4 +81,10 @@
       </ng-template>
     </ng-container>
   </ng-container>
+
+  <ng-template #mobile>
+    <app-avatar class="drag-right" *ngIf="(authState | async) as state"
+                routerLink="/login" [imageUrl]="state.imageUrl">
+    </app-avatar>
+  </ng-template>
 </div>

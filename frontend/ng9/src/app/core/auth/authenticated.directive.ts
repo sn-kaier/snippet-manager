@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
 
@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
   selector: '[appAuthenticated]'
 })
 export class AuthenticatedDirective implements OnInit, OnDestroy {
+  @Input()
+  appAuthenticated = true;
   private subs: Subscription[] = [];
 
   constructor(private readonly el: ElementRef, private readonly authService: AuthService) {}
@@ -13,7 +15,7 @@ export class AuthenticatedDirective implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subs.push(
       this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-        if (isLoggedIn) {
+        if (isLoggedIn === this.appAuthenticated) {
           this.el.nativeElement.style.display = 'block';
         } else {
           this.el.nativeElement.style.display = 'none';

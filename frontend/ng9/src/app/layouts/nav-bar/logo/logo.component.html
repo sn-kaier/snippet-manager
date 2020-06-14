@@ -42,5 +42,5 @@
 
 </svg>
 
-<span class="logo-text">nippet</span>
-<span class="logo-text suffix">er</span>
+<span *ngIf="!mobileQuery.matches" class="logo-text">nippet</span>
+<span *ngIf="!mobileQuery.matches" class="logo-text suffix">er</span>

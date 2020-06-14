@@ -1,0 +1,24 @@
+@import "src/app/base-styles/colors";
+
+:host {
+  background: $color-coal;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.mat-nav-list .mat-list-item.nav-item {
+  &.active {
+    background: $color-coal-light;
+  }
+  &:hover {
+    background: darken($color-coal-light, 5%);
+  }
+  &:active {
+    background: lighten($color-coal-light, 5%);
+  }
+}
+
+.nav-item.mat-list-item ::ng-deep.mat-list-item-content {
+  color: $color-ghost;
+}

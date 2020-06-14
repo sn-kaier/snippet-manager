@@ -28,9 +28,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticatedDirective } from '../core/auth/authenticated.directive';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
+import { SideNavComponent } from '../layouts/side-nav/side-nav.component';
+import { LogoComponent } from '../layouts/nav-bar/logo/logo.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
+    NavBarComponent,
+    LogoComponent,
+    SideNavComponent,
     AvatarComponent,
     CardComponent,
     AuthorSectionComponent,
@@ -48,6 +54,8 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
     ConfirmDeleteDialogComponent
   ],
   exports: [
+    NavBarComponent,
+    SideNavComponent,
     CardComponent,
     AuthorSectionComponent,
     LabelComponent,
@@ -68,7 +76,8 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
     MatChipsModule,
     MatDialogModule,
     MatTooltipModule,
-    TranslateModule
+    TranslateModule,
+    MatListModule
   ]
 })
 export class ComponentsModule {}

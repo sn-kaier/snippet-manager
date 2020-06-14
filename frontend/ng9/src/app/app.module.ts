@@ -26,7 +26,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavBarComponent, LogoComponent, SideNavComponent],
+  declarations: [AppComponent, LoginComponent],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,

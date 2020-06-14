@@ -1,1 +1,56 @@
-<p>side-nav works!</p>
+<mat-nav-list>
+  <a class="nav-item"
+     mat-list-item
+     routerLink="/feed/public"
+     routerLinkActive="active"
+     (click)="navigationClicked.emit()">
+    <mat-icon class="mrs">
+      text_snippet
+    </mat-icon>
+    {{ 'nav.browse' | translate }}
+  </a>
+
+  <a class="nav-item"
+     mat-list-item
+     appAuthenticated
+     routerLink="/feed/my-documents"
+     (click)="navigationClicked.emit()"
+     routerLinkActive="active">
+    <mat-icon class="mrs">
+      text_snippet
+    </mat-icon>
+    {{ 'nav.myDocuments' | translate }}
+  </a>
+
+  <a class="nav-item"
+     mat-list-item
+     routerLink="/impressum"
+     routerLinkActive="active"
+     (click)="navigationClicked.emit()">
+    <mat-icon class="mrs">
+      assignment_ind
+    </mat-icon>
+    Impressum
+  </a>
+
+  <a class="nav-item"
+     [appAuthenticated]="false"
+     mat-list-item
+     routerLink="/login"
+     routerLinkActive="active"
+     (click)="navigationClicked.emit()">
+    <mat-icon class="mrs">
+      login
+    </mat-icon>
+    {{ 'nav.logIn' | translate }}
+  </a>
+  <a class="nav-item"
+     [appAuthenticated]="true"
+     mat-list-item
+     (click)="logOut()">
+    <mat-icon class="mrs">
+      logout
+    </mat-icon>
+    {{ 'nav.logOut' | translate }}
+  </a>
+</mat-nav-list>

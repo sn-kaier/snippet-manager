@@ -9,3 +9,8 @@
   flex: 1;
   overflow-y: scroll;
 }
+
+.side-nav-content {
+  display: flex;
+  flex-direction: column;
+}

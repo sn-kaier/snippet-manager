@@ -3,6 +3,7 @@ import { AuthService } from './core/auth/auth.service';
 import { PickEmojiService } from './layouts/feed/pick-emoji/pick-emoji.service';
 import { RoutingHistoryService } from './core/routing-history.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ScrollService } from './core/scroll.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent {
     public readonly auth: AuthService,
     readonly pickEmojiService: PickEmojiService,
     public readonly translate: TranslateService,
-    private readonly historyService: RoutingHistoryService
+    private readonly historyService: RoutingHistoryService,
+    private readonly scrollService: ScrollService
   ) {
     historyService.loadRouting();
 
@@ -34,5 +36,9 @@ export class AppComponent {
     if (this.pickEmojiService.isOpened$.value) {
       this.pickEmojiService.close();
     }
+  }
+
+  scrollRouterContainer(event: Event) {
+    this.scrollService.scroll.emit();
   }
 }
