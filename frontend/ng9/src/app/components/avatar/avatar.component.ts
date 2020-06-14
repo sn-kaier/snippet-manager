@@ -7,14 +7,15 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AvatarComponent implements OnInit {
-
   @Input() imageUrl: string;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
-  get image() {
-    return `url: ('${this.imageUrl}')`;
-  }
+  ngOnInit(): void {}
+  //
+  // get image() {
+  //   if (!this.imageUrl) {
+  //     return null;
+  //   }
+  //   return `url: ('${this.imageUrl}')`;
+  // }
 }

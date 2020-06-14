@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'Snippets';
   languages = ['en', 'de'];
+  sideNavOpened = false;
 
   constructor(
     public readonly auth: AuthService,

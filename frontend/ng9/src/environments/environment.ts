@@ -6,7 +6,7 @@ import { googlApiKey } from './config.local';
 
 export const environment = {
   production: false,
-  gqlUrl: 'http://localhost:8080/v1/graphql',
+  gqlUrl: 'https://www.snippeter.net/hasura/v1/graphql',
   firebase: {
     apiKey: googlApiKey,
     authDomain: 'snippeter-eddf3.firebaseapp.com',

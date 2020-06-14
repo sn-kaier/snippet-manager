@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavBarComponent } from '../layouts/nav-bar/nav-bar.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
@@ -26,13 +26,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { LogoComponent } from './nav-bar/logo/logo.component';
 import { AuthenticatedDirective } from '../core/auth/authenticated.directive';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
 
 @NgModule({
   declarations: [
-    NavBarComponent,
     AvatarComponent,
     CardComponent,
     AuthorSectionComponent,
@@ -46,12 +44,10 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
     VisibilityLabelComponent,
     MakeDocumentPrivateDialogComponent,
     MakeDocumentPublicDialogComponent,
-    LogoComponent,
     AuthenticatedDirective,
     ConfirmDeleteDialogComponent
   ],
   exports: [
-    NavBarComponent,
     CardComponent,
     AuthorSectionComponent,
     LabelComponent,

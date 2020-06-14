@@ -1,3 +1,6 @@
 <span class="avatar">
-  <img class="avatar-img" [src]="imageUrl" alt="">
+  <img class="avatar-img" *ngIf="imageUrl; else defaultAvatar" [src]="imageUrl" alt="">
+  <ng-template #defaultAvatar>
+    <mat-icon class="account_circle">account_circle</mat-icon>
+  </ng-template>
 </span>

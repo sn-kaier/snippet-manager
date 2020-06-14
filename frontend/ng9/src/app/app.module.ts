@@ -15,6 +15,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoginComponent } from './layouts/login/login.component';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NavBarComponent } from './layouts/nav-bar/nav-bar.component';
+import { LogoComponent } from './layouts/nav-bar/logo/logo.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -22,10 +25,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent
-  ],
+  declarations: [AppComponent, LoginComponent, NavBarComponent, LogoComponent],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -43,11 +43,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ComponentsModule,
     BrowserAnimationsModule,
     FeedModule,
-    NgxAuthFirebaseUIModule.forRoot(environment.firebase ),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase),
+    MatSidenavModule
   ],
   providers: [],
   exports: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

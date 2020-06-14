@@ -1,8 +1,13 @@
-<div class="bg" (click)="clickOnBg()">
-  <app-nav-bar></app-nav-bar>
-  <div class="router-container">
-    <div class="container">
-      <router-outlet></router-outlet>
+<mat-sidenav-container class="bg" (click)="clickOnBg()">
+  <mat-sidenav mode="over" [(opened)]=sideNavOpened><app-side-nav></app-side-nav></mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-nav-bar (toggleSideNav)="sideNavOpened = !sideNavOpened"></app-nav-bar>
+    <div class="router-container">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

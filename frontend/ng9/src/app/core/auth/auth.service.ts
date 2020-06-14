@@ -33,7 +33,6 @@ export class AuthService {
     private readonly updateUserNameGQL: UUpdateUserNameGQL
   ) {
     afAuth.authState.subscribe(async s => {
-      console.log('auth state changed:', s);
       if (s) {
         let token = await s.getIdToken(true);
 

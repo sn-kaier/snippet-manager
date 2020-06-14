@@ -15,7 +15,7 @@ import { debounceTime, filter, map, withLatestFrom } from 'rxjs/operators';
 import { SearchService } from '../../../core/search.service';
 import { ApolloQueryResult } from 'apollo-client';
 import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
-import { NavBarService } from '../../../components/nav-bar/nav-bar.service';
+import { NavBarService } from '../../nav-bar/nav-bar.service';
 
 @Injectable({
   providedIn: 'root'
