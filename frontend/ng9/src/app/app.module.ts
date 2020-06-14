@@ -18,6 +18,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavBarComponent } from './layouts/nav-bar/nav-bar.component';
 import { LogoComponent } from './layouts/nav-bar/logo/logo.component';
+import { SideNavComponent } from './layouts/side-nav/side-nav.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -25,7 +26,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavBarComponent, LogoComponent],
+  declarations: [AppComponent, LoginComponent, NavBarComponent, LogoComponent, SideNavComponent],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
