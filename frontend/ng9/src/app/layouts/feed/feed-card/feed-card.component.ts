@@ -13,7 +13,7 @@ import {
 import { UFeedDocFragment, USetDocumentTagGQL } from '../../../__generated/user-gql-services';
 import { AFeedDocFragment } from '../../../__generated/anonymous-gql-services';
 import { FeedService } from '../feed/feed.service';
-import { AuthService } from '../../../core/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { HighlightResult } from 'ngx-highlightjs';
 import { DocumentTags } from './document-tags';
 

@@ -707,6 +707,15 @@ tables:
       - name
       filter: {}
       limit: 500
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - name
+      filter:
+        auth_id:
+          _eq: X-Hasura-User-Id
+      check: null
 functions:
 - function:
     schema: public

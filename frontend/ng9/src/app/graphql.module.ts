@@ -3,7 +3,7 @@ import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
-import { AuthService } from './core/auth.service';
+import { AuthService } from './core/auth/auth.service';
 import { HttpHeaders } from '@angular/common/http';
 import { filter, take } from 'rxjs/operators';
 import { environment } from '../environments/environment';

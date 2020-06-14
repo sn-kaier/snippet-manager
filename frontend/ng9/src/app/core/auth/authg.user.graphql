@@ -1,0 +1,20 @@
+fragment UHasuraUser on user {
+  authId
+  name
+  id
+  countPrivateDocs
+  countWrittenComments
+  imageUrl
+}
+
+query UMe($authId: String!) {
+  allUsers(where: {authId: {_eq: $authId}}) {
+    ...UHasuraUser
+  }
+}
+
+mutation UUpdateUserName($authId: String!, $name: String!) {
+  updateUser(where: {authId: {_eq: $authId}}, _set: {name: $name}) {
+    affected_rows
+  }
+}

@@ -1059,12 +1059,16 @@ export interface MutationRoot {
   updateDocument?: Maybe<DocumentMutationResponse>;
   /** update data of the table: "label" */
   updateLabel?: Maybe<LabelMutationResponse>;
+  /** update data of the table: "user" */
+  updateUser?: Maybe<UserMutationResponse>;
   /** update single row of the table: "comment" */
   update_comment_by_pk?: Maybe<Comment>;
   /** update single row of the table: "document" */
   update_document_by_pk?: Maybe<Document>;
   /** update single row of the table: "label" */
   update_label_by_pk?: Maybe<Label>;
+  /** update single row of the table: "user" */
+  update_user_by_pk?: Maybe<User>;
 }
 
 
@@ -1264,6 +1268,13 @@ export type MutationRootUpdateLabelArgs = {
 
 
 /** mutation root */
+export type MutationRootUpdateUserArgs = {
+  _set?: Maybe<UserSetInput>;
+  where: UserBoolExp;
+};
+
+
+/** mutation root */
 export type MutationRootUpdateCommentByPkArgs = {
   _set?: Maybe<CommentSetInput>;
   pk_columns: CommentPkColumnsInput;
@@ -1281,6 +1292,13 @@ export type MutationRootUpdateDocumentByPkArgs = {
 export type MutationRootUpdateLabelByPkArgs = {
   _set?: Maybe<LabelSetInput>;
   pk_columns: LabelPkColumnsInput;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateUserByPkArgs = {
+  _set?: Maybe<UserSetInput>;
+  pk_columns: UserPkColumnsInput;
 };
 
 /** column ordering options */
@@ -2022,6 +2040,30 @@ export interface UserBoolExp {
   name?: Maybe<StringComparisonExp>;
 }
 
+/** unique or primary key constraints on table "user" */
+export enum UserConstraint {
+  /** unique or primary key constraint */
+  UserAuthIdKey = 'user_auth_id_key',
+  /** unique or primary key constraint */
+  UserPkey = 'user_pkey'
+}
+
+/** response of any mutation on the table "user" */
+export interface UserMutationResponse {
+   __typename?: 'user_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<User>;
+}
+
+/** on conflict condition type for table "user" */
+export interface UserOnConflict {
+  constraint: UserConstraint;
+  update_columns: Array<UserUpdateColumn>;
+  where?: Maybe<UserBoolExp>;
+}
+
 /** ordering options when selecting data from "user" */
 export interface UserOrderBy {
   authId?: Maybe<OrderBy>;
@@ -2061,6 +2103,17 @@ export enum UserSelectColumn {
   ImageUrl = 'imageUrl',
   /** column name */
   MaxPrivateDocs = 'maxPrivateDocs',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "user" */
+export interface UserSetInput {
+  name?: Maybe<Scalars['String']>;
+}
+
+/** update columns of table "user" */
+export enum UserUpdateColumn {
   /** column name */
   Name = 'name'
 }
@@ -2147,6 +2200,26 @@ export type UEditCommentMutationVariables = {
 
 
 export type UEditCommentMutation = { __typename?: 'mutation_root', updateComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
+
+export type UHasuraUserFragment = { __typename?: 'user', authId: string, name: string, id: any, countPrivateDocs: number, countWrittenComments: number, imageUrl: Maybe<string> };
+
+export type UMeQueryVariables = {
+  authId: Scalars['String'];
+};
+
+
+export type UMeQuery = { __typename?: 'query_root', allUsers: Array<(
+    { __typename?: 'user' }
+    & UHasuraUserFragment
+  )> };
+
+export type UUpdateUserNameMutationVariables = {
+  authId: Scalars['String'];
+  name: Scalars['String'];
+};
+
+
+export type UUpdateUserNameMutation = { __typename?: 'mutation_root', updateUser: Maybe<{ __typename?: 'user_mutation_response', affected_rows: number }> };
 
 export type UEditDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
@@ -2335,6 +2408,16 @@ export const UCommentSectionCommentFragmentDoc = gql`
     ${UCommentSectionCommentAuthorFragmentDoc}
 ${UCommentSectionCommentReactionGroupFragmentDoc}
 ${UCommentSectionCommentReactionFragmentDoc}`;
+export const UHasuraUserFragmentDoc = gql`
+    fragment UHasuraUser on user {
+  authId
+  name
+  id
+  countPrivateDocs
+  countWrittenComments
+  imageUrl
+}
+    `;
 export const UEditDocAuthorFragmentDoc = gql`
     fragment UEditDocAuthor on user {
   authId
@@ -2540,6 +2623,36 @@ export const UEditCommentDocument = gql`
   })
   export class UEditCommentGQL extends Apollo.Mutation<UEditCommentMutation, UEditCommentMutationVariables> {
     document = UEditCommentDocument;
+    
+  }
+export const UMeDocument = gql`
+    query UMe($authId: String!) {
+  allUsers(where: {authId: {_eq: $authId}}) {
+    ...UHasuraUser
+  }
+}
+    ${UHasuraUserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UMeGQL extends Apollo.Query<UMeQuery, UMeQueryVariables> {
+    document = UMeDocument;
+    
+  }
+export const UUpdateUserNameDocument = gql`
+    mutation UUpdateUserName($authId: String!, $name: String!) {
+  updateUser(where: {authId: {_eq: $authId}}, _set: {name: $name}) {
+    affected_rows
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UUpdateUserNameGQL extends Apollo.Mutation<UUpdateUserNameMutation, UUpdateUserNameMutationVariables> {
+    document = UUpdateUserNameDocument;
     
   }
 export const UEditDocumentGetDocument = gql`

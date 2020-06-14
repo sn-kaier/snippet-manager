@@ -27,11 +27,29 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { LogoComponent } from './nav-bar/logo/logo.component';
-import { AuthenticatedDirective } from '../core/authenticated.directive';
+import { AuthenticatedDirective } from '../core/auth/authenticated.directive';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
 
 @NgModule({
-  declarations: [NavBarComponent, AvatarComponent, CardComponent, AuthorSectionComponent, LabelComponent, CommentSectionComponent, ReactionSectionComponent, ReactionBadgeComponent, AddReactionButtonComponent, CommentComponent, AddCommentComponent, VisibilityLabelComponent, MakeDocumentPrivateDialogComponent, MakeDocumentPublicDialogComponent, LogoComponent, AuthenticatedDirective, ConfirmDeleteDialogComponent],
+  declarations: [
+    NavBarComponent,
+    AvatarComponent,
+    CardComponent,
+    AuthorSectionComponent,
+    LabelComponent,
+    CommentSectionComponent,
+    ReactionSectionComponent,
+    ReactionBadgeComponent,
+    AddReactionButtonComponent,
+    CommentComponent,
+    AddCommentComponent,
+    VisibilityLabelComponent,
+    MakeDocumentPrivateDialogComponent,
+    MakeDocumentPublicDialogComponent,
+    LogoComponent,
+    AuthenticatedDirective,
+    ConfirmDeleteDialogComponent
+  ],
   exports: [
     NavBarComponent,
     CardComponent,
@@ -57,5 +75,4 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
     TranslateModule
   ]
 })
-export class ComponentsModule {
-}
+export class ComponentsModule {}

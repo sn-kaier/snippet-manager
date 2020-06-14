@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import {
   ACommentSectionCommentFragment,
   ACommentSectionCommentsGQL,

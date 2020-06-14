@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from '../../../core/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { filter, map, tap } from 'rxjs/operators';
 import { FeedService } from './feed.service';
 import { ActivatedRoute } from '@angular/router';

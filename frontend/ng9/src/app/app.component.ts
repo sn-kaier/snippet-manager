@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './core/auth.service';
+import { AuthService } from './core/auth/auth.service';
 import { PickEmojiService } from './layouts/feed/pick-emoji/pick-emoji.service';
 import { RoutingHistoryService } from './core/routing-history.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,10 +13,11 @@ export class AppComponent {
   title = 'Snippets';
   languages = ['en', 'de'];
 
-  constructor(public readonly auth: AuthService,
-              readonly pickEmojiService: PickEmojiService,
-              public readonly translate: TranslateService,
-              private readonly historyService: RoutingHistoryService
+  constructor(
+    public readonly auth: AuthService,
+    readonly pickEmojiService: PickEmojiService,
+    public readonly translate: TranslateService,
+    private readonly historyService: RoutingHistoryService
   ) {
     historyService.loadRouting();
 

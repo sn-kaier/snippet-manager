@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentSetInput,

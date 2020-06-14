@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { UCommentSectionCommentFragment } from '../../../../__generated/user-gql-services';
 import { ACommentSectionCommentFragment } from '../../../../__generated/anonymous-gql-services';
 import { CommonReaction } from '../../reaction-section/reaction-section.component';
-import { AuthService } from '../../../../core/auth.service';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -11,7 +11,6 @@ import { AuthService } from '../../../../core/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentComponent implements OnInit {
-
   @Input()
   comment: UCommentSectionCommentFragment | ACommentSectionCommentFragment;
 
@@ -23,11 +22,9 @@ export class CommentComponent implements OnInit {
   editMode = false;
   commentEditText: string;
 
-  constructor(public readonly authService: AuthService) {
-  }
+  constructor(public readonly authService: AuthService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get myReactions(): CommonReaction[] {
     return (this.comment as UCommentSectionCommentFragment).myReactions ?? [];

@@ -10,7 +10,7 @@ import {
   URemoveDocumentReactionGQL,
   USearchFeedDocsGQL
 } from '../../../__generated/user-gql-services';
-import { AuthService, AuthState } from '../../../core/auth.service';
+import { AuthService, AuthState } from '../../../core/auth/auth.service';
 import { debounceTime, filter, map, withLatestFrom } from 'rxjs/operators';
 import { SearchService } from '../../../core/search.service';
 import { ApolloQueryResult } from 'apollo-client';
