@@ -31,6 +31,8 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
 import { SideNavComponent } from '../layouts/side-nav/side-nav.component';
 import { LogoComponent } from '../layouts/nav-bar/logo/logo.component';
 import { MatListModule } from '@angular/material/list';
+import { ShowLoginHintComponent } from '../core/auth/show-login-hint/show-login-hint.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { MatListModule } from '@angular/material/list';
     MakeDocumentPrivateDialogComponent,
     MakeDocumentPublicDialogComponent,
     AuthenticatedDirective,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
+    ShowLoginHintComponent
   ],
   exports: [
     NavBarComponent,
@@ -67,16 +70,17 @@ import { MatListModule } from '@angular/material/list';
     CommonModule,
     FormsModule,
     EmojiModule,
+    TranslateModule,
+    RouterModule,
+    MatBottomSheetModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    RouterModule,
     MatChipsModule,
     MatDialogModule,
     MatTooltipModule,
-    TranslateModule,
     MatListModule
   ]
 })

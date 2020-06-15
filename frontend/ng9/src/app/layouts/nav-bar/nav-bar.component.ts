@@ -13,6 +13,8 @@ import { filter } from 'rxjs/operators';
 import { SearchService } from '../../core/search.service';
 import { NavBarService } from './nav-bar.service';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ShowLoginHintComponent } from '../../core/auth/show-login-hint/show-login-hint.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -35,9 +37,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
     readonly searchService: SearchService,
     readonly navBarService: NavBarService,
     private readonly media: MediaMatcher,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly bottomSheet: MatBottomSheet
   ) {
     this.authState = auth.authState.pipe(filter(s => s.state !== 'pending'));
+    this.auth.showHintToLogin.subscribe(() => {
+      this.bottomSheet.open(ShowLoginHintComponent);
+    });
   }
 
   ngOnInit(): void {

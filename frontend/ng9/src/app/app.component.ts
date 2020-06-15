@@ -4,6 +4,8 @@ import { PickEmojiService } from './layouts/feed/pick-emoji/pick-emoji.service';
 import { RoutingHistoryService } from './core/routing-history.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ScrollService } from './core/scroll.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ShowLoginHintComponent } from './core/auth/show-login-hint/show-login-hint.component';
 
 @Component({
   selector: 'app-root',

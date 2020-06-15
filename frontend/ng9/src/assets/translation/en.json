@@ -73,6 +73,10 @@
     "deleteTitle": "Delete {{ subject }}",
     "deleteContent": "This action can't be reversed."
   },
+  "showLogin": {
+    "headline": "Sign in now!",
+    "subHeader": "This action is only available to registered users."
+  },
   "ngxauthfirebaseui": {
     "signInTabText": "Sign in",
     "signInCardTitleText": "Signing in",

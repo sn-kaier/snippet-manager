@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-xs-12 center-xs">
+    <h1 class="c-accent" translate>showLogin.headline</h1>
+  </div>
+  <div class="col-xs-12 center-xs">
+    <h3 translate>showLogin.subHeader</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <button mat-button (click)="close()">{{ 'common.close' | translate }}</button>
+  </div>
+  <div class="col-md-6 end-xs">
+    <button mat-flat-button color="accent" routerLink="/login" (click)="close()">{{ 'nav.logIn' | translate }}</button>
+  </div>
+</div>

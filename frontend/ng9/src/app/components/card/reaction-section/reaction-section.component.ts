@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PickEmojiService } from '../../../layouts/feed/pick-emoji/pick-emoji.service';
+import { AuthService } from '../../../core/auth/auth.service';
 
 export interface RGroup {
   count: number;
@@ -21,7 +22,9 @@ export class ReactionSectionComponent implements OnInit {
   readonly thumbsDownId = '1F44E';
 
   @Input() set reactionsGroup(reactionsGroup: RGroup[]) {
-    this.filteredReactionsGroup = reactionsGroup.filter(f => f.reactionid !== this.thumbsUpId && f.reactionid !== this.thumbsDownId);
+    this.filteredReactionsGroup = reactionsGroup.filter(
+      f => f.reactionid !== this.thumbsUpId && f.reactionid !== this.thumbsDownId
+    );
     this.rGroup = reactionsGroup;
   }
 
@@ -38,12 +41,13 @@ export class ReactionSectionComponent implements OnInit {
 
   filteredReactionsGroup: RGroup[];
 
-  constructor(private readonly pickEmojiService: PickEmojiService,
-              private readonly el: ElementRef) {
-  }
+  constructor(
+    private readonly pickEmojiService: PickEmojiService,
+    private readonly authService: AuthService,
+    private readonly el: ElementRef
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get countThumbsUp() {
     return this.rGroup?.find(g => g.reactionid === this.thumbsUpId)?.count ?? 0;
@@ -83,6 +87,10 @@ export class ReactionSectionComponent implements OnInit {
   }
 
   clickReaction(reactionId: string) {
-    this.toggleReaction.emit(reactionId);
+    if (this.authService.isLoggedIn) {
+      this.toggleReaction.emit(reactionId);
+    } else {
+      this.authService.showLoginHint();
+    }
   }
 }

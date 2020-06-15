@@ -15,7 +15,6 @@
     "makePublic": "Öffentlich schalten",
     "descriptionPublic": "Das Snippet kann von jedem gefunden und gelesen werden.",
     "descriptionPrivate": "Nur du hast Zugriff auf das Snippet.",
-
     "dialog": {
       "makePublic": {
         "header": "Snippet '{{ title }}' öffentlich schalten",
@@ -73,6 +72,10 @@
   "dialog": {
     "deleteTitle": "{{ subject }} löschen",
     "deleteContent": "Diese Aktion kann nicht rückgängig gemacht werden."
+  },
+  "showLogin": {
+    "headline": "Jetzt einloggen!",
+    "subHeader": "Diese Aktion ist nur für angemeldete Nutzer vergügbar."
   },
   "ngxauthfirebaseui": {
     "signInTabText": "Einloggen",

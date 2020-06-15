@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class AuthService {
   });
 
   public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
+  public readonly showHintToLogin = new EventEmitter<void>();
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -87,6 +88,10 @@ export class AuthService {
     return this.authState?.value?.userId;
   }
 
+  get isLoggedIn(): boolean {
+    return this.authState?.value?.state === 'in';
+  }
+
   waitUntilLoggedIn(): Promise<AuthState> {
     return this.authState
       .pipe(
@@ -124,5 +129,9 @@ export class AuthService {
         })
         .toPromise();
     }
+  }
+
+  showLoginHint() {
+    this.showHintToLogin.emit();
   }
 }
