@@ -24,6 +24,28 @@
   <ng-container *ngIf="!this.mobileQuery.matches; else mobile">
     <div class="nav-middle flex middle-xs">
       <button class="link-btn"
+              [appAuthenticated]="true"
+              mat-button color="primary"
+              routerLink="/document"
+              routerLinkActive="active"
+              [matTooltip]="'feed.addDocument' | translate">
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+
+      <button class="link-btn"
+              [appAuthenticated]="false"
+              mat-button color="primary"
+              (click)="showLoginHint()"
+              [matTooltip]="'feed.addDocument' | translate">
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+
+
+      <button class="link-btn"
               mat-button color="primary"
               routerLink="/feed/public"
               routerLinkActive="active"
@@ -34,7 +56,7 @@
       </button>
 
       <button class="link-btn"
-              appAuthenticated
+              [appAuthenticated]="true"
               mat-button color="primary"
               routerLink="/feed/my-documents"
               routerLinkActive="active"

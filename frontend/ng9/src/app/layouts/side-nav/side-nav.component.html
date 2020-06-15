@@ -1,5 +1,27 @@
 <mat-nav-list>
   <a class="nav-item"
+     [appAuthenticated]="true"
+     mat-list-item
+     routerLink="/document"
+     routerLinkActive="active"
+     (click)="navigationClicked.emit()">
+    <mat-icon class="mrs">
+      add
+    </mat-icon>
+    {{ 'feed.addDocument' | translate }}
+  </a>
+
+  <a class="nav-item"
+     [appAuthenticated]="false"
+     mat-list-item
+     (click)="showLoginHint()">
+    <mat-icon class="mrs">
+      add
+    </mat-icon>
+    {{ 'feed.addDocument' | translate }}
+  </a>
+
+  <a class="nav-item"
      mat-list-item
      routerLink="/feed/public"
      routerLinkActive="active"
@@ -12,7 +34,7 @@
 
   <a class="nav-item"
      mat-list-item
-     appAuthenticated
+     [appAuthenticated]="true"
      routerLink="/feed/my-documents"
      (click)="navigationClicked.emit()"
      routerLinkActive="active">

@@ -20,25 +20,13 @@ export interface CommonReaction {
 export class ReactionSectionComponent implements OnInit {
   readonly thumbsUpId = '1F44D';
   readonly thumbsDownId = '1F44E';
-
-  @Input() set reactionsGroup(reactionsGroup: RGroup[]) {
-    this.filteredReactionsGroup = reactionsGroup.filter(
-      f => f.reactionid !== this.thumbsUpId && f.reactionid !== this.thumbsDownId
-    );
-    this.rGroup = reactionsGroup;
-  }
-
   rGroup: RGroup[];
-
   @Input()
   reactions?: CommonReaction[];
-
   @Input()
   commentId: string;
-
   @Output()
   toggleReaction = new EventEmitter<string>();
-
   filteredReactionsGroup: RGroup[];
 
   constructor(
@@ -47,7 +35,12 @@ export class ReactionSectionComponent implements OnInit {
     private readonly el: ElementRef
   ) {}
 
-  ngOnInit(): void {}
+  @Input() set reactionsGroup(reactionsGroup: RGroup[]) {
+    this.filteredReactionsGroup = reactionsGroup.filter(
+      f => f.reactionid !== this.thumbsUpId && f.reactionid !== this.thumbsDownId
+    );
+    this.rGroup = reactionsGroup;
+  }
 
   get countThumbsUp() {
     return this.rGroup?.find(g => g.reactionid === this.thumbsUpId)?.count ?? 0;
@@ -65,6 +58,8 @@ export class ReactionSectionComponent implements OnInit {
     return !!this.reactions?.find(g => g.reactionId === this.thumbsDownId);
   }
 
+  ngOnInit(): void {}
+
   isSelected(reactionId: string): boolean {
     if (!this.reactions?.length) {
       return false;
@@ -79,7 +74,7 @@ export class ReactionSectionComponent implements OnInit {
     setTimeout(async () => {
       try {
         const pickedUnified = await this.pickEmojiService.showEmoji(clientRect.x, clientRect.y);
-        this.toggleReaction.emit(pickedUnified);
+        this.notifyToggleReaction(pickedUnified);
       } catch (e) {
         // closed instead of selected an emoji
       }
@@ -87,6 +82,10 @@ export class ReactionSectionComponent implements OnInit {
   }
 
   clickReaction(reactionId: string) {
+    this.notifyToggleReaction(reactionId);
+  }
+
+  private notifyToggleReaction(reactionId: string) {
     if (this.authService.isLoggedIn) {
       this.toggleReaction.emit(reactionId);
     } else {

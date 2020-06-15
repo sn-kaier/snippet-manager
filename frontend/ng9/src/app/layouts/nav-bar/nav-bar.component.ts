@@ -62,4 +62,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.searchValue = '';
     this.searchService.onSearch.emit('');
   }
+
+  showLoginHint() {
+    this.auth.showLoginHint();
+  }
 }

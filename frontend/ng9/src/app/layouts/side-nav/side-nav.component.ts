@@ -9,7 +9,7 @@ import { AuthService } from '../../core/auth/auth.service';
 export class SideNavComponent implements OnInit {
   @Output() navigationClicked = new EventEmitter<void>();
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(readonly authService: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -17,5 +17,10 @@ export class SideNavComponent implements OnInit {
     this.authService.logout().then(() => {
       this.navigationClicked.emit();
     });
+  }
+
+  showLoginHint() {
+    this.authService.showLoginHint();
+    this.navigationClicked.emit();
   }
 }

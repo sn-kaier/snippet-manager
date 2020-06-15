@@ -6,6 +6,7 @@ import { Apollo } from 'apollo-angular';
 
 import * as jwt_decode from 'jwt-decode';
 import { UHasuraUserFragment, UMeGQL, UUpdateUserNameGQL } from '../../__generated/user-gql-services';
+import { Router } from '@angular/router';
 
 export interface AuthState {
   state: 'in' | 'out' | 'pending' | 'emailNotVerified';
@@ -31,7 +32,8 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     readonly apollo: Apollo,
     private readonly uMeGQL: UMeGQL,
-    private readonly updateUserNameGQL: UUpdateUserNameGQL
+    private readonly updateUserNameGQL: UUpdateUserNameGQL,
+    private readonly router: Router
   ) {
     afAuth.authState.subscribe(async s => {
       if (s) {
@@ -105,6 +107,11 @@ export class AuthService {
     await this.apollo.getClient().clearStore();
     await this.apollo.getClient().resetStore();
     await this.afAuth.signOut();
+    this.router.navigate(['/feed', 'public']).then();
+  }
+
+  showLoginHint() {
+    this.showHintToLogin.emit();
   }
 
   private async fetchUser() {
@@ -129,9 +136,5 @@ export class AuthService {
         })
         .toPromise();
     }
-  }
-
-  showLoginHint() {
-    this.showHintToLogin.emit();
   }
 }
