@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,6 +17,9 @@ import { FeedService } from '../feed/feed.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { HighlightResult } from 'ngx-highlightjs';
 import { DocumentTags } from './document-tags';
+import { ScrollService } from '../../../core/scroll.service';
+import { map, startWith, tap } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-feed-card',
@@ -23,7 +27,7 @@ import { DocumentTags } from './document-tags';
   styleUrls: ['./feed-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeedCardComponent implements OnInit {
+export class FeedCardComponent implements OnInit, AfterViewInit {
   showComments = false;
 
   @Input() doc: UFeedDocFragment | AFeedDocFragment;
@@ -37,16 +41,41 @@ export class FeedCardComponent implements OnInit {
   textCollapsed = true;
   canTextExpand = false;
 
+  lastTop = 0;
+
+  codeElement$ = new Subject<ElementRef<HTMLDivElement>>();
+  sideCollapse$ = combineLatest([this.scrollService.scroll.pipe(startWith(0)), this.codeElement$]).pipe(
+    map(([_, codeElement]) => ({
+      boundingClientRect: codeElement.nativeElement.getBoundingClientRect(),
+      innerHeight: window.innerHeight
+    })),
+    map(config => {
+      let top = config.boundingClientRect.height / 2;
+      const upperThreshold = -config.boundingClientRect.top + 80;
+      const lowerThreshold = -config.boundingClientRect.top + config.innerHeight - 28;
+      if (top < upperThreshold) {
+        top = upperThreshold;
+      }
+      if (top > lowerThreshold) {
+        top = lowerThreshold;
+      }
+      const isVisible = !this.textCollapsed && top < config.boundingClientRect.height && top > 0;
+      this.lastTop = config.boundingClientRect.top - 56;
+      return {
+        ...config,
+        top,
+        isVisible
+      };
+    })
+  );
+
   constructor(
     private readonly feedService: FeedService,
     private readonly authService: AuthService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly uSetDocumentTag: USetDocumentTagGQL
+    private readonly uSetDocumentTag: USetDocumentTagGQL,
+    private readonly scrollService: ScrollService
   ) {}
-
-  toggleReaction(documentId: string, reactionId: string) {
-    this.feedService.toggleDocumentReaction({ reactionId, documentId });
-  }
 
   get reactions() {
     return (this.doc as UFeedDocFragment).reactions;
@@ -74,6 +103,14 @@ export class FeedCardComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {
+    this.codeElement$.next(this.codeElement);
+  }
+
+  toggleReaction(documentId: string, reactionId: string) {
+    this.feedService.toggleDocumentReaction({ reactionId, documentId });
+  }
+
   onHighlighted(highlightResult: HighlightResult) {
     this.highlightResult = highlightResult;
     if (this.isOwnDocument) {
@@ -95,6 +132,7 @@ export class FeedCardComponent implements OnInit {
       }
       const clientHeight = this.codeElement.nativeElement.clientHeight;
       const scrollHeight = this.codeElement.nativeElement.scrollHeight;
+
       const canTextExpand = scrollHeight > clientHeight;
       if (canTextExpand !== this.canTextExpand) {
         this.canTextExpand = canTextExpand;
@@ -105,6 +143,14 @@ export class FeedCardComponent implements OnInit {
 
   toggleTextCollapsed() {
     this.textCollapsed = !this.textCollapsed;
+    setTimeout(() => {
+      this.scrollService.scroll.emit();
+      if (this.textCollapsed && this.codeElement?.nativeElement && this.lastTop < 0) {
+        const clientHeight = this.codeElement.nativeElement.clientHeight;
+        const scrollHeight = this.codeElement.nativeElement.scrollHeight;
+        this.scrollService.scrollDiff.emit(this.lastTop);
+      }
+    });
   }
 
   ngOnInit(): void {

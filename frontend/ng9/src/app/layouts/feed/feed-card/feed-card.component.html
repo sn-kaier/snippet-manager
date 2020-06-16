@@ -25,7 +25,6 @@
     </div>
   </div>
 
-
   <div class="row mbs">
     <div class="col-xs-12 position-relative">
       <pre class="pre-code"><code class="word-wrap code"
@@ -38,6 +37,16 @@
               color="accent"
               *ngIf="canTextExpand"
               (click)="toggleTextCollapsed()">{{textCollapsed ? ('feed.expand' | translate) : ('feed.collapse' | translate)}}</button>
+      <ng-container *ngIf="(sideCollapse$ | async) as sideCollapse">
+        <div [class.hidden]="!sideCollapse.isVisible"
+             [matTooltip]="'feed.collapse' | translate"
+             (click)="toggleTextCollapsed()"
+             class="over-collapse-button"
+             [style.top]="sideCollapse.top + 'px'">
+          <mat-icon class="arrow" color="accent">arrow_downward</mat-icon>
+          <mat-icon class="arrow" color="accent">arrow_upward</mat-icon>
+        </div>
+      </ng-container>
     </div>
   </div>
 

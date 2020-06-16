@@ -4,6 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ScrollService {
-  scroll = new EventEmitter();
+  readonly scroll = new EventEmitter();
+  readonly scrollDiff = new EventEmitter<number>();
   constructor() {}
 }

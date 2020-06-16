@@ -11,13 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HighlightModule } from 'ngx-highlightjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [FeedCardComponent, FeedComponent, PickEmojiComponent],
-  exports: [
-    FeedComponent,
-    FeedCardComponent
-  ],
+  exports: [FeedComponent, FeedCardComponent],
   imports: [
     CommonModule,
     FeedRoutingModule,
@@ -27,8 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButtonModule,
     MatProgressSpinnerModule,
     HighlightModule,
-    TranslateModule
+    TranslateModule,
+    MatTooltipModule
   ]
 })
-export class FeedModule {
-}
+export class FeedModule {}

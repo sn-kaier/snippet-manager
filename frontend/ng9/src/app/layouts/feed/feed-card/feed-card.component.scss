@@ -49,8 +49,23 @@
 
 .toggle-text-collapsed {
   position: absolute;
-  right: 9px;
+  right: 10px;
   border-radius: 0;
   background: rgba(255, 255, 255, 0.9);
   bottom: 15px;
+}
+
+.over-collapse-button {
+  cursor: pointer;
+  position: absolute;
+  right: -16px;
+  display: block;
+  user-select: none;
+  .arrow {
+    display: block;
+  }
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
