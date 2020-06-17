@@ -33,6 +33,7 @@ import { LogoComponent } from '../layouts/nav-bar/logo/logo.component';
 import { MatListModule } from '@angular/material/list';
 import { ShowLoginHintComponent } from '../core/auth/show-login-hint/show-login-hint.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { ScriptEvaluatorComponent } from './script-evaluator/script-evaluator.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MakeDocumentPublicDialogComponent,
     AuthenticatedDirective,
     ConfirmDeleteDialogComponent,
-    ShowLoginHintComponent
+    ShowLoginHintComponent,
+    ScriptEvaluatorComponent
   ],
   exports: [
     NavBarComponent,
@@ -64,7 +66,8 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     LabelComponent,
     ReactionSectionComponent,
     CommentSectionComponent,
-    VisibilityLabelComponent
+    VisibilityLabelComponent,
+    ScriptEvaluatorComponent
   ],
   imports: [
     CommonModule,
