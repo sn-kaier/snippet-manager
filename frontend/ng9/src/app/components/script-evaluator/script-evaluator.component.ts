@@ -1,8 +1,16 @@
 import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 
 import { parseScript } from 'esprima';
+import * as uuid from 'uuid';
 import { ScriptTraverser } from './script-traverser';
 import { Program } from 'estree';
+
+export type ConsoleType = 'log' | 'warn' | 'error';
+
+export interface LogLine {
+  line: string;
+  logLevel: ConsoleType;
+}
 
 @Component({
   selector: 'app-script-evaluator',
@@ -10,8 +18,10 @@ import { Program } from 'estree';
   styleUrls: ['./script-evaluator.component.scss']
 })
 export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
+  readonly uniqueId: string = uuid.v4();
+
   @Output()
-  logLine = new EventEmitter<string>();
+  logLine = new EventEmitter<LogLine>();
 
   @ViewChild('ref', { static: false }) containerRef: ElementRef<HTMLIFrameElement>;
 
@@ -87,6 +97,8 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
       });
     } catch (e) {
       this.parsingError.emit(e);
+      console.error(e);
+      this.logLine.emit({ logLevel: 'error', line: `Line ${e.lineNumber}: ${e.description}` });
       return;
     }
 
@@ -102,8 +114,8 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
     return `(async function(){${scriptSource}})()`;
   }
 
-  private logger = (m: { data: { fromChild: string; consoleType: 'log' | 'warn' | 'error'; terminated: boolean } }) => {
-    if (m.data && m.data.fromChild && typeof m.data.fromChild === 'string') {
+  private logger = (m: { data: { fromChild: string; consoleType: ConsoleType; terminated: boolean; id: string } }) => {
+    if (m.data && m.data.fromChild && typeof m.data.fromChild === 'string' && m.data.id === this.uniqueId) {
       if (m.data.terminated) {
         this.isRunning = false;
         if (this.iFrameRef) {
@@ -112,7 +124,7 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
         this.terminated.emit();
       } else {
         // console.log(`message ${m.data.consoleType} on host:`, m.data.fromChild);
-        this.logLine.emit(m.data.fromChild);
+        this.logLine.emit({ line: m.data.fromChild, logLevel: m.data.consoleType });
       }
     }
   };
@@ -165,7 +177,7 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
           const _emitEnded = (function() {
             const _parent = parent;
             return function() {
-              _parent.postMessage({ fromChild: 'ended', terminated: true }, '*', []);
+              _parent.postMessage({ fromChild: 'ended', terminated: true, id: '${this.uniqueId}' }, '*', []);
             };
           })();
           let countTimeouts = 0;
@@ -258,6 +270,7 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
           const _parent = parent;
           return function(...t) {
             _parent.postMessage({
+              id: '${this.uniqueId}',
               consoleType,
               fromChild: t.map(elm => typeof elm === 'string' ? elm : JSON.stringify(elm)).join(' '),
               terminated: false

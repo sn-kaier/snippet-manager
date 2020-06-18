@@ -10,7 +10,6 @@
     "e2e": "ng e2e",
     "zip": "cd dist/ng9 && bestzip ../build.zip *",
     "upload": "node upload-to-ec2.js",
-    "help": "scp2 -h",
     "build-deploy": "npm run build && npm run zip && npm run upload",
     "generate": "graphql-codegen"
   },
@@ -48,6 +47,7 @@
     "ngx-highlightjs": "^4.0.2",
     "rxjs": "~6.5.5",
     "tslib": "1.13.0",
+    "uuid": "^8.1.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -65,6 +65,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/jwt-decode": "^2.2.1",
     "@types/node": "^12.11.1",
+    "@types/uuid": "^8.0.0",
     "bestzip": "^2.1.5",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",

@@ -302,34 +302,3 @@ export class ScriptTraverser {
     }
   }
 }
-
-// async function placeground() {
-//   await new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve();
-//     }, 0);
-//   });
-//
-//   const complicatedExp = () => {
-//     return (
-//       a = (() => {
-//         let n = 3;
-//         let i = 2;
-//         while (n > 0) {
-//           n--;
-//           i *= 2;
-//         }
-//         return i;
-//       })()
-//     ) => {
-//       return a * 2;
-//     };
-//   };
-//   console.log(complicatedExp()());
-//
-//   let counter = 1;
-//   while (counter < 10) {
-//     counter++;
-//     console.log(counter, 'counter');
-//   }
-// }
