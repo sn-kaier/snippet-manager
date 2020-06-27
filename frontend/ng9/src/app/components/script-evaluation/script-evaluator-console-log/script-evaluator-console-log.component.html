@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-xs-6">
+    <button [disabled]="scriptEvaluator?.running" mat-button color="warn" (click)="runScript()">
+      {{ (scriptEvaluator?.running ? 'scriptEvaluator.running' : 'scriptEvaluator.run') | translate }}
+    </button>
+  </div>
+  <div class="col-xs-6 end-xs" *ngIf="showLog">
+    <button mat-button
+            [matTooltip]="'common.close' | translate"
+            matTooltipPosition="above"
+            matTooltipShowDelay="500"
+            *ngIf="!scriptEvaluator?.running; else stopScript"
+            (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <ng-template #stopScript>
+      <button mat-button
+              color="warn"
+              [matTooltip]="'scriptEvaluator.stop' | translate"
+              matTooltipPosition="above"
+              matTooltipShowDelay="500"
+              (click)="scriptEvaluator.terminate()">
+        <mat-icon>stop</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+</div>
+
+<app-script-evaluator (logLine)="addLine($event)"></app-script-evaluator>
+
+<ng-container *ngIf="showLog">
+  <div class="script-header f-m center-xs" translate>
+    scriptEvaluator.title
+  </div>
+  <div class="script-container" #scriptContainer>
+    <div class="script-content">
+      <pre><code [innerHTML]="renderCode()"></code></pre>
+    </div>
+  </div>
+
+</ng-container>

@@ -99,4 +99,9 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
     const el = this.scriptContainer.nativeElement;
     el.scrollTop = el.scrollHeight;
   }
+
+  close() {
+    this.showLog = false;
+    this.clear();
+  }
 }

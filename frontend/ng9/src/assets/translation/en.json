@@ -77,6 +77,11 @@
     "headline": "Sign in now!",
     "subHeader": "This action is only available to registered users."
   },
+  "scriptEvaluator": {
+    "run": "Run",
+    "running": "Running...",
+    "stop": "Stop execution"
+  },
   "ngxauthfirebaseui": {
     "signInTabText": "Sign in",
     "signInCardTitleText": "Signing in",

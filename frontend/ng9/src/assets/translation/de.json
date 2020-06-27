@@ -77,6 +77,11 @@
     "headline": "Jetzt einloggen!",
     "subHeader": "Diese Aktion ist nur für angemeldete Nutzer vergügbar."
   },
+  "scriptEvaluator": {
+    "run": "Ausführen",
+    "running": "Wird ausgeführt...",
+    "stop": "Beenden"
+  },
   "ngxauthfirebaseui": {
     "signInTabText": "Einloggen",
     "signInCardTitleText": "Anmelden",

@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HighlightModule } from 'ngx-highlightjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScriptEvaluationModule } from '../../components/script-evaluation/script-evaluation.module';
 
 @NgModule({
   declarations: [FeedCardComponent, FeedComponent, PickEmojiComponent],
@@ -20,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CommonModule,
     FeedRoutingModule,
     ComponentsModule,
+    ScriptEvaluationModule,
     PickerModule,
     MatIconModule,
     MatButtonModule,
