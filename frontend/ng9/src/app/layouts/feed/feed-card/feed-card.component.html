@@ -82,9 +82,9 @@
       </div>
     </div>
   </ng-container>
-  <app-script-evaluator-console-log #scriptConsoleLog></app-script-evaluator-console-log>
-  <app-script-evaluator #scriptEvaluator (logLine)="scriptConsoleLog.addLine($event)"></app-script-evaluator>
-  <div class="row">
-    <button mat-button color="warn" (click)="scriptConsoleLog.clear(); scriptEvaluator.run(doc.content);">run</button>
-  </div>
+  <app-script-evaluator-console-log [scriptText]="doc.content"></app-script-evaluator-console-log>
+<!--  <app-script-evaluator #scriptEvaluator (logLine)="scriptConsoleLog.addLine($event)"></app-script-evaluator>-->
+<!--  <div class="row">-->
+<!--    <button mat-button color="warn" (click)="scriptConsoleLog.clear(); scriptEvaluator.run(doc.content);">run</button>-->
+<!--  </div>-->
 </app-card>

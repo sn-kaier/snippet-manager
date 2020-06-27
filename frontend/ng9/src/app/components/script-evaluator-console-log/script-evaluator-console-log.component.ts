@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LogLine } from '../script-evaluator/script-evaluator.component';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { LogLine, ScriptEvaluatorComponent } from '../script-evaluator/script-evaluator.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -12,8 +20,14 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
   maxBufferedLines = 1000;
   lines: LogLine[] = [];
 
+  showLog = false;
+
   changeTriggered = false;
   @ViewChild('scriptContainer') scriptContainer: ElementRef<HTMLDivElement>;
+  @ViewChild(ScriptEvaluatorComponent) scriptEvaluator: ScriptEvaluatorComponent;
+
+  @Input()
+  scriptText: string;
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef, private readonly domSanitizer: DomSanitizer) {}
 
@@ -22,6 +36,18 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
   clear() {
     this.lines = [];
     this.changeDetectorRef.detectChanges();
+  }
+
+  runScript(): void {
+    if (!this.scriptEvaluator.running) {
+      this.clear();
+      this.showLog = true;
+      this.scriptEvaluator.run(this.scriptText).then(() => {
+        console.log('stopped execution');
+      });
+    } else {
+      this.scriptEvaluator.terminate();
+    }
   }
 
   addLine(line: LogLine): void {
