@@ -11,7 +11,8 @@
     "zip": "cd dist/ng9 && bestzip ../build.zip *",
     "upload": "node upload-to-ec2.js",
     "build-deploy": "npm run build && npm run zip && npm run upload",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
