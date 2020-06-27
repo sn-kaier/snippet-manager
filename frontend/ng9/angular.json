@@ -137,7 +137,7 @@
   "defaultProject": "ng9",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }
