@@ -1,8 +1,10 @@
 import {
   BlockStatement,
+  ClassBody,
   DoWhileStatement,
   Expression,
   ForStatement,
+  MemberExpression,
   MethodDefinition,
   ModuleDeclaration,
   Pattern,
@@ -117,7 +119,7 @@ export class ScriptTraverser {
   }
 
   private traverseExpression(expression: Expression | Array<Expression | SpreadElement>) {
-    if (expression) {
+    if (!expression) {
       return;
     }
     if (Array.isArray(expression)) {
@@ -171,7 +173,11 @@ export class ScriptTraverser {
         this.traverseExpression(expression.right);
         break;
       case 'MemberExpression':
-        this.traverseExpression(expression.computed ? (expression.object as Expression) : null);
+        if (expression.computed) {
+          this.traverseExpression(expression.object as Expression);
+        } else {
+          this.checkConsoleExpression(expression);
+        }
         this.traverseExpression(expression.property);
         break;
       case 'ConditionalExpression':
@@ -299,6 +305,14 @@ export class ScriptTraverser {
           this.traverseExpression(param.object as any);
         }
         break;
+    }
+  }
+
+  private checkConsoleExpression(expression: MemberExpression) {
+    if (expression?.object?.type === 'Identifier' && expression.object.name === 'console') {
+      if (expression.property.type === 'Identifier' && expression.property.name.match(/^(log|error|warn)$/)) {
+        // this.insertScript(expression.object.loc.start, 'await new Promise(resolve => setTimeout(resolve));', 0);
+      }
     }
   }
 }

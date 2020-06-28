@@ -22,7 +22,7 @@ import { EvaluatorInfoDialogComponent } from './evaluator-info-dialog.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
-  maxBufferedLines = 1000;
+  maxBufferedLines = 10000;
   lines: LogLine[] = [];
 
   showLog = false;
@@ -66,7 +66,6 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
       this.showLog = true;
       this.scriptEvaluator.run(this.scriptText).then(() => {
         this.changeDetectorRef.detectChanges();
-        console.log('stopped execution');
       });
     } else {
       this.scriptEvaluator.terminate();
@@ -109,7 +108,6 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
   }
 
   scrollToBottom() {
-    console.log('scriptContainer', this.scriptContainer);
     const el = this.scriptContainer.nativeElement;
     el.scrollTop = el.scrollHeight;
   }
