@@ -145,6 +145,7 @@ export class ScriptTraverser {
         this.traverseStatement(expression.body);
         break;
       case 'ArrowFunctionExpression':
+        expression.async = true;
         this.traversePatterns(expression.params);
         if (expression.expression) {
           this.traverseExpression(expression.body as Expression);
@@ -226,18 +227,33 @@ export class ScriptTraverser {
     statement.consequent.forEach(cons => this.traverseStatement(cons));
   }
 
-  private addWaitNextTick(statement: DoWhileStatement | WhileStatement | ForStatement) {
-    console.log('add wait for next tick on', statement.loc.start.line, ':', statement.loc.start.column, statement);
-
-    // add a counter before that;
-    const counterName =
+  private createRndVarName() {
+    return (
       '_' +
       Math.random()
         .toString(36)
         .substring(2) +
       Math.random()
         .toString(36)
-        .substring(2);
+        .substring(2)
+    );
+  }
+
+  private addWaitNextTick(statement: DoWhileStatement | WhileStatement | ForStatement) {
+    // console.log('add wait for next tick on', statement.loc.start.line, ':', statement.loc.start.column, statement);
+
+    // let body: Statement[];
+    // if (statement.body.type === 'BlockStatement') {
+    //   body = statement.body.body;
+    // } else {
+    //   // wrap anything else in a body statement!
+    // }
+    // body.unshift({
+    //   type: ''
+    // });
+
+    // add a counter before that;
+    const counterName = this.createRndVarName();
 
     // wait every 10000th loop for next tick to not block the user interface.
     const counterScript = `\nlet ${counterName} = 4;\n`;

@@ -119,9 +119,9 @@ export class ScriptEvaluator {
 
     const traverser = new ScriptTraverser(scriptLines);
     traverser.traverseProgram(testedCode);
-    console.log('testedCode', testedCode);
+    // console.log('testedCode', testedCode);
     const producedCode = this.wrapIntoAsyncFunction(scriptLines.join('\n'));
-    console.log('produced code:', producedCode);
+    // console.log('produced code:', producedCode);
     return producedCode;
   }
 
