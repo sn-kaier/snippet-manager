@@ -12,6 +12,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ScriptEvaluatorService } from '../script-evaluator/script-evaluator.service';
 import { Subscription } from 'rxjs';
 import { LogLine } from '../script-evaluator/script-evaluator';
+import { MatDialog } from '@angular/material/dialog';
+import { EvaluatorInfoDialogComponent } from './evaluator-info-dialog.component';
 
 @Component({
   selector: 'app-script-evaluator-console-log',
@@ -36,7 +38,8 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
   constructor(
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly domSanitizer: DomSanitizer,
-    private readonly evaluatorService: ScriptEvaluatorService
+    private readonly evaluatorService: ScriptEvaluatorService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnDestroy(): void {
@@ -123,5 +126,9 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  openScriptInfoDialog() {
+    this.dialog.open(EvaluatorInfoDialogComponent);
   }
 }

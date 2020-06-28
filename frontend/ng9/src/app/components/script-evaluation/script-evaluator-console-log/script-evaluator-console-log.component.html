@@ -3,6 +3,12 @@
     <button [disabled]="scriptEvaluator?.running" mat-button color="warn" (click)="runScript()">
       {{ (scriptEvaluator?.running ? 'scriptEvaluator.running' : 'scriptEvaluator.run') | translate }}
     </button>
+    <button mat-icon-button color="primary"
+            *ngIf="!scriptEvaluator?.running"
+            (click)="openScriptInfoDialog()"
+    >
+      <mat-icon style="color: #aaa">info</mat-icon>
+    </button>
   </div>
   <div class="col-xs-6 end-xs" *ngIf="showLog">
     <button mat-button

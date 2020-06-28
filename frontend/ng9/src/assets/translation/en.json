@@ -85,6 +85,10 @@
     "stop": "Stop execution",
     "title": "JavaScript console"
   },
+  "evaluatorInfo": {
+    "title": "Execution of JavaScript code",
+    "body": "<p>If a snippet is recognized as JavaScript, it can be executed directly in the browser.</p><p>For security reasons, the script runs in a sandbox environment.<br>This means that not all JavaScript features such as external URLs, or session information are available.</p><p>The sandbox also allows to interrupt scripts, even if they are stuck in a continuous loop.<p>Despite the security measures, the possibility of being compromised by foreign JavaScript code cannot be excluded.<br>Please therefore only execute code that you have read completely.</p>"
+  },
   "ngxauthfirebaseui": {
     "signInTabText": "Sign in",
     "signInCardTitleText": "Signing in",

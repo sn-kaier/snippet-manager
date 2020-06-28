@@ -85,6 +85,10 @@
     "stop": "Beenden",
     "title": "JavaScript Konsole"
   },
+  "evaluatorInfo": {
+    "title": "Ausführen von JavaScript Code",
+    "body": "<p>Wenn ein Snippet als JavaScript erkannt wurde, kann es direkt im Browser ausgeführt werden.</p><p>Aus Sicherheitsgründen läuft das Script in einer Sandboxumgebung.<br>Dadurch stehen nicht mehr alle JavaScript-Funktionen zur Verfügung wie beispielsweise externe URLs, oder Sessioninformationen abzurufen.</p><p>Die Sandbox ermöglich außerdem das unterbrechen von Scripts, selbst wenn diese in einer Dauerschleife feststecken.</p><p>Trotz der Sicherheitsmaßnahmen ist eine Gefährdung durch fremden JavaScript Code nicht auszuschließen.<br>Bitte führen Sie daher nur Code aus, den Sie vollständig gelesen haben.</p>"
+  },
   "ngxauthfirebaseui": {
     "signInTabText": "Einloggen",
     "signInCardTitleText": "Anmelden",
