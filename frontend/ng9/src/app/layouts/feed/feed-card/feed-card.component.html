@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <div class="row mbs">
+  <div class="row">
     <div class="col-xs-12 position-relative">
       <pre class="pre-code"><code class="word-wrap code"
                                   [class.collapsed]="textCollapsed"
@@ -49,6 +49,7 @@
       </ng-container>
     </div>
   </div>
+  <app-script-evaluator-console-log *ngIf="documentTags.validJs" [scriptText]="doc.content"></app-script-evaluator-console-log>
 
   <ng-container *ngIf="doc.allowComments">
     <div class="row mtm">
@@ -82,7 +83,6 @@
       </div>
     </div>
   </ng-container>
-  <app-script-evaluator-console-log [scriptText]="doc.content"></app-script-evaluator-console-log>
 <!--  <app-script-evaluator #scriptEvaluator (logLine)="scriptConsoleLog.addLine($event)"></app-script-evaluator>-->
 <!--  <div class="row">-->
 <!--    <button mat-button color="warn" (click)="scriptConsoleLog.clear(); scriptEvaluator.run(doc.content);">run</button>-->

@@ -67,6 +67,11 @@
         </div>
       </div>
 
+      <app-script-evaluator-console-log
+        *ngIf="scriptEvaluatorEnabled"
+        [scriptText]="documentSetInput.content"
+      ></app-script-evaluator-console-log>
+
       <div class="row mts">
         <div class="col-xs-12">
           <mat-checkbox color="accent" [(ngModel)]="documentSetInput.allowComments" name="allowComments">
@@ -76,6 +81,14 @@
         <div class="col-xs-12">
           <mat-checkbox color="accent" [(ngModel)]="documentSetInput.isPublic" name="isPublic">
             {{ 'edit.markPublic' | translate }}
+          </mat-checkbox>
+        </div>
+        <div class="col-xs-12">
+          <mat-checkbox color="accent" [(ngModel)]="scriptEvaluatorEnabled"
+                        [matTooltip]="'edit.scriptEvaluatorEnabledDescription' | translate"
+                        matTooltipShowDelay="500"
+                        name="scriptEvaluatorEnabled">
+            {{ 'edit.scriptEvaluatorEnabled' | translate }}
           </mat-checkbox>
         </div>
       </div>

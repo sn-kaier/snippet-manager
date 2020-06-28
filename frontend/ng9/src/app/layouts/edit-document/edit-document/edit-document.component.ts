@@ -17,18 +17,10 @@ import { filter, map, tap } from 'rxjs/operators';
 import { RoutingHistoryService } from '../../../core/routing-history.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from '../../../components/confirm-delete-dialog.component';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class EmptyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { DocumentTags } from '../../feed/feed-card/document-tags';
+import { ScriptEvaluatorService } from '../../../components/script-evaluation/script-evaluator/script-evaluator.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -41,6 +33,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   documentSetInput: DocumentSetInput;
 
   doc: UEditDocFragment;
+  docTags: DocumentTags;
+  scriptEvaluatorEnabled = false;
   loading$ = new Subject<boolean>();
 
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
@@ -58,7 +52,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly snackBar: MatSnackBar,
     private readonly translate: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly scriptEvaluatorService: ScriptEvaluatorService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -101,8 +96,10 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       allowComments: true,
       isPublic: false,
       title: '',
-      content: ''
+      content: '',
+      tags: ''
     };
+    this.docTags = new DocumentTags('');
   }
 
   private setDocumentInput(doc: UEditDocFragment) {
@@ -110,8 +107,11 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       allowComments: doc.allowComments,
       content: doc.content,
       isPublic: doc.isPublic,
-      title: doc.title
+      title: doc.title,
+      tags: doc.tags
     };
+    this.docTags = new DocumentTags(doc.tags);
+    this.scriptEvaluatorEnabled = this.docTags.validJs;
   }
 
   get isNewDocument(): boolean {
@@ -119,6 +119,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   }
 
   saveDocument() {
+    const scriptTestResults = this.scriptEvaluatorService.testScript(this.documentSetInput.content);
+    this.docTags.validJs = scriptTestResults.valid;
+    this.documentSetInput.tags = this.docTags.toString();
     if (this.doc) {
       // update
       this.saveDocumentMutation

@@ -26,8 +26,6 @@
   </div>
 </div>
 
-<app-script-evaluator (logLine)="addLine($event)"></app-script-evaluator>
-
 <ng-container *ngIf="showLog">
   <div class="script-header f-m center-xs" translate>
     scriptEvaluator.title
@@ -37,5 +35,4 @@
       <pre><code [innerHTML]="renderCode()"></code></pre>
     </div>
   </div>
-
 </ng-container>

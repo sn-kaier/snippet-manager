@@ -1,29 +1,44 @@
 export class DocumentTags {
   detectedLanguages: string[] = [];
-  readonly userTags: string;
+  validJs = false;
+  readonly userTags: string[];
 
-  constructor(tag: string = '|') {
-    if (!tag) {
-      tag = '|';
+  constructor(tag: string) {
+    let parsed: any;
+    try {
+      parsed = JSON.parse(tag);
+    } catch (e) {
+      parsed = {};
     }
-    const [dectedtedLangs, userTags] = tag.split('|');
-    this.setDetectedLanguages(dectedtedLangs);
-    this.userTags = userTags;
+
+    this.detectedLanguages = parsed?.detectedLanguages || [];
+    this.userTags = parsed?.userTags || [];
+    this.validJs = !!parsed?.validJs;
   }
 
-  get detectedLanguagesAsString(): string {
-    return this.detectedLanguages.filter(t => !!t).join(';');
+  toString(): string {
+    return JSON.stringify({
+      detectedLanguages: this.detectedLanguages,
+      userTags: this.userTags,
+      validJs: this.validJs
+    });
   }
 
-  get tagsAsString(): string {
-    return `${this.detectedLanguagesAsString}|${this.userTags}`;
+  setDetectedLanguages(langTag: string[]) {
+    this.detectedLanguages = langTag || [];
   }
 
-  setDetectedLanguages(langTag: string) {
-    if (langTag) {
-      this.detectedLanguages = langTag.split(';');
-    } else {
-      this.detectedLanguages = [];
+  equalTags(langTags: string[]): boolean {
+    if (langTags.length !== this.detectedLanguages.length) {
+      return false;
     }
+
+    for (let i = 0; i < langTags.length; i++) {
+      if (langTags[i] !== this.detectedLanguages[i]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

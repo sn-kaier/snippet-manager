@@ -89,9 +89,9 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
     return authId === (this.doc as UFeedDocFragment).author.authId;
   }
 
-  get languageTag(): string {
+  get languageTags(): string[] {
     if (!this.highlightResult || !this.codeElement?.nativeElement) {
-      return '';
+      return [];
     }
     const scrollHeight = this.codeElement.nativeElement.scrollHeight;
     const countLines = scrollHeight / 20;
@@ -99,7 +99,7 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
       const firstLang = this.highlightResult.language;
       const secondLang = this.highlightResult.second_best?.language;
       const secondLangAlt = this.highlightResult.second_best?.top?.name;
-      return [firstLang, secondLang, secondLangAlt].filter(t => !!t).join('; ');
+      return [firstLang, secondLang, secondLangAlt].filter(t => !!t);
     }
   }
 
@@ -114,10 +114,10 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
   onHighlighted(highlightResult: HighlightResult) {
     this.highlightResult = highlightResult;
     if (this.isOwnDocument) {
-      const langTag = this.languageTag;
-      if (langTag && this.documentTags.detectedLanguagesAsString !== langTag) {
-        this.documentTags.setDetectedLanguages(langTag);
-        const newTags = this.documentTags.tagsAsString;
+      const langTags = this.languageTags;
+      if (langTags && !this.documentTags.equalTags(langTags)) {
+        this.documentTags.setDetectedLanguages(langTags);
+        const newTags = this.documentTags.toString();
         (this.doc as UFeedDocFragment).tags = newTags;
         this.uSetDocumentTag
           .mutate({ documentId: this.doc.id, tags: newTags })

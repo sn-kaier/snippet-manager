@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
-
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScriptEvaluationModule } from '../../components/script-evaluation/script-evaluation.module';
 
 @NgModule({
   declarations: [EditDocumentComponent],
@@ -28,7 +28,9 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     MatCheckboxModule,
     TranslateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule,
+    ScriptEvaluationModule
   ]
 })
-export class EditDocumentModule { }
+export class EditDocumentModule {}

@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,71 +17,16 @@ export type Scalars = {
 
 
 
-
-/** expression to compare columns of type bigint. All fields are combined with logical 'AND'. */
-export interface BigintComparisonExp {
-  _eq?: Maybe<Scalars['bigint']>;
-  _gt?: Maybe<Scalars['bigint']>;
-  _gte?: Maybe<Scalars['bigint']>;
-  _in?: Maybe<Array<Scalars['bigint']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['bigint']>;
-  _lte?: Maybe<Scalars['bigint']>;
-  _neq?: Maybe<Scalars['bigint']>;
-  _nin?: Maybe<Array<Scalars['bigint']>>;
-}
-
-/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
-export interface BooleanComparisonExp {
-  _eq?: Maybe<Scalars['Boolean']>;
-  _gt?: Maybe<Scalars['Boolean']>;
-  _gte?: Maybe<Scalars['Boolean']>;
-  _in?: Maybe<Array<Scalars['Boolean']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Boolean']>;
-  _lte?: Maybe<Scalars['Boolean']>;
-  _neq?: Maybe<Scalars['Boolean']>;
-  _nin?: Maybe<Array<Scalars['Boolean']>>;
-}
-
 /** columns and relationships of "color" */
 export interface Color {
-   __typename?: 'color';
+  __typename?: 'color';
   color: Scalars['String'];
   name: Scalars['String'];
 }
 
-/** Boolean expression to filter rows from the table "color". All fields are combined with a logical 'AND'. */
-export interface ColorBoolExp {
-  _and?: Maybe<Array<Maybe<ColorBoolExp>>>;
-  _not?: Maybe<ColorBoolExp>;
-  _or?: Maybe<Array<Maybe<ColorBoolExp>>>;
-  color?: Maybe<StringComparisonExp>;
-  name?: Maybe<StringComparisonExp>;
-}
-
-/** ordering options when selecting data from "color" */
-export interface ColorOrderBy {
-  color?: Maybe<OrderBy>;
-  name?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "color" */
-export interface ColorPkColumnsInput {
-  name: Scalars['String'];
-}
-
-/** select columns of table "color" */
-export enum ColorSelectColumn {
-  /** column name */
-  Color = 'color',
-  /** column name */
-  Name = 'name'
-}
-
 /** columns and relationships of "comment" */
 export interface Comment {
-   __typename?: 'comment';
+  __typename?: 'comment';
   /** An object relationship */
   author: User;
   authorId: Scalars['String'];
@@ -118,87 +64,18 @@ export type CommentReactionsGroupArgs = {
   where?: Maybe<CommentReactionsGroupBoolExp>;
 };
 
-/** input type for inserting array relation for remote table "comment" */
-export interface CommentArrRelInsertInput {
-  data: Array<CommentInsertInput>;
-  on_conflict?: Maybe<CommentOnConflict>;
-}
-
-/** Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'. */
-export interface CommentBoolExp {
-  _and?: Maybe<Array<Maybe<CommentBoolExp>>>;
-  _not?: Maybe<CommentBoolExp>;
-  _or?: Maybe<Array<Maybe<CommentBoolExp>>>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  comment?: Maybe<StringComparisonExp>;
-  createdAt?: Maybe<TimestamptzComparisonExp>;
-  document?: Maybe<DocumentBoolExp>;
-  documentId?: Maybe<UuidComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-  reactionBalance?: Maybe<IntComparisonExp>;
-  reactions?: Maybe<CommentReactionBoolExp>;
-  reactionsGroup?: Maybe<CommentReactionsGroupBoolExp>;
-  updatedAt?: Maybe<TimestamptzComparisonExp>;
-}
-
-/** unique or primary key constraints on table "comment" */
-export enum CommentConstraint {
-  /** unique or primary key constraint */
-  CommentPkey = 'comment_pkey'
-}
-
-/** input type for inserting data into table "comment" */
-export interface CommentInsertInput {
-  comment?: Maybe<Scalars['String']>;
-  document?: Maybe<DocumentObjRelInsertInput>;
-  documentId?: Maybe<Scalars['uuid']>;
-  reactions?: Maybe<CommentReactionArrRelInsertInput>;
-}
-
 /** response of any mutation on the table "comment" */
 export interface CommentMutationResponse {
-   __typename?: 'comment_mutation_response';
+  __typename?: 'comment_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<Comment>;
 }
 
-/** input type for inserting object relation for remote table "comment" */
-export interface CommentObjRelInsertInput {
-  data: CommentInsertInput;
-  on_conflict?: Maybe<CommentOnConflict>;
-}
-
-/** on conflict condition type for table "comment" */
-export interface CommentOnConflict {
-  constraint: CommentConstraint;
-  update_columns: Array<CommentUpdateColumn>;
-  where?: Maybe<CommentBoolExp>;
-}
-
-/** ordering options when selecting data from "comment" */
-export interface CommentOrderBy {
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  comment?: Maybe<OrderBy>;
-  createdAt?: Maybe<OrderBy>;
-  document?: Maybe<DocumentOrderBy>;
-  documentId?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  reactionBalance?: Maybe<OrderBy>;
-  updatedAt?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "comment" */
-export interface CommentPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
 /** columns and relationships of "comment_reaction" */
 export interface CommentReaction {
-   __typename?: 'comment_reaction';
+  __typename?: 'comment_reaction';
   /** An object relationship */
   author: User;
   authorId: Scalars['String'];
@@ -212,140 +89,25 @@ export interface CommentReaction {
   reactionId: Scalars['String'];
 }
 
-/** input type for inserting array relation for remote table "comment_reaction" */
-export interface CommentReactionArrRelInsertInput {
-  data: Array<CommentReactionInsertInput>;
-}
-
-/** Boolean expression to filter rows from the table "comment_reaction". All fields are combined with a logical 'AND'. */
-export interface CommentReactionBoolExp {
-  _and?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
-  _not?: Maybe<CommentReactionBoolExp>;
-  _or?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  comment?: Maybe<CommentBoolExp>;
-  commentId?: Maybe<UuidComparisonExp>;
-  createdAt?: Maybe<TimestamptzComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-  reaction?: Maybe<ReactionBoolExp>;
-  reactionId?: Maybe<StringComparisonExp>;
-}
-
-/** input type for inserting data into table "comment_reaction" */
-export interface CommentReactionInsertInput {
-  comment?: Maybe<CommentObjRelInsertInput>;
-  commentId?: Maybe<Scalars['uuid']>;
-  reactionId?: Maybe<Scalars['String']>;
-}
-
 /** response of any mutation on the table "comment_reaction" */
 export interface CommentReactionMutationResponse {
-   __typename?: 'comment_reaction_mutation_response';
+  __typename?: 'comment_reaction_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<CommentReaction>;
 }
 
-/** input type for inserting object relation for remote table "comment_reaction" */
-export interface CommentReactionObjRelInsertInput {
-  data: CommentReactionInsertInput;
-}
-
-/** ordering options when selecting data from "comment_reaction" */
-export interface CommentReactionOrderBy {
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  comment?: Maybe<CommentOrderBy>;
-  commentId?: Maybe<OrderBy>;
-  createdAt?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  reaction?: Maybe<ReactionOrderBy>;
-  reactionId?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "comment_reaction" */
-export interface CommentReactionPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "comment_reaction" */
-export enum CommentReactionSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  CommentId = 'commentId',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ReactionId = 'reactionId'
-}
-
 /** columns and relationships of "comment_reactions_group" */
 export interface CommentReactionsGroup {
-   __typename?: 'comment_reactions_group';
+  __typename?: 'comment_reactions_group';
   count?: Maybe<Scalars['bigint']>;
   reactionid?: Maybe<Scalars['String']>;
 }
 
-/** Boolean expression to filter rows from the table "comment_reactions_group". All fields are combined with a logical 'AND'. */
-export interface CommentReactionsGroupBoolExp {
-  _and?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
-  _not?: Maybe<CommentReactionsGroupBoolExp>;
-  _or?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
-  count?: Maybe<BigintComparisonExp>;
-  reactionid?: Maybe<StringComparisonExp>;
-}
-
-/** ordering options when selecting data from "comment_reactions_group" */
-export interface CommentReactionsGroupOrderBy {
-  count?: Maybe<OrderBy>;
-  reactionid?: Maybe<OrderBy>;
-}
-
-/** select columns of table "comment_reactions_group" */
-export enum CommentReactionsGroupSelectColumn {
-  /** column name */
-  Count = 'count',
-  /** column name */
-  Reactionid = 'reactionid'
-}
-
-/** select columns of table "comment" */
-export enum CommentSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  Comment = 'comment',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  DocumentId = 'documentId',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ReactionBalance = 'reactionBalance',
-  /** column name */
-  UpdatedAt = 'updatedAt'
-}
-
-/** input type for updating data in table "comment" */
-export interface CommentSetInput {
-  comment?: Maybe<Scalars['String']>;
-}
-
-/** update columns of table "comment" */
-export enum CommentUpdateColumn {
-  /** column name */
-  Comment = 'comment'
-}
-
 /** columns and relationships of "document" */
 export interface Document {
-   __typename?: 'document';
+  __typename?: 'document';
   allowComments: Scalars['Boolean'];
   /** An object relationship */
   author: User;
@@ -409,55 +171,9 @@ export type DocumentReactionsGroupArgs = {
   where?: Maybe<DocumentReactionGroupPersistedBoolExp>;
 };
 
-/** input type for inserting array relation for remote table "document" */
-export interface DocumentArrRelInsertInput {
-  data: Array<DocumentInsertInput>;
-  on_conflict?: Maybe<DocumentOnConflict>;
-}
-
-/** Boolean expression to filter rows from the table "document". All fields are combined with a logical 'AND'. */
-export interface DocumentBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentBoolExp>>>;
-  _not?: Maybe<DocumentBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentBoolExp>>>;
-  allowComments?: Maybe<BooleanComparisonExp>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  comments?: Maybe<CommentBoolExp>;
-  content?: Maybe<StringComparisonExp>;
-  countComments?: Maybe<IntComparisonExp>;
-  createdAt?: Maybe<TimestamptzComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-  isPublic?: Maybe<BooleanComparisonExp>;
-  labels?: Maybe<DocumentLabelBoolExp>;
-  reactionBalance?: Maybe<IntComparisonExp>;
-  reactions?: Maybe<DocumentReactionBoolExp>;
-  reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
-  tags?: Maybe<StringComparisonExp>;
-  title?: Maybe<StringComparisonExp>;
-  updatedAt?: Maybe<TimestamptzComparisonExp>;
-}
-
-/** unique or primary key constraints on table "document" */
-export enum DocumentConstraint {
-  /** unique or primary key constraint */
-  DocumentPkey = 'document_pkey'
-}
-
-/** input type for inserting data into table "document" */
-export interface DocumentInsertInput {
-  allowComments?: Maybe<Scalars['Boolean']>;
-  comments?: Maybe<CommentArrRelInsertInput>;
-  content?: Maybe<Scalars['String']>;
-  isPublic?: Maybe<Scalars['Boolean']>;
-  labels?: Maybe<DocumentLabelArrRelInsertInput>;
-  reactions?: Maybe<DocumentReactionArrRelInsertInput>;
-  title?: Maybe<Scalars['String']>;
-}
-
 /** columns and relationships of "document_label" */
 export interface DocumentLabel {
-   __typename?: 'document_label';
+  __typename?: 'document_label';
   /** An object relationship */
   author: User;
   authorId: Scalars['String'];
@@ -469,117 +185,27 @@ export interface DocumentLabel {
   labelId: Scalars['uuid'];
 }
 
-/** input type for inserting array relation for remote table "document_label" */
-export interface DocumentLabelArrRelInsertInput {
-  data: Array<DocumentLabelInsertInput>;
-}
-
-/** Boolean expression to filter rows from the table "document_label". All fields are combined with a logical 'AND'. */
-export interface DocumentLabelBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
-  _not?: Maybe<DocumentLabelBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  document?: Maybe<DocumentBoolExp>;
-  id?: Maybe<UuidComparisonExp>;
-  label?: Maybe<LabelBoolExp>;
-  labelId?: Maybe<UuidComparisonExp>;
-}
-
-/** input type for inserting data into table "document_label" */
-export interface DocumentLabelInsertInput {
-  document?: Maybe<DocumentObjRelInsertInput>;
-  documentId?: Maybe<Scalars['uuid']>;
-  label?: Maybe<LabelObjRelInsertInput>;
-  labelId?: Maybe<Scalars['uuid']>;
-}
-
 /** response of any mutation on the table "document_label" */
 export interface DocumentLabelMutationResponse {
-   __typename?: 'document_label_mutation_response';
+  __typename?: 'document_label_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<DocumentLabel>;
 }
 
-/** input type for inserting object relation for remote table "document_label" */
-export interface DocumentLabelObjRelInsertInput {
-  data: DocumentLabelInsertInput;
-}
-
-/** ordering options when selecting data from "document_label" */
-export interface DocumentLabelOrderBy {
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  document?: Maybe<DocumentOrderBy>;
-  id?: Maybe<OrderBy>;
-  label?: Maybe<LabelOrderBy>;
-  labelId?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "document_label" */
-export interface DocumentLabelPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "document_label" */
-export enum DocumentLabelSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  LabelId = 'labelId'
-}
-
 /** response of any mutation on the table "document" */
 export interface DocumentMutationResponse {
-   __typename?: 'document_mutation_response';
+  __typename?: 'document_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<Document>;
 }
 
-/** input type for inserting object relation for remote table "document" */
-export interface DocumentObjRelInsertInput {
-  data: DocumentInsertInput;
-  on_conflict?: Maybe<DocumentOnConflict>;
-}
-
-/** on conflict condition type for table "document" */
-export interface DocumentOnConflict {
-  constraint: DocumentConstraint;
-  update_columns: Array<DocumentUpdateColumn>;
-  where?: Maybe<DocumentBoolExp>;
-}
-
-/** ordering options when selecting data from "document" */
-export interface DocumentOrderBy {
-  allowComments?: Maybe<OrderBy>;
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  content?: Maybe<OrderBy>;
-  countComments?: Maybe<OrderBy>;
-  createdAt?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  isPublic?: Maybe<OrderBy>;
-  reactionBalance?: Maybe<OrderBy>;
-  tags?: Maybe<OrderBy>;
-  title?: Maybe<OrderBy>;
-  updatedAt?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "document" */
-export interface DocumentPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
 /** columns and relationships of "document_reaction" */
 export interface DocumentReaction {
-   __typename?: 'document_reaction';
+  __typename?: 'document_reaction';
   authorId: Scalars['String'];
   createdAt: Scalars['timestamptz'];
   /** An object relationship */
@@ -591,201 +217,37 @@ export interface DocumentReaction {
   reactionId: Scalars['String'];
 }
 
-/** input type for inserting array relation for remote table "document_reaction" */
-export interface DocumentReactionArrRelInsertInput {
-  data: Array<DocumentReactionInsertInput>;
-}
-
-/** Boolean expression to filter rows from the table "document_reaction". All fields are combined with a logical 'AND'. */
-export interface DocumentReactionBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
-  _not?: Maybe<DocumentReactionBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
-  authorId?: Maybe<StringComparisonExp>;
-  createdAt?: Maybe<TimestamptzComparisonExp>;
-  document?: Maybe<DocumentBoolExp>;
-  documentId?: Maybe<UuidComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-  reaction?: Maybe<ReactionBoolExp>;
-  reactionId?: Maybe<StringComparisonExp>;
-}
-
 /** columns and relationships of "document_reaction_group" */
 export interface DocumentReactionGroup {
-   __typename?: 'document_reaction_group';
+  __typename?: 'document_reaction_group';
   count?: Maybe<Scalars['bigint']>;
   reaction_id?: Maybe<Scalars['String']>;
 }
 
-/** Boolean expression to filter rows from the table "document_reaction_group". All fields are combined with a logical 'AND'. */
-export interface DocumentReactionGroupBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
-  _not?: Maybe<DocumentReactionGroupBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
-  count?: Maybe<BigintComparisonExp>;
-  reaction_id?: Maybe<StringComparisonExp>;
-}
-
-/** ordering options when selecting data from "document_reaction_group" */
-export interface DocumentReactionGroupOrderBy {
-  count?: Maybe<OrderBy>;
-  reaction_id?: Maybe<OrderBy>;
-}
-
-/** 
+/**
  * persisted version of the document_reaction_group
  * 
  * 
  * columns and relationships of "document_reaction_group_persisted"
  */
 export interface DocumentReactionGroupPersisted {
-   __typename?: 'document_reaction_group_persisted';
+  __typename?: 'document_reaction_group_persisted';
   count: Scalars['Int'];
   reactionid: Scalars['String'];
 }
 
-/** 
- * Boolean expression to filter rows from the table
- * "document_reaction_group_persisted". All fields are combined with a logical 'AND'.
- */
-export interface DocumentReactionGroupPersistedBoolExp {
-  _and?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
-  _not?: Maybe<DocumentReactionGroupPersistedBoolExp>;
-  _or?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
-  count?: Maybe<IntComparisonExp>;
-  reactionid?: Maybe<StringComparisonExp>;
-}
-
-/** ordering options when selecting data from "document_reaction_group_persisted" */
-export interface DocumentReactionGroupPersistedOrderBy {
-  count?: Maybe<OrderBy>;
-  reactionid?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "document_reaction_group_persisted" */
-export interface DocumentReactionGroupPersistedPkColumnsInput {
-  id: Scalars['bigint'];
-}
-
-/** select columns of table "document_reaction_group_persisted" */
-export enum DocumentReactionGroupPersistedSelectColumn {
-  /** column name */
-  Count = 'count',
-  /** column name */
-  Reactionid = 'reactionid'
-}
-
-/** select columns of table "document_reaction_group" */
-export enum DocumentReactionGroupSelectColumn {
-  /** column name */
-  Count = 'count',
-  /** column name */
-  ReactionId = 'reaction_id'
-}
-
-/** input type for inserting data into table "document_reaction" */
-export interface DocumentReactionInsertInput {
-  document?: Maybe<DocumentObjRelInsertInput>;
-  documentId?: Maybe<Scalars['uuid']>;
-  reactionId?: Maybe<Scalars['String']>;
-}
-
 /** response of any mutation on the table "document_reaction" */
 export interface DocumentReactionMutationResponse {
-   __typename?: 'document_reaction_mutation_response';
+  __typename?: 'document_reaction_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<DocumentReaction>;
 }
 
-/** input type for inserting object relation for remote table "document_reaction" */
-export interface DocumentReactionObjRelInsertInput {
-  data: DocumentReactionInsertInput;
-}
-
-/** ordering options when selecting data from "document_reaction" */
-export interface DocumentReactionOrderBy {
-  authorId?: Maybe<OrderBy>;
-  createdAt?: Maybe<OrderBy>;
-  document?: Maybe<DocumentOrderBy>;
-  documentId?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  reaction?: Maybe<ReactionOrderBy>;
-  reactionId?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "document_reaction" */
-export interface DocumentReactionPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "document_reaction" */
-export enum DocumentReactionSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  DocumentId = 'documentId',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ReactionId = 'reactionId'
-}
-
-/** select columns of table "document" */
-export enum DocumentSelectColumn {
-  /** column name */
-  AllowComments = 'allowComments',
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  Content = 'content',
-  /** column name */
-  CountComments = 'countComments',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  IsPublic = 'isPublic',
-  /** column name */
-  ReactionBalance = 'reactionBalance',
-  /** column name */
-  Tags = 'tags',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updatedAt'
-}
-
-/** input type for updating data in table "document" */
-export interface DocumentSetInput {
-  allowComments?: Maybe<Scalars['Boolean']>;
-  content?: Maybe<Scalars['String']>;
-  isPublic?: Maybe<Scalars['Boolean']>;
-  tags?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-}
-
-/** update columns of table "document" */
-export enum DocumentUpdateColumn {
-  /** column name */
-  AllowComments = 'allowComments',
-  /** column name */
-  Content = 'content',
-  /** column name */
-  IsPublic = 'isPublic',
-  /** column name */
-  Tags = 'tags',
-  /** column name */
-  Title = 'title'
-}
-
 /** columns and relationships of "follow" */
 export interface Follow {
-   __typename?: 'follow';
+  __typename?: 'follow';
   /** An object relationship */
   author: User;
   authorId: Scalars['String'];
@@ -796,86 +258,18 @@ export interface Follow {
   id: Scalars['uuid'];
 }
 
-/** input type for inserting array relation for remote table "follow" */
-export interface FollowArrRelInsertInput {
-  data: Array<FollowInsertInput>;
-}
-
-/** Boolean expression to filter rows from the table "follow". All fields are combined with a logical 'AND'. */
-export interface FollowBoolExp {
-  _and?: Maybe<Array<Maybe<FollowBoolExp>>>;
-  _not?: Maybe<FollowBoolExp>;
-  _or?: Maybe<Array<Maybe<FollowBoolExp>>>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  createdAt?: Maybe<TimestamptzComparisonExp>;
-  following?: Maybe<UserBoolExp>;
-  followingId?: Maybe<StringComparisonExp>;
-  id?: Maybe<UuidComparisonExp>;
-}
-
-/** input type for inserting data into table "follow" */
-export interface FollowInsertInput {
-  followingId?: Maybe<Scalars['String']>;
-}
-
 /** response of any mutation on the table "follow" */
 export interface FollowMutationResponse {
-   __typename?: 'follow_mutation_response';
+  __typename?: 'follow_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<Follow>;
 }
 
-/** input type for inserting object relation for remote table "follow" */
-export interface FollowObjRelInsertInput {
-  data: FollowInsertInput;
-}
-
-/** ordering options when selecting data from "follow" */
-export interface FollowOrderBy {
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  createdAt?: Maybe<OrderBy>;
-  following?: Maybe<UserOrderBy>;
-  followingId?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "follow" */
-export interface FollowPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "follow" */
-export enum FollowSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  FollowingId = 'followingId',
-  /** column name */
-  Id = 'id'
-}
-
-/** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
-export interface IntComparisonExp {
-  _eq?: Maybe<Scalars['Int']>;
-  _gt?: Maybe<Scalars['Int']>;
-  _gte?: Maybe<Scalars['Int']>;
-  _in?: Maybe<Array<Scalars['Int']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Int']>;
-  _lte?: Maybe<Scalars['Int']>;
-  _neq?: Maybe<Scalars['Int']>;
-  _nin?: Maybe<Array<Scalars['Int']>>;
-}
-
 /** columns and relationships of "label" */
 export interface Label {
-   __typename?: 'label';
+  __typename?: 'label';
   /** An object relationship */
   author: User;
   authorId: Scalars['String'];
@@ -898,105 +292,18 @@ export type LabelDocumentLabelsArgs = {
   where?: Maybe<DocumentLabelBoolExp>;
 };
 
-/** input type for inserting array relation for remote table "label" */
-export interface LabelArrRelInsertInput {
-  data: Array<LabelInsertInput>;
-  on_conflict?: Maybe<LabelOnConflict>;
-}
-
-/** Boolean expression to filter rows from the table "label". All fields are combined with a logical 'AND'. */
-export interface LabelBoolExp {
-  _and?: Maybe<Array<Maybe<LabelBoolExp>>>;
-  _not?: Maybe<LabelBoolExp>;
-  _or?: Maybe<Array<Maybe<LabelBoolExp>>>;
-  author?: Maybe<UserBoolExp>;
-  authorId?: Maybe<StringComparisonExp>;
-  color?: Maybe<ColorBoolExp>;
-  colorName?: Maybe<StringComparisonExp>;
-  document_labels?: Maybe<DocumentLabelBoolExp>;
-  id?: Maybe<UuidComparisonExp>;
-  label?: Maybe<StringComparisonExp>;
-}
-
-/** unique or primary key constraints on table "label" */
-export enum LabelConstraint {
-  /** unique or primary key constraint */
-  LabelPkey = 'label_pkey'
-}
-
-/** input type for inserting data into table "label" */
-export interface LabelInsertInput {
-  colorName?: Maybe<Scalars['String']>;
-  document_labels?: Maybe<DocumentLabelArrRelInsertInput>;
-  label?: Maybe<Scalars['String']>;
-}
-
 /** response of any mutation on the table "label" */
 export interface LabelMutationResponse {
-   __typename?: 'label_mutation_response';
+  __typename?: 'label_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
   returning: Array<Label>;
 }
 
-/** input type for inserting object relation for remote table "label" */
-export interface LabelObjRelInsertInput {
-  data: LabelInsertInput;
-  on_conflict?: Maybe<LabelOnConflict>;
-}
-
-/** on conflict condition type for table "label" */
-export interface LabelOnConflict {
-  constraint: LabelConstraint;
-  update_columns: Array<LabelUpdateColumn>;
-  where?: Maybe<LabelBoolExp>;
-}
-
-/** ordering options when selecting data from "label" */
-export interface LabelOrderBy {
-  author?: Maybe<UserOrderBy>;
-  authorId?: Maybe<OrderBy>;
-  color?: Maybe<ColorOrderBy>;
-  colorName?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  label?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "label" */
-export interface LabelPkColumnsInput {
-  id: Scalars['uuid'];
-}
-
-/** select columns of table "label" */
-export enum LabelSelectColumn {
-  /** column name */
-  AuthorId = 'authorId',
-  /** column name */
-  ColorName = 'colorName',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Label = 'label'
-}
-
-/** input type for updating data in table "label" */
-export interface LabelSetInput {
-  colorName?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
-}
-
-/** update columns of table "label" */
-export enum LabelUpdateColumn {
-  /** column name */
-  ColorName = 'colorName',
-  /** column name */
-  Label = 'label'
-}
-
 /** mutation root */
 export interface MutationRoot {
-   __typename?: 'mutation_root';
+  __typename?: 'mutation_root';
   /** insert data into the table: "comment" */
   addComment?: Maybe<CommentMutationResponse>;
   /** insert data into the table: "comment_reaction" */
@@ -1301,25 +608,9 @@ export type MutationRootUpdateUserByPkArgs = {
   pk_columns: UserPkColumnsInput;
 };
 
-/** column ordering options */
-export enum OrderBy {
-  /** in the ascending order, nulls last */
-  Asc = 'asc',
-  /** in the ascending order, nulls first */
-  AscNullsFirst = 'asc_nulls_first',
-  /** in the ascending order, nulls last */
-  AscNullsLast = 'asc_nulls_last',
-  /** in the descending order, nulls first */
-  Desc = 'desc',
-  /** in the descending order, nulls first */
-  DescNullsFirst = 'desc_nulls_first',
-  /** in the descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
-}
-
 /** query root */
 export interface QueryRoot {
-   __typename?: 'query_root';
+  __typename?: 'query_root';
   /** fetch data from the table: "color" */
   allColors: Array<Color>;
   /** fetch data from the table: "comment_reaction" */
@@ -1581,65 +872,14 @@ export type QueryRootUserArgs = {
 
 /** columns and relationships of "reaction" */
 export interface Reaction {
-   __typename?: 'reaction';
+  __typename?: 'reaction';
   htmlCode: Scalars['String'];
   title: Scalars['String'];
 }
 
-/** Boolean expression to filter rows from the table "reaction". All fields are combined with a logical 'AND'. */
-export interface ReactionBoolExp {
-  _and?: Maybe<Array<Maybe<ReactionBoolExp>>>;
-  _not?: Maybe<ReactionBoolExp>;
-  _or?: Maybe<Array<Maybe<ReactionBoolExp>>>;
-  htmlCode?: Maybe<StringComparisonExp>;
-  title?: Maybe<StringComparisonExp>;
-}
-
-/** ordering options when selecting data from "reaction" */
-export interface ReactionOrderBy {
-  htmlCode?: Maybe<OrderBy>;
-  title?: Maybe<OrderBy>;
-}
-
-/** primary key columns input for table: "reaction" */
-export interface ReactionPkColumnsInput {
-  htmlCode: Scalars['String'];
-}
-
-/** select columns of table "reaction" */
-export enum ReactionSelectColumn {
-  /** column name */
-  HtmlCode = 'htmlCode',
-  /** column name */
-  Title = 'title'
-}
-
-export interface SearchDocumentsArgs {
-  search?: Maybe<Scalars['String']>;
-}
-
-/** expression to compare columns of type String. All fields are combined with logical 'AND'. */
-export interface StringComparisonExp {
-  _eq?: Maybe<Scalars['String']>;
-  _gt?: Maybe<Scalars['String']>;
-  _gte?: Maybe<Scalars['String']>;
-  _ilike?: Maybe<Scalars['String']>;
-  _in?: Maybe<Array<Scalars['String']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _like?: Maybe<Scalars['String']>;
-  _lt?: Maybe<Scalars['String']>;
-  _lte?: Maybe<Scalars['String']>;
-  _neq?: Maybe<Scalars['String']>;
-  _nilike?: Maybe<Scalars['String']>;
-  _nin?: Maybe<Array<Scalars['String']>>;
-  _nlike?: Maybe<Scalars['String']>;
-  _nsimilar?: Maybe<Scalars['String']>;
-  _similar?: Maybe<Scalars['String']>;
-}
-
 /** subscription root */
 export interface SubscriptionRoot {
-   __typename?: 'subscription_root';
+  __typename?: 'subscription_root';
   /** fetch data from the table: "color" */
   allColors: Array<Color>;
   /** fetch data from the table: "comment_reaction" */
@@ -1899,28 +1139,14 @@ export type SubscriptionRootUserArgs = {
   id: Scalars['uuid'];
 };
 
-
-/** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
-export interface TimestamptzComparisonExp {
-  _eq?: Maybe<Scalars['timestamptz']>;
-  _gt?: Maybe<Scalars['timestamptz']>;
-  _gte?: Maybe<Scalars['timestamptz']>;
-  _in?: Maybe<Array<Scalars['timestamptz']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['timestamptz']>;
-  _lte?: Maybe<Scalars['timestamptz']>;
-  _neq?: Maybe<Scalars['timestamptz']>;
-  _nin?: Maybe<Array<Scalars['timestamptz']>>;
-}
-
-/** 
+/**
  * add author table
  * 
  * 
  * columns and relationships of "user"
  */
 export interface User {
-   __typename?: 'user';
+  __typename?: 'user';
   authId: Scalars['String'];
   balanceCommentReaction: Scalars['bigint'];
   balanceDocumentReaction: Scalars['bigint'];
@@ -1944,7 +1170,7 @@ export interface User {
 }
 
 
-/** 
+/**
  * add author table
  * 
  * 
@@ -1959,7 +1185,7 @@ export type UserDocumentLabelsArgs = {
 };
 
 
-/** 
+/**
  * add author table
  * 
  * 
@@ -1974,7 +1200,7 @@ export type UserDocumentsArgs = {
 };
 
 
-/** 
+/**
  * add author table
  * 
  * 
@@ -1989,7 +1215,7 @@ export type UserFollowersArgs = {
 };
 
 
-/** 
+/**
  * add author table
  * 
  * 
@@ -2004,7 +1230,7 @@ export type UserFollowingsArgs = {
 };
 
 
-/** 
+/**
  * add author table
  * 
  * 
@@ -2017,6 +1243,823 @@ export type UserLabelsArgs = {
   order_by?: Maybe<Array<LabelOrderBy>>;
   where?: Maybe<LabelBoolExp>;
 };
+
+/** response of any mutation on the table "user" */
+export interface UserMutationResponse {
+  __typename?: 'user_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<User>;
+}
+
+/** select columns of table "color" */
+export enum ColorSelectColumn {
+  /** column name */
+  Color = 'color',
+  /** column name */
+  Name = 'name'
+}
+
+/** unique or primary key constraints on table "comment" */
+export enum CommentConstraint {
+  /** unique or primary key constraint */
+  CommentPkey = 'comment_pkey'
+}
+
+/** select columns of table "comment_reaction" */
+export enum CommentReactionSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  CommentId = 'commentId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ReactionId = 'reactionId'
+}
+
+/** select columns of table "comment_reactions_group" */
+export enum CommentReactionsGroupSelectColumn {
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Reactionid = 'reactionid'
+}
+
+/** select columns of table "comment" */
+export enum CommentSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  DocumentId = 'documentId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ReactionBalance = 'reactionBalance',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** update columns of table "comment" */
+export enum CommentUpdateColumn {
+  /** column name */
+  Comment = 'comment'
+}
+
+/** unique or primary key constraints on table "document" */
+export enum DocumentConstraint {
+  /** unique or primary key constraint */
+  DocumentPkey = 'document_pkey'
+}
+
+/** select columns of table "document_label" */
+export enum DocumentLabelSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LabelId = 'labelId'
+}
+
+/** select columns of table "document_reaction_group_persisted" */
+export enum DocumentReactionGroupPersistedSelectColumn {
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Reactionid = 'reactionid'
+}
+
+/** select columns of table "document_reaction_group" */
+export enum DocumentReactionGroupSelectColumn {
+  /** column name */
+  Count = 'count',
+  /** column name */
+  ReactionId = 'reaction_id'
+}
+
+/** select columns of table "document_reaction" */
+export enum DocumentReactionSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  DocumentId = 'documentId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ReactionId = 'reactionId'
+}
+
+/** select columns of table "document" */
+export enum DocumentSelectColumn {
+  /** column name */
+  AllowComments = 'allowComments',
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  Content = 'content',
+  /** column name */
+  CountComments = 'countComments',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsPublic = 'isPublic',
+  /** column name */
+  ReactionBalance = 'reactionBalance',
+  /** column name */
+  Tags = 'tags',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** update columns of table "document" */
+export enum DocumentUpdateColumn {
+  /** column name */
+  AllowComments = 'allowComments',
+  /** column name */
+  Content = 'content',
+  /** column name */
+  IsPublic = 'isPublic',
+  /** column name */
+  Tags = 'tags',
+  /** column name */
+  Title = 'title'
+}
+
+/** select columns of table "follow" */
+export enum FollowSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  FollowingId = 'followingId',
+  /** column name */
+  Id = 'id'
+}
+
+/** unique or primary key constraints on table "label" */
+export enum LabelConstraint {
+  /** unique or primary key constraint */
+  LabelPkey = 'label_pkey'
+}
+
+/** select columns of table "label" */
+export enum LabelSelectColumn {
+  /** column name */
+  AuthorId = 'authorId',
+  /** column name */
+  ColorName = 'colorName',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Label = 'label'
+}
+
+/** update columns of table "label" */
+export enum LabelUpdateColumn {
+  /** column name */
+  ColorName = 'colorName',
+  /** column name */
+  Label = 'label'
+}
+
+/** column ordering options */
+export enum OrderBy {
+  /** in the ascending order, nulls last */
+  Asc = 'asc',
+  /** in the ascending order, nulls first */
+  AscNullsFirst = 'asc_nulls_first',
+  /** in the ascending order, nulls last */
+  AscNullsLast = 'asc_nulls_last',
+  /** in the descending order, nulls first */
+  Desc = 'desc',
+  /** in the descending order, nulls first */
+  DescNullsFirst = 'desc_nulls_first',
+  /** in the descending order, nulls last */
+  DescNullsLast = 'desc_nulls_last'
+}
+
+/** select columns of table "reaction" */
+export enum ReactionSelectColumn {
+  /** column name */
+  HtmlCode = 'htmlCode',
+  /** column name */
+  Title = 'title'
+}
+
+/** unique or primary key constraints on table "user" */
+export enum UserConstraint {
+  /** unique or primary key constraint */
+  UserAuthIdKey = 'user_auth_id_key',
+  /** unique or primary key constraint */
+  UserPkey = 'user_pkey'
+}
+
+/** select columns of table "user" */
+export enum UserSelectColumn {
+  /** column name */
+  AuthId = 'authId',
+  /** column name */
+  BalanceCommentReaction = 'balanceCommentReaction',
+  /** column name */
+  BalanceDocumentReaction = 'balanceDocumentReaction',
+  /** column name */
+  CountPrivateDocs = 'countPrivateDocs',
+  /** column name */
+  CountWrittenComments = 'countWrittenComments',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ImageUrl = 'imageUrl',
+  /** column name */
+  MaxPrivateDocs = 'maxPrivateDocs',
+  /** column name */
+  Name = 'name'
+}
+
+/** update columns of table "user" */
+export enum UserUpdateColumn {
+  /** column name */
+  Name = 'name'
+}
+
+/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
+export interface BooleanComparisonExp {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+}
+
+/** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
+export interface IntComparisonExp {
+  _eq?: Maybe<Scalars['Int']>;
+  _gt?: Maybe<Scalars['Int']>;
+  _gte?: Maybe<Scalars['Int']>;
+  _in?: Maybe<Array<Scalars['Int']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Int']>;
+  _lte?: Maybe<Scalars['Int']>;
+  _neq?: Maybe<Scalars['Int']>;
+  _nin?: Maybe<Array<Scalars['Int']>>;
+}
+
+/** expression to compare columns of type String. All fields are combined with logical 'AND'. */
+export interface StringComparisonExp {
+  _eq?: Maybe<Scalars['String']>;
+  _gt?: Maybe<Scalars['String']>;
+  _gte?: Maybe<Scalars['String']>;
+  _ilike?: Maybe<Scalars['String']>;
+  _in?: Maybe<Array<Scalars['String']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _like?: Maybe<Scalars['String']>;
+  _lt?: Maybe<Scalars['String']>;
+  _lte?: Maybe<Scalars['String']>;
+  _neq?: Maybe<Scalars['String']>;
+  _nilike?: Maybe<Scalars['String']>;
+  _nin?: Maybe<Array<Scalars['String']>>;
+  _nlike?: Maybe<Scalars['String']>;
+  _nsimilar?: Maybe<Scalars['String']>;
+  _similar?: Maybe<Scalars['String']>;
+}
+
+/** expression to compare columns of type bigint. All fields are combined with logical 'AND'. */
+export interface BigintComparisonExp {
+  _eq?: Maybe<Scalars['bigint']>;
+  _gt?: Maybe<Scalars['bigint']>;
+  _gte?: Maybe<Scalars['bigint']>;
+  _in?: Maybe<Array<Scalars['bigint']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['bigint']>;
+  _lte?: Maybe<Scalars['bigint']>;
+  _neq?: Maybe<Scalars['bigint']>;
+  _nin?: Maybe<Array<Scalars['bigint']>>;
+}
+
+/** Boolean expression to filter rows from the table "color". All fields are combined with a logical 'AND'. */
+export interface ColorBoolExp {
+  _and?: Maybe<Array<Maybe<ColorBoolExp>>>;
+  _not?: Maybe<ColorBoolExp>;
+  _or?: Maybe<Array<Maybe<ColorBoolExp>>>;
+  color?: Maybe<StringComparisonExp>;
+  name?: Maybe<StringComparisonExp>;
+}
+
+/** ordering options when selecting data from "color" */
+export interface ColorOrderBy {
+  color?: Maybe<OrderBy>;
+  name?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "color" */
+export interface ColorPkColumnsInput {
+  name: Scalars['String'];
+}
+
+/** input type for inserting array relation for remote table "comment" */
+export interface CommentArrRelInsertInput {
+  data: Array<CommentInsertInput>;
+  on_conflict?: Maybe<CommentOnConflict>;
+}
+
+/** Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'. */
+export interface CommentBoolExp {
+  _and?: Maybe<Array<Maybe<CommentBoolExp>>>;
+  _not?: Maybe<CommentBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comment?: Maybe<StringComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  documentId?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  reactionBalance?: Maybe<IntComparisonExp>;
+  reactions?: Maybe<CommentReactionBoolExp>;
+  reactionsGroup?: Maybe<CommentReactionsGroupBoolExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
+}
+
+/** input type for inserting data into table "comment" */
+export interface CommentInsertInput {
+  comment?: Maybe<Scalars['String']>;
+  document?: Maybe<DocumentObjRelInsertInput>;
+  documentId?: Maybe<Scalars['uuid']>;
+  reactions?: Maybe<CommentReactionArrRelInsertInput>;
+}
+
+/** input type for inserting object relation for remote table "comment" */
+export interface CommentObjRelInsertInput {
+  data: CommentInsertInput;
+  on_conflict?: Maybe<CommentOnConflict>;
+}
+
+/** on conflict condition type for table "comment" */
+export interface CommentOnConflict {
+  constraint: CommentConstraint;
+  update_columns: Array<CommentUpdateColumn>;
+  where?: Maybe<CommentBoolExp>;
+}
+
+/** ordering options when selecting data from "comment" */
+export interface CommentOrderBy {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  comment?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  documentId?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  reactionBalance?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "comment" */
+export interface CommentPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for inserting array relation for remote table "comment_reaction" */
+export interface CommentReactionArrRelInsertInput {
+  data: Array<CommentReactionInsertInput>;
+}
+
+/** Boolean expression to filter rows from the table "comment_reaction". All fields are combined with a logical 'AND'. */
+export interface CommentReactionBoolExp {
+  _and?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
+  _not?: Maybe<CommentReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentReactionBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comment?: Maybe<CommentBoolExp>;
+  commentId?: Maybe<UuidComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  reaction?: Maybe<ReactionBoolExp>;
+  reactionId?: Maybe<StringComparisonExp>;
+}
+
+/** input type for inserting data into table "comment_reaction" */
+export interface CommentReactionInsertInput {
+  comment?: Maybe<CommentObjRelInsertInput>;
+  commentId?: Maybe<Scalars['uuid']>;
+  reactionId?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting object relation for remote table "comment_reaction" */
+export interface CommentReactionObjRelInsertInput {
+  data: CommentReactionInsertInput;
+}
+
+/** ordering options when selecting data from "comment_reaction" */
+export interface CommentReactionOrderBy {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  comment?: Maybe<CommentOrderBy>;
+  commentId?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  reaction?: Maybe<ReactionOrderBy>;
+  reactionId?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "comment_reaction" */
+export interface CommentReactionPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** Boolean expression to filter rows from the table "comment_reactions_group". All fields are combined with a logical 'AND'. */
+export interface CommentReactionsGroupBoolExp {
+  _and?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
+  _not?: Maybe<CommentReactionsGroupBoolExp>;
+  _or?: Maybe<Array<Maybe<CommentReactionsGroupBoolExp>>>;
+  count?: Maybe<BigintComparisonExp>;
+  reactionid?: Maybe<StringComparisonExp>;
+}
+
+/** ordering options when selecting data from "comment_reactions_group" */
+export interface CommentReactionsGroupOrderBy {
+  count?: Maybe<OrderBy>;
+  reactionid?: Maybe<OrderBy>;
+}
+
+/** input type for updating data in table "comment" */
+export interface CommentSetInput {
+  comment?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting array relation for remote table "document" */
+export interface DocumentArrRelInsertInput {
+  data: Array<DocumentInsertInput>;
+  on_conflict?: Maybe<DocumentOnConflict>;
+}
+
+/** Boolean expression to filter rows from the table "document". All fields are combined with a logical 'AND'. */
+export interface DocumentBoolExp {
+  _and?: Maybe<Array<Maybe<DocumentBoolExp>>>;
+  _not?: Maybe<DocumentBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentBoolExp>>>;
+  allowComments?: Maybe<BooleanComparisonExp>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  comments?: Maybe<CommentBoolExp>;
+  content?: Maybe<StringComparisonExp>;
+  countComments?: Maybe<IntComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  isPublic?: Maybe<BooleanComparisonExp>;
+  labels?: Maybe<DocumentLabelBoolExp>;
+  reactionBalance?: Maybe<IntComparisonExp>;
+  reactions?: Maybe<DocumentReactionBoolExp>;
+  reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  tags?: Maybe<StringComparisonExp>;
+  title?: Maybe<StringComparisonExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
+}
+
+/** input type for inserting data into table "document" */
+export interface DocumentInsertInput {
+  allowComments?: Maybe<Scalars['Boolean']>;
+  comments?: Maybe<CommentArrRelInsertInput>;
+  content?: Maybe<Scalars['String']>;
+  isPublic?: Maybe<Scalars['Boolean']>;
+  labels?: Maybe<DocumentLabelArrRelInsertInput>;
+  reactions?: Maybe<DocumentReactionArrRelInsertInput>;
+  title?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting array relation for remote table "document_label" */
+export interface DocumentLabelArrRelInsertInput {
+  data: Array<DocumentLabelInsertInput>;
+}
+
+/** Boolean expression to filter rows from the table "document_label". All fields are combined with a logical 'AND'. */
+export interface DocumentLabelBoolExp {
+  _and?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
+  _not?: Maybe<DocumentLabelBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentLabelBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  id?: Maybe<UuidComparisonExp>;
+  label?: Maybe<LabelBoolExp>;
+  labelId?: Maybe<UuidComparisonExp>;
+}
+
+/** input type for inserting data into table "document_label" */
+export interface DocumentLabelInsertInput {
+  document?: Maybe<DocumentObjRelInsertInput>;
+  documentId?: Maybe<Scalars['uuid']>;
+  label?: Maybe<LabelObjRelInsertInput>;
+  labelId?: Maybe<Scalars['uuid']>;
+}
+
+/** input type for inserting object relation for remote table "document_label" */
+export interface DocumentLabelObjRelInsertInput {
+  data: DocumentLabelInsertInput;
+}
+
+/** ordering options when selecting data from "document_label" */
+export interface DocumentLabelOrderBy {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  id?: Maybe<OrderBy>;
+  label?: Maybe<LabelOrderBy>;
+  labelId?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "document_label" */
+export interface DocumentLabelPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for inserting object relation for remote table "document" */
+export interface DocumentObjRelInsertInput {
+  data: DocumentInsertInput;
+  on_conflict?: Maybe<DocumentOnConflict>;
+}
+
+/** on conflict condition type for table "document" */
+export interface DocumentOnConflict {
+  constraint: DocumentConstraint;
+  update_columns: Array<DocumentUpdateColumn>;
+  where?: Maybe<DocumentBoolExp>;
+}
+
+/** ordering options when selecting data from "document" */
+export interface DocumentOrderBy {
+  allowComments?: Maybe<OrderBy>;
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  content?: Maybe<OrderBy>;
+  countComments?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  isPublic?: Maybe<OrderBy>;
+  reactionBalance?: Maybe<OrderBy>;
+  tags?: Maybe<OrderBy>;
+  title?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "document" */
+export interface DocumentPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for inserting array relation for remote table "document_reaction" */
+export interface DocumentReactionArrRelInsertInput {
+  data: Array<DocumentReactionInsertInput>;
+}
+
+/** Boolean expression to filter rows from the table "document_reaction". All fields are combined with a logical 'AND'. */
+export interface DocumentReactionBoolExp {
+  _and?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
+  _not?: Maybe<DocumentReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionBoolExp>>>;
+  authorId?: Maybe<StringComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  document?: Maybe<DocumentBoolExp>;
+  documentId?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  reaction?: Maybe<ReactionBoolExp>;
+  reactionId?: Maybe<StringComparisonExp>;
+}
+
+/** Boolean expression to filter rows from the table "document_reaction_group". All fields are combined with a logical 'AND'. */
+export interface DocumentReactionGroupBoolExp {
+  _and?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
+  _not?: Maybe<DocumentReactionGroupBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionGroupBoolExp>>>;
+  count?: Maybe<BigintComparisonExp>;
+  reaction_id?: Maybe<StringComparisonExp>;
+}
+
+/** ordering options when selecting data from "document_reaction_group" */
+export interface DocumentReactionGroupOrderBy {
+  count?: Maybe<OrderBy>;
+  reaction_id?: Maybe<OrderBy>;
+}
+
+/** Boolean expression to filter rows from the table "document_reaction_group_persisted". All fields are combined with a logical 'AND'. */
+export interface DocumentReactionGroupPersistedBoolExp {
+  _and?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
+  _not?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  _or?: Maybe<Array<Maybe<DocumentReactionGroupPersistedBoolExp>>>;
+  count?: Maybe<IntComparisonExp>;
+  reactionid?: Maybe<StringComparisonExp>;
+}
+
+/** ordering options when selecting data from "document_reaction_group_persisted" */
+export interface DocumentReactionGroupPersistedOrderBy {
+  count?: Maybe<OrderBy>;
+  reactionid?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "document_reaction_group_persisted" */
+export interface DocumentReactionGroupPersistedPkColumnsInput {
+  id: Scalars['bigint'];
+}
+
+/** input type for inserting data into table "document_reaction" */
+export interface DocumentReactionInsertInput {
+  document?: Maybe<DocumentObjRelInsertInput>;
+  documentId?: Maybe<Scalars['uuid']>;
+  reactionId?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting object relation for remote table "document_reaction" */
+export interface DocumentReactionObjRelInsertInput {
+  data: DocumentReactionInsertInput;
+}
+
+/** ordering options when selecting data from "document_reaction" */
+export interface DocumentReactionOrderBy {
+  authorId?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  document?: Maybe<DocumentOrderBy>;
+  documentId?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  reaction?: Maybe<ReactionOrderBy>;
+  reactionId?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "document_reaction" */
+export interface DocumentReactionPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for updating data in table "document" */
+export interface DocumentSetInput {
+  allowComments?: Maybe<Scalars['Boolean']>;
+  content?: Maybe<Scalars['String']>;
+  isPublic?: Maybe<Scalars['Boolean']>;
+  tags?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting array relation for remote table "follow" */
+export interface FollowArrRelInsertInput {
+  data: Array<FollowInsertInput>;
+}
+
+/** Boolean expression to filter rows from the table "follow". All fields are combined with a logical 'AND'. */
+export interface FollowBoolExp {
+  _and?: Maybe<Array<Maybe<FollowBoolExp>>>;
+  _not?: Maybe<FollowBoolExp>;
+  _or?: Maybe<Array<Maybe<FollowBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  following?: Maybe<UserBoolExp>;
+  followingId?: Maybe<StringComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+}
+
+/** input type for inserting data into table "follow" */
+export interface FollowInsertInput {
+  followingId?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting object relation for remote table "follow" */
+export interface FollowObjRelInsertInput {
+  data: FollowInsertInput;
+}
+
+/** ordering options when selecting data from "follow" */
+export interface FollowOrderBy {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  createdAt?: Maybe<OrderBy>;
+  following?: Maybe<UserOrderBy>;
+  followingId?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "follow" */
+export interface FollowPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for inserting array relation for remote table "label" */
+export interface LabelArrRelInsertInput {
+  data: Array<LabelInsertInput>;
+  on_conflict?: Maybe<LabelOnConflict>;
+}
+
+/** Boolean expression to filter rows from the table "label". All fields are combined with a logical 'AND'. */
+export interface LabelBoolExp {
+  _and?: Maybe<Array<Maybe<LabelBoolExp>>>;
+  _not?: Maybe<LabelBoolExp>;
+  _or?: Maybe<Array<Maybe<LabelBoolExp>>>;
+  author?: Maybe<UserBoolExp>;
+  authorId?: Maybe<StringComparisonExp>;
+  color?: Maybe<ColorBoolExp>;
+  colorName?: Maybe<StringComparisonExp>;
+  document_labels?: Maybe<DocumentLabelBoolExp>;
+  id?: Maybe<UuidComparisonExp>;
+  label?: Maybe<StringComparisonExp>;
+}
+
+/** input type for inserting data into table "label" */
+export interface LabelInsertInput {
+  colorName?: Maybe<Scalars['String']>;
+  document_labels?: Maybe<DocumentLabelArrRelInsertInput>;
+  label?: Maybe<Scalars['String']>;
+}
+
+/** input type for inserting object relation for remote table "label" */
+export interface LabelObjRelInsertInput {
+  data: LabelInsertInput;
+  on_conflict?: Maybe<LabelOnConflict>;
+}
+
+/** on conflict condition type for table "label" */
+export interface LabelOnConflict {
+  constraint: LabelConstraint;
+  update_columns: Array<LabelUpdateColumn>;
+  where?: Maybe<LabelBoolExp>;
+}
+
+/** ordering options when selecting data from "label" */
+export interface LabelOrderBy {
+  author?: Maybe<UserOrderBy>;
+  authorId?: Maybe<OrderBy>;
+  color?: Maybe<ColorOrderBy>;
+  colorName?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  label?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "label" */
+export interface LabelPkColumnsInput {
+  id: Scalars['uuid'];
+}
+
+/** input type for updating data in table "label" */
+export interface LabelSetInput {
+  colorName?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+}
+
+/** Boolean expression to filter rows from the table "reaction". All fields are combined with a logical 'AND'. */
+export interface ReactionBoolExp {
+  _and?: Maybe<Array<Maybe<ReactionBoolExp>>>;
+  _not?: Maybe<ReactionBoolExp>;
+  _or?: Maybe<Array<Maybe<ReactionBoolExp>>>;
+  htmlCode?: Maybe<StringComparisonExp>;
+  title?: Maybe<StringComparisonExp>;
+}
+
+/** ordering options when selecting data from "reaction" */
+export interface ReactionOrderBy {
+  htmlCode?: Maybe<OrderBy>;
+  title?: Maybe<OrderBy>;
+}
+
+/** primary key columns input for table: "reaction" */
+export interface ReactionPkColumnsInput {
+  htmlCode: Scalars['String'];
+}
+
+export interface SearchDocumentsArgs {
+  search?: Maybe<Scalars['String']>;
+}
+
+/** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
+export interface TimestamptzComparisonExp {
+  _eq?: Maybe<Scalars['timestamptz']>;
+  _gt?: Maybe<Scalars['timestamptz']>;
+  _gte?: Maybe<Scalars['timestamptz']>;
+  _in?: Maybe<Array<Scalars['timestamptz']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['timestamptz']>;
+  _lte?: Maybe<Scalars['timestamptz']>;
+  _neq?: Maybe<Scalars['timestamptz']>;
+  _nin?: Maybe<Array<Scalars['timestamptz']>>;
+}
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
 export interface UserBoolExp {
@@ -2038,23 +2081,6 @@ export interface UserBoolExp {
   labels?: Maybe<LabelBoolExp>;
   maxPrivateDocs?: Maybe<IntComparisonExp>;
   name?: Maybe<StringComparisonExp>;
-}
-
-/** unique or primary key constraints on table "user" */
-export enum UserConstraint {
-  /** unique or primary key constraint */
-  UserAuthIdKey = 'user_auth_id_key',
-  /** unique or primary key constraint */
-  UserPkey = 'user_pkey'
-}
-
-/** response of any mutation on the table "user" */
-export interface UserMutationResponse {
-   __typename?: 'user_mutation_response';
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data of the affected rows by the mutation */
-  returning: Array<User>;
 }
 
 /** on conflict condition type for table "user" */
@@ -2083,41 +2109,10 @@ export interface UserPkColumnsInput {
   id: Scalars['uuid'];
 }
 
-/** select columns of table "user" */
-export enum UserSelectColumn {
-  /** column name */
-  AuthId = 'authId',
-  /** column name */
-  BalanceCommentReaction = 'balanceCommentReaction',
-  /** column name */
-  BalanceDocumentReaction = 'balanceDocumentReaction',
-  /** column name */
-  CountPrivateDocs = 'countPrivateDocs',
-  /** column name */
-  CountWrittenComments = 'countWrittenComments',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ImageUrl = 'imageUrl',
-  /** column name */
-  MaxPrivateDocs = 'maxPrivateDocs',
-  /** column name */
-  Name = 'name'
-}
-
 /** input type for updating data in table "user" */
 export interface UserSetInput {
   name?: Maybe<Scalars['String']>;
 }
-
-/** update columns of table "user" */
-export enum UserUpdateColumn {
-  /** column name */
-  Name = 'name'
-}
-
 
 /** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
 export interface UuidComparisonExp {
@@ -2132,9 +2127,12 @@ export interface UuidComparisonExp {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 }
 
-export type UCommentSectionCommentAuthorFragment = { __typename?: 'user', authId: string, name: string, imageUrl: Maybe<string> };
 
-export type UCommentSectionCommentReactionGroupFragment = { __typename?: 'comment_reactions_group', count: Maybe<any>, reactionid: Maybe<string> };
+
+
+export type UCommentSectionCommentAuthorFragment = { __typename?: 'user', authId: string, name: string, imageUrl?: Maybe<string> };
+
+export type UCommentSectionCommentReactionGroupFragment = { __typename?: 'comment_reactions_group', count?: Maybe<any>, reactionid?: Maybe<string> };
 
 export type UCommentSectionCommentReactionFragment = { __typename?: 'comment_reaction', reactionId: string };
 
@@ -2149,12 +2147,12 @@ export type UCommentSectionCommentFragment = { __typename?: 'comment', id: any, 
     & UCommentSectionCommentReactionFragment
   )> };
 
-export type UCommentSectionCommentsQueryVariables = {
+export type UCommentSectionCommentsQueryVariables = Exact<{
   documentId: Scalars['uuid'];
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   authorId: Scalars['String'];
-};
+}>;
 
 
 export type UCommentSectionCommentsQuery = { __typename?: 'query_root', allComments: Array<(
@@ -2162,50 +2160,50 @@ export type UCommentSectionCommentsQuery = { __typename?: 'query_root', allComme
     & UCommentSectionCommentFragment
   )> };
 
-export type UCommentSectionAddCommentReactionMutationVariables = {
+export type UCommentSectionAddCommentReactionMutationVariables = Exact<{
   commentId: Scalars['uuid'];
   reactionId: Scalars['String'];
-};
+}>;
 
 
-export type UCommentSectionAddCommentReactionMutation = { __typename?: 'mutation_root', addCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+export type UCommentSectionAddCommentReactionMutation = { __typename?: 'mutation_root', addCommentReaction?: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
 
-export type UCommentSectionRemoveCommentReactionMutationVariables = {
+export type UCommentSectionRemoveCommentReactionMutationVariables = Exact<{
   commentId: Scalars['uuid'];
   reactionId: Scalars['String'];
-};
+}>;
 
 
-export type UCommentSectionRemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+export type UCommentSectionRemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction?: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
 
-export type UAddCommentMutationVariables = {
+export type UAddCommentMutationVariables = Exact<{
   comment: Scalars['String'];
   documentId: Scalars['uuid'];
-};
+}>;
 
 
-export type UAddCommentMutation = { __typename?: 'mutation_root', addComment: Maybe<{ __typename?: 'comment_mutation_response', returning: Array<{ __typename?: 'comment', id: any }> }> };
+export type UAddCommentMutation = { __typename?: 'mutation_root', addComment?: Maybe<{ __typename?: 'comment_mutation_response', returning: Array<{ __typename?: 'comment', id: any }> }> };
 
-export type URemoveCommentMutationVariables = {
+export type URemoveCommentMutationVariables = Exact<{
   commentId: Scalars['uuid'];
-};
+}>;
 
 
-export type URemoveCommentMutation = { __typename?: 'mutation_root', removeComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
+export type URemoveCommentMutation = { __typename?: 'mutation_root', removeComment?: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
 
-export type UEditCommentMutationVariables = {
+export type UEditCommentMutationVariables = Exact<{
   commentId: Scalars['uuid'];
   comment: Scalars['String'];
-};
+}>;
 
 
-export type UEditCommentMutation = { __typename?: 'mutation_root', updateComment: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
+export type UEditCommentMutation = { __typename?: 'mutation_root', updateComment?: Maybe<{ __typename?: 'comment_mutation_response', affected_rows: number }> };
 
-export type UHasuraUserFragment = { __typename?: 'user', authId: string, name: string, id: any, countPrivateDocs: number, countWrittenComments: number, imageUrl: Maybe<string> };
+export type UHasuraUserFragment = { __typename?: 'user', authId: string, name: string, id: any, countPrivateDocs: number, countWrittenComments: number, imageUrl?: Maybe<string> };
 
-export type UMeQueryVariables = {
+export type UMeQueryVariables = Exact<{
   authId: Scalars['String'];
-};
+}>;
 
 
 export type UMeQuery = { __typename?: 'query_root', allUsers: Array<(
@@ -2213,15 +2211,15 @@ export type UMeQuery = { __typename?: 'query_root', allUsers: Array<(
     & UHasuraUserFragment
   )> };
 
-export type UUpdateUserNameMutationVariables = {
+export type UUpdateUserNameMutationVariables = Exact<{
   authId: Scalars['String'];
   name: Scalars['String'];
-};
+}>;
 
 
-export type UUpdateUserNameMutation = { __typename?: 'mutation_root', updateUser: Maybe<{ __typename?: 'user_mutation_response', affected_rows: number }> };
+export type UUpdateUserNameMutation = { __typename?: 'mutation_root', updateUser?: Maybe<{ __typename?: 'user_mutation_response', affected_rows: number }> };
 
-export type UEditDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
+export type UEditDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl?: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UEditDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
@@ -2229,7 +2227,7 @@ export type UEditDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UEditDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
+export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, tags?: Maybe<string>, author: (
     { __typename?: 'user' }
     & UEditDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2243,48 +2241,48 @@ export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countC
     & UEditDocReactionFragment
   )> };
 
-export type UEditDocumentGetQueryVariables = {
+export type UEditDocumentGetQueryVariables = Exact<{
   documentId: Scalars['uuid'];
   authorId: Scalars['String'];
-};
+}>;
 
 
-export type UEditDocumentGetQuery = { __typename?: 'query_root', document: Maybe<(
+export type UEditDocumentGetQuery = { __typename?: 'query_root', document?: Maybe<(
     { __typename?: 'document' }
     & UEditDocFragment
   )> };
 
-export type UEditDocumentSaveMutationVariables = {
+export type UEditDocumentSaveMutationVariables = Exact<{
   documentId: Scalars['uuid'];
   documentInput?: Maybe<DocumentSetInput>;
-};
+}>;
 
 
-export type UEditDocumentSaveMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+export type UEditDocumentSaveMutation = { __typename?: 'mutation_root', updateDocument?: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
-export type UEditDocumentAddMutationVariables = {
+export type UEditDocumentAddMutationVariables = Exact<{
   newDocument: DocumentInsertInput;
-};
+}>;
 
 
-export type UEditDocumentAddMutation = { __typename?: 'mutation_root', addDocument: Maybe<{ __typename?: 'document_mutation_response', returning: Array<{ __typename?: 'document', id: any }> }> };
+export type UEditDocumentAddMutation = { __typename?: 'mutation_root', addDocument?: Maybe<{ __typename?: 'document_mutation_response', returning: Array<{ __typename?: 'document', id: any }> }> };
 
-export type UDeleteDocumentMutationVariables = {
+export type UDeleteDocumentMutationVariables = Exact<{
   documentId: Scalars['uuid'];
-};
+}>;
 
 
-export type UDeleteDocumentMutation = { __typename?: 'mutation_root', removeDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+export type UDeleteDocumentMutation = { __typename?: 'mutation_root', removeDocument?: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
-export type USetDocumentTagMutationVariables = {
+export type USetDocumentTagMutationVariables = Exact<{
   documentId: Scalars['uuid'];
   tags?: Maybe<Scalars['String']>;
-};
+}>;
 
 
-export type USetDocumentTagMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+export type USetDocumentTagMutation = { __typename?: 'mutation_root', updateDocument?: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
-export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
+export type UFeedDocAuthorFragment = { __typename?: 'user', authId: string, imageUrl?: Maybe<string>, name: string, followers: Array<{ __typename?: 'follow', id: any }> };
 
 export type UFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
@@ -2292,7 +2290,7 @@ export type UFeedDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, tags: Maybe<string>, id: any, author: (
+export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, tags?: Maybe<string>, id: any, author: (
     { __typename?: 'user' }
     & UFeedDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2306,12 +2304,12 @@ export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countC
     & UFeedDocReactionFragment
   )> };
 
-export type UFeedDocsQueryVariables = {
+export type UFeedDocsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   authorId: Scalars['String'];
   filter?: Maybe<DocumentBoolExp>;
-};
+}>;
 
 
 export type UFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
@@ -2319,13 +2317,13 @@ export type UFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
     & UFeedDocFragment
   )> };
 
-export type USearchFeedDocsQueryVariables = {
+export type USearchFeedDocsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   authorId: Scalars['String'];
   filter?: Maybe<DocumentBoolExp>;
   search?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type USearchFeedDocsQuery = { __typename?: 'query_root', allDocuments: Array<(
@@ -2333,43 +2331,43 @@ export type USearchFeedDocsQuery = { __typename?: 'query_root', allDocuments: Ar
     & UFeedDocFragment
   )> };
 
-export type UAddDocumentReactionMutationVariables = {
+export type UAddDocumentReactionMutationVariables = Exact<{
   documentReaction: DocumentReactionInsertInput;
-};
+}>;
 
 
-export type UAddDocumentReactionMutation = { __typename?: 'mutation_root', addDocumentReaction: Maybe<{ __typename?: 'document_reaction_mutation_response', returning: Array<{ __typename?: 'document_reaction', reactionId: string, documentId: any }> }> };
+export type UAddDocumentReactionMutation = { __typename?: 'mutation_root', addDocumentReaction?: Maybe<{ __typename?: 'document_reaction_mutation_response', returning: Array<{ __typename?: 'document_reaction', reactionId: string, documentId: any }> }> };
 
-export type UAddCommentReactionMutationVariables = {
+export type UAddCommentReactionMutationVariables = Exact<{
   commentReaction: CommentReactionInsertInput;
-};
+}>;
 
 
-export type UAddCommentReactionMutation = { __typename?: 'mutation_root', addCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', returning: Array<{ __typename?: 'comment_reaction', reactionId: string, commentId: any }> }> };
+export type UAddCommentReactionMutation = { __typename?: 'mutation_root', addCommentReaction?: Maybe<{ __typename?: 'comment_reaction_mutation_response', returning: Array<{ __typename?: 'comment_reaction', reactionId: string, commentId: any }> }> };
 
-export type URemoveDocumentReactionMutationVariables = {
+export type URemoveDocumentReactionMutationVariables = Exact<{
   reactionId: Scalars['String'];
   documentId: Scalars['uuid'];
-};
+}>;
 
 
-export type URemoveDocumentReactionMutation = { __typename?: 'mutation_root', removeDocumentReaction: Maybe<{ __typename?: 'document_reaction_mutation_response', affected_rows: number }> };
+export type URemoveDocumentReactionMutation = { __typename?: 'mutation_root', removeDocumentReaction?: Maybe<{ __typename?: 'document_reaction_mutation_response', affected_rows: number }> };
 
-export type URemoveCommentReactionMutationVariables = {
+export type URemoveCommentReactionMutationVariables = Exact<{
   reactionId: Scalars['String'];
   commentId: Scalars['uuid'];
-};
+}>;
 
 
-export type URemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
+export type URemoveCommentReactionMutation = { __typename?: 'mutation_root', removeCommentReaction?: Maybe<{ __typename?: 'comment_reaction_mutation_response', affected_rows: number }> };
 
-export type UChangeDocumentVisibilityMutationVariables = {
+export type UChangeDocumentVisibilityMutationVariables = Exact<{
   documentId: Scalars['uuid'];
   isPublic: Scalars['Boolean'];
-};
+}>;
 
 
-export type UChangeDocumentVisibilityMutation = { __typename?: 'mutation_root', updateDocument: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
+export type UChangeDocumentVisibilityMutation = { __typename?: 'mutation_root', updateDocument?: Maybe<{ __typename?: 'document_mutation_response', affected_rows: number }> };
 
 export const UCommentSectionCommentAuthorFragmentDoc = gql`
     fragment UCommentSectionCommentAuthor on user {
@@ -2467,6 +2465,7 @@ export const UEditDocFragmentDoc = gql`
   title
   content
   id
+  tags
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UEditDocReaction
   }

@@ -58,7 +58,9 @@
     "titlePlaceholder": "Bsp.: Hello World in JavaScript",
     "savedDocumentSnack": "Snippet gespeichert",
     "successfullyDeleted": "Snippet gelöscht",
-    "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung."
+    "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung.",
+    "scriptEvaluatorEnabled": "JavaScript Tools aktivieren",
+    "scriptEvaluatorEnabledDescription": "Der Inhalt des Snippets wird als JavaScript interpretiert und ausführbar gemacht."
   },
   "comment": {
     "areaPlaceholer": "Als {{ name }} veröffentlichen",
@@ -80,7 +82,8 @@
   "scriptEvaluator": {
     "run": "Ausführen",
     "running": "Wird ausgeführt...",
-    "stop": "Beenden"
+    "stop": "Beenden",
+    "title": "JavaScript Konsole"
   },
   "ngxauthfirebaseui": {
     "signInTabText": "Einloggen",

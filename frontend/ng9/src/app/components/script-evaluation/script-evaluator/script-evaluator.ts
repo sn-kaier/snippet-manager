@@ -1,9 +1,8 @@
-import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-
-import { parseScript } from 'esprima';
 import * as uuid from 'uuid';
-import { ScriptTraverser } from './script-traverser';
+import { EventEmitter, Renderer2 } from '@angular/core';
 import { Program } from 'estree';
+import { parseScript } from 'esprima';
+import { ScriptTraverser } from './script-traverser';
 
 export type ConsoleType = 'log' | 'warn' | 'error';
 
@@ -12,27 +11,17 @@ export interface LogLine {
   logLevel: ConsoleType;
 }
 
-@Component({
-  selector: 'app-script-evaluator',
-  templateUrl: './script-evaluator.component.html',
-  styleUrls: ['./script-evaluator.component.scss']
-})
-export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
-  readonly uniqueId: string = uuid.v4();
+export class ScriptEvaluator {
+  readonly logLine = new EventEmitter<LogLine>();
+  readonly terminated = new EventEmitter();
 
-  @Output()
-  logLine = new EventEmitter<LogLine>();
-
-  @ViewChild('ref', { static: false }) containerRef: ElementRef<HTMLIFrameElement>;
-
-  @Output() terminated = new EventEmitter();
-  @Output() parsingError = new EventEmitter();
-
+  readonly parsingError = new EventEmitter();
+  private readonly uniqueId: string = uuid.v4();
   private iFrameRef: HTMLIFrameElement | undefined;
 
   private isRunning = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private readonly renderer: Renderer2) {}
 
   get running(): boolean {
     return this.isRunning;
@@ -53,13 +42,28 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
     if (this.isRunning) {
       throw new Error('can not run a new script if the old one is still running');
     }
+
+    const logger = (m: { data: { fromChild: string; consoleType: ConsoleType; terminated: boolean; id: string } }) => {
+      if (m.data && m.data.fromChild && typeof m.data.fromChild === 'string' && m.data.id === this.uniqueId) {
+        if (m.data.terminated) {
+          this.isRunning = false;
+          if (this.iFrameRef) {
+            this.iFrameRef.remove();
+          }
+          this.terminated.emit();
+        } else {
+          // console.log(`message ${m.data.consoleType} on host:`, m.data.fromChild);
+          this.logLine.emit({ line: m.data.fromChild, logLevel: m.data.consoleType });
+        }
+      }
+    };
+    window.addEventListener('message', logger, false);
+
     const now = Date.now();
     this.isRunning = true;
     const template = this.createScriptSource();
-    const nEl = this.containerRef.nativeElement;
-    this.iFrameRef = this.renderer.createElement('iframe');
-    this.renderer.setProperty(this.iFrameRef, 'sandbox', 'allow-scripts allow-same-origin');
-    this.renderer.setStyle(this.iFrameRef, 'display', 'none');
+    const nEl = this.createContainerElement();
+    this.iFrameRef = this.createIFrame();
     this.renderer.appendChild(nEl, this.iFrameRef);
     this.renderer.setAttribute(this.iFrameRef, 'src', template);
     this.isRunning = true;
@@ -74,20 +78,31 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
     return new Promise<number>(resolve => {
       const sub = this.terminated.subscribe(() => {
         sub.unsubscribe();
+        window.removeEventListener('message', logger);
         const elapsedTime = Date.now() - now;
+        nEl.remove();
         resolve(elapsedTime);
       });
     });
   }
 
-  ngOnInit() {
-    window.addEventListener('message', this.logger, false);
+  private createContainerElement() {
+    const divElement = this.renderer.createElement('div');
+    this.renderer.appendChild(document.body, divElement);
+    divElement.style.display = 'none';
+    return divElement;
   }
 
-  ngOnDestroy(): void {
-    window.removeEventListener('message', this.logger);
+  private createIFrame() {
+    const iFrame = this.renderer.createElement('iframe');
+    this.renderer.setProperty(iFrame, 'sandbox', 'allow-scripts allow-same-origin');
+    this.renderer.setStyle(iFrame, 'display', 'none');
+    return iFrame;
   }
 
+  /**
+   * add timeouts to loops to be able to interrupt the program
+   */
   private preprocessScript(scriptSource: string): string {
     const scriptLines = scriptSource.split('\n');
     let testedCode: Program;
@@ -113,21 +128,6 @@ export class ScriptEvaluatorComponent implements OnInit, OnDestroy {
   private wrapIntoAsyncFunction(scriptSource: string): string {
     return `(async function(){${scriptSource}})()`;
   }
-
-  private logger = (m: { data: { fromChild: string; consoleType: ConsoleType; terminated: boolean; id: string } }) => {
-    if (m.data && m.data.fromChild && typeof m.data.fromChild === 'string' && m.data.id === this.uniqueId) {
-      if (m.data.terminated) {
-        this.isRunning = false;
-        if (this.iFrameRef) {
-          this.iFrameRef.remove();
-        }
-        this.terminated.emit();
-      } else {
-        // console.log(`message ${m.data.consoleType} on host:`, m.data.fromChild);
-        this.logLine.emit({ line: m.data.fromChild, logLevel: m.data.consoleType });
-      }
-    }
-  };
 
   private createScriptSource() {
     const src = `

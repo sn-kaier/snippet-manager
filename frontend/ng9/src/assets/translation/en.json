@@ -58,7 +58,9 @@
     "titlePlaceholder": "Ex. Hello World in JavaScript",
     "savedDocumentSnack": "Snipped saved",
     "successfullyDeleted": "Snippet deleted",
-    "deleteFailed": "Failed to delete snippet. Please check you network connection."
+    "deleteFailed": "Failed to delete snippet. Please check you network connection.",
+    "scriptEvaluatorEnabled": "Use JavaScript tools",
+    "scriptEvaluatorEnabledDescription": "The content of this snippets is treated as JavaScript and you can execute it directly."
   },
   "comment": {
     "areaPlaceholer": "Publish as {{name}}",
@@ -80,7 +82,8 @@
   "scriptEvaluator": {
     "run": "Run",
     "running": "Running...",
-    "stop": "Stop execution"
+    "stop": "Stop execution",
+    "title": "JavaScript console"
   },
   "ngxauthfirebaseui": {
     "signInTabText": "Sign in",

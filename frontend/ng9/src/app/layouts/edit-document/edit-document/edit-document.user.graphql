@@ -42,6 +42,7 @@ fragment UEditDoc on document {
   title
   content
   id
+  tags
   reactions(where: {authorId: {_eq: $authorId}}) {
     ...UEditDocReaction
   }

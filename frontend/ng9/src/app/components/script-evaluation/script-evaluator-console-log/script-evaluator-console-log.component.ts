@@ -4,11 +4,14 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
-import { LogLine, ScriptEvaluatorComponent } from '../script-evaluator/script-evaluator.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ScriptEvaluatorService } from '../script-evaluator/script-evaluator.service';
+import { Subscription } from 'rxjs';
+import { LogLine } from '../script-evaluator/script-evaluator';
 
 @Component({
   selector: 'app-script-evaluator-console-log',
@@ -16,7 +19,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./script-evaluator-console-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScriptEvaluatorConsoleLogComponent implements OnInit {
+export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
   maxBufferedLines = 1000;
   lines: LogLine[] = [];
 
@@ -24,14 +27,30 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
 
   changeTriggered = false;
   @ViewChild('scriptContainer') scriptContainer: ElementRef<HTMLDivElement>;
-  @ViewChild(ScriptEvaluatorComponent) scriptEvaluator: ScriptEvaluatorComponent;
-
   @Input()
   scriptText: string;
 
-  constructor(private readonly changeDetectorRef: ChangeDetectorRef, private readonly domSanitizer: DomSanitizer) {}
+  readonly scriptEvaluator = this.evaluatorService.createRunner();
+  private subs: Subscription[] = [];
 
-  ngOnInit(): void {}
+  constructor(
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly evaluatorService: ScriptEvaluatorService
+  ) {}
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  ngOnInit(): void {
+    this.subs.push(
+      this.scriptEvaluator.logLine.subscribe(line => {
+        this.addLine(line);
+      })
+    );
+  }
 
   clear() {
     this.lines = [];
@@ -43,6 +62,7 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
       this.clear();
       this.showLog = true;
       this.scriptEvaluator.run(this.scriptText).then(() => {
+        this.changeDetectorRef.detectChanges();
         console.log('stopped execution');
       });
     } else {
@@ -66,15 +86,6 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
         });
       });
     }
-  }
-
-  private escapeHtml(unsafe: string): string {
-    return unsafe
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
   }
 
   renderCode(): SafeHtml {
@@ -103,5 +114,14 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit {
   close() {
     this.showLog = false;
     this.clear();
+  }
+
+  private escapeHtml(unsafe: string): string {
+    return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 }
