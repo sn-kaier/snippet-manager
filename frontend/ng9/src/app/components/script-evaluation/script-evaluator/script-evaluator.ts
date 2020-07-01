@@ -136,6 +136,7 @@ export class ScriptEvaluator {
       <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
         <title>Page title</title>
       <script>
       function bindEvent(element, eventName, eventHandler) {

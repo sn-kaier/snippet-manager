@@ -2,3 +2,12 @@
   overflow-y: hidden;
 }
 
+.monaco-container {
+  height: calc(100vh - 450px);
+}
+
+.my-monaco {
+  .editor-container {
+    height: calc(100vh - 100px);
+  }
+}

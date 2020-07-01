@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from '../../../components/confirm-delete-dialog.component';
 import { DocumentTags } from '../../feed/feed-card/document-tags';
 import { ScriptEvaluatorService } from '../../../components/script-evaluation/script-evaluator/script-evaluator.service';
+import { ScriptEvaluatorConsoleLogComponent } from '../../../components/script-evaluation/script-evaluator-console-log/script-evaluator-console-log.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -37,6 +38,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   scriptEvaluatorEnabled = false;
   loading$ = new Subject<boolean>();
 
+  monacoOptions = { theme: 'vs-light', language: 'javascript' };
+  @ViewChild(ScriptEvaluatorConsoleLogComponent) scriptConsole: ScriptEvaluatorConsoleLogComponent;
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
 
@@ -55,6 +58,25 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly scriptEvaluatorService: ScriptEvaluatorService
   ) {}
+
+  get isNewDocument(): boolean {
+    return !this.documentId;
+  }
+
+  get canSave() {
+    if (!this.documentSetInput?.content.length || !this.documentSetInput.title.length) {
+      return false;
+    }
+    if (this.doc) {
+      return (
+        this.documentSetInput.title !== this.doc.title ||
+        this.documentSetInput.content !== this.doc.content ||
+        this.documentSetInput.allowComments !== this.doc.allowComments ||
+        this.documentSetInput.isPublic !== this.doc.isPublic
+      );
+    }
+    return true;
+  }
 
   async ngOnInit(): Promise<void> {
     this.loading$.next(true);
@@ -89,33 +111,6 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.setDefaultDocumentInput();
       this.changeDetectorRef.detectChanges();
     }
-  }
-
-  private setDefaultDocumentInput() {
-    this.documentSetInput = {
-      allowComments: true,
-      isPublic: false,
-      title: '',
-      content: '',
-      tags: ''
-    };
-    this.docTags = new DocumentTags('');
-  }
-
-  private setDocumentInput(doc: UEditDocFragment) {
-    this.documentSetInput = {
-      allowComments: doc.allowComments,
-      content: doc.content,
-      isPublic: doc.isPublic,
-      title: doc.title,
-      tags: doc.tags
-    };
-    this.docTags = new DocumentTags(doc.tags);
-    this.scriptEvaluatorEnabled = this.docTags.validJs;
-  }
-
-  get isNewDocument(): boolean {
-    return !this.documentId;
   }
 
   saveDocument() {
@@ -158,34 +153,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.showSnackBar('edit.savedDocumentSnack').then();
   }
 
-  private async showSnackBar(mainText: string) {
-    const savedDocumentSnackTranslated = await this.translate.get(mainText).toPromise();
-    const closeTranslated = await this.translate.get('common.close').toPromise();
-    this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
-      duration: 1000 * 5,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    });
-  }
-
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.subscriptions = [];
-  }
-
-  get canSave() {
-    if (!this.documentSetInput?.content.length || !this.documentSetInput.title.length) {
-      return false;
-    }
-    if (this.doc) {
-      return (
-        this.documentSetInput.title !== this.doc.title ||
-        this.documentSetInput.content !== this.doc.content ||
-        this.documentSetInput.allowComments !== this.doc.allowComments ||
-        this.documentSetInput.isPublic !== this.doc.isPublic
-      );
-    }
-    return true;
   }
 
   reset() {
@@ -223,5 +193,42 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
           this.showSnackBar('edit.deleteFailed').then();
         });
     }
+  }
+
+  runScript() {
+    this.scriptConsole?.runScript();
+  }
+
+  private setDefaultDocumentInput() {
+    this.documentSetInput = {
+      allowComments: true,
+      isPublic: false,
+      title: '',
+      content: '',
+      tags: ''
+    };
+    this.docTags = new DocumentTags('');
+  }
+
+  private setDocumentInput(doc: UEditDocFragment) {
+    this.documentSetInput = {
+      allowComments: doc.allowComments,
+      content: doc.content,
+      isPublic: doc.isPublic,
+      title: doc.title,
+      tags: doc.tags
+    };
+    this.docTags = new DocumentTags(doc.tags);
+    this.scriptEvaluatorEnabled = this.docTags.validJs;
+  }
+
+  private async showSnackBar(mainText: string) {
+    const savedDocumentSnackTranslated = await this.translate.get(mainText).toPromise();
+    const closeTranslated = await this.translate.get('common.close').toPromise();
+    this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
+      duration: 1000 * 5,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }

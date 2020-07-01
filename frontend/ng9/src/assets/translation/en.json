@@ -60,7 +60,8 @@
     "successfullyDeleted": "Snippet deleted",
     "deleteFailed": "Failed to delete snippet. Please check you network connection.",
     "scriptEvaluatorEnabled": "Use JavaScript tools",
-    "scriptEvaluatorEnabledDescription": "The content of this snippets is treated as JavaScript and you can execute it directly."
+    "scriptEvaluatorEnabledDescription": "The content of this snippets is treated as JavaScript and you can execute it directly.",
+    "runShortcut": "Alt + Enter"
   },
   "comment": {
     "areaPlaceholer": "Publish as {{name}}",

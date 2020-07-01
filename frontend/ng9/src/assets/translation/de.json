@@ -60,7 +60,8 @@
     "successfullyDeleted": "Snippet gelöscht",
     "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung.",
     "scriptEvaluatorEnabled": "JavaScript Tools aktivieren",
-    "scriptEvaluatorEnabledDescription": "Der Inhalt des Snippets wird als JavaScript interpretiert und ausführbar gemacht."
+    "scriptEvaluatorEnabledDescription": "Der Inhalt des Snippets wird als JavaScript interpretiert und ausführbar gemacht.",
+    "runShortcut": "Alt + Enter"
   },
   "comment": {
     "areaPlaceholer": "Als {{ name }} veröffentlichen",

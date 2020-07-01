@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScriptEvaluationModule } from '../../components/script-evaluation/script-evaluation.module';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [EditDocumentComponent],
@@ -23,13 +24,14 @@ import { ScriptEvaluationModule } from '../../components/script-evaluation/scrip
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    ComponentsModule,
+    MatTooltipModule,
     MatInputModule,
+    ComponentsModule,
     FormsModule,
     MatCheckboxModule,
     TranslateModule,
     ReactiveFormsModule,
-    MatTooltipModule,
+    MonacoEditorModule.forRoot(),
     ScriptEvaluationModule
   ]
 })

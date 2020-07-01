@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-xs-6">
-    <button [disabled]="scriptEvaluator?.running" mat-button color="warn" (click)="runScript()">
+    <button
+      [matTooltip]="runLabel"
+      matTooltipPosition="above"
+      [disabled]="scriptEvaluator?.running" mat-button color="warn" (click)="runScript()">
       {{ (scriptEvaluator?.running ? 'scriptEvaluator.running' : 'scriptEvaluator.run') | translate }}
     </button>
     <button mat-icon-button color="primary"

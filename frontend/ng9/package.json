@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config ./proxy.conf.json",
+    "start:prod-mode": "ng serve --prod --proxy-config ./proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -47,6 +48,7 @@
     "jwt-decode": "^2.2.0",
     "ngx-auth-firebaseui": "^4.4.0",
     "ngx-highlightjs": "^4.0.2",
+    "ngx-monaco-editor": "^9.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "uuid": "^8.1.0",

@@ -44,32 +44,50 @@
           </mat-error>
         </div>
       </div>
-
+      <div class="hr"></div>
       <div class="row mts">
-        <div class="col-xs-12">
-          <mat-form-field class="form-field">
-            <mat-label>{{ 'edit.content' | translate }}</mat-label>
-            <textarea
-              matInput
-              name="content"
+
+        <div class="col-xs-12 monaco-container">
+<!--          <mat-form-field class="form-field">-->
+<!--            <mat-label *ngIf="!documentSetInput?.content?.length">{{ 'edit.content' | translate }}</mat-label>-->
+<!--            <textarea-->
+<!--              matInput-->
+<!--              name="content"-->
+<!--              #content="ngModel"-->
+<!--              required-->
+<!--              class="content-textarea"-->
+<!--              cdkTextareaAutosize-->
+<!--              cdkAutosizeMinRows="2"-->
+<!--              [placeholder]="'edit.textAreaPlaceholder' | translate"-->
+<!--              [(ngModel)]="documentSetInput.content"-->
+<!--            ></textarea>-->
+            <ngx-monaco-editor
+              style="height: 100%"
+              class="my-monaco"
               #content="ngModel"
-              required
-              class="content-textarea"
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="2"
-              [placeholder]="'edit.textAreaPlaceholder' | translate"
-              [(ngModel)]="documentSetInput.content"
-            ></textarea>
+              [options]="monacoOptions"
+              [name]="'content'"
+              (keydown.alt.enter)="runScript()"
+              [(ngModel)]="documentSetInput.content"></ngx-monaco-editor>
+
             <mat-error *ngIf="!content.valid && !content.pristine">
               {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
             </mat-error>
-          </mat-form-field>
+<!--          </mat-form-field>-->
+        </div>
+      </div>
+      <div class="hr"></div>
+
+      <div class="row">
+        <div class="col-xs-12">
+
         </div>
       </div>
 
       <app-script-evaluator-console-log
         *ngIf="scriptEvaluatorEnabled"
         [scriptText]="documentSetInput.content"
+        [runLabel]="'edit.runShortcut' | translate"
       ></app-script-evaluator-console-log>
 
       <div class="row mts">

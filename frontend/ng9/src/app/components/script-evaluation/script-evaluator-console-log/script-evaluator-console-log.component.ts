@@ -29,8 +29,8 @@ export class ScriptEvaluatorConsoleLogComponent implements OnInit, OnDestroy {
 
   changeTriggered = false;
   @ViewChild('scriptContainer') scriptContainer: ElementRef<HTMLDivElement>;
-  @Input()
-  scriptText: string;
+  @Input() scriptText: string;
+  @Input() runLabel?: string;
 
   readonly scriptEvaluator = this.evaluatorService.createRunner();
   private subs: Subscription[] = [];
