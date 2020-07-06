@@ -18,7 +18,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { HighlightResult } from 'ngx-highlightjs';
 import { DocumentTags } from './document-tags';
 import { ScrollService } from '../../../core/scroll.service';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { combineLatest, Subject } from 'rxjs';
 
 @Component({

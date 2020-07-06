@@ -1,0 +1,17 @@
+@import "~src/styles";
+
+.chip-text {
+  padding: 0 0.25em 0 0.5em;
+}
+
+.private {
+  .chip-icon, .chip-text {
+    color: $color-primary-dark;
+  }
+}
+
+.public {
+  .chip-icon, .chip-text {
+    color: $color-primary-dark;
+  }
+}

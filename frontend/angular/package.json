@@ -1,19 +1,20 @@
 {
-  "name": "ng9",
+  "name": "snippeter-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config ./proxy.conf.json",
     "start:prod-mode": "ng serve --prod --proxy-config ./proxy.conf.json",
-    "build": "ng build --prod",
+    "build": "ng build --prod --stats-json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "zip": "cd dist/ng9 && bestzip ../build.zip *",
+    "zip": "cd dist/angular && bestzip ../build.zip *",
     "upload": "node upload-to-ec2.js",
     "build-deploy": "npm run build && npm run zip && npm run upload",
     "generate": "graphql-codegen",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "analyze-bundle-size": "npx webpack-bundle-analyzer dist/angular/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +24,7 @@
     "@angular/common": "~10.0.1",
     "@angular/compiler": "~10.0.1",
     "@angular/core": "~10.0.1",
-    "@angular/fire": "^6.0.0",
+    "@angular/fire": "^6.0.2",
     "@angular/flex-layout": "^10.0.0-beta.32",
     "@angular/forms": "~10.0.1",
     "@angular/material": "^10.0.0",
@@ -44,7 +45,7 @@
     "firebase": "~7.15.5",
     "flexboxgrid": "^6.3.1",
     "graphql": "~15.1.0",
-    "graphql-tag": "~2.10.0",
+    "graphql-tag": "~2.10.3",
     "jwt-decode": "^2.2.0",
     "ngx-auth-firebaseui": "^4.4.0",
     "ngx-highlightjs": "^4.0.2",

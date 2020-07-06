@@ -1,13 +1,19 @@
-@import "material-theming";
+@import '~@angular/material/theming';
 
-$primary: map-get($snippets-app-theme, primary);
-$accent: map-get($snippets-app-theme, accent);
+// material colors
+$snippets-app-primary: mat-palette($mat-gray, 600);
+$snippets-app-accent:  mat-palette($mat-yellow, 700);
 
-$color-primary: mat-color($primary); // #1565c0;
-$color-primary-light: mat-color($primary, 400); // #5e92f3;
-$color-primary-dark: mat-color($primary, 900); //  #003c8f;
+// The warn palette is optional (defaults to red).
+$snippets-app-warn: mat-palette($mat-red);
+$snippets-app-purple: mat-palette($mat-purple);
+$snippets-app-green: mat-palette($mat-green);
 
-$color-accent: mat-color($accent); // #ffc107;
+$color-primary: mat-color($snippets-app-primary); // #1565c0;
+$color-primary-light: mat-color($snippets-app-primary, 400); // #5e92f3;
+$color-primary-dark: mat-color($snippets-app-primary, 900); //  #003c8f;
+
+$color-accent: mat-color($snippets-app-accent); // #ffc107;
 $color-accent-light: lighten($color-accent, 10);
 $color-accent-dark: darken($color-accent, 10);
 
