@@ -1,9 +1,9 @@
 const client = require('scp2');
 const fs = require('fs');
-const sshClient = require('ssh2').Client;
+const SshClient = require('ssh2').Client;
 
-const host = require('./upload-to-ec2.local');
-const path = '/home/ubuntu/';
+const { host, username } = require('./upload-to-ec2.local');
+const path = `/home/${username}/`;
 const identityFile = 'C:\\\\Users\\simon\\.ssh\\ec2-key-pair.pem';
 const file = './dist/build.zip';
 
@@ -13,7 +13,7 @@ function upload() {
     {
       host,
       path,
-      username: 'ubuntu',
+      username: username || 'ubuntu',
       privateKey: fs.readFileSync(identityFile),
       passphrase: ''
     },
@@ -31,17 +31,17 @@ function upload() {
 upload();
 
 function unpackAndDeploy() {
-  const conn = new sshClient();
+  const conn = new SshClient();
   conn
     .on('ready', function() {
       console.log('Client :: ready');
       conn.exec(
         `
-        sudo rm -rf "/home/ubuntu/frontend-build"/*
-        unzip "/home/ubuntu/build.zip" -d "/home/ubuntu/frontend-build/" &&
+        sudo rm -rf "/home/${username}/frontend-build"/*
+        unzip "/home/${username}/build.zip" -d "/home/${username}/frontend-build/" &&
         sudo rm -rf "/var/www/snippeter.net/public_bak"/* &&
         sudo mv "/var/www/snippeter.net/public"/* "/var/www/snippeter.net/public_bak/" &&
-        sudo mv "/home/ubuntu/frontend-build"/* "/var/www/snippeter.net/public/";`,
+        sudo mv "/home/${username}/frontend-build"/* "/var/www/snippeter.net/public/";`,
         function(err, stream) {
           if (err) throw err;
           stream
@@ -61,7 +61,7 @@ function unpackAndDeploy() {
     .connect({
       host: host,
       port: 22,
-      username: 'ubuntu',
+      username: username || 'ubuntu',
       privateKey: fs.readFileSync(identityFile)
     });
 }

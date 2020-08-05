@@ -2,7 +2,11 @@ import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { Reaction } from '../../database/__generated_entities/reaction';
 import { AuthorSeedGeneratorService } from './author-seed-generator.service';
 import { gql, GqlRequestService } from '../../gql-request/gql-request.service';
-import { MutationRoot, QueryRoot, ReactionInsertInput } from '../../__generated/types';
+import {
+  MutationRoot,
+  QueryRoot,
+  ReactionInsertInput,
+} from '../../__generated/types';
 import { readFileSync } from 'fs';
 import { CompressedEmojiData } from './emoji-data/data.interfaces';
 
@@ -72,10 +76,7 @@ export class ReactionSeedGeneratorService {
   // }
 
   public async saveToDB() {
-    const countRes = await this.gqlRequestService.adminRequest<
-      QueryRoot,
-      void
-    >(
+    const countRes = await this.gqlRequestService.adminRequest<QueryRoot, void>(
       gql`
         query countReactions {
           reaction_aggregate {
@@ -91,9 +92,10 @@ export class ReactionSeedGeneratorService {
       return;
     }
 
-    for (const reaction of this.reactions) {
+    const batchSize = 100;
+    for (let off = 0; off < this.reactions.length; off += batchSize) {
       await this.gqlRequestService
-        .adminRequest<MutationRoot, { reactions: [ReactionInsertInput] }>(
+        .adminRequest<MutationRoot, { reactions: ReactionInsertInput[] }>(
           gql`
             mutation SaveReaction($reactions: [reaction_insert_input!]!) {
               addReaction(objects: $reactions) {
@@ -101,7 +103,7 @@ export class ReactionSeedGeneratorService {
               }
             }
           `,
-          { reactions: [reaction] },
+          { reactions: this.reactions.slice(off, off + batchSize) },
         )
         .catch(err => {
           this.logger.error('failed to add reactions', err, err.message);
