@@ -16,9 +16,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoginComponent } from './layouts/login/login.component';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NavBarComponent } from './layouts/nav-bar/nav-bar.component';
-import { LogoComponent } from './layouts/nav-bar/logo/logo.component';
-import { SideNavComponent } from './layouts/side-nav/side-nav.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
