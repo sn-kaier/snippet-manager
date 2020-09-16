@@ -154,7 +154,7 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.documentTags = new DocumentTags((this.doc as UFeedDocFragment).tags);
+    this.documentTags = new DocumentTags(this.doc.tags);
   }
 
   logLine(line: string) {

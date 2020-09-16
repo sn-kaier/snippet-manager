@@ -9,9 +9,6 @@
     "hasura:start": "docker-compose up -d",
     "hasura-prod:console": "cd hasura-prod && hasura console && cd ..",
     "hasura-prod:apply-schema": "cd hasura-prod && hasura migrate apply && cd ..",
-    "hasura-gcloud:console": "cd hasura-gcloud && hasura console && cd ..",
-    "hasura-gcloud:apply-schema": "cd hasura-gcloud && hasura migrate apply && cd ..",
-    "hasura-gcloud:migrate-status": "cd hasura-gcloud && hasura migrate status && cd ..",
     "hasura-prod:start": "cd hasura-prod && docker-compose up -d",
     "hasura:stop": "docker-compose down",
     "hasura": "hasura"

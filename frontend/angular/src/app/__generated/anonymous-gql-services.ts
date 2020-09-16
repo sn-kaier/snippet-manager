@@ -107,6 +107,7 @@ export type Document = {
   reactions: Array<DocumentReaction>;
   /** An array relationship */
   reactionsGroup: Array<DocumentReactionGroupPersisted>;
+  tags?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
 };
@@ -873,6 +874,8 @@ export enum DocumentSelectColumn {
   /** column name */
   ReactionBalance = 'reactionBalance',
   /** column name */
+  Tags = 'tags',
+  /** column name */
   Title = 'title',
   /** column name */
   UpdatedAt = 'updatedAt'
@@ -1099,6 +1102,7 @@ export type DocumentBoolExp = {
   reactionBalance?: Maybe<IntComparisonExp>;
   reactions?: Maybe<DocumentReactionBoolExp>;
   reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
+  tags?: Maybe<StringComparisonExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
@@ -1138,6 +1142,7 @@ export type DocumentOrderBy = {
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
+  tags?: Maybe<OrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
 };
@@ -1343,7 +1348,7 @@ export type AFeedDocAuthorFragment = { __typename?: 'user', imageUrl?: Maybe<str
 
 export type AFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
-export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
+export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, tags?: Maybe<string>, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
     { __typename?: 'user' }
     & AFeedDocAuthorFragment
   ), reactionsGroup: Array<{ __typename?: 'document_reaction_group_persisted', count: number, reactionid: string }>, labels: Array<(
@@ -1430,6 +1435,7 @@ export const AFeedDocFragmentDoc = gql`
     reactionid
   }
   countComments
+  tags
   allowComments
   isPublic
   labels(limit: 10) {

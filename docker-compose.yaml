@@ -10,7 +10,7 @@ services:
     volumes:
       - hasura2_db_data:/var/lib/postgresql/data
   graphql-engine:
-    image: hasura/graphql-engine:v1.2.2
+    image: hasura/graphql-engine:v1.3.0
     ports:
       - target: 8080
         published: 8080

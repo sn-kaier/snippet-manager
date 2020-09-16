@@ -267,6 +267,7 @@ tables:
       - allow_comments
       - content
       - is_public
+      - tags
       - title
   select_permissions:
   - role: anonymous
@@ -274,12 +275,13 @@ tables:
       columns:
       - allow_comments
       - author_id
+      - content
       - count_comments
       - created_at
-      - content
       - id
       - is_public
       - reaction_balance
+      - tags
       - title
       - updated_at
       filter:

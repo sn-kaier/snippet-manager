@@ -1,0 +1,24 @@
+- args:
+    role: user
+    table:
+      name: document
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      check:
+        author:
+          max_private_docs:
+            _cgt: count_private_docs
+      columns:
+      - allow_comments
+      - content
+      - is_public
+      - title
+      set:
+        author_id: x-hasura-User-Id
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_insert_permission
