@@ -14,9 +14,9 @@
     <div class="search-wrapper mls">
       <input class="search-field f-l" type="text" [placeholder]="'nav.search' | translate" [(ngModel)]="searchValue"
              (ngModelChange)="search($event)">
-      <span class="icon-search icon c-manatee" *ngIf="!searchValue; else clear">mode_search</span>
+      <span class="icon-search icon c-manatee" *ngIf="!searchValue; else clear">search</span>
       <ng-template #clear>
-        <span class="icon-close icon c-manatee" (click)="clearSearch()">mode_close</span>
+        <span class="icon-close icon c-manatee" (click)="clearSearch()">close</span>
       </ng-template>
     </div>
   </div>
