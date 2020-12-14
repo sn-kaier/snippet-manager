@@ -1,3 +1,4 @@
+import { QueryRef } from 'apollo-angular';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +13,7 @@ import {
   UEditDocumentSaveGQL
 } from '../../../__generated/user-gql-services';
 import { Subject, Subscription } from 'rxjs';
-import { QueryRef } from 'apollo-angular';
+
 import { filter, map, tap } from 'rxjs/operators';
 import { RoutingHistoryService } from '../../../core/routing-history.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -90,8 +91,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
           documentId: this.documentId
         },
         {
-          useInitialLoading: true,
-          fetchResults: false
+          useInitialLoading: true
         }
       );
 

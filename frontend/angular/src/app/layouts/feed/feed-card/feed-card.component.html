@@ -1,4 +1,4 @@
-<app-card>
+<app-card [class.highlight]="!doc.isPublic">
   <div class="row">
     <div class="col-xs-12">
       <h3>{{ doc.title }}</h3>
@@ -83,8 +83,4 @@
       </div>
     </div>
   </ng-container>
-<!--  <app-script-evaluator #scriptEvaluator (logLine)="scriptConsoleLog.addLine($event)"></app-script-evaluator>-->
-<!--  <div class="row">-->
-<!--    <button mat-button color="warn" (click)="scriptConsoleLog.clear(); scriptEvaluator.run(doc.content);">run</button>-->
-<!--  </div>-->
 </app-card>

@@ -1,8 +1,10 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1449,7 +1451,12 @@ export const AFeedDocFragmentDoc = gql`
 ${AFeedDocLabelFragmentDoc}`;
 export const ACommentSectionCommentsDocument = gql`
     query ACommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!) {
-  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset, order_by: [{createdAt: desc}]) {
+  allComments(
+    where: {documentId: {_eq: $documentId}}
+    limit: $limit
+    offset: $offset
+    order_by: [{createdAt: desc}]
+  ) {
     ...ACommentSectionComment
   }
 }
@@ -1461,6 +1468,9 @@ export const ACommentSectionCommentsDocument = gql`
   export class ACommentSectionCommentsGQL extends Apollo.Query<ACommentSectionCommentsQuery, ACommentSectionCommentsQueryVariables> {
     document = ACommentSectionCommentsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const AFeedDocsDocument = gql`
     query AFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp) {
@@ -1476,10 +1486,18 @@ export const AFeedDocsDocument = gql`
   export class AFeedDocsGQL extends Apollo.Query<AFeedDocsQuery, AFeedDocsQueryVariables> {
     document = AFeedDocsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const ASearchFeedDocsDocument = gql`
     query ASearchFeedDocs($limit: Int!, $offset: Int!, $filter: document_bool_exp, $search: String) {
-  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
+  allDocuments: search_documents(
+    limit: $limit
+    offset: $offset
+    where: $filter
+    args: {search: $search}
+  ) {
     ...AFeedDoc
   }
 }
@@ -1491,4 +1509,7 @@ export const ASearchFeedDocsDocument = gql`
   export class ASearchFeedDocsGQL extends Apollo.Query<ASearchFeedDocsQuery, ASearchFeedDocsQueryVariables> {
     document = ASearchFeedDocsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }

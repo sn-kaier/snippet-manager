@@ -1,8 +1,10 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -2534,7 +2536,12 @@ ${UFeedDocLabelFragmentDoc}
 ${UFeedDocReactionFragmentDoc}`;
 export const UCommentSectionCommentsDocument = gql`
     query UCommentSectionComments($documentId: uuid!, $limit: Int!, $offset: Int!, $authorId: String!) {
-  allComments(where: {documentId: {_eq: $documentId}}, limit: $limit, offset: $offset, order_by: [{createdAt: desc}]) {
+  allComments(
+    where: {documentId: {_eq: $documentId}}
+    limit: $limit
+    offset: $offset
+    order_by: [{createdAt: desc}]
+  ) {
     ...UCommentSectionComment
   }
 }
@@ -2546,6 +2553,9 @@ export const UCommentSectionCommentsDocument = gql`
   export class UCommentSectionCommentsGQL extends Apollo.Query<UCommentSectionCommentsQuery, UCommentSectionCommentsQueryVariables> {
     document = UCommentSectionCommentsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UCommentSectionAddCommentReactionDocument = gql`
     mutation UCommentSectionAddCommentReaction($commentId: uuid!, $reactionId: String!) {
@@ -2561,10 +2571,15 @@ export const UCommentSectionAddCommentReactionDocument = gql`
   export class UCommentSectionAddCommentReactionGQL extends Apollo.Mutation<UCommentSectionAddCommentReactionMutation, UCommentSectionAddCommentReactionMutationVariables> {
     document = UCommentSectionAddCommentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UCommentSectionRemoveCommentReactionDocument = gql`
     mutation UCommentSectionRemoveCommentReaction($commentId: uuid!, $reactionId: String!) {
-  removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {
+  removeCommentReaction(
+    where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}
+  ) {
     affected_rows
   }
 }
@@ -2576,6 +2591,9 @@ export const UCommentSectionRemoveCommentReactionDocument = gql`
   export class UCommentSectionRemoveCommentReactionGQL extends Apollo.Mutation<UCommentSectionRemoveCommentReactionMutation, UCommentSectionRemoveCommentReactionMutationVariables> {
     document = UCommentSectionRemoveCommentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UAddCommentDocument = gql`
     mutation UAddComment($comment: String!, $documentId: uuid!) {
@@ -2593,6 +2611,9 @@ export const UAddCommentDocument = gql`
   export class UAddCommentGQL extends Apollo.Mutation<UAddCommentMutation, UAddCommentMutationVariables> {
     document = UAddCommentDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const URemoveCommentDocument = gql`
     mutation URemoveComment($commentId: uuid!) {
@@ -2608,6 +2629,9 @@ export const URemoveCommentDocument = gql`
   export class URemoveCommentGQL extends Apollo.Mutation<URemoveCommentMutation, URemoveCommentMutationVariables> {
     document = URemoveCommentDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UEditCommentDocument = gql`
     mutation UEditComment($commentId: uuid!, $comment: String!) {
@@ -2623,6 +2647,9 @@ export const UEditCommentDocument = gql`
   export class UEditCommentGQL extends Apollo.Mutation<UEditCommentMutation, UEditCommentMutationVariables> {
     document = UEditCommentDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UMeDocument = gql`
     query UMe($authId: String!) {
@@ -2638,6 +2665,9 @@ export const UMeDocument = gql`
   export class UMeGQL extends Apollo.Query<UMeQuery, UMeQueryVariables> {
     document = UMeDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UUpdateUserNameDocument = gql`
     mutation UUpdateUserName($authId: String!, $name: String!) {
@@ -2653,6 +2683,9 @@ export const UUpdateUserNameDocument = gql`
   export class UUpdateUserNameGQL extends Apollo.Mutation<UUpdateUserNameMutation, UUpdateUserNameMutationVariables> {
     document = UUpdateUserNameDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UEditDocumentGetDocument = gql`
     query UEditDocumentGet($documentId: uuid!, $authorId: String!) {
@@ -2668,6 +2701,9 @@ export const UEditDocumentGetDocument = gql`
   export class UEditDocumentGetGQL extends Apollo.Query<UEditDocumentGetQuery, UEditDocumentGetQueryVariables> {
     document = UEditDocumentGetDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UEditDocumentSaveDocument = gql`
     mutation UEditDocumentSave($documentId: uuid!, $documentInput: document_set_input) {
@@ -2683,6 +2719,9 @@ export const UEditDocumentSaveDocument = gql`
   export class UEditDocumentSaveGQL extends Apollo.Mutation<UEditDocumentSaveMutation, UEditDocumentSaveMutationVariables> {
     document = UEditDocumentSaveDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UEditDocumentAddDocument = gql`
     mutation UEditDocumentAdd($newDocument: document_insert_input!) {
@@ -2700,6 +2739,9 @@ export const UEditDocumentAddDocument = gql`
   export class UEditDocumentAddGQL extends Apollo.Mutation<UEditDocumentAddMutation, UEditDocumentAddMutationVariables> {
     document = UEditDocumentAddDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UDeleteDocumentDocument = gql`
     mutation UDeleteDocument($documentId: uuid!) {
@@ -2715,6 +2757,9 @@ export const UDeleteDocumentDocument = gql`
   export class UDeleteDocumentGQL extends Apollo.Mutation<UDeleteDocumentMutation, UDeleteDocumentMutationVariables> {
     document = UDeleteDocumentDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const USetDocumentTagDocument = gql`
     mutation USetDocumentTag($documentId: uuid!, $tags: String) {
@@ -2730,10 +2775,18 @@ export const USetDocumentTagDocument = gql`
   export class USetDocumentTagGQL extends Apollo.Mutation<USetDocumentTagMutation, USetDocumentTagMutationVariables> {
     document = USetDocumentTagDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UFeedDocsDocument = gql`
     query UFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp) {
-  allDocuments(limit: $limit, offset: $offset, order_by: {createdAt: desc}, where: $filter) {
+  allDocuments(
+    limit: $limit
+    offset: $offset
+    order_by: {createdAt: desc}
+    where: $filter
+  ) {
     ...UFeedDoc
   }
 }
@@ -2745,10 +2798,18 @@ export const UFeedDocsDocument = gql`
   export class UFeedDocsGQL extends Apollo.Query<UFeedDocsQuery, UFeedDocsQueryVariables> {
     document = UFeedDocsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const USearchFeedDocsDocument = gql`
     query USearchFeedDocs($limit: Int!, $offset: Int!, $authorId: String!, $filter: document_bool_exp, $search: String) {
-  allDocuments: search_documents(limit: $limit, offset: $offset, where: $filter, args: {search: $search}) {
+  allDocuments: search_documents(
+    limit: $limit
+    offset: $offset
+    where: $filter
+    args: {search: $search}
+  ) {
     ...UFeedDoc
   }
 }
@@ -2760,6 +2821,9 @@ export const USearchFeedDocsDocument = gql`
   export class USearchFeedDocsGQL extends Apollo.Query<USearchFeedDocsQuery, USearchFeedDocsQueryVariables> {
     document = USearchFeedDocsDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UAddDocumentReactionDocument = gql`
     mutation UAddDocumentReaction($documentReaction: document_reaction_insert_input!) {
@@ -2778,6 +2842,9 @@ export const UAddDocumentReactionDocument = gql`
   export class UAddDocumentReactionGQL extends Apollo.Mutation<UAddDocumentReactionMutation, UAddDocumentReactionMutationVariables> {
     document = UAddDocumentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UAddCommentReactionDocument = gql`
     mutation UAddCommentReaction($commentReaction: comment_reaction_insert_input!) {
@@ -2796,10 +2863,15 @@ export const UAddCommentReactionDocument = gql`
   export class UAddCommentReactionGQL extends Apollo.Mutation<UAddCommentReactionMutation, UAddCommentReactionMutationVariables> {
     document = UAddCommentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const URemoveDocumentReactionDocument = gql`
     mutation URemoveDocumentReaction($reactionId: String!, $documentId: uuid!) {
-  removeDocumentReaction(where: {documentId: {_eq: $documentId}, reactionId: {_eq: $reactionId}}) {
+  removeDocumentReaction(
+    where: {documentId: {_eq: $documentId}, reactionId: {_eq: $reactionId}}
+  ) {
     affected_rows
   }
 }
@@ -2811,10 +2883,15 @@ export const URemoveDocumentReactionDocument = gql`
   export class URemoveDocumentReactionGQL extends Apollo.Mutation<URemoveDocumentReactionMutation, URemoveDocumentReactionMutationVariables> {
     document = URemoveDocumentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const URemoveCommentReactionDocument = gql`
     mutation URemoveCommentReaction($reactionId: String!, $commentId: uuid!) {
-  removeCommentReaction(where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}) {
+  removeCommentReaction(
+    where: {commentId: {_eq: $commentId}, reactionId: {_eq: $reactionId}}
+  ) {
     affected_rows
   }
 }
@@ -2826,6 +2903,9 @@ export const URemoveCommentReactionDocument = gql`
   export class URemoveCommentReactionGQL extends Apollo.Mutation<URemoveCommentReactionMutation, URemoveCommentReactionMutationVariables> {
     document = URemoveCommentReactionDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
 export const UChangeDocumentVisibilityDocument = gql`
     mutation UChangeDocumentVisibility($documentId: uuid!, $isPublic: Boolean!) {
@@ -2841,4 +2921,7 @@ export const UChangeDocumentVisibilityDocument = gql`
   export class UChangeDocumentVisibilityGQL extends Apollo.Mutation<UChangeDocumentVisibilityMutation, UChangeDocumentVisibilityMutationVariables> {
     document = UChangeDocumentVisibilityDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }

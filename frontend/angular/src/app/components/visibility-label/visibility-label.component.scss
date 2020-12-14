@@ -8,6 +8,12 @@
   .chip-icon, .chip-text {
     color: $color-primary-dark;
   }
+  &.mat-chip {
+    background: mat-color($snippets-app-purple, 800);
+    .chip-icon, .chip-text {
+      color: $color-snow;
+    }
+  }
 }
 
 .public {

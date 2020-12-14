@@ -9,4 +9,8 @@
   margin: 7px 0;
 
   box-shadow: $color-manatee 0 2px 5px -1px;
+  &.highlight {
+    border-bottom: 3px solid mat-color($snippets-app-purple);
+    background: lighten(mat-color($snippets-app-purple, 100), 15%);
+  }
 }

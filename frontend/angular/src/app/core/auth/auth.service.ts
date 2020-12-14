@@ -1,8 +1,9 @@
+import {Apollo} from 'apollo-angular';
 import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { Apollo } from 'apollo-angular';
+
 
 import * as jwt_decode from 'jwt-decode';
 import { UHasuraUserFragment, UMeGQL, UUpdateUserNameGQL } from '../../__generated/user-gql-services';

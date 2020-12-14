@@ -1,3 +1,4 @@
+import { QueryRef } from 'apollo-angular';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import {
@@ -17,7 +18,7 @@ import {
   UEditCommentGQL,
   URemoveCommentGQL
 } from '../../../__generated/user-gql-services';
-import { QueryRef } from 'apollo-angular';
+
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 import { iif, Observable, Subject } from 'rxjs';
 
@@ -70,7 +71,7 @@ export class CommentSectionComponent implements OnInit {
           limit: this.limit,
           offset: this.offset
         },
-        { fetchResults: false, useInitialLoading: true }
+        { useInitialLoading: true }
       );
 
       return this.userQueryRef.valueChanges.pipe(
@@ -91,7 +92,7 @@ export class CommentSectionComponent implements OnInit {
           limit: this.limit,
           offset: this.offset
         },
-        { fetchResults: false, useInitialLoading: true }
+        { useInitialLoading: true }
       );
 
       return this.anonymousQueryRef.valueChanges.pipe(
