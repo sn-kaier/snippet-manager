@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from '@apollo/client/core';
 import { EventEmitter, Injectable } from '@angular/core';
 import { AFeedDocsGQL, AFeedDocsQuery, ASearchFeedDocsGQL } from '../../../__generated/anonymous-gql-services';
 import {
@@ -11,10 +12,10 @@ import {
   USearchFeedDocsGQL
 } from '../../../__generated/user-gql-services';
 import { AuthService, AuthState } from '../../../core/auth/auth.service';
-import { debounceTime, filter, map, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, filter, withLatestFrom } from 'rxjs/operators';
 import { SearchService } from '../../../core/search.service';
-import { ApolloQueryResult } from 'apollo-client';
-import { BehaviorSubject, combineLatest, Subject, Subscription } from 'rxjs';
+
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { NavBarService } from '../../nav-bar/nav-bar.service';
 
 @Injectable({
@@ -33,11 +34,11 @@ export class FeedService {
       offset: 0,
       filter: this.filter
     },
-    { fetchResults: false, useInitialLoading: true }
+    { useInitialLoading: true }
   );
   private readonly anonymousQueryRef = this.aFeedDocsGQL.watch(
     { limit: this.limit, offset: 0 },
-    { fetchResults: false, useInitialLoading: true }
+    { useInitialLoading: true }
   );
 
   private readonly userSearchQueryRef = this.uSearchFeedDocsGQL.watch(
@@ -48,11 +49,11 @@ export class FeedService {
       filter: this.filter,
       search: ''
     },
-    { fetchResults: false, useInitialLoading: true }
+    { useInitialLoading: true }
   );
   private readonly anonymousSearchQueryRef = this.aSearchFeedDocsGQL.watch(
     { limit: this.limit, offset: 0, search: '' },
-    { fetchResults: false, useInitialLoading: true }
+    { useInitialLoading: true }
   );
 
   private requestsPerSecond = 0;

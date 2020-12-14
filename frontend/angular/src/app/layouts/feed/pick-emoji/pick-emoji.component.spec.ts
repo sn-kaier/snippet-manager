@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PickEmojiComponent } from './pick-emoji.component';
 
@@ -6,7 +6,7 @@ describe('PickEmojiComponent', () => {
   let component: PickEmojiComponent;
   let fixture: ComponentFixture<PickEmojiComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PickEmojiComponent ]
     })

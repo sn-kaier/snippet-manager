@@ -1,4 +1,5 @@
-import { Mutation, Query } from 'apollo-angular';
+import {Mutation, Query} from 'apollo-angular';
+
 
 export const queryNames = (service: Mutation<any, any> | Query<any, any>) => {
   const definitions = service.document?.definitions;

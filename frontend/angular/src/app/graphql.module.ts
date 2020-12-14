@@ -1,15 +1,16 @@
+import { Apollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
 import { NgModule } from '@angular/core';
-import { Apollo, ApolloModule } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { setContext } from 'apollo-link-context';
+
 import { AuthService } from './core/auth/auth.service';
 import { HttpHeaders } from '@angular/common/http';
 import { filter, take } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 @NgModule({
-  exports: [ApolloModule, HttpLinkModule]
+  exports: []
 })
 export class GraphQLModule {
   constructor(apollo: Apollo, httpLink: HttpLink, authService: AuthService) {
@@ -36,7 +37,7 @@ export class GraphQLModule {
     apollo.create({
       link: auth.concat(http),
       // other options like cache,
-      cache: new InMemoryCache({ dataIdFromObject: value => value.id })
+      cache: new InMemoryCache()
     });
   }
 }
