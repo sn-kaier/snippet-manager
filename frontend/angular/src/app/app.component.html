@@ -5,7 +5,7 @@
 
   <mat-sidenav-content class="side-nav-content">
     <app-nav-bar (toggleSideNav)="sideNavOpened = !sideNavOpened"></app-nav-bar>
-    <div class="router-container" [scrollTop]="scrollTop" (scroll)="scrollRouterContainer($event)">
+    <div class="router-container" #routerContainer>
       <div class="container">
         <router-outlet></router-outlet>
       </div>

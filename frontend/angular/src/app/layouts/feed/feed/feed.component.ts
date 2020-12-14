@@ -34,7 +34,9 @@ export class FeedComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    window.addEventListener('scroll', this.scroll, true);
+    window.addEventListener('scroll', this.scroll, {
+      passive: true
+    });
     const routerSub = this.activatedRoute.paramMap.subscribe(async paramMap => {
       this.mode = paramMap.get('mode') as FeedMode;
       switch (this.mode) {

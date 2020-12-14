@@ -1,11 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { AuthService } from './core/auth/auth.service';
 import { PickEmojiService } from './layouts/feed/pick-emoji/pick-emoji.service';
 import { RoutingHistoryService } from './core/routing-history.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ScrollService } from './core/scroll.service';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { ShowLoginHintComponent } from './core/auth/show-login-hint/show-login-hint.component';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,14 +17,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   sideNavOpened = false;
   scrollTop = 0;
 
-  private scrollSub: Subscription;
+  @ViewChild('routerContainer') routerContainer: ElementRef<HTMLDivElement>;
+
+  private subs: Subscription[] = [];
 
   constructor(
     public readonly auth: AuthService,
     readonly pickEmojiService: PickEmojiService,
     public readonly translate: TranslateService,
     private readonly historyService: RoutingHistoryService,
-    private readonly scrollService: ScrollService
+    private readonly scrollService: ScrollService,
+    private readonly renderer: Renderer2
   ) {
     historyService.loadRouting();
 
@@ -44,21 +45,23 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  scrollRouterContainer(event: Event) {
+  readonly scrollRouterContainer = (event: Event) => {
     this.scrollTop = (event.target as HTMLDivElement).scrollTop;
     this.scrollService.scroll.emit();
-  }
+  };
 
   ngAfterViewInit(): void {
-    this.scrollSub = this.scrollService.scrollDiff.subscribe(diff => {
+    const firstSub = this.scrollService.scrollDiff.subscribe(diff => {
       this.scrollTop = this.scrollTop + diff;
+      this.renderer.setAttribute(this.routerContainer.nativeElement, 'scrollTop', this.scrollTop.toString());
     });
+    this.routerContainer.nativeElement.addEventListener('scroll', this.scrollRouterContainer, { passive: true });
+    this.subs.push(firstSub);
   }
 
   ngOnDestroy(): void {
-    if (this.scrollSub) {
-      this.scrollSub.unsubscribe();
-      this.scrollSub = undefined;
-    }
+    this.subs.forEach(sub => sub?.unsubscribe());
+    this.subs = [];
+    this.routerContainer.nativeElement.removeEventListener('scroll', this.scrollRouterContainer);
   }
 }
