@@ -1,5 +1,7 @@
 # Snippet Manager
 
+[![codebeat badge](https://codebeat.co/badges/c7f9da6a-2643-4655-97bd-ad9380236f50)](https://codebeat.co/projects/github-com-sn-kaier-snippet-manager-master)
+
 ### [Now online at snippeter.net](https://www.snippeter.net)
 
 ## Description
