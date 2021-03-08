@@ -22,7 +22,7 @@
     <div class="row" *ngIf="focused">
       <div class="col-xs-12 end-xs">
         <button mat-flat-button (click)="resetText()">{{'common.cancel' | translate }}</button>
-        <button mat-flat-button color="primary"
+        <button mat-flat-button color="accent"
                 [disabled]="!commentText?.length" style="margin-left: 1em"
                 (click)="send()">
           {{'comment.send' | translate}}

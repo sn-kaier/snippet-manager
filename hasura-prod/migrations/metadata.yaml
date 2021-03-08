@@ -267,6 +267,7 @@ tables:
       - allow_comments
       - content
       - is_public
+      - language
       - tags
       - title
   select_permissions:
@@ -280,6 +281,7 @@ tables:
       - created_at
       - id
       - is_public
+      - language
       - reaction_balance
       - tags
       - title
@@ -298,6 +300,7 @@ tables:
       - created_at
       - id
       - is_public
+      - language
       - reaction_balance
       - tags
       - title
@@ -316,6 +319,7 @@ tables:
       - allow_comments
       - content
       - is_public
+      - language
       - tags
       - title
       filter:

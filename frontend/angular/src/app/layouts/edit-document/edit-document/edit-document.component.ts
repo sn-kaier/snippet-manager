@@ -10,9 +10,9 @@ import {
   UEditDocumentGetGQL,
   UEditDocumentGetQuery,
   UEditDocumentGetQueryVariables,
-  UEditDocumentSaveGQL
+  UEditDocumentSaveGQL,
 } from '../../../__generated/user-gql-services';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 import { filter, map, tap } from 'rxjs/operators';
 import { RoutingHistoryService } from '../../../core/routing-history.service';
@@ -23,14 +23,19 @@ import { ConfirmDeleteDialogComponent } from '../../../components/confirm-delete
 import { DocumentTags } from '../../feed/feed-card/document-tags';
 import { ScriptEvaluatorService } from '../../../components/script-evaluation/script-evaluator/script-evaluator.service';
 import { ScriptEvaluatorConsoleLogComponent } from '../../../components/script-evaluation/script-evaluator-console-log/script-evaluator-console-log.component';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-edit-document',
   templateUrl: './edit-document.component.html',
   styleUrls: ['./edit-document.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDocumentComponent implements OnInit, OnDestroy {
+
+  readonly availableLanguages = ['abap', 'apex', 'azcli', 'bat', 'cameligo', 'clojure', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dart', 'dockerfile', 'ecl', 'fillers', 'fsharp', 'go', 'graphql', 'handlebars', 'hcl', 'html', 'ini', 'java', 'javascript', 'julia', 'kotlin', 'less', 'lexon', 'lua', 'm3', 'markdown', 'mips', 'msdax', 'mysql', 'objective-c', 'pascal', 'pascaligo', 'perl', 'pgsql', 'php', 'postiats', 'powerquery', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'restructuredtext', 'ruby', 'rust', 'sb', 'scala', 'scheme', 'scss', 'shell', 'solidity', 'sophia', 'sql', 'st', 'swift', 'systemverilog', 'tcl', 'test', 'text', 'twig', 'typescript', 'vb', 'xml', 'yaml'];
+  readonly favoriteLanguages = ['text', 'javascript', 'typescript', 'java', 'csharp', 'html'];
+
   documentId: string;
   documentSetInput: DocumentSetInput;
 
@@ -39,7 +44,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   scriptEvaluatorEnabled = false;
   loading$ = new Subject<boolean>();
 
-  monacoOptions = { theme: 'vs-light', language: 'javascript' };
+  monacoOptions = new BehaviorSubject({ theme: 'vs-light', language: 'text' });
   @ViewChild(ScriptEvaluatorConsoleLogComponent) scriptConsole: ScriptEvaluatorConsoleLogComponent;
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
@@ -57,8 +62,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private readonly snackBar: MatSnackBar,
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
-    private readonly scriptEvaluatorService: ScriptEvaluatorService
-  ) {}
+    private readonly scriptEvaluatorService: ScriptEvaluatorService,
+  ) {
+  }
 
   get isNewDocument(): boolean {
     return !this.documentId;
@@ -73,7 +79,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
         this.documentSetInput.title !== this.doc.title ||
         this.documentSetInput.content !== this.doc.content ||
         this.documentSetInput.allowComments !== this.doc.allowComments ||
-        this.documentSetInput.isPublic !== this.doc.isPublic
+        this.documentSetInput.isPublic !== this.doc.isPublic ||
+        this.documentSetInput.language !== this.doc.language
       );
     }
     return true;
@@ -88,21 +95,22 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.userQueryRef = this.getEditDocument.watch(
         {
           authorId: authState.userId,
-          documentId: this.documentId
+          documentId: this.documentId,
         },
         {
-          useInitialLoading: true
-        }
+          useInitialLoading: true,
+        },
       );
 
       const sub = this.userQueryRef.valueChanges
         .pipe(
           tap(res => setTimeout(() => this.loading$.next(res.loading))),
           filter(res => !!res.data),
-          map(res => res.data.document)
+          map(res => res.data.document),
         )
         .subscribe(doc => {
           this.doc = doc;
+          this.updateMonacoLanguage(doc.language);
           this.setDocumentInput(doc);
         });
 
@@ -122,7 +130,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.saveDocumentMutation
         .mutate({
           documentId: this.doc.id,
-          documentInput: this.documentSetInput
+          documentInput: this.documentSetInput,
         })
         .toPromise()
         .then(res => {
@@ -133,8 +141,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.addDocumentMutation
         .mutate({
           newDocument: {
-            ...this.documentSetInput
-          }
+            ...this.documentSetInput,
+          },
         })
         .toPromise()
         .then(res => {
@@ -147,7 +155,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     }
     this.doc = {
       ...this.doc,
-      ...this.documentSetInput
+      ...this.documentSetInput,
     };
 
     this.showSnackBar('edit.savedDocumentSnack').then();
@@ -161,6 +169,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   reset() {
     if (this.doc) {
       this.setDocumentInput(this.doc);
+      this.updateMonacoLanguage(this.doc.language);
     } else {
       this.setDefaultDocumentInput();
     }
@@ -199,13 +208,25 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.scriptConsole?.runScript();
   }
 
+  updateMonacoLanguage(language?: string) {
+    console.trace('updateMonacoLanguage', language);
+    if (this.documentSetInput) {
+      this.documentSetInput.language = language;
+    }
+    const defaultLang = this.docTags?.validJs ? 'javascript' : 'text';
+    this.monacoOptions.next({
+      ...this.monacoOptions.value,
+      language: language || defaultLang,
+    });
+  }
+
   private setDefaultDocumentInput() {
     this.documentSetInput = {
       allowComments: true,
       isPublic: false,
       title: '',
       content: '',
-      tags: ''
+      tags: '',
     };
     this.docTags = new DocumentTags('');
   }
@@ -216,10 +237,14 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       content: doc.content,
       isPublic: doc.isPublic,
       title: doc.title,
-      tags: doc.tags
+      tags: doc.tags,
+      language: doc.language,
     };
     this.docTags = new DocumentTags(doc.tags);
     this.scriptEvaluatorEnabled = this.docTags.validJs;
+    if (this.scriptEvaluatorEnabled && !this.doc.language && !this.documentSetInput.language) {
+      this.updateMonacoLanguage('javascript');
+    }
   }
 
   private async showSnackBar(mainText: string) {
@@ -228,7 +253,15 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
       duration: 1000 * 5,
       horizontalPosition: 'center',
-      verticalPosition: 'bottom'
+      verticalPosition: 'bottom',
     });
+  }
+
+  toggleScriptEvaluatorEnabled(event: MatCheckboxChange) {
+    if ((!this.documentSetInput.language || this.documentSetInput.language === 'text') && event.checked) {
+      this.updateMonacoLanguage('javascript');
+    } else if (!event.checked && !this.doc.language) {
+      this.updateMonacoLanguage('text');
+    }
   }
 }

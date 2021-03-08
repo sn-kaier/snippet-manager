@@ -123,6 +123,7 @@ export interface Document {
   isPublic: Scalars['Boolean'];
   /** An array relationship */
   labels: Array<DocumentLabel>;
+  language?: Maybe<Scalars['String']>;
   reactionBalance: Scalars['Int'];
   /** An array relationship */
   reactions: Array<DocumentReaction>;
@@ -1378,6 +1379,8 @@ export enum DocumentSelectColumn {
   /** column name */
   IsPublic = 'isPublic',
   /** column name */
+  Language = 'language',
+  /** column name */
   ReactionBalance = 'reactionBalance',
   /** column name */
   Tags = 'tags',
@@ -1395,6 +1398,8 @@ export enum DocumentUpdateColumn {
   Content = 'content',
   /** column name */
   IsPublic = 'isPublic',
+  /** column name */
+  Language = 'language',
   /** column name */
   Tags = 'tags',
   /** column name */
@@ -1732,6 +1737,7 @@ export interface DocumentBoolExp {
   id?: Maybe<UuidComparisonExp>;
   isPublic?: Maybe<BooleanComparisonExp>;
   labels?: Maybe<DocumentLabelBoolExp>;
+  language?: Maybe<StringComparisonExp>;
   reactionBalance?: Maybe<IntComparisonExp>;
   reactions?: Maybe<DocumentReactionBoolExp>;
   reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
@@ -1747,7 +1753,9 @@ export interface DocumentInsertInput {
   content?: Maybe<Scalars['String']>;
   isPublic?: Maybe<Scalars['Boolean']>;
   labels?: Maybe<DocumentLabelArrRelInsertInput>;
+  language?: Maybe<Scalars['String']>;
   reactions?: Maybe<DocumentReactionArrRelInsertInput>;
+  tags?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 }
 
@@ -1820,6 +1828,7 @@ export interface DocumentOrderBy {
   createdAt?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
+  language?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
   tags?: Maybe<OrderBy>;
   title?: Maybe<OrderBy>;
@@ -1918,6 +1927,7 @@ export interface DocumentSetInput {
   allowComments?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
   isPublic?: Maybe<Scalars['Boolean']>;
+  language?: Maybe<Scalars['String']>;
   tags?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 }
@@ -2229,7 +2239,7 @@ export type UEditDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UEditDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, tags?: Maybe<string>, author: (
+export type UEditDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, language?: Maybe<string>, id: any, tags?: Maybe<string>, author: (
     { __typename?: 'user' }
     & UEditDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2292,7 +2302,7 @@ export type UFeedDocReactionGroupFragment = { __typename?: 'document_reaction_gr
 
 export type UFeedDocReactionFragment = { __typename?: 'document_reaction', reactionId: string };
 
-export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, tags?: Maybe<string>, id: any, author: (
+export type UFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, allowComments: boolean, isPublic: boolean, title: string, content: string, language?: Maybe<string>, tags?: Maybe<string>, id: any, author: (
     { __typename?: 'user' }
     & UFeedDocAuthorFragment
   ), reactionsGroup: Array<(
@@ -2466,6 +2476,7 @@ export const UEditDocFragmentDoc = gql`
   }
   title
   content
+  language
   id
   tags
   reactions(where: {authorId: {_eq: $authorId}}) {
@@ -2524,6 +2535,7 @@ export const UFeedDocFragmentDoc = gql`
   }
   title
   content
+  language
   tags
   id
   reactions(where: {authorId: {_eq: $authorId}}) {

@@ -9,7 +9,7 @@ import {
   UFeedDocsGQL,
   UFeedDocsQuery,
   URemoveDocumentReactionGQL,
-  USearchFeedDocsGQL
+  USearchFeedDocsGQL,
 } from '../../../__generated/user-gql-services';
 import { AuthService, AuthState } from '../../../core/auth/auth.service';
 import { debounceTime, filter, withLatestFrom } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { NavBarService } from '../../nav-bar/nav-bar.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FeedService {
   private readonly limit = 10;
@@ -32,13 +32,13 @@ export class FeedService {
       authorId: '',
       limit: this.limit,
       offset: 0,
-      filter: this.filter
+      filter: this.filter,
     },
-    { useInitialLoading: true }
+    { useInitialLoading: true },
   );
   private readonly anonymousQueryRef = this.aFeedDocsGQL.watch(
     { limit: this.limit, offset: 0 },
-    { useInitialLoading: true }
+    { useInitialLoading: true },
   );
 
   private readonly userSearchQueryRef = this.uSearchFeedDocsGQL.watch(
@@ -47,19 +47,19 @@ export class FeedService {
       limit: this.limit,
       offset: 0,
       filter: this.filter,
-      search: ''
+      search: '',
     },
-    { useInitialLoading: true }
+    { useInitialLoading: true },
   );
   private readonly anonymousSearchQueryRef = this.aSearchFeedDocsGQL.watch(
     { limit: this.limit, offset: 0, search: '' },
-    { useInitialLoading: true }
+    { useInitialLoading: true },
   );
 
   private requestsPerSecond = 0;
 
   private feedSubject$ = new BehaviorSubject<ApolloQueryResult<UFeedDocsQuery> | ApolloQueryResult<AFeedDocsQuery>>({
-    loading: true
+    loading: true,
   } as any);
   private feedSubscription: Subscription;
   feed$ = this.feedSubject$.asObservable();
@@ -75,12 +75,12 @@ export class FeedService {
     private readonly uRemoveDocumentReactionGQL: URemoveDocumentReactionGQL,
     private readonly uChangeDocumentVisibility: UChangeDocumentVisibilityGQL,
     private readonly searchService: SearchService,
-    private readonly navBarService: NavBarService
+    private readonly navBarService: NavBarService,
   ) {
     this.navBarService.triggerReload
       .pipe(
         withLatestFrom(this.authService.authState),
-        filter(([_, s]) => s.state !== 'pending')
+        filter(([_, s]) => s.state !== 'pending'),
       )
       .subscribe(async ([_, authState]) => {
         await this.refetch(authState);
@@ -100,8 +100,8 @@ export class FeedService {
       this.filter = {
         ...this.filter,
         authorId: {
-          _eq: authState.userId
-        }
+          _eq: authState.userId,
+        },
       };
     } else {
       this.filter = {};
@@ -125,7 +125,7 @@ export class FeedService {
           limit: this.limit,
           offset: 0,
           filter: this.filter,
-          search: this.searchText
+          search: this.searchText,
         });
       } else {
         this.feedSubscription = this.userQueryRef.valueChanges.subscribe(this.feedSubject$);
@@ -133,7 +133,7 @@ export class FeedService {
           authorId: s.userId,
           limit: this.limit,
           offset: 0,
-          filter: this.filter
+          filter: this.filter,
         });
       }
     } else {
@@ -143,14 +143,14 @@ export class FeedService {
           limit: this.limit,
           offset: 0,
           filter: this.filter,
-          search: this.searchText
+          search: this.searchText,
         });
       } else {
         this.feedSubscription = this.anonymousQueryRef.valueChanges.subscribe(this.feedSubject$);
         await this.anonymousQueryRef.setVariables({
           limit: this.limit,
           offset: 0,
-          filter: this.filter
+          filter: this.filter,
         });
       }
     }
@@ -167,7 +167,7 @@ export class FeedService {
     const variables: any = {
       limit: this.limit,
       offset: this.offset,
-      filter: this.filter
+      filter: this.filter,
     };
     if (this.searchText) {
       variables.search = this.searchText;
@@ -179,8 +179,8 @@ export class FeedService {
     const queryRef =
       s.state === 'in'
         ? this.searchText
-          ? this.userSearchQueryRef
-          : this.userQueryRef
+        ? this.userSearchQueryRef
+        : this.userQueryRef
         : this.searchText
         ? this.anonymousSearchQueryRef
         : this.anonymousQueryRef;
@@ -194,9 +194,9 @@ export class FeedService {
           }
           return {
             ...prev,
-            allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments]
+            allDocuments: [...prev.allDocuments, ...res.fetchMoreResult.allDocuments],
           };
-        }
+        },
       })
       .then();
   }
@@ -204,7 +204,8 @@ export class FeedService {
   toggleDocumentReaction(doc: DocumentReactionInsertInput) {
     (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
       const docToUpdateIndex = prev.allDocuments.findIndex(docs => docs.id === doc.documentId);
-      const docToUpdate = prev.allDocuments[docToUpdateIndex];
+      const docI = prev.allDocuments[docToUpdateIndex];
+      const docToUpdate = { ...docI, reactionsGroup: [...docI.reactionsGroup], reactions: [...docI.reactions]};
 
       const reactionsGroupIndex = docToUpdate.reactionsGroup.findIndex(g => g.reactionid === doc.reactionId);
       const alreadyExists = reactionsGroupIndex !== -1;
@@ -213,7 +214,8 @@ export class FeedService {
       if (alreadyExists) {
         const reactionsIndex = docToUpdate.reactions.findIndex(r => r.reactionId === doc.reactionId);
         isSelected = reactionsIndex !== -1;
-        const rGroup = docToUpdate.reactionsGroup[reactionsGroupIndex];
+        const rGroup = { ...docToUpdate.reactionsGroup[reactionsGroupIndex] };
+        docToUpdate.reactionsGroup[reactionsGroupIndex] = rGroup;
 
         if (isSelected) {
           // unselect:
@@ -224,34 +226,26 @@ export class FeedService {
           if (rGroup.count <= 1) {
             // remove group
             docToUpdate.reactionsGroup.splice(reactionsGroupIndex, 1);
-            docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup];
           } else {
-            // decrement
             rGroup.count--;
           }
         } else {
           // add to reactionsGroup and to selected
           docToUpdate.reactions.push({ reactionId: doc.reactionId, __typename: 'document_reaction' });
           rGroup.count++;
-          docToUpdate.reactionsGroup = [...docToUpdate.reactionsGroup];
         }
       } else {
         // add new
-        docToUpdate.reactions = [
-          ...docToUpdate.reactions,
-          {
-            reactionId: doc.reactionId,
-            __typename: 'document_reaction'
-          }
-        ];
-        docToUpdate.reactionsGroup = [
-          ...docToUpdate.reactionsGroup,
-          {
-            count: 1,
-            reactionid: doc.reactionId,
-            __typename: 'document_reaction_group_persisted'
-          }
-        ];
+        docToUpdate.reactions.push({
+          reactionId: doc.reactionId,
+          __typename: 'document_reaction',
+        });
+
+        docToUpdate.reactionsGroup.push({
+          count: 1,
+          reactionid: doc.reactionId,
+          __typename: 'document_reaction_group_persisted',
+        });
       }
 
       if (isSelected) {
@@ -264,20 +258,21 @@ export class FeedService {
         this.uAddDocumentReactionGQL
           .mutate(
             {
-              documentReaction: doc
+              documentReaction: doc,
             },
-            {}
+            {},
           )
           .toPromise()
           .then(res => console.log('added document reaction', res))
           .catch(err => console.error('failed to add document reaction', err));
       }
 
-      prev.allDocuments[docToUpdateIndex] = { ...docToUpdate };
-      console.log('updated document reaction in userQueryRef', prev);
+      const allDocuments = [...prev.allDocuments];
+      allDocuments[docToUpdateIndex] = docToUpdate;
+      console.log('updated document reaction in userQueryRef', docToUpdate);
       return {
         ...prev,
-        allDocuments: [...prev.allDocuments]
+        allDocuments,
       };
     });
   }
@@ -286,7 +281,7 @@ export class FeedService {
     this.uChangeDocumentVisibility
       .mutate({
         isPublic,
-        documentId
+        documentId,
       })
       .toPromise()
       .then(res => {
@@ -298,16 +293,17 @@ export class FeedService {
 
     // update apollo store
     (this.searchText ? this.userSearchQueryRef : this.userQueryRef).updateQuery(prev => {
-      const docIndex = prev.allDocuments.findIndex(d => d.id === documentId);
+      const allDocuments = [...prev.allDocuments];
+      const docIndex = allDocuments.findIndex(d => d.id === documentId);
       if (docIndex >= 0) {
-        prev.allDocuments[docIndex] = {
-          ...prev.allDocuments[docIndex],
-          isPublic
+        allDocuments[docIndex] = {
+          ...allDocuments[docIndex],
+          isPublic,
         };
       }
       return {
         ...prev,
-        allDocuments: [...prev.allDocuments]
+        allDocuments,
       };
     });
   }
@@ -326,9 +322,9 @@ export class FeedService {
         variables: {
           offset: Math.floor(Math.random() * 1000),
           limit: this.limit,
-          authorId: s.userId
+          authorId: s.userId,
         },
-        updateQuery: prev => prev
+        updateQuery: prev => prev,
       });
       countRequest++;
     }

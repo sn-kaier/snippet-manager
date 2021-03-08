@@ -104,6 +104,7 @@ export type Document = {
   isPublic: Scalars['Boolean'];
   /** An array relationship */
   labels: Array<DocumentLabel>;
+  language?: Maybe<Scalars['String']>;
   reactionBalance: Scalars['Int'];
   /** An array relationship */
   reactions: Array<DocumentReaction>;
@@ -874,6 +875,8 @@ export enum DocumentSelectColumn {
   /** column name */
   IsPublic = 'isPublic',
   /** column name */
+  Language = 'language',
+  /** column name */
   ReactionBalance = 'reactionBalance',
   /** column name */
   Tags = 'tags',
@@ -1101,6 +1104,7 @@ export type DocumentBoolExp = {
   id?: Maybe<UuidComparisonExp>;
   isPublic?: Maybe<BooleanComparisonExp>;
   labels?: Maybe<DocumentLabelBoolExp>;
+  language?: Maybe<StringComparisonExp>;
   reactionBalance?: Maybe<IntComparisonExp>;
   reactions?: Maybe<DocumentReactionBoolExp>;
   reactionsGroup?: Maybe<DocumentReactionGroupPersistedBoolExp>;
@@ -1143,6 +1147,7 @@ export type DocumentOrderBy = {
   createdAt?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   isPublic?: Maybe<OrderBy>;
+  language?: Maybe<OrderBy>;
   reactionBalance?: Maybe<OrderBy>;
   tags?: Maybe<OrderBy>;
   title?: Maybe<OrderBy>;
@@ -1350,7 +1355,7 @@ export type AFeedDocAuthorFragment = { __typename?: 'user', imageUrl?: Maybe<str
 
 export type AFeedDocLabelFragment = { __typename?: 'document_label', label: { __typename?: 'label', label: string, color: { __typename?: 'color', color: string } } };
 
-export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, tags?: Maybe<string>, allowComments: boolean, isPublic: boolean, title: string, content: string, id: any, author: (
+export type AFeedDocFragment = { __typename?: 'document', updatedAt: any, countComments: number, tags?: Maybe<string>, allowComments: boolean, isPublic: boolean, title: string, content: string, language?: Maybe<string>, id: any, author: (
     { __typename?: 'user' }
     & AFeedDocAuthorFragment
   ), reactionsGroup: Array<{ __typename?: 'document_reaction_group_persisted', count: number, reactionid: string }>, labels: Array<(
@@ -1445,6 +1450,7 @@ export const AFeedDocFragmentDoc = gql`
   }
   title
   content
+  language
   id
 }
     ${AFeedDocAuthorFragmentDoc}

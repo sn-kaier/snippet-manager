@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScriptEvaluationModule } from '../../components/script-evaluation/script-evaluation.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [EditDocumentComponent],
@@ -32,7 +33,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     TranslateModule,
     ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
-    ScriptEvaluationModule
-  ]
+    ScriptEvaluationModule,
+    MatSelectModule,
+  ],
 })
 export class EditDocumentModule {}

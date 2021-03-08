@@ -127,6 +127,7 @@ type document {
     "filter the rows returned"
     where: document_label_bool_exp
   ): [document_label!]!
+  language: String
   reactionBalance: Int!
   "An array relationship"
   reactions(
@@ -1109,6 +1110,8 @@ enum document_select_column {
   "column name"
   isPublic
   "column name"
+  language
+  "column name"
   reactionBalance
   "column name"
   tags
@@ -1126,6 +1129,8 @@ enum document_update_column {
   content
   "column name"
   isPublic
+  "column name"
+  language
   "column name"
   tags
   "column name"
@@ -1463,6 +1468,7 @@ input document_bool_exp {
   id: uuid_comparison_exp
   isPublic: Boolean_comparison_exp
   labels: document_label_bool_exp
+  language: String_comparison_exp
   reactionBalance: Int_comparison_exp
   reactions: document_reaction_bool_exp
   reactionsGroup: document_reaction_group_persisted_bool_exp
@@ -1478,7 +1484,9 @@ input document_insert_input {
   content: String
   isPublic: Boolean
   labels: document_label_arr_rel_insert_input
+  language: String
   reactions: document_reaction_arr_rel_insert_input
+  tags: String
   title: String
 }
 
@@ -1551,6 +1559,7 @@ input document_order_by {
   createdAt: order_by
   id: order_by
   isPublic: order_by
+  language: order_by
   reactionBalance: order_by
   tags: order_by
   title: order_by
@@ -1649,6 +1658,7 @@ input document_set_input {
   allowComments: Boolean
   content: String
   isPublic: Boolean
+  language: String
   tags: String
   title: String
 }

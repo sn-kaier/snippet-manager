@@ -1,0 +1,35 @@
+- args:
+    role: user
+    table:
+      name: document
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - allow_comments
+      - author_id
+      - content
+      - count_comments
+      - created_at
+      - id
+      - is_public
+      - language
+      - reaction_balance
+      - tags
+      - title
+      - updated_at
+      computed_fields: []
+      filter:
+        _or:
+        - is_public:
+            _eq: true
+        - author_id:
+            _eq: X-Hasura-User-Id
+      limit: 100
+    role: user
+    table:
+      name: document
+      schema: public
+  type: create_select_permission

@@ -5,7 +5,7 @@ import {
   ACommentSectionCommentFragment,
   ACommentSectionCommentsGQL,
   ACommentSectionCommentsQuery,
-  ACommentSectionCommentsQueryVariables
+  ACommentSectionCommentsQueryVariables,
 } from '../../../__generated/anonymous-gql-services';
 import {
   UAddCommentGQL,
@@ -16,7 +16,7 @@ import {
   UCommentSectionCommentsQueryVariables,
   UCommentSectionRemoveCommentReactionGQL,
   UEditCommentGQL,
-  URemoveCommentGQL
+  URemoveCommentGQL,
 } from '../../../__generated/user-gql-services';
 
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
@@ -26,7 +26,7 @@ import { iif, Observable, Subject } from 'rxjs';
   selector: 'app-comment-section',
   templateUrl: './comment-section.component.html',
   styleUrls: ['./comment-section.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentSectionComponent implements OnInit {
   private docId: string;
@@ -59,8 +59,9 @@ export class CommentSectionComponent implements OnInit {
     private readonly addComment: UAddCommentGQL,
     private readonly removeComment: URemoveCommentGQL,
     private readonly editComment: UEditCommentGQL,
-    readonly authService: AuthService
-  ) {}
+    readonly authService: AuthService,
+  ) {
+  }
 
   ngOnInit(): void {
     const getUserComments = () => {
@@ -69,9 +70,9 @@ export class CommentSectionComponent implements OnInit {
           authorId: this.authService.authState.value?.userId,
           documentId: this.docId,
           limit: this.limit,
-          offset: this.offset
+          offset: this.offset,
         },
-        { useInitialLoading: true }
+        { useInitialLoading: true },
       );
 
       return this.userQueryRef.valueChanges.pipe(
@@ -81,7 +82,7 @@ export class CommentSectionComponent implements OnInit {
           });
         }),
         filter(res => !!res.data),
-        map(res => res.data.allComments)
+        map(res => res.data.allComments),
       );
     };
 
@@ -90,20 +91,20 @@ export class CommentSectionComponent implements OnInit {
         {
           documentId: this.docId,
           limit: this.limit,
-          offset: this.offset
+          offset: this.offset,
         },
-        { useInitialLoading: true }
+        { useInitialLoading: true },
       );
 
       return this.anonymousQueryRef.valueChanges.pipe(
         tap(res => this.loading$.next(res.loading)),
         filter(res => !!res.data),
-        map(res => res.data.allComments)
+        map(res => res.data.allComments),
       );
     };
 
     this.comments$ = this.authService.authState.pipe(
-      mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments()))
+      mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments())),
     );
   }
 
@@ -116,16 +117,22 @@ export class CommentSectionComponent implements OnInit {
       return;
     }
     this.userQueryRef.updateQuery(prev => {
-      const allComments = prev.allComments;
-      const prevComment = allComments.find(c => c.id === commentId);
+      const allComments = [...prev.allComments];
+      const prevCommentIndex = allComments.findIndex(c => c.id === commentId);
+      const prevC = allComments[prevCommentIndex];
+      const prevComment = { ...prevC, myReactions: [...prevC.myReactions], reactionsGroup: [...prevC.reactionsGroup] };
+      allComments[prevCommentIndex] = prevComment;
 
       const gIndex = prevComment.reactionsGroup.findIndex(g => g.reactionid === reactionId);
+      if (gIndex !== -1) {
+        prevComment.reactionsGroup[gIndex] = { ...prevComment.reactionsGroup[gIndex] };
+      }
 
       const rIndex = prevComment.myReactions.findIndex(r => r.reactionId === reactionId);
       const doAdd = rIndex === -1;
 
       if (doAdd) {
-        prevComment.myReactions = [...prevComment.myReactions, { reactionId, __typename: 'comment_reaction' }];
+        prevComment.myReactions.push({ reactionId, __typename: 'comment_reaction' });
 
         if (gIndex !== -1) {
           prevComment.reactionsGroup[gIndex].count++;
@@ -142,14 +149,12 @@ export class CommentSectionComponent implements OnInit {
         }
       }
 
-      prevComment.reactionsGroup = [...prevComment.reactionsGroup];
-
       // mutations
       if (doAdd) {
         this.addCommentReactionGQL
           .mutate({
             commentId,
-            reactionId
+            reactionId,
           })
           .toPromise()
           .then(res => console.log('added comment reaction', res))
@@ -158,7 +163,7 @@ export class CommentSectionComponent implements OnInit {
         this.removeCommentReactionGQL
           .mutate({
             commentId,
-            reactionId
+            reactionId,
           })
           .toPromise()
           .then(res => console.log('removed comment reaction', res))
@@ -166,7 +171,7 @@ export class CommentSectionComponent implements OnInit {
       }
 
       return {
-        allComments: [...allComments]
+        allComments,
       };
     });
   }
@@ -183,16 +188,16 @@ export class CommentSectionComponent implements OnInit {
             documentId: this.docId,
             authorId: s.userId,
             limit: this.limit,
-            offset: this.offset
+            offset: this.offset,
           },
           updateQuery: (prev, res) => {
             if (!res.fetchMoreResult) {
               return prev;
             }
             return {
-              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments],
             };
-          }
+          },
         })
         .then();
     } else {
@@ -201,16 +206,16 @@ export class CommentSectionComponent implements OnInit {
           variables: {
             documentId: this.docId,
             limit: this.limit,
-            offset: this.offset
+            offset: this.offset,
           },
           updateQuery: (prev, res) => {
             if (!res.fetchMoreResult) {
               return prev;
             }
             return {
-              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments]
+              allComments: [...prev.allComments, ...res.fetchMoreResult.allComments],
             };
-          }
+          },
         })
         .then();
     }
@@ -220,7 +225,7 @@ export class CommentSectionComponent implements OnInit {
     this.addComment
       .mutate({
         comment,
-        documentId: this.docId
+        documentId: this.docId,
       })
       .toPromise()
       .then(res => {
@@ -230,13 +235,14 @@ export class CommentSectionComponent implements OnInit {
           this.userQueryRef.updateQuery(prev => {
             const addedComment = prev.allComments.splice(0, 1)[0];
             return {
+              ...prev,
               allComments: [
                 {
                   ...addedComment,
-                  id: newCommentId
+                  id: newCommentId,
                 },
-                ...prev.allComments
-              ]
+                ...prev.allComments,
+              ],
             };
           });
         } else {
@@ -252,18 +258,18 @@ export class CommentSectionComponent implements OnInit {
         __typename: 'user',
         imageUrl: this.authService.authState?.value?.imageUrl,
         name: this.authService.authState?.value?.name,
-        authId: this.authService.authState?.value.userId
+        authId: this.authService.authState?.value.userId,
       },
       createdAt: new Date(),
       comment,
       __typename: 'comment',
       reactionBalance: 0,
-      id: ''
+      id: '',
     };
 
     this.userQueryRef.updateQuery(prev => {
       return {
-        allComments: [newComment, ...prev.allComments]
+        allComments: [newComment, ...prev.allComments],
       };
     });
   }
@@ -271,19 +277,20 @@ export class CommentSectionComponent implements OnInit {
   deleteComment(comment: UCommentSectionCommentFragment | ACommentSectionCommentFragment) {
     this.removeComment
       .mutate({
-        commentId: comment.id
+        commentId: comment.id,
       })
       .toPromise()
       .then(res => console.log('removed comment', comment, res))
       .catch(err => console.error('failed to remove comment', comment, err));
 
     this.userQueryRef.updateQuery(prev => {
-      const removedIndex = prev.allComments.findIndex(c => c.id === comment.id);
+      const allComments = [...prev.allComments];
+      const removedIndex = allComments.findIndex(c => c.id === comment.id);
       if (removedIndex >= 0) {
-        prev.allComments.splice(removedIndex, 1);
+        allComments.splice(removedIndex, 1);
       }
       return {
-        allComments: [...prev.allComments]
+        allComments,
       };
     });
   }
@@ -292,22 +299,23 @@ export class CommentSectionComponent implements OnInit {
     this.editComment
       .mutate({
         comment: newComment,
-        commentId
+        commentId,
       })
       .toPromise()
       .then(res => console.log('updated comment', res))
       .catch(err => console.error('failed to update comment', err, commentId));
     this.userQueryRef.updateQuery(prev => {
-      const commentIndex = prev.allComments.findIndex(c => c.id === commentId);
+      const allComments = [...prev.allComments];
+      const commentIndex = allComments.findIndex(c => c.id === commentId);
       if (commentIndex >= 0) {
-        const comment = prev.allComments[commentIndex];
-        prev.allComments[commentIndex] = {
+        const comment = allComments[commentIndex];
+        allComments[commentIndex] = {
           ...comment,
-          comment: newComment
+          comment: newComment,
         };
       }
       return {
-        allComments: [...prev.allComments]
+        allComments,
       };
     });
   }

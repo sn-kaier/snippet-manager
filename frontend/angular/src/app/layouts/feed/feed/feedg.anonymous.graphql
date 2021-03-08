@@ -30,6 +30,7 @@ fragment AFeedDoc on document {
   }
   title
   content
+  language
   id
 }
 

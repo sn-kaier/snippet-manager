@@ -41,6 +41,7 @@ fragment UEditDoc on document {
   }
   title
   content
+  language
   id
   tags
   reactions(where: {authorId: {_eq: $authorId}}) {

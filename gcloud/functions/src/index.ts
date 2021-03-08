@@ -25,16 +25,18 @@ exports.processSignUp = auth.user().onCreate(async (user: UserRecord) => {
     customClaims = {
       "https://hasura.io/jwt/claims": {
         "x-hasura-default-role": "admin",
-        "x-hasura-allowed-roles": ["user", "admin"],
-        "x-hasura-user-id": user.uid
+        "x-hasura-allowed-roles": ["user", "admin", "customer", "worker", "manager"],
+        "x-hasura-user-id": user.uid,
+        "x-hasura-company-id": "kaiersn-id",
       }
     };
   } else {
     customClaims = {
       "https://hasura.io/jwt/claims": {
         "x-hasura-default-role": "user",
-        "x-hasura-allowed-roles": ["user"],
-        "x-hasura-user-id": user.uid
+        "x-hasura-allowed-roles": ["user", "customer", "worker"],
+        "x-hasura-user-id": user.uid,
+        "x-hasura-company-id": "c-" + Math.random().toString(16).substring(2),
       }
     };
   }

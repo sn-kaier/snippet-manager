@@ -8,7 +8,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { UFeedDocFragment, USetDocumentTagGQL } from '../../../__generated/user-gql-services';
@@ -25,7 +25,7 @@ import { combineLatest, Subject } from 'rxjs';
   selector: 'app-feed-card',
   templateUrl: './feed-card.component.html',
   styleUrls: ['./feed-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedCardComponent implements OnInit, AfterViewInit {
   showComments = false;
@@ -47,7 +47,7 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
   sideCollapse$ = combineLatest([this.scrollService.scroll.pipe(startWith(0)), this.codeElement$]).pipe(
     map(([_, codeElement]) => ({
       boundingClientRect: codeElement.nativeElement.getBoundingClientRect(),
-      innerHeight: window.innerHeight
+      innerHeight: window.innerHeight,
     })),
     map(config => {
       let top = config.boundingClientRect.height / 2;
@@ -64,9 +64,9 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
       return {
         ...config,
         top,
-        isVisible
+        isVisible,
       };
-    })
+    }),
   );
 
   constructor(
@@ -74,8 +74,9 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
     private readonly authService: AuthService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly uSetDocumentTag: USetDocumentTagGQL,
-    private readonly scrollService: ScrollService
-  ) {}
+    private readonly scrollService: ScrollService,
+  ) {
+  }
 
   get reactions() {
     return (this.doc as UFeedDocFragment).reactions;
@@ -103,6 +104,10 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  get highlightLanguages() {
+    return [this.doc.language];
+  }
+
   ngAfterViewInit(): void {
     this.codeElement$.next(this.codeElement);
   }
@@ -118,7 +123,6 @@ export class FeedCardComponent implements OnInit, AfterViewInit {
       if (langTags && !this.documentTags.equalTags(langTags)) {
         this.documentTags.setDetectedLanguages(langTags);
         const newTags = this.documentTags.toString();
-        (this.doc as UFeedDocFragment).tags = newTags;
         this.uSetDocumentTag
           .mutate({ documentId: this.doc.id, tags: newTags })
           .toPromise()

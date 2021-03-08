@@ -31,6 +31,7 @@
                                   [class.collapsed]="textCollapsed"
                                   #codeElement
                                   [highlight]="doc.content"
+                                  [languages]="highlightLanguages"
                                   (highlighted)="onHighlighted($event)"></code></pre>
       <button mat-button
               class="toggle-text-collapsed"

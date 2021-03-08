@@ -1,13 +1,13 @@
 <div class="col-xs-12">
   <div class="row mts">
     <div class="col-xs-3">
-      <button mat-button color="primary" (click)="navigateBack()">
+      <button (click)="navigateBack()" color="primary" mat-button>
         <mat-icon>arrow_back</mat-icon>
         {{'common.goBack' | translate}}
       </button>
     </div>
     <div class="col-xs-6 center-xs">
-      <h3 *ngIf="isNewDocument; else newDocumentTitle" translate>
+      <h3 *ngIf="!isNewDocument; else newDocumentTitle" translate>
         edit.titleEdit
       </h3>
       <ng-template #newDocumentTitle>
@@ -17,7 +17,7 @@
   </div>
 
 
-  <div class="row center-xs mtm mbm" *ngIf="loading$ | async">
+  <div *ngIf="loading$ | async" class="row center-xs mtm mbm">
     <div class="col-xs-12">
       <mat-spinner [diameter]="30"></mat-spinner>
     </div>
@@ -28,52 +28,56 @@
 
     <app-card>
       <div class="row mts">
-        <div class="col-xs-12 col-md-6">
-          <mat-form-field class="form-field">
+        <div class="col-xs-12 flex">
+          <mat-form-field class="form-field flex-1">
             <mat-label>{{ 'edit.title' | translate }}</mat-label>
-            <input matInput
-                   name="title"
-                   #title="ngModel"
-                   [placeholder]="'edit.titlePlaceholder' | translate"
+            <input #title="ngModel"
                    [(ngModel)]="documentSetInput.title"
+                   [placeholder]="'edit.titlePlaceholder' | translate"
+                   matInput
+                   name="title"
                    required
             >
           </mat-form-field>
           <mat-error *ngIf="!title.valid &&  !title.pristine">
             {{ 'edit.title' | translate }} {{ 'common.isRequired' | translate }}
           </mat-error>
+
+          <mat-form-field class="mls">
+            <mat-label>{{ 'edit.language' | translate }}</mat-label>
+            <mat-select [value]="documentSetInput?.language || 'text'" (selectionChange)="updateMonacoLanguage($event.value)">
+              <mat-optgroup [label]="'edit.favoriteLanguages' | translate">
+                <mat-option *ngFor="let language of favoriteLanguages" [value]="language">
+                  {{ language }}
+                </mat-option>
+              </mat-optgroup>
+
+              <mat-optgroup [label]="'edit.allLanguages' | translate">
+                <mat-option *ngFor="let language of availableLanguages" [value]="language">
+                  {{ language }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="hr"></div>
       <div class="row mts">
 
         <div class="col-xs-12 monaco-container">
-<!--          <mat-form-field class="form-field">-->
-<!--            <mat-label *ngIf="!documentSetInput?.content?.length">{{ 'edit.content' | translate }}</mat-label>-->
-<!--            <textarea-->
-<!--              matInput-->
-<!--              name="content"-->
-<!--              #content="ngModel"-->
-<!--              required-->
-<!--              class="content-textarea"-->
-<!--              cdkTextareaAutosize-->
-<!--              cdkAutosizeMinRows="2"-->
-<!--              [placeholder]="'edit.textAreaPlaceholder' | translate"-->
-<!--              [(ngModel)]="documentSetInput.content"-->
-<!--            ></textarea>-->
-            <ngx-monaco-editor
-              style="height: 100%"
-              class="my-monaco"
-              #content="ngModel"
-              [options]="monacoOptions"
-              [name]="'content'"
-              (keydown.alt.enter)="runScript()"
-              [(ngModel)]="documentSetInput.content"></ngx-monaco-editor>
+          <ngx-monaco-editor
+            #content="ngModel"
+            (keydown.alt.enter)="runScript()"
+            [(ngModel)]="documentSetInput.content"
+            [name]="'content'"
+            [options]="monacoOptions | async"
+            class="my-monaco"
+            style="height: 100%"></ngx-monaco-editor>
 
-            <mat-error *ngIf="!content.valid && !content.pristine">
-              {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
-            </mat-error>
-<!--          </mat-form-field>-->
+          <mat-error *ngIf="!content.valid && !content.pristine">
+            {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
+          </mat-error>
+          <!--          </mat-form-field>-->
         </div>
       </div>
       <div class="hr"></div>
@@ -86,24 +90,26 @@
 
       <app-script-evaluator-console-log
         *ngIf="scriptEvaluatorEnabled"
-        [scriptText]="documentSetInput.content"
         [runLabel]="'edit.runShortcut' | translate"
+        [scriptText]="documentSetInput.content"
       ></app-script-evaluator-console-log>
 
       <div class="row mts">
         <div class="col-xs-12">
-          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.allowComments" name="allowComments">
+          <mat-checkbox [(ngModel)]="documentSetInput.allowComments" color="accent" name="allowComments">
             {{ 'edit.allowComments' | translate }}
           </mat-checkbox>
         </div>
         <div class="col-xs-12">
-          <mat-checkbox color="accent" [(ngModel)]="documentSetInput.isPublic" name="isPublic">
+          <mat-checkbox [(ngModel)]="documentSetInput.isPublic" color="accent" name="isPublic">
             {{ 'edit.markPublic' | translate }}
           </mat-checkbox>
         </div>
         <div class="col-xs-12">
-          <mat-checkbox color="accent" [(ngModel)]="scriptEvaluatorEnabled"
+          <mat-checkbox [(ngModel)]="scriptEvaluatorEnabled"
                         [matTooltip]="'edit.scriptEvaluatorEnabledDescription' | translate"
+                        color="accent"
+                        (change)="toggleScriptEvaluatorEnabled($event)"
                         matTooltipShowDelay="500"
                         name="scriptEvaluatorEnabled">
             {{ 'edit.scriptEvaluatorEnabled' | translate }}
@@ -114,21 +120,21 @@
       <div class="row mtm">
         <div class="col-xs-6">
           <span class="mrs">
-            <button mat-flat-button color="warn" *ngIf="!isNewDocument" (click)="deleteDocument()">
+            <button (click)="deleteDocument()" *ngIf="!isNewDocument" color="warn" mat-flat-button>
               {{'common.delete' | translate}}
             </button>
           </span>
 
           <span>
-            <button mat-flat-button (click)="reset()" [disabled]="!canSave">{{ 'common.reset' | translate }}</button>
+            <button (click)="reset()" [disabled]="!canSave" mat-flat-button>{{ 'common.reset' | translate }}</button>
           </span>
         </div>
 
         <div class="col-xs-6 end-xs">
-          <button mat-flat-button color="accent"
-                  [disabled]="!canSave"
-                  style="margin-left: 1em"
-                  (click)="saveDocument()">
+          <button (click)="saveDocument()" [disabled]="!canSave"
+                  color="accent"
+                  mat-flat-button
+                  style="margin-left: 1em">
             {{ 'common.save' | translate }}
           </button>
         </div>

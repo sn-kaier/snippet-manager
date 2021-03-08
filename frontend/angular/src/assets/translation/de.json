@@ -48,20 +48,23 @@
     "document": "Snippet"
   },
   "edit": {
+    "allowComments": "Kommentare erlauben",
+    "content": "Inhalt",
+    "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung.",
     "titleNew": "Neues Snippet",
     "titleEdit": "Snippet bearbeiten",
     "title": "Titel",
-    "content": "Inhalt",
-    "allowComments": "Kommentare erlauben",
     "markPublic": "Öffentliches Snippet",
     "textAreaPlaceholder": "Schreibe etwas",
     "titlePlaceholder": "Bsp.: Hello World in JavaScript",
     "savedDocumentSnack": "Snippet gespeichert",
     "successfullyDeleted": "Snippet gelöscht",
-    "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung.",
     "scriptEvaluatorEnabled": "JavaScript Tools aktivieren",
     "scriptEvaluatorEnabledDescription": "Der Inhalt des Snippets wird als JavaScript interpretiert und ausführbar gemacht.",
-    "runShortcut": "Alt + Enter"
+    "runShortcut": "Alt + Enter",
+    "language": "Sprache",
+    "allLanguages": "Alle",
+    "favoriteLanguages": "Meistgenutzt"
   },
   "comment": {
     "areaPlaceholer": "Als {{ name }} veröffentlichen",
