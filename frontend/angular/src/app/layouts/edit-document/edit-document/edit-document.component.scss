@@ -2,12 +2,11 @@
   overflow-y: hidden;
 }
 
-.monaco-container {
-  height: calc(100vh - 450px);
-  min-height: 14rem;
+.editor-container {
+  min-height: max(14rem, calc(100vh - 450px));
 }
 
-.my-monaco {
+.my-editor {
   .editor-container {
     height: calc(100vh - 100px);
   }

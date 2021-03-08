@@ -24,6 +24,7 @@ import { DocumentTags } from '../../feed/feed-card/document-tags';
 import { ScriptEvaluatorService } from '../../../components/script-evaluation/script-evaluator/script-evaluator.service';
 import { ScriptEvaluatorConsoleLogComponent } from '../../../components/script-evaluation/script-evaluator-console-log/script-evaluator-console-log.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-edit-document',
@@ -33,8 +34,9 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class EditDocumentComponent implements OnInit, OnDestroy {
 
-  readonly availableLanguages = ['abap', 'apex', 'azcli', 'bat', 'cameligo', 'clojure', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dart', 'dockerfile', 'ecl', 'fillers', 'fsharp', 'go', 'graphql', 'handlebars', 'hcl', 'html', 'ini', 'java', 'javascript', 'julia', 'kotlin', 'less', 'lexon', 'lua', 'm3', 'markdown', 'mips', 'msdax', 'mysql', 'objective-c', 'pascal', 'pascaligo', 'perl', 'pgsql', 'php', 'postiats', 'powerquery', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'restructuredtext', 'ruby', 'rust', 'sb', 'scala', 'scheme', 'scss', 'shell', 'solidity', 'sophia', 'sql', 'st', 'swift', 'systemverilog', 'tcl', 'test', 'text', 'twig', 'typescript', 'vb', 'xml', 'yaml'];
-  readonly favoriteLanguages = ['text', 'javascript', 'typescript', 'java', 'csharp', 'html'];
+  readonly availableMonacoLanguages = ['abap', 'apex', 'azcli', 'bat', 'cameligo', 'clojure', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dart', 'dockerfile', 'ecl', 'fillers', 'fsharp', 'go', 'graphql', 'handlebars', 'hcl', 'html', 'ini', 'java', 'javascript', 'julia', 'kotlin', 'less', 'lexon', 'lua', 'm3', 'markdown', 'mips', 'msdax', 'mysql', 'objective-c', 'pascal', 'pascaligo', 'perl', 'pgsql', 'php', 'postiats', 'powerquery', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'restructuredtext', 'ruby', 'rust', 'sb', 'scala', 'scheme', 'scss', 'shell', 'solidity', 'sophia', 'sql', 'st', 'swift', 'systemverilog', 'tcl', 'test', 'text', 'twig', 'typescript', 'vb', 'xml', 'yaml'];
+  readonly favoriteMonacoLanguages = ['text', 'javascript', 'typescript', 'java', 'csharp', 'html'];
+
 
   documentId: string;
   documentSetInput: DocumentSetInput;
@@ -63,11 +65,16 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private readonly translate: TranslateService,
     private readonly dialog: MatDialog,
     private readonly scriptEvaluatorService: ScriptEvaluatorService,
+    private readonly platform: Platform,
   ) {
   }
 
   get isNewDocument(): boolean {
     return !this.documentId;
+  }
+
+  get isMobile(): boolean {
+    return this.platform.ANDROID || this.platform.IOS;
   }
 
   get canSave() {
@@ -110,7 +117,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
         )
         .subscribe(doc => {
           this.doc = doc;
-          this.updateMonacoLanguage(doc.language);
+          this.updateEditorLanguage(doc.language);
           this.setDocumentInput(doc);
         });
 
@@ -169,7 +176,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   reset() {
     if (this.doc) {
       this.setDocumentInput(this.doc);
-      this.updateMonacoLanguage(this.doc.language);
+      this.updateEditorLanguage(this.doc.language);
     } else {
       this.setDefaultDocumentInput();
     }
@@ -208,15 +215,17 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.scriptConsole?.runScript();
   }
 
-  updateMonacoLanguage(language?: string) {
-    console.trace('updateMonacoLanguage', language);
+  updateEditorLanguage(language?: string) {
     if (this.documentSetInput) {
       this.documentSetInput.language = language;
     }
+
     const defaultLang = this.docTags?.validJs ? 'javascript' : 'text';
+    language = language || defaultLang;
+
     this.monacoOptions.next({
       ...this.monacoOptions.value,
-      language: language || defaultLang,
+      language,
     });
   }
 
@@ -243,7 +252,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.docTags = new DocumentTags(doc.tags);
     this.scriptEvaluatorEnabled = this.docTags.validJs;
     if (this.scriptEvaluatorEnabled && !this.doc.language && !this.documentSetInput.language) {
-      this.updateMonacoLanguage('javascript');
+      this.updateEditorLanguage('javascript');
     }
   }
 
@@ -259,9 +268,9 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
 
   toggleScriptEvaluatorEnabled(event: MatCheckboxChange) {
     if ((!this.documentSetInput.language || this.documentSetInput.language === 'text') && event.checked) {
-      this.updateMonacoLanguage('javascript');
+      this.updateEditorLanguage('javascript');
     } else if (!event.checked && !this.doc.language) {
-      this.updateMonacoLanguage('text');
+      this.updateEditorLanguage('text');
     }
   }
 }

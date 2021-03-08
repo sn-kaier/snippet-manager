@@ -43,17 +43,18 @@
             {{ 'edit.title' | translate }} {{ 'common.isRequired' | translate }}
           </mat-error>
 
-          <mat-form-field class="mls">
+          <mat-form-field class="mls" *ngIf="!isMobile">
             <mat-label>{{ 'edit.language' | translate }}</mat-label>
-            <mat-select [value]="documentSetInput?.language || 'text'" (selectionChange)="updateMonacoLanguage($event.value)">
+            <mat-select [value]="documentSetInput?.language || 'text'" (selectionChange)="updateEditorLanguage($event.value)">
+
               <mat-optgroup [label]="'edit.favoriteLanguages' | translate">
-                <mat-option *ngFor="let language of favoriteLanguages" [value]="language">
+                <mat-option *ngFor="let language of favoriteMonacoLanguages" [value]="language">
                   {{ language }}
                 </mat-option>
               </mat-optgroup>
 
               <mat-optgroup [label]="'edit.allLanguages' | translate">
-                <mat-option *ngFor="let language of availableLanguages" [value]="language">
+                <mat-option *ngFor="let language of availableMonacoLanguages" [value]="language">
                   {{ language }}
                 </mat-option>
               </mat-optgroup>
@@ -64,20 +65,38 @@
       <div class="hr"></div>
       <div class="row mts">
 
-        <div class="col-xs-12 monaco-container">
-          <ngx-monaco-editor
-            #content="ngModel"
-            (keydown.alt.enter)="runScript()"
-            [(ngModel)]="documentSetInput.content"
-            [name]="'content'"
-            [options]="monacoOptions | async"
-            class="my-monaco"
-            style="height: 100%"></ngx-monaco-editor>
-
-          <mat-error *ngIf="!content.valid && !content.pristine">
-            {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
-          </mat-error>
-          <!--          </mat-form-field>-->
+        <div class="col-xs-12 editor-container">
+          <ng-container *ngIf="!isMobile">
+            <ngx-monaco-editor
+              #content="ngModel"
+              (keydown.alt.enter)="runScript()"
+              [(ngModel)]="documentSetInput.content"
+              [name]="'content'"
+              [options]="monacoOptions | async"
+              class="my-editor"
+              style="height: 100%"></ngx-monaco-editor>
+            <mat-error *ngIf="!content.valid && !content.pristine">
+              {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
+            </mat-error>
+          </ng-container>
+          <ng-container *ngIf="isMobile">
+            <mat-form-field class="form-field">
+              <textarea
+                matInput
+                name="content"
+                #content="ngModel"
+                required
+                class="content-textarea"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                [placeholder]="'edit.textAreaPlaceholder' | translate"
+                [(ngModel)]="documentSetInput.content"
+              ></textarea>
+              <mat-error *ngIf="!content.valid && !content.pristine">
+                {{ 'edit.content' | translate }} {{ 'common.isRequired' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </ng-container>
         </div>
       </div>
       <div class="hr"></div>
