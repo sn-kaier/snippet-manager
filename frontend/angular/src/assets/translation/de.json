@@ -43,6 +43,7 @@
     "save": "Speichern",
     "reset": "Verwerfen",
     "close": "Schließen",
+    "ok": "Ok",
     "isRequired": "darf nicht leer sein",
     "delete": "Löschen",
     "document": "Snippet"

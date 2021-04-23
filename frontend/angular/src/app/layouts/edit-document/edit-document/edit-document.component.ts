@@ -66,6 +66,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly scriptEvaluatorService: ScriptEvaluatorService,
     private readonly platform: Platform,
+    private readonly cdRef: ChangeDetectorRef,
   ) {
   }
 
@@ -94,6 +95,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.registerShortcutSaveListener();
     this.loading$.next(true);
     this.documentId = this.activeRoute.snapshot.paramMap.get('id');
     const authState = await this.authService.waitUntilLoggedIn();
@@ -126,6 +128,26 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.setDefaultDocumentInput();
       this.changeDetectorRef.detectChanges();
     }
+  }
+
+  readonly shortcutSaveListener = (event: KeyboardEvent) => {
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key.toLowerCase()) {
+        case 's':
+          event.preventDefault();
+          this.saveDocument();
+          this.cdRef.markForCheck();
+          break;
+      }
+    }
+  }
+
+  private registerShortcutSaveListener() {
+    window.addEventListener('keydown', this.shortcutSaveListener);
+  }
+
+  private unRegisterShortcutSaveListener() {
+    window.removeEventListener('keydown', this.shortcutSaveListener);
   }
 
   saveDocument() {
@@ -169,6 +191,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unRegisterShortcutSaveListener();
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.subscriptions = [];
   }
@@ -258,7 +281,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
 
   private async showSnackBar(mainText: string) {
     const savedDocumentSnackTranslated = await this.translate.get(mainText).toPromise();
-    const closeTranslated = await this.translate.get('common.close').toPromise();
+    const closeTranslated = await this.translate.get('common.ok').toPromise();
     this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
       duration: 1000 * 5,
       horizontalPosition: 'center',

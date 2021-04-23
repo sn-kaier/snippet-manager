@@ -4,7 +4,6 @@ $nav-height: 4em;
 
 .nav {
   height: $nav-height;
-  padding: 0 1em;
 }
 
 .nav-middle {
@@ -38,8 +37,18 @@ $nav-height: 4em;
   outline: none;
   color: $color-ghost;
   background-color: transparent;
+  box-shadow: $color-accent 0 0 0 0px;
+
   &:focus {
     background-color: $color-coal-light;
+    border-color: $color-accent;
+  }
+
+  transition: box-shadow 0.3s ease-out, border 0.15s ease;
+
+  &.highlight {
+    box-shadow: $color-accent-dark 0 0 30px 3px;
+    transition: none;
   }
 }
 
