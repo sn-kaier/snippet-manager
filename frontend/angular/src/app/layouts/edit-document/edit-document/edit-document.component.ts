@@ -45,11 +45,14 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   docTags: DocumentTags;
   scriptEvaluatorEnabled = false;
   loading$ = new Subject<boolean>();
+  codeSelectionAsString = '';
 
   monacoOptions = new BehaviorSubject({ theme: 'vs-light', language: 'text' });
   @ViewChild(ScriptEvaluatorConsoleLogComponent) scriptConsole: ScriptEvaluatorConsoleLogComponent;
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
+
+  private editor: monaco.editor.IStandaloneCodeEditor;
 
   constructor(
     private readonly authService: AuthService,
@@ -279,13 +282,14 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async showSnackBar(mainText: string) {
+  private async showSnackBar(mainText: string, panelClass = '') {
     const savedDocumentSnackTranslated = await this.translate.get(mainText).toPromise();
     const closeTranslated = await this.translate.get('common.ok').toPromise();
     this.snackBar.open(savedDocumentSnackTranslated, closeTranslated, {
       duration: 1000 * 5,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
+      panelClass
     });
   }
 
@@ -294,6 +298,27 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
       this.updateEditorLanguage('javascript');
     } else if (!event.checked && !this.doc.language) {
       this.updateEditorLanguage('text');
+    }
+  }
+
+  onSelectRange() {
+    const selection = this.editor?.getSelection();
+    this.codeSelectionAsString = selection?.toString();
+  }
+
+  initMonacoEditor(editor: monaco.editor.IStandaloneCodeEditor) {
+    this.editor = editor;
+  }
+
+  get hasMonaco(): boolean {
+    return !!this.editor;
+  }
+
+  onCopiedSelection(success: boolean) {
+    if (success) {
+      this.showSnackBar('edit.copiedToClipboard');
+    } else {
+      this.showSnackBar('edit.copiedToClipboardFailed', 'error');
     }
   }
 }

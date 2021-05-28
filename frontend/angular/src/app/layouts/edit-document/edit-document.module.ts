@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScriptEvaluationModule } from '../../components/script-evaluation/script-evaluation.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MatSelectModule } from '@angular/material/select';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [EditDocumentComponent],
@@ -35,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
     MonacoEditorModule.forRoot(),
     ScriptEvaluationModule,
     MatSelectModule,
+    ClipboardModule,
   ],
 })
 export class EditDocumentModule {

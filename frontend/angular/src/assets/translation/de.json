@@ -51,6 +51,9 @@
   "edit": {
     "allowComments": "Kommentare erlauben",
     "content": "Inhalt",
+    "copiedToClipboard": "In die Zwischenablage kopiert.",
+    "copiedToClipboardFailed": "Fehler beim Kopieren in die Zwischenablage!",
+    "positionLabelToolTip": "Zeil- und Spaltennummer der Textauswahl",
     "deleteFailed": "Löschen fehlgeschlagen. Überprüfe deine Netzwerkverbindung.",
     "titleNew": "Neues Snippet",
     "titleEdit": "Snippet bearbeiten",

@@ -45,7 +45,8 @@
 
           <mat-form-field class="mls" *ngIf="!isMobile">
             <mat-label>{{ 'edit.language' | translate }}</mat-label>
-            <mat-select [value]="documentSetInput?.language || 'text'" (selectionChange)="updateEditorLanguage($event.value)">
+            <mat-select [value]="documentSetInput?.language || 'text'"
+                        (selectionChange)="updateEditorLanguage($event.value)">
 
               <mat-optgroup [label]="'edit.favoriteLanguages' | translate">
                 <mat-option *ngFor="let language of favoriteMonacoLanguages" [value]="language">
@@ -73,6 +74,8 @@
               [(ngModel)]="documentSetInput.content"
               [name]="'content'"
               [options]="monacoOptions | async"
+              (select)="onSelectRange()"
+              (onInit)="initMonacoEditor($event)"
               class="my-editor"
               style="height: 100%"></ngx-monaco-editor>
             <mat-error *ngIf="!content.valid && !content.pristine">
@@ -114,7 +117,7 @@
       ></app-script-evaluator-console-log>
 
       <div class="row mts">
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-sm-6">
           <mat-checkbox [(ngModel)]="documentSetInput.allowComments" color="accent" name="allowComments">
             {{ 'edit.allowComments' | translate }}
           </mat-checkbox>
@@ -124,7 +127,7 @@
             {{ 'edit.markPublic' | translate }}
           </mat-checkbox>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-sm-6">
           <mat-checkbox [(ngModel)]="scriptEvaluatorEnabled"
                         [matTooltip]="'edit.scriptEvaluatorEnabledDescription' | translate"
                         color="accent"
@@ -133,6 +136,14 @@
                         name="scriptEvaluatorEnabled">
             {{ 'edit.scriptEvaluatorEnabled' | translate }}
           </mat-checkbox>
+        </div>
+        <div class="col-sm-6 end-sm center-xs" *ngIf="hasMonaco">
+          <button class="position-label"
+                  [matTooltip]="'edit.positionLabelToolTip' | translate"
+                  matTooltipShowDelay="500"
+                  matTooltipPosition="above"
+                  [cdkCopyToClipboard]="codeSelectionAsString"
+                  (cdkCopyToClipboardCopied)="onCopiedSelection($event)">{{codeSelectionAsString}}</button>
         </div>
       </div>
 

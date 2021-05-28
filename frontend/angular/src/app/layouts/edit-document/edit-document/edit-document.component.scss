@@ -1,3 +1,5 @@
+@import "../../../base-styles/colors";
+
 .content-textarea {
   overflow-y: hidden;
 }
@@ -9,5 +11,18 @@
 .my-editor {
   .editor-container {
     height: calc(100vh - 100px);
+  }
+}
+
+.position-label {
+  color: #a1a1a1;
+  margin-left: 0.5rem;
+  font-weight: normal;
+  font-size: 0.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    color: mat-color($snippets-app-purple, 500);
   }
 }
