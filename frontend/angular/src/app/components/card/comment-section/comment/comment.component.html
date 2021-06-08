@@ -2,7 +2,7 @@
                     [publishedDate]="comment.createdAt"></app-author-section>
 
 <div class="row mbs mts">
-  <div class="col-xs-12" *ngIf="!editMode; else edit">
+  <div class="col-xs-12 mlxs" *ngIf="!editMode; else edit">
     {{ comment.comment }}
   </div>
   <ng-template #edit>

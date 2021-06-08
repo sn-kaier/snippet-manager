@@ -25,9 +25,8 @@
 }
 
 .pre-code {
-  border: 1px solid $color-ghost-light;
   background: white;
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 8px;
 }
 
@@ -52,7 +51,7 @@
   position: absolute;
   right: 10px;
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   bottom: 16px;
 }
 

@@ -1,5 +1,6 @@
 @import "colors";
 
+$margin-xs: 0.5em;
 $margin-s: 1em;
 $margin-m: 2em;
 $margin-l: 4em;
@@ -59,6 +60,10 @@ $margin-l: 4em;
 // left
 .mls {
   margin-left: $margin-s;
+}
+
+.mlxs {
+  margin-left: $margin-xs;
 }
 
 .mlm {

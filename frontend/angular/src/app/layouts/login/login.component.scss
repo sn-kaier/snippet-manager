@@ -1,3 +1,28 @@
+@import "../../base-styles/colors";
+
 .full-width {
   width: 100%;
+}
+:host {
+  color: $color-snow;
+}
+.auth-container {
+
+  background: rgba(0, 21, 154, 0.27);
+  height: 100%;
+  backdrop-filter: blur(20px) brightness(2.0);
+  border-radius: 2rem;
+  padding: 2rem;
+  color: $color-snow;
+  ::ng-deep .mat-tab-label-content {
+    color: $color-snow;
+  }
+  ::ng-deep .mat-tab-label {
+    opacity: 0.8;
+  }
+  ::ng-deep .mat-stroked-button {
+    border-color: transparent;
+    background: white;
+    color: $red-900;
+  }
 }

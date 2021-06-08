@@ -1,3 +1,4 @@
+<app-bg [blur]="0" [brightness]="1"></app-bg>
 <div *ngIf="(authService.authState | async) as authState" class="scroll-ref" #ref>
   <app-pick-emoji></app-pick-emoji>
   <div class="row center-xs mtl" *ngIf="loading$ | async;">

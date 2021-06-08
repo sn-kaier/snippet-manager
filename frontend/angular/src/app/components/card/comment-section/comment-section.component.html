@@ -1,14 +1,14 @@
 <div class="hr"></div>
-<div class="comment-container mlm">
+<div class="comment-container">
 
   <div class="row">
-    <div class="col-xs-12 mtm" *ngIf="authService.authState?.value?.state === 'in'">
+    <div class="col-xs-12 mts" *ngIf="authService.authState?.value?.state === 'in'">
       <app-add-comment (addComment)="postComment($event)"></app-add-comment>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-xs-12 mtm" *ngFor="let comment of comments$ | async">
+    <div class="col-xs-12 mts" *ngFor="let comment of comments$ | async">
       <app-comment [comment]="comment"
                    (toggleReaction)="toggleReaction(comment.id, $event)"
                    (editComment)="onEditComment(comment.id, $event)"

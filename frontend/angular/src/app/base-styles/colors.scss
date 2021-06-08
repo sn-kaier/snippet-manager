@@ -5,6 +5,8 @@ $snippets-app-accent: mat.define-palette(mat.$yellow-palette, 700);
 
 // The warn palette is optional (defaults to red).
 $snippets-app-warn: mat.define-palette(mat.$red-palette); // mat-palette($mat-red);
+$red-900: mat.get-color-from-palette($snippets-app-warn, 900);
+
 $snippets-app-purple: mat.define-palette(mat.$purple-palette); // mat-palette($mat-purple);
 $purple: mat.get-color-from-palette($snippets-app-purple);
 $purple-500: mat.get-color-from-palette($snippets-app-purple, 500);
