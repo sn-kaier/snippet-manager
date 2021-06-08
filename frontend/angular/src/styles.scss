@@ -7,8 +7,6 @@
 @import "app/base-styles/layout";
 @import "app/base-styles/button";
 @import '~highlight.js/styles/github.css';
-@import '~@angular/material/theming';
-
 
 @include mat.core();
 
