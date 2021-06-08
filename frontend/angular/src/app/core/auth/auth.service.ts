@@ -30,7 +30,7 @@ export class AuthService {
 
   public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
   public readonly showHintToLogin = new EventEmitter<void>();
-  private user = new ReplaySubject<firebase.User>();
+  private user = new ReplaySubject<firebase.User | null>();
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -40,8 +40,8 @@ export class AuthService {
     private readonly router: Router,
   ) {
     afAuth.authState.subscribe(async (user) => {
+      this.user.next(user);
       if (user) {
-        this.user.next(user);
         try {
           await this.getDecodedToken(user);
           this.authState.next({
@@ -77,8 +77,11 @@ export class AuthService {
     });
   }
 
-  public async getToken(): Promise<string> {
+  public async getToken(): Promise<string | null> {
     const user = await this.user.pipe(take(1)).toPromise();
+    if (!user) {
+      return null;
+    }
     const { token } = await this.getDecodedToken(user);
     return token;
   }

@@ -24,6 +24,6 @@
   </div>
 
   <div class="row center-xs mrm mts" *ngIf="!(loading$ | async)">
-    <button class="btn-flat c-primary " *ngIf="canLoadMore" (click)="loadMore()">{{ 'feed.expand' | translate }}</button>
+    <button mat-button *ngIf="canLoadMore" (click)="loadMore()">{{ 'feed.showMoreComments' | translate }}</button>
   </div>
 </div>

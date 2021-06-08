@@ -4,6 +4,7 @@
     "expand": "Show more",
     "collapse": "Collapse",
     "showComments": "Show {{ count }} comments",
+    "showMoreComments": "Show older comments",
     "hideComments": "Hide comments",
     "addDocument": "Add new snippet",
     "noDocumentsFound": "No snippets found"

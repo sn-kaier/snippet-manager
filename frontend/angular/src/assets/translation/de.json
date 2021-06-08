@@ -4,6 +4,7 @@
     "expand": "Ausklappen",
     "collapse": "Zuklappen",
     "showComments": "Zeige {{ count }} Kommentare",
+    "showMoreComments": "Zeige ältere Kommentare",
     "hideComments": "Schließe Kommentare",
     "addDocument": "Neues Snippet",
     "noDocumentsFound": "Keine Ergebnisse"

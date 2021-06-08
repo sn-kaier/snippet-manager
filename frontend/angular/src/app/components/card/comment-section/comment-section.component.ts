@@ -105,11 +105,15 @@ export class CommentSectionComponent implements OnInit {
 
     this.comments$ = this.authService.authState.pipe(
       mergeMap(s => iif(() => s.state === 'in', getUserComments(), getAnonymousComments())),
+      tap((comments) => {
+        const loadedTimes = Math.ceil(comments.length / this.limit);
+        this.offset = loadedTimes * this.limit;
+      }),
     );
   }
 
   get canLoadMore(): boolean {
-    return this.offset + this.limit < this.countComments;
+    return this.offset < this.countComments;
   }
 
   toggleReaction(commentId: string, reactionId: string) {
@@ -180,8 +184,8 @@ export class CommentSectionComponent implements OnInit {
     const s = this.authService.authState.getValue();
 
     this.loading$.next(true);
+
     if (s.state === 'in') {
-      this.offset += this.limit;
       this.userQueryRef
         .fetchMore({
           variables: {
