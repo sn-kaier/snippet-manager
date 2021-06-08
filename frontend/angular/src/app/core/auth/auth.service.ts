@@ -1,7 +1,7 @@
-import {Apollo} from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 
 
@@ -11,80 +11,102 @@ import { Router } from '@angular/router';
 
 export interface AuthState {
   state: 'in' | 'out' | 'pending' | 'emailNotVerified';
-  token?: string;
   imageUrl?: string;
   name?: string;
   userId?: string;
   hasuraUser?: UHasuraUserFragment;
 }
 
+const EMAIL_NOT_VERIFIED_ERROR = 'Email not verified';
+const FAILED_TO_FETCH_CLAIMS_ERROR = 'Email not verified';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   public readonly authState = new BehaviorSubject<AuthState>({
-    state: 'pending'
+    state: 'pending',
   });
 
   public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
   public readonly showHintToLogin = new EventEmitter<void>();
+  private user = new ReplaySubject<firebase.User>();
 
   constructor(
     public afAuth: AngularFireAuth,
     readonly apollo: Apollo,
     private readonly uMeGQL: UMeGQL,
     private readonly updateUserNameGQL: UUpdateUserNameGQL,
-    private readonly router: Router
+    private readonly router: Router,
   ) {
-    afAuth.authState.subscribe(async s => {
-      if (s) {
-        let token = await s.getIdToken(true);
-
-        let decodedToken: any = jwt_decode(token);
-        let retriesLeft = 3;
-        if (decodedToken.email_verified === false) {
-          this.authState.next({
-            state: 'emailNotVerified',
-            imageUrl: s.photoURL,
-            token,
-            userId: s.uid,
-            name: s.displayName
-          });
-          return;
-        }
-
-        while (!decodedToken['https://hasura.io/jwt/claims'] && retriesLeft > 0) {
-          // wait for the hasura claims to arrive
-          await new Promise(resolve => setTimeout(resolve, 300));
-          token = await s.getIdToken(true);
-          decodedToken = jwt_decode(token);
-          retriesLeft--;
-        }
-
-        if (decodedToken['https://hasura.io/jwt/claims']) {
+    afAuth.authState.subscribe(async (user) => {
+      if (user) {
+        this.user.next(user);
+        try {
+          await this.getDecodedToken(user);
           this.authState.next({
             state: 'in',
-            imageUrl: s.photoURL,
-            token,
-            userId: s.uid,
-            name: s.displayName
+            imageUrl: user.photoURL,
+            userId: user.uid,
+            name: user.displayName,
           });
 
           this.fetchUser().then(() => {
             this.checkUpdateUserName().then();
           });
-        } else {
-          this.authState.next({
-            state: 'out'
-          });
-          // TODO: show login failed (connection fails)
+        } catch (e) {
+          if (e.message === EMAIL_NOT_VERIFIED_ERROR) {
+            this.authState.next({
+              state: 'emailNotVerified',
+              imageUrl: user.photoURL,
+              userId: user.uid,
+              name: user.displayName,
+            });
+            return;
+          } else {
+            this.authState.next({
+              state: 'out',
+            });
+          }
         }
       } else {
         this.authState.next({
-          state: 'out'
+          state: 'out',
         });
       }
     });
+  }
+
+  public async getToken(): Promise<string> {
+    const user = await this.user.pipe(take(1)).toPromise();
+    const { token } = await this.getDecodedToken(user);
+    return token;
+  }
+
+  private async getDecodedToken(user: firebase.User) {
+    let retriesLeft = 4;
+    while (!this.user && retriesLeft > 0) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      retriesLeft--;
+    }
+
+    let token = await user.getIdToken(false);
+    let decodedToken: any = jwt_decode(token);
+    if (decodedToken.email_verified === false) {
+      throw new Error(EMAIL_NOT_VERIFIED_ERROR);
+    }
+
+    while (!decodedToken['https://hasura.io/jwt/claims'] && retriesLeft > 0) {
+      // wait for the hasura claims to arrive
+      await new Promise(resolve => setTimeout(resolve, 300));
+      token = await user.getIdToken(true);
+      decodedToken = jwt_decode(token);
+      retriesLeft--;
+    }
+    if (!decodedToken['https://hasura.io/jwt/claims']) {
+      throw new Error(FAILED_TO_FETCH_CLAIMS_ERROR);
+    }
+    return { decodedToken, token };
   }
 
   get authId(): string {
@@ -99,14 +121,14 @@ export class AuthService {
     return this.authState
       .pipe(
         filter(s => s.state === 'in'),
-        take(1)
+        take(1),
       )
       .toPromise();
   }
 
   async logout() {
-    await this.apollo.getClient().clearStore();
-    await this.apollo.getClient().resetStore();
+    await this.apollo.client.clearStore();
+    await this.apollo.client.resetStore();
     await this.afAuth.signOut();
     this.router.navigate(['/feed', 'public']).then();
   }
@@ -120,7 +142,7 @@ export class AuthService {
     const user = userRes.data?.allUsers?.[0];
     this.authState.next({
       ...this.authState.value,
-      hasuraUser: user
+      hasuraUser: user,
     });
   }
 
@@ -133,7 +155,7 @@ export class AuthService {
       await this.updateUserNameGQL
         .mutate({
           authId,
-          name
+          name,
         })
         .toPromise();
     }
