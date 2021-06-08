@@ -23,6 +23,6 @@
   border: none;
   cursor: pointer;
   &:hover {
-    color: mat-color($snippets-app-purple, 500);
+    color: $purple-500;
   }
 }
