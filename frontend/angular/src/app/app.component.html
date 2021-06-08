@@ -6,6 +6,7 @@
   <mat-sidenav-content class="side-nav-content">
     <app-nav-bar (toggleSideNav)="sideNavOpened = !sideNavOpened"></app-nav-bar>
     <div class="router-container" #routerContainer>
+      <app-bg></app-bg>
       <div class="container">
         <router-outlet></router-outlet>
       </div>

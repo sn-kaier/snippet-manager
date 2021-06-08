@@ -2,7 +2,8 @@
 
 :host {
   display: block;
-  background: $color-snow;
+  background: rgba($color-snow, 0.8);
+  backdrop-filter: blur(8px);
   padding: 12px 24px;
   border-radius: 5px;
   overflow: hidden;
@@ -10,6 +11,6 @@
 
   box-shadow: $color-manatee 0 2px 5px -1px;
   &.highlight {
-    border-bottom: 3px solid mat-color($snippets-app-purple);
+    border-bottom: 3px solid $purple;
   }
 }

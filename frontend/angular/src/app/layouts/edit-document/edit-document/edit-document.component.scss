@@ -1,5 +1,9 @@
 @import "../../../base-styles/colors";
 
+.head {
+  color: $color-accent;
+}
+
 .content-textarea {
   overflow-y: hidden;
 }
@@ -23,6 +27,6 @@
   border: none;
   cursor: pointer;
   &:hover {
-    color: mat-color($snippets-app-purple, 500);
+    color: $purple-500;
   }
 }
