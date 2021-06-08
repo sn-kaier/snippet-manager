@@ -1,5 +1,9 @@
 @import "../../../base-styles/colors";
 
+.head {
+  color: $color-accent;
+}
+
 .content-textarea {
   overflow-y: hidden;
 }

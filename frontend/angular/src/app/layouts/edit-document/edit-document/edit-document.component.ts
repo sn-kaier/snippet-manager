@@ -25,6 +25,8 @@ import { ScriptEvaluatorService } from '../../../components/script-evaluation/sc
 import { ScriptEvaluatorConsoleLogComponent } from '../../../components/script-evaluation/script-evaluator-console-log/script-evaluator-console-log.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Platform } from '@angular/cdk/platform';
+import { editor } from 'monaco-editor';
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 @Component({
   selector: 'app-edit-document',
@@ -52,7 +54,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
   private userQueryRef: QueryRef<UEditDocumentGetQuery, UEditDocumentGetQueryVariables>;
   private subscriptions: Subscription[] = [];
 
-  private editor: monaco.editor.IStandaloneCodeEditor;
+  private editor: IStandaloneCodeEditor;
 
   constructor(
     private readonly authService: AuthService,
@@ -306,8 +308,8 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.codeSelectionAsString = selection?.toString();
   }
 
-  initMonacoEditor(editor: monaco.editor.IStandaloneCodeEditor) {
-    this.editor = editor;
+  initMonacoEditor(monacoEditor: IStandaloneCodeEditor) {
+    this.editor = monacoEditor;
   }
 
   get hasMonaco(): boolean {

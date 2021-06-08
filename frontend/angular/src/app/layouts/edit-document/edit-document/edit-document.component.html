@@ -1,5 +1,5 @@
 <div class="col-xs-12">
-  <div class="row mts">
+  <div class="row mts head">
     <div class="col-xs-3">
       <button (click)="navigateBack()" color="primary" mat-button>
         <mat-icon>arrow_back</mat-icon>
@@ -26,7 +26,7 @@
 
   <form #documentForm="ngForm" *ngIf="documentSetInput">
 
-    <app-card>
+    <app-card style="background: white">
       <div class="row mts">
         <div class="col-xs-12 flex">
           <mat-form-field class="form-field flex-1">

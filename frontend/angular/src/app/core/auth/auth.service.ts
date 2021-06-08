@@ -30,7 +30,7 @@ export class AuthService {
 
   public readonly isLoggedIn$ = this.authState.pipe(map(state => state?.state === 'in'));
   public readonly showHintToLogin = new EventEmitter<void>();
-  private user = new ReplaySubject<firebase.User | null>();
+  private user: firebase.User | undefined;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -40,7 +40,7 @@ export class AuthService {
     private readonly router: Router,
   ) {
     afAuth.authState.subscribe(async (user) => {
-      this.user.next(user);
+      this.user = user;
       if (user) {
         try {
           await this.getDecodedToken(user);
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   public async getToken(): Promise<string | null> {
-    const user = await this.user.pipe(take(1)).toPromise();
+    const user = this.user;
     if (!user) {
       return null;
     }
@@ -141,6 +141,7 @@ export class AuthService {
   }
 
   private async fetchUser() {
+    // fails after login (token not set?)
     const userRes = await this.uMeGQL.fetch({ authId: this.authState.value.userId }).toPromise();
     const user = userRes.data?.allUsers?.[0];
     this.authState.next({

@@ -98,7 +98,7 @@
         <div class="flex middle-xs" *ngIf="state.state === 'in'; else login">
           <app-avatar routerLink="/login" [imageUrl]="state.imageUrl"></app-avatar>
           <div class="mlm">
-            <button class="btn-flat-dark f-l" (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
+            <button class="link-btn login" color="primary" mat-button (click)="auth.logout()">{{ 'nav.logOut' | translate }}</button>
           </div>
         </div>
 
